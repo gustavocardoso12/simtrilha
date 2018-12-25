@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+        <p:outputPanel styleClass="ui-fluid">
+
+            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+            
+                <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASEMCARGOS_idCARGOS}:" for="idCARGOSSelectInput" rendered="#{not hideIdCARGOSSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
+                    <p:selectOneMenu value="#{tbCOMPETENCIASEMCARGOSBean.tbCOMPETENCIASEMCARGOS.idCARGOS}"
+                                    id="idCARGOSSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{tbCOMPETENCIASEMCARGOSBean.idCARGOSs}" 
+                                    var="tbCARGOS" 
+                                    itemLabel="#{tbCARGOS.deSCCARGO}"
+                                    itemValue="#{tbCARGOS}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCOMPETENCIASEMCARGOSBean.idCARGOSs}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
+                
+                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                              action="#{tbCARGOSBean.prepareNewTbCARGOS()}"
+                              update=":createIdCARGOSFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createIdCARGOSFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createIdCARGOSFromEditDialog')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="idCARGOSSelectInput" display="icon" rendered="#{not hideIdCARGOSSelectInput}"/>
+                </h:panelGroup>
+                
+                <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASEMCARGOS_idCOMPEM}:" for="idCOMPEMSelectInput" rendered="#{not hideIdCOMPEMSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdCOMPEMSelectInput}">
+                    <p:selectOneMenu value="#{tbCOMPETENCIASEMCARGOSBean.tbCOMPETENCIASEMCARGOS.idCOMPEM}"
+                                    id="idCOMPEMSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{tbCOMPETENCIASEMCARGOSBean.idCOMPEMs}" 
+                                    var="tbCOMPETENCIASEMOCIONAIS" 
+                                    itemLabel="#{tbCOMPETENCIASEMOCIONAIS.deSCCOMPEMOCIONAIS}"
+                                    itemValue="#{tbCOMPETENCIASEMOCIONAIS}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCOMPETENCIASEMCARGOSBean.idCOMPEMs}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideIdCOMPEMSelectInput}">
+                
+                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                              action="#{tbCOMPETENCIASEMOCIONAISBean.prepareNewTbCOMPETENCIASEMOCIONAIS()}"
+                              update=":createIdCOMPEMFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createIdCOMPEMFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createIdCOMPEMFromEditDialog') and tbCOMPETENCIASEMCARGOSBean.isPermitted('tbCOMPETENCIASEMOCIONAIS:create')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="idCOMPEMSelectInput" display="icon" rendered="#{not hideIdCOMPEMSelectInput}"/>
+                </h:panelGroup>
+                
+                <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASEMCARGOS_poNTUACAOCOMPEM}:" for="poNTUACAOCOMPEMEditInput" />
+                <p:inputText value="#{tbCOMPETENCIASEMCARGOSBean.tbCOMPETENCIASEMCARGOS.poNTUACAOCOMPEM}" id="poNTUACAOCOMPEMEditInput" label="#{messages.field_label_tbCOMPETENCIASEMCARGOS_poNTUACAOCOMPEM}" >
+                    <f:convertNumber />
+                </p:inputText>
+                <p:message for="poNTUACAOCOMPEMEditInput" display="icon" />
+
+            </p:panelGrid>
+
+        </p:outputPanel>
+</html>

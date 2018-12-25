@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbESTILOPENSAMENTOCARGOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="tbESTILOPENSAMENTOCARGOSTable" value="#{tbESTILOPENSAMENTOCARGOSBean.tbESTILOPENSAMENTOCARGOSList}" var="tbESTILOPENSAMENTOCARGOS" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="tbESTILOPENSAMENTOCARGOSTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_tbESTILOPENSAMENTOCARGOS}" icon="ui-icon-plusthick" action="#{tbESTILOPENSAMENTOCARGOSBean.prepareNewTbESTILOPENSAMENTOCARGOS()}"
+                      resetValues="true" update=":editTbESTILOPENSAMENTOCARGOSDialog" oncomplete="PF('editTbESTILOPENSAMENTOCARGOSDialogWidget').show()"
+                      style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="tbESTILOPENSAMENTOCARGOSTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column headerText="#{messages.field_label_tbESTILOPENSAMENTOCARGOS_idCARGOS}" sortBy="#{tbESTILOPENSAMENTOCARGOS.idCARGOS}" filterBy="#{tbESTILOPENSAMENTOCARGOS.idCARGOS}">
+            <f:facet name="filter">
+            <p:selectOneMenu  id="idCARGOSFilter"
+                            style="width:145px;"
+                            onchange="PF('tbESTILOPENSAMENTOCARGOSTable').filter(); return false;">
+                <f:selectItem noSelectionOption="true" itemLabel="" />
+                <f:selectItems itemLabel="#{tbCARGOS.deSCCARGO}"
+                            value="#{tbESTILOPENSAMENTOCARGOSBean.idCARGOSs}" 
+                            var="tbCARGOS" 
+                            itemValue="#{tbCARGOS}" />
+                <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbESTILOPENSAMENTOCARGOSBean.idCARGOSs}" />
+            </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{tbESTILOPENSAMENTOCARGOS.idCARGOS.deSCCARGO}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbESTILOPENSAMENTOCARGOS_idESTPENSAMENTO}" sortBy="#{tbESTILOPENSAMENTOCARGOS.idESTPENSAMENTO}" filterBy="#{tbESTILOPENSAMENTOCARGOS.idESTPENSAMENTO}">
+            <f:facet name="filter">
+            <p:selectOneMenu  id="idESTPENSAMENTOFilter"
+                            style="width:145px;"
+                            onchange="PF('tbESTILOPENSAMENTOCARGOSTable').filter(); return false;">
+                <f:selectItem noSelectionOption="true" itemLabel="" />
+                <f:selectItems itemLabel="#{tbESTILOPENSAMENTO.deSCESTILOPENSAMENTO}"
+                            value="#{tbESTILOPENSAMENTOCARGOSBean.idESTPENSAMENTOs}" 
+                            var="tbESTILOPENSAMENTO" 
+                            itemValue="#{tbESTILOPENSAMENTO}" />
+                <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbESTILOPENSAMENTOCARGOSBean.idESTPENSAMENTOs}" />
+            </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{tbESTILOPENSAMENTOCARGOS.idESTPENSAMENTO.deSCESTILOPENSAMENTO}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbESTILOPENSAMENTOCARGOS_poNTUACAOESTPENSAMENTO}" sortBy="#{tbESTILOPENSAMENTOCARGOS.poNTUACAOESTPENSAMENTO}" filterBy="#{tbESTILOPENSAMENTOCARGOS.poNTUACAOESTPENSAMENTO}">
+            <f:facet name="filter">
+                <p:inputText id="poNTUACAOESTPENSAMENTOFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('tbESTILOPENSAMENTOCARGOSTable').filter(); updatePoNTUACAOESTPENSAMENTOFilter(); return false; }" >
+                    <f:convertNumber />
+                    <p:remoteCommand name="updatePoNTUACAOESTPENSAMENTOFilter" update="tbESTILOPENSAMENTOCARGOSTable:poNTUACAOESTPENSAMENTOFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{tbESTILOPENSAMENTOCARGOS.poNTUACAOESTPENSAMENTO}"><f:convertNumber /></h:outputText>
+          </p:column>
+
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton icon="ui-icon-zoomin" update=":viewTbESTILOPENSAMENTOCARGOSDialog" oncomplete="PF('viewTbESTILOPENSAMENTOCARGOSDialogWidget').show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{tbESTILOPENSAMENTOCARGOS}" target="#{tbESTILOPENSAMENTOCARGOSBean.tbESTILOPENSAMENTOCARGOS}" />
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-pencil" update=":editTbESTILOPENSAMENTOCARGOSDialog"
+                resetValues="true" 
+                action="#{tbESTILOPENSAMENTOCARGOSBean.onDialogOpen(tbESTILOPENSAMENTOCARGOS)}"
+                oncomplete="PF('editTbESTILOPENSAMENTOCARGOSDialogWidget').show()"
+                title="#{messages.label_edit}" >
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-close" 
+                oncomplete="PF('deleteTbESTILOPENSAMENTOCARGOSDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{tbESTILOPENSAMENTOCARGOS}"
+                    target="#{tbESTILOPENSAMENTOCARGOSBean.tbESTILOPENSAMENTOCARGOS}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+        <h:panelGrid columns="2">
+            <p:panel header="#{messages.export_all_data}">
+
+                <h:commandLink>
+                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbESTILOPENSAMENTOCARGOSTable" fileName="TbESTILOPENSAMENTOCARGOSs"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbESTILOPENSAMENTOCARGOSTable" fileName="TbESTILOPENSAMENTOCARGOSs"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbESTILOPENSAMENTOCARGOSTable" fileName="TbESTILOPENSAMENTOCARGOSs" />
+                </h:commandLink>
+
+            </p:panel>
+            
+            <p:panel header="#{messages.export_page_data}">
+                <h:commandLink>
+                    <h:graphicImage name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbESTILOPENSAMENTOCARGOSTable" fileName="TbESTILOPENSAMENTOCARGOSs" pageOnly="true"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbESTILOPENSAMENTOCARGOSTable" fileName="TbESTILOPENSAMENTOCARGOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbESTILOPENSAMENTOCARGOSTable" fileName="TbESTILOPENSAMENTOCARGOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+            </p:panel>
+        </h:panelGrid>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbESTILOPENSAMENTOCARGOSDialog" widgetVar="deleteTbESTILOPENSAMENTOCARGOSDialogWidget"
+        header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{tbESTILOPENSAMENTOCARGOSBean.delete}" update=":tbESTILOPENSAMENTOCARGOSDataForm :growlForm:growl" oncomplete="PF('deleteTbESTILOPENSAMENTOCARGOSDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbESTILOPENSAMENTOCARGOSDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbESTILOPENSAMENTOCARGOSDialog" header="#{messages.label_tbESTILOPENSAMENTOCARGOS_caption}"
+            modal="true" widgetVar="editTbESTILOPENSAMENTOCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbESTILOPENSAMENTOCARGOSBean.reset}"/>
+        <h:form id="editTbESTILOPENSAMENTOCARGOSForm" >
+            <p:outputPanel id="tbESTILOPENSAMENTOCARGOSEditPanel">
+                <ui:include src="/pages/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOSEditInclude.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            icon="ui-icon-disk" action="#{tbESTILOPENSAMENTOCARGOSBean.persist}"
+                            update=":editTbESTILOPENSAMENTOCARGOSForm:tbESTILOPENSAMENTOCARGOSEditPanel :tbESTILOPENSAMENTOCARGOSDataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbESTILOPENSAMENTOCARGOSDialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbESTILOPENSAMENTOCARGOSDialogWidget').hide()" type="button" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="viewTbESTILOPENSAMENTOCARGOSDialog" header="#{messages.label_tbESTILOPENSAMENTOCARGOS_caption}" modal="true" widgetVar="viewTbESTILOPENSAMENTOCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbESTILOPENSAMENTOCARGOSBean.reset}" />
+        <h:form id="viewTbESTILOPENSAMENTOCARGOSForm">
+          <ui:include src="/pages/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOSViewInclude.xhtml"/>
+          <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbESTILOPENSAMENTOCARGOSDialogWidget').hide()" type="button" />
+          </div>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createIdCARGOSFromEditDialog"
+        header="#{messages.dialog_tbESTILOPENSAMENTOCARGOS_create_idCARGOS}" modal="true"
+        widgetVar="createIdCARGOSFromEditDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCARGOSBean.reset}" />
+        <p:outputPanel id="createIdCARGOSPanel">
+                <h:form id="createIdCARGOSForm">
+                    <ui:include src="/pages/tbCARGOS/tbCARGOSEditInclude.xhtml">
+                        <ui:param name="hideTbESTILOPENSAMENTOCARGOSSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbESTILOPENSAMENTOCARGOSBean.updateIdCARGOS(tbCARGOSBean.tbCARGOS)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbCARGOSBean.persist}"
+                            update=":editTbESTILOPENSAMENTOCARGOSForm:idCARGOSSelectInput :createIdCARGOSPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createIdCARGOSFromEditDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createIdCARGOSFromEditDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createIdESTPENSAMENTOFromEditDialog"
+        rendered="#{tbESTILOPENSAMENTOCARGOSBean.isPermitted('tbESTILOPENSAMENTO:create')}"
+        header="#{messages.dialog_tbESTILOPENSAMENTOCARGOS_create_idESTPENSAMENTO}" modal="true"
+        widgetVar="createIdESTPENSAMENTOFromEditDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbESTILOPENSAMENTOBean.reset}" />
+        <p:outputPanel id="createIdESTPENSAMENTOPanel">
+                <h:form id="createIdESTPENSAMENTOForm">
+                    <ui:include src="/pages/tbESTILOPENSAMENTO/tbESTILOPENSAMENTOEditInclude.xhtml">
+                        <ui:param name="hideTbESTILOPENSAMENTOCARGOSSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbESTILOPENSAMENTOCARGOSBean.updateIdESTPENSAMENTO(tbESTILOPENSAMENTOBean.tbESTILOPENSAMENTO)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbESTILOPENSAMENTOBean.persist}"
+                            update=":editTbESTILOPENSAMENTOCARGOSForm:idESTPENSAMENTOSelectInput :createIdESTPENSAMENTOPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createIdESTPENSAMENTOFromEditDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createIdESTPENSAMENTOFromEditDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

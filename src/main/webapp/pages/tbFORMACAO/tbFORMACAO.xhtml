@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbFORMACAODataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="tbFORMACAOTable" value="#{tbFORMACAOBean.tbFORMACAOList}" var="tbFORMACAO" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="tbFORMACAOTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_tbFORMACAO}" icon="ui-icon-plusthick" action="#{tbFORMACAOBean.prepareNewTbFORMACAO()}"
+                      resetValues="true" update=":editTbFORMACAODialog" oncomplete="PF('editTbFORMACAODialogWidget').show()"
+                      rendered="#{tbFORMACAOBean.isPermitted('tbFORMACAO:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="tbFORMACAOTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_tbFORMACAO_deSCFORMACAO}" sortBy="#{tbFORMACAO.deSCFORMACAO}" filterBy="#{tbFORMACAO.deSCFORMACAO}">
+            <f:facet name="filter">
+                <p:inputText id="deSCFORMACAOFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('tbFORMACAOTable').filter(); updateDeSCFORMACAOFilter(); return false; }" >
+                    <p:remoteCommand name="updateDeSCFORMACAOFilter" update="tbFORMACAOTable:deSCFORMACAOFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{tbFORMACAO.deSCFORMACAO}" />
+          </p:column>
+
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton icon="ui-icon-zoomin" update=":viewTbFORMACAODialog" oncomplete="PF('viewTbFORMACAODialogWidget').show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{tbFORMACAO}" target="#{tbFORMACAOBean.tbFORMACAO}" />
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-pencil" update=":editTbFORMACAODialog"
+                resetValues="true" rendered="#{tbFORMACAOBean.isPermitted(tbFORMACAO, 'tbFORMACAO:update')}"
+                action="#{tbFORMACAOBean.onDialogOpen(tbFORMACAO)}"
+                oncomplete="PF('editTbFORMACAODialogWidget').show()"
+                title="#{messages.label_edit}" >
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-close" rendered="#{tbFORMACAOBean.isPermitted(tbFORMACAO, 'tbFORMACAO:delete')}"
+                oncomplete="PF('deleteTbFORMACAODialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{tbFORMACAO}"
+                    target="#{tbFORMACAOBean.tbFORMACAO}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+        <h:panelGrid columns="2">
+            <p:panel header="#{messages.export_all_data}">
+
+                <h:commandLink>
+                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbFORMACAOTable" fileName="TbFORMACAOs"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbFORMACAOTable" fileName="TbFORMACAOs"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbFORMACAOTable" fileName="TbFORMACAOs" />
+                </h:commandLink>
+
+            </p:panel>
+            
+            <p:panel header="#{messages.export_page_data}">
+                <h:commandLink>
+                    <h:graphicImage name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbFORMACAOTable" fileName="TbFORMACAOs" pageOnly="true"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbFORMACAOTable" fileName="TbFORMACAOs" pageOnly="true"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbFORMACAOTable" fileName="TbFORMACAOs" pageOnly="true"/>
+                </h:commandLink>
+                
+            </p:panel>
+        </h:panelGrid>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbFORMACAODialog" widgetVar="deleteTbFORMACAODialogWidget"
+        rendered="#{tbFORMACAOBean.isPermitted(tbFORMACAOBean.tbFORMACAO, 'tbFORMACAO:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{tbFORMACAOBean.delete}" update=":tbFORMACAODataForm :growlForm:growl" oncomplete="PF('deleteTbFORMACAODialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbFORMACAODialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbFORMACAODialog" header="#{messages.label_tbFORMACAO_caption}"
+            modal="true" widgetVar="editTbFORMACAODialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbFORMACAOBean.reset}"/>
+        <h:form id="editTbFORMACAOForm" >
+            <p:outputPanel id="tbFORMACAOEditPanel">
+                <ui:include src="/pages/tbFORMACAO/tbFORMACAOEditInclude.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            icon="ui-icon-disk" action="#{tbFORMACAOBean.persist}"
+                            update=":editTbFORMACAOForm:tbFORMACAOEditPanel :tbFORMACAODataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbFORMACAODialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbFORMACAODialogWidget').hide()" type="button" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="viewTbFORMACAODialog" header="#{messages.label_tbFORMACAO_caption}" modal="true" widgetVar="viewTbFORMACAODialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbFORMACAOBean.reset}" />
+        <h:form id="viewTbFORMACAOForm">
+          <ui:include src="/pages/tbFORMACAO/tbFORMACAOViewInclude.xhtml"/>
+          <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbFORMACAODialogWidget').hide()" type="button" />
+          </div>
+        </h:form>
+    </p:dialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

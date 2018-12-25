@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbHABILIDADESCULTURAISDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="tbHABILIDADESCULTURAISTable" value="#{tbHABILIDADESCULTURAISBean.tbHABILIDADESCULTURAISList}" var="tbHABILIDADESCULTURAIS" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="tbHABILIDADESCULTURAISTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_tbHABILIDADESCULTURAIS}" icon="ui-icon-plusthick" action="#{tbHABILIDADESCULTURAISBean.prepareNewTbHABILIDADESCULTURAIS()}"
+                      resetValues="true" update=":editTbHABILIDADESCULTURAISDialog" oncomplete="PF('editTbHABILIDADESCULTURAISDialogWidget').show()"
+                      rendered="#{tbHABILIDADESCULTURAISBean.isPermitted('tbHABILIDADESCULTURAIS:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="tbHABILIDADESCULTURAISTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_tbHABILIDADESCULTURAIS_deSCHABCULT}" sortBy="#{tbHABILIDADESCULTURAIS.deSCHABCULT}" filterBy="#{tbHABILIDADESCULTURAIS.deSCHABCULT}">
+            <f:facet name="filter">
+                <p:inputText id="deSCHABCULTFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('tbHABILIDADESCULTURAISTable').filter(); updateDeSCHABCULTFilter(); return false; }" >
+                    <p:remoteCommand name="updateDeSCHABCULTFilter" update="tbHABILIDADESCULTURAISTable:deSCHABCULTFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{tbHABILIDADESCULTURAIS.deSCHABCULT}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbHABILIDADESCULTURAIS_tbHABILIDADESCULTCARGOS_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_tbHABILIDADESCULTURAIS_tbHABILIDADESCULTCARGOS_plural}" action="#{tbHABILIDADESCULTURAISBean.onTbHABILIDADESCULTCARGOSsDialog(tbHABILIDADESCULTURAIS)}" oncomplete="PF('tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSsDialogWidget').show()" update=":tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSsDialog"/>
+            
+          </p:column>
+          
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton icon="ui-icon-zoomin" update=":viewTbHABILIDADESCULTURAISDialog" oncomplete="PF('viewTbHABILIDADESCULTURAISDialogWidget').show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{tbHABILIDADESCULTURAIS}" target="#{tbHABILIDADESCULTURAISBean.tbHABILIDADESCULTURAIS}" />
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-pencil" update=":editTbHABILIDADESCULTURAISDialog"
+                resetValues="true" rendered="#{tbHABILIDADESCULTURAISBean.isPermitted(tbHABILIDADESCULTURAIS, 'tbHABILIDADESCULTURAIS:update')}"
+                action="#{tbHABILIDADESCULTURAISBean.onDialogOpen(tbHABILIDADESCULTURAIS)}"
+                oncomplete="PF('editTbHABILIDADESCULTURAISDialogWidget').show()"
+                title="#{messages.label_edit}" >
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-close" rendered="#{tbHABILIDADESCULTURAISBean.isPermitted(tbHABILIDADESCULTURAIS, 'tbHABILIDADESCULTURAIS:delete')}"
+                oncomplete="PF('deleteTbHABILIDADESCULTURAISDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{tbHABILIDADESCULTURAIS}"
+                    target="#{tbHABILIDADESCULTURAISBean.tbHABILIDADESCULTURAIS}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+        <h:panelGrid columns="2">
+            <p:panel header="#{messages.export_all_data}">
+
+                <h:commandLink>
+                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbHABILIDADESCULTURAISTable" fileName="TbHABILIDADESCULTURAISs"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbHABILIDADESCULTURAISTable" fileName="TbHABILIDADESCULTURAISs"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbHABILIDADESCULTURAISTable" fileName="TbHABILIDADESCULTURAISs" />
+                </h:commandLink>
+
+            </p:panel>
+            
+            <p:panel header="#{messages.export_page_data}">
+                <h:commandLink>
+                    <h:graphicImage name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbHABILIDADESCULTURAISTable" fileName="TbHABILIDADESCULTURAISs" pageOnly="true"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbHABILIDADESCULTURAISTable" fileName="TbHABILIDADESCULTURAISs" pageOnly="true"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbHABILIDADESCULTURAISTable" fileName="TbHABILIDADESCULTURAISs" pageOnly="true"/>
+                </h:commandLink>
+                
+            </p:panel>
+        </h:panelGrid>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbHABILIDADESCULTURAISDialog" widgetVar="deleteTbHABILIDADESCULTURAISDialogWidget"
+        rendered="#{tbHABILIDADESCULTURAISBean.isPermitted(tbHABILIDADESCULTURAISBean.tbHABILIDADESCULTURAIS, 'tbHABILIDADESCULTURAIS:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{tbHABILIDADESCULTURAISBean.delete}" update=":tbHABILIDADESCULTURAISDataForm :growlForm:growl" oncomplete="PF('deleteTbHABILIDADESCULTURAISDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbHABILIDADESCULTURAISDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbHABILIDADESCULTURAISDialog" header="#{messages.label_tbHABILIDADESCULTURAIS_caption}"
+            modal="true" widgetVar="editTbHABILIDADESCULTURAISDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbHABILIDADESCULTURAISBean.reset}"/>
+        <h:form id="editTbHABILIDADESCULTURAISForm" >
+            <p:outputPanel id="tbHABILIDADESCULTURAISEditPanel">
+                <ui:include src="/pages/tbHABILIDADESCULTURAIS/tbHABILIDADESCULTURAISEditInclude.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            icon="ui-icon-disk" action="#{tbHABILIDADESCULTURAISBean.persist}"
+                            update=":editTbHABILIDADESCULTURAISForm:tbHABILIDADESCULTURAISEditPanel :tbHABILIDADESCULTURAISDataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbHABILIDADESCULTURAISDialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbHABILIDADESCULTURAISDialogWidget').hide()" type="button" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="viewTbHABILIDADESCULTURAISDialog" header="#{messages.label_tbHABILIDADESCULTURAIS_caption}" modal="true" widgetVar="viewTbHABILIDADESCULTURAISDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbHABILIDADESCULTURAISBean.reset}" />
+        <h:form id="viewTbHABILIDADESCULTURAISForm">
+          <ui:include src="/pages/tbHABILIDADESCULTURAIS/tbHABILIDADESCULTURAISViewInclude.xhtml"/>
+          <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbHABILIDADESCULTURAISDialogWidget').hide()" type="button" />
+          </div>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSsDialog" header="#{messages.dialog_header_tbHABILIDADESCULTURAIS_tbHABILIDADESCULTCARGOS_plural}" modal="true" widgetVar="tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSsDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbHABILIDADESCULTURAISBean.reset}" />
+        <p:outputPanel id="tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSsPanel">
+            <h:form id="tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSsForm">
+                <ui:include src="/pages/tbHABILIDADESCULTURAIS/tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSInclude.xhtml" />
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                        icon="ui-icon-disk"
+                        action="#{tbHABILIDADESCULTURAISBean.onTbHABILIDADESCULTCARGOSsSubmit}"
+                        update=":growlForm:growl"
+                        oncomplete="if(!args.validationFailed) PF('tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSsDialogWidget').hide()"
+                        rendered="#{tbHABILIDADESCULTURAISBean.isPermitted(tbHABILIDADESCULTURAISBean.tbHABILIDADESCULTURAIS, 'tbHABILIDADESCULTURAIS:update')}"
+                        partialSubmit="true" process="@this" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSsDialogWidget').hide()" type="button" />
+                </div>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createTbHABILIDADESCULTCARGOSDialog"
+        header="#{messages.dialog_tbHABILIDADESCULTURAIS_create_tbHABILIDADESCULTCARGOS}" modal="true"
+        widgetVar="createTbHABILIDADESCULTCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbHABILIDADESCULTCARGOSBean.reset}" />
+        <p:outputPanel id="createTbHABILIDADESCULTCARGOSPanel">
+                <h:form id="createTbHABILIDADESCULTCARGOSForm">
+                    <ui:include src="/pages/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOSEditInclude.xhtml">
+                        <ui:param name="hideIdHABCULTCARSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbHABILIDADESCULTURAISBean.updateTbHABILIDADESCULTCARGOS(tbHABILIDADESCULTCARGOSBean.tbHABILIDADESCULTCARGOS)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbHABILIDADESCULTCARGOSBean.persist}"
+                            update=":tbHABILIDADESCULTURAISTbHABILIDADESCULTCARGOSsPanel :createTbHABILIDADESCULTCARGOSPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createTbHABILIDADESCULTCARGOSDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createTbHABILIDADESCULTCARGOSDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

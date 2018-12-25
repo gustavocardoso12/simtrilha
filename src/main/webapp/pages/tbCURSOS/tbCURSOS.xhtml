@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbCURSOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="tbCURSOSTable" value="#{tbCURSOSBean.tbCURSOSList}" var="tbCURSOS" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="tbCURSOSTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_tbCURSOS}" icon="ui-icon-plusthick" action="#{tbCURSOSBean.prepareNewTbCURSOS()}"
+                      resetValues="true" update=":editTbCURSOSDialog" oncomplete="PF('editTbCURSOSDialogWidget').show()"
+                      rendered="#{tbCURSOSBean.isPermitted('tbCURSOS:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="tbCURSOSTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_tbCURSOS_deSCCURSO}" sortBy="#{tbCURSOS.deSCCURSO}" filterBy="#{tbCURSOS.deSCCURSO}">
+            <f:facet name="filter">
+                <p:inputText id="deSCCURSOFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('tbCURSOSTable').filter(); updateDeSCCURSOFilter(); return false; }" >
+                    <p:remoteCommand name="updateDeSCCURSOFilter" update="tbCURSOSTable:deSCCURSOFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{tbCURSOS.deSCCURSO}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbCURSOS_idFORMACAO}" sortBy="#{tbCURSOS.idFORMACAO}" filterBy="#{tbCURSOS.idFORMACAO}">
+            <f:facet name="filter">
+            <p:selectOneMenu  id="idFORMACAOFilter"
+                            style="width:145px;"
+                            onchange="PF('tbCURSOSTable').filter(); return false;">
+                <f:selectItem noSelectionOption="true" itemLabel="" />
+                <f:selectItems itemLabel="#{tbFORMACAO.deSCFORMACAO}"
+                            value="#{tbCURSOSBean.idFORMACAOs}" 
+                            var="tbFORMACAO" 
+                            itemValue="#{tbFORMACAO}" />
+                <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCURSOSBean.idFORMACAOs}" />
+            </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{tbCURSOS.idFORMACAO.deSCFORMACAO}" />
+          </p:column>
+
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton icon="ui-icon-zoomin" update=":viewTbCURSOSDialog" oncomplete="PF('viewTbCURSOSDialogWidget').show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{tbCURSOS}" target="#{tbCURSOSBean.tbCURSOS}" />
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-pencil" update=":editTbCURSOSDialog"
+                resetValues="true" rendered="#{tbCURSOSBean.isPermitted(tbCURSOS, 'tbCURSOS:update')}"
+                action="#{tbCURSOSBean.onDialogOpen(tbCURSOS)}"
+                oncomplete="PF('editTbCURSOSDialogWidget').show()"
+                title="#{messages.label_edit}" >
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-close" rendered="#{tbCURSOSBean.isPermitted(tbCURSOS, 'tbCURSOS:delete')}"
+                oncomplete="PF('deleteTbCURSOSDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{tbCURSOS}"
+                    target="#{tbCURSOSBean.tbCURSOS}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+        <h:panelGrid columns="2">
+            <p:panel header="#{messages.export_all_data}">
+
+                <h:commandLink>
+                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbCURSOSTable" fileName="TbCURSOSs"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbCURSOSTable" fileName="TbCURSOSs"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbCURSOSTable" fileName="TbCURSOSs" />
+                </h:commandLink>
+
+            </p:panel>
+            
+            <p:panel header="#{messages.export_page_data}">
+                <h:commandLink>
+                    <h:graphicImage name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbCURSOSTable" fileName="TbCURSOSs" pageOnly="true"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbCURSOSTable" fileName="TbCURSOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbCURSOSTable" fileName="TbCURSOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+            </p:panel>
+        </h:panelGrid>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbCURSOSDialog" widgetVar="deleteTbCURSOSDialogWidget"
+        rendered="#{tbCURSOSBean.isPermitted(tbCURSOSBean.tbCURSOS, 'tbCURSOS:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{tbCURSOSBean.delete}" update=":tbCURSOSDataForm :growlForm:growl" oncomplete="PF('deleteTbCURSOSDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbCURSOSDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbCURSOSDialog" header="#{messages.label_tbCURSOS_caption}"
+            modal="true" widgetVar="editTbCURSOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCURSOSBean.reset}"/>
+        <h:form id="editTbCURSOSForm" >
+            <p:outputPanel id="tbCURSOSEditPanel">
+                <ui:include src="/pages/tbCURSOS/tbCURSOSEditInclude.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            icon="ui-icon-disk" action="#{tbCURSOSBean.persist}"
+                            update=":editTbCURSOSForm:tbCURSOSEditPanel :tbCURSOSDataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbCURSOSDialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbCURSOSDialogWidget').hide()" type="button" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="viewTbCURSOSDialog" header="#{messages.label_tbCURSOS_caption}" modal="true" widgetVar="viewTbCURSOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCURSOSBean.reset}" />
+        <h:form id="viewTbCURSOSForm">
+          <ui:include src="/pages/tbCURSOS/tbCURSOSViewInclude.xhtml"/>
+          <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbCURSOSDialogWidget').hide()" type="button" />
+          </div>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createIdFORMACAOFromEditDialog"
+        rendered="#{tbCURSOSBean.isPermitted('tbFORMACAO:create')}"
+        header="#{messages.dialog_tbCURSOS_create_idFORMACAO}" modal="true"
+        widgetVar="createIdFORMACAOFromEditDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbFORMACAOBean.reset}" />
+        <p:outputPanel id="createIdFORMACAOPanel">
+                <h:form id="createIdFORMACAOForm">
+                    <ui:include src="/pages/tbFORMACAO/tbFORMACAOEditInclude.xhtml">
+                        <ui:param name="hideTbCURSOSSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbCURSOSBean.updateIdFORMACAO(tbFORMACAOBean.tbFORMACAO)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbFORMACAOBean.persist}"
+                            update=":editTbCURSOSForm:idFORMACAOSelectInput :createIdFORMACAOPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createIdFORMACAOFromEditDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createIdFORMACAOFromEditDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

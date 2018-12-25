@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbCOMPETENCIASEMCARGOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="tbCOMPETENCIASEMCARGOSTable" value="#{tbCOMPETENCIASEMCARGOSBean.tbCOMPETENCIASEMCARGOSList}" var="tbCOMPETENCIASEMCARGOS" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="tbCOMPETENCIASEMCARGOSTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_tbCOMPETENCIASEMCARGOS}" icon="ui-icon-plusthick" action="#{tbCOMPETENCIASEMCARGOSBean.prepareNewTbCOMPETENCIASEMCARGOS()}"
+                      resetValues="true" update=":editTbCOMPETENCIASEMCARGOSDialog" oncomplete="PF('editTbCOMPETENCIASEMCARGOSDialogWidget').show()"
+                      style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="tbCOMPETENCIASEMCARGOSTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column headerText="#{messages.field_label_tbCOMPETENCIASEMCARGOS_idCARGOS}" sortBy="#{tbCOMPETENCIASEMCARGOS.idCARGOS}" filterBy="#{tbCOMPETENCIASEMCARGOS.idCARGOS}">
+            <f:facet name="filter">
+            <p:selectOneMenu  id="idCARGOSFilter"
+                            style="width:145px;"
+                            onchange="PF('tbCOMPETENCIASEMCARGOSTable').filter(); return false;">
+                <f:selectItem noSelectionOption="true" itemLabel="" />
+                <f:selectItems itemLabel="#{tbCARGOS.deSCCARGO}"
+                            value="#{tbCOMPETENCIASEMCARGOSBean.idCARGOSs}" 
+                            var="tbCARGOS" 
+                            itemValue="#{tbCARGOS}" />
+                <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCOMPETENCIASEMCARGOSBean.idCARGOSs}" />
+            </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{tbCOMPETENCIASEMCARGOS.idCARGOS.deSCCARGO}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbCOMPETENCIASEMCARGOS_idCOMPEM}" sortBy="#{tbCOMPETENCIASEMCARGOS.idCOMPEM}" filterBy="#{tbCOMPETENCIASEMCARGOS.idCOMPEM}">
+            <f:facet name="filter">
+            <p:selectOneMenu  id="idCOMPEMFilter"
+                            style="width:145px;"
+                            onchange="PF('tbCOMPETENCIASEMCARGOSTable').filter(); return false;">
+                <f:selectItem noSelectionOption="true" itemLabel="" />
+                <f:selectItems itemLabel="#{tbCOMPETENCIASEMOCIONAIS.deSCCOMPEMOCIONAIS}"
+                            value="#{tbCOMPETENCIASEMCARGOSBean.idCOMPEMs}" 
+                            var="tbCOMPETENCIASEMOCIONAIS" 
+                            itemValue="#{tbCOMPETENCIASEMOCIONAIS}" />
+                <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCOMPETENCIASEMCARGOSBean.idCOMPEMs}" />
+            </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{tbCOMPETENCIASEMCARGOS.idCOMPEM.deSCCOMPEMOCIONAIS}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbCOMPETENCIASEMCARGOS_poNTUACAOCOMPEM}" sortBy="#{tbCOMPETENCIASEMCARGOS.poNTUACAOCOMPEM}" filterBy="#{tbCOMPETENCIASEMCARGOS.poNTUACAOCOMPEM}">
+            <f:facet name="filter">
+                <p:inputText id="poNTUACAOCOMPEMFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('tbCOMPETENCIASEMCARGOSTable').filter(); updatePoNTUACAOCOMPEMFilter(); return false; }" >
+                    <f:convertNumber />
+                    <p:remoteCommand name="updatePoNTUACAOCOMPEMFilter" update="tbCOMPETENCIASEMCARGOSTable:poNTUACAOCOMPEMFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{tbCOMPETENCIASEMCARGOS.poNTUACAOCOMPEM}"><f:convertNumber /></h:outputText>
+          </p:column>
+
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton icon="ui-icon-zoomin" update=":viewTbCOMPETENCIASEMCARGOSDialog" oncomplete="PF('viewTbCOMPETENCIASEMCARGOSDialogWidget').show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{tbCOMPETENCIASEMCARGOS}" target="#{tbCOMPETENCIASEMCARGOSBean.tbCOMPETENCIASEMCARGOS}" />
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-pencil" update=":editTbCOMPETENCIASEMCARGOSDialog"
+                resetValues="true" 
+                action="#{tbCOMPETENCIASEMCARGOSBean.onDialogOpen(tbCOMPETENCIASEMCARGOS)}"
+                oncomplete="PF('editTbCOMPETENCIASEMCARGOSDialogWidget').show()"
+                title="#{messages.label_edit}" >
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-close" 
+                oncomplete="PF('deleteTbCOMPETENCIASEMCARGOSDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{tbCOMPETENCIASEMCARGOS}"
+                    target="#{tbCOMPETENCIASEMCARGOSBean.tbCOMPETENCIASEMCARGOS}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+        <h:panelGrid columns="2">
+            <p:panel header="#{messages.export_all_data}">
+
+                <h:commandLink>
+                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbCOMPETENCIASEMCARGOSTable" fileName="TbCOMPETENCIASEMCARGOSs"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbCOMPETENCIASEMCARGOSTable" fileName="TbCOMPETENCIASEMCARGOSs"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbCOMPETENCIASEMCARGOSTable" fileName="TbCOMPETENCIASEMCARGOSs" />
+                </h:commandLink>
+
+            </p:panel>
+            
+            <p:panel header="#{messages.export_page_data}">
+                <h:commandLink>
+                    <h:graphicImage name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbCOMPETENCIASEMCARGOSTable" fileName="TbCOMPETENCIASEMCARGOSs" pageOnly="true"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbCOMPETENCIASEMCARGOSTable" fileName="TbCOMPETENCIASEMCARGOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbCOMPETENCIASEMCARGOSTable" fileName="TbCOMPETENCIASEMCARGOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+            </p:panel>
+        </h:panelGrid>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbCOMPETENCIASEMCARGOSDialog" widgetVar="deleteTbCOMPETENCIASEMCARGOSDialogWidget"
+        header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{tbCOMPETENCIASEMCARGOSBean.delete}" update=":tbCOMPETENCIASEMCARGOSDataForm :growlForm:growl" oncomplete="PF('deleteTbCOMPETENCIASEMCARGOSDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbCOMPETENCIASEMCARGOSDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbCOMPETENCIASEMCARGOSDialog" header="#{messages.label_tbCOMPETENCIASEMCARGOS_caption}"
+            modal="true" widgetVar="editTbCOMPETENCIASEMCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCOMPETENCIASEMCARGOSBean.reset}"/>
+        <h:form id="editTbCOMPETENCIASEMCARGOSForm" >
+            <p:outputPanel id="tbCOMPETENCIASEMCARGOSEditPanel">
+                <ui:include src="/pages/tbCOMPETENCIASEMCARGOS/tbCOMPETENCIASEMCARGOSEditInclude.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            icon="ui-icon-disk" action="#{tbCOMPETENCIASEMCARGOSBean.persist}"
+                            update=":editTbCOMPETENCIASEMCARGOSForm:tbCOMPETENCIASEMCARGOSEditPanel :tbCOMPETENCIASEMCARGOSDataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbCOMPETENCIASEMCARGOSDialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbCOMPETENCIASEMCARGOSDialogWidget').hide()" type="button" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="viewTbCOMPETENCIASEMCARGOSDialog" header="#{messages.label_tbCOMPETENCIASEMCARGOS_caption}" modal="true" widgetVar="viewTbCOMPETENCIASEMCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCOMPETENCIASEMCARGOSBean.reset}" />
+        <h:form id="viewTbCOMPETENCIASEMCARGOSForm">
+          <ui:include src="/pages/tbCOMPETENCIASEMCARGOS/tbCOMPETENCIASEMCARGOSViewInclude.xhtml"/>
+          <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbCOMPETENCIASEMCARGOSDialogWidget').hide()" type="button" />
+          </div>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createIdCARGOSFromEditDialog"
+        header="#{messages.dialog_tbCOMPETENCIASEMCARGOS_create_idCARGOS}" modal="true"
+        widgetVar="createIdCARGOSFromEditDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCARGOSBean.reset}" />
+        <p:outputPanel id="createIdCARGOSPanel">
+                <h:form id="createIdCARGOSForm">
+                    <ui:include src="/pages/tbCARGOS/tbCARGOSEditInclude.xhtml">
+                        <ui:param name="hideTbCOMPETENCIASEMCARGOSSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbCOMPETENCIASEMCARGOSBean.updateIdCARGOS(tbCARGOSBean.tbCARGOS)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbCARGOSBean.persist}"
+                            update=":editTbCOMPETENCIASEMCARGOSForm:idCARGOSSelectInput :createIdCARGOSPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createIdCARGOSFromEditDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createIdCARGOSFromEditDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createIdCOMPEMFromEditDialog"
+        rendered="#{tbCOMPETENCIASEMCARGOSBean.isPermitted('tbCOMPETENCIASEMOCIONAIS:create')}"
+        header="#{messages.dialog_tbCOMPETENCIASEMCARGOS_create_idCOMPEM}" modal="true"
+        widgetVar="createIdCOMPEMFromEditDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCOMPETENCIASEMOCIONAISBean.reset}" />
+        <p:outputPanel id="createIdCOMPEMPanel">
+                <h:form id="createIdCOMPEMForm">
+                    <ui:include src="/pages/tbCOMPETENCIASEMOCIONAIS/tbCOMPETENCIASEMOCIONAISEditInclude.xhtml">
+                        <ui:param name="hideTbCOMPETENCIASEMCARGOSSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbCOMPETENCIASEMCARGOSBean.updateIdCOMPEM(tbCOMPETENCIASEMOCIONAISBean.tbCOMPETENCIASEMOCIONAIS)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbCOMPETENCIASEMOCIONAISBean.persist}"
+                            update=":editTbCOMPETENCIASEMCARGOSForm:idCOMPEMSelectInput :createIdCOMPEMPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createIdCOMPEMFromEditDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createIdCOMPEMFromEditDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

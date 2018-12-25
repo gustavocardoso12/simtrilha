@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+        <p:outputPanel styleClass="ui-fluid">
+
+            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+            
+                <h:outputLabel value="#{messages.field_label_tbCARGOS_deSCCARGO}:" for="deSCCARGOEditInput" />
+                <p:inputText value="#{tbCARGOSBean.tbCARGOS.deSCCARGO}" id="deSCCARGOEditInput" 
+                    label="#{messages.field_label_tbCARGOS_deSCCARGO}" />
+                <p:message for="deSCCARGOEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_tbCARGOS_miSSAO}:" for="miSSAOEditInput" />
+                <p:inputText value="#{tbCARGOSBean.tbCARGOS.miSSAO}" id="miSSAOEditInput" 
+                    label="#{messages.field_label_tbCARGOS_miSSAO}" />
+                <p:message for="miSSAOEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}:" for="reSPONSABILIDADESEditInput" />
+                <p:inputText value="#{tbCARGOSBean.tbCARGOS.reSPONSABILIDADES}" id="reSPONSABILIDADESEditInput" 
+                    label="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}" />
+                <p:message for="reSPONSABILIDADESEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_tbCARGOS_idEST}:" for="idESTSelectInput" rendered="#{not hideIdESTSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdESTSelectInput}">
+                    <p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.idEST}"
+                                    id="idESTSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{tbCARGOSBean.idESTs}" 
+                                    var="tbESTATUARIO" 
+                                    itemLabel="#{tbESTATUARIO.deSCESTATUARIO}"
+                                    itemValue="#{tbESTATUARIO}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCARGOSBean.idESTs}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideIdESTSelectInput}">
+                
+                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                              action="#{tbESTATUARIOBean.prepareNewTbESTATUARIO()}"
+                              update=":createIdESTFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createIdESTFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createIdESTFromEditDialog') and tbCARGOSBean.isPermitted('tbESTATUARIO:create')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="idESTSelectInput" display="icon" rendered="#{not hideIdESTSelectInput}"/>
+                </h:panelGroup>
+                
+                <h:outputLabel value="#{messages.field_label_tbCARGOS_idCURSOS}:" for="idCURSOSSelectInput" rendered="#{not hideIdCURSOSSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdCURSOSSelectInput}">
+                    <p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.idCURSOS}"
+                                    id="idCURSOSSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{tbCARGOSBean.idCURSOSs}" 
+                                    var="tbCURSOS" 
+                                    itemLabel="#{tbCURSOS.deSCCURSO}"
+                                    itemValue="#{tbCURSOS}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCARGOSBean.idCURSOSs}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideIdCURSOSSelectInput}">
+                
+                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                              action="#{tbCURSOSBean.prepareNewTbCURSOS()}"
+                              update=":createIdCURSOSFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createIdCURSOSFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createIdCURSOSFromEditDialog') and tbCARGOSBean.isPermitted('tbCURSOS:create')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="idCURSOSSelectInput" display="icon" rendered="#{not hideIdCURSOSSelectInput}"/>
+                </h:panelGroup>
+                
+            </p:panelGrid>
+
+        </p:outputPanel>
+</html>

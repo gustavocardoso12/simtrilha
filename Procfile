@@ -1,0 +1,1 @@
+web: java -jar target/SimuladordeTrilhasdeCarreira.jar --port $PORT --noCluster

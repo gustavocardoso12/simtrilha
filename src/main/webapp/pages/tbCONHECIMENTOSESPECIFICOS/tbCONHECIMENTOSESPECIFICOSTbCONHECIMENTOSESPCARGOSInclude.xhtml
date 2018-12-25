@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+      
+    <p:outputPanel styleClass="ui-fluid" rendered="#{not tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:read')}">
+        <h:outputText value="#{messages.access_denied}" />
+    </p:outputPanel>
+    
+    <h:panelGrid rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:read')}">
+       
+       <p:commandButton value="#{messages.dialog_tbCONHECIMENTOSESPECIFICOS_create_tbCONHECIMENTOSESPCARGOS}" icon="ui-icon-plusthick" title="#{messages.label_create}"
+                  actionListener="#{tbCONHECIMENTOSESPCARGOSBean.prepareNewTbCONHECIMENTOSESPCARGOS()}"
+                  update=":createTbCONHECIMENTOSESPCARGOSDialog :growlForm:growl" resetValues="true"
+                  oncomplete="PF('createTbCONHECIMENTOSESPCARGOSDialogWidget').show()" partialSubmit="true" process="@this"
+                  rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:update')}"
+                  style="float:right;">
+       </p:commandButton>
+       
+       <p:pickList id="tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsPickList" var="tbCONHECIMENTOSESPCARGOS" itemLabel="#{tbCONHECIMENTOSESPCARGOS.id}"
+                   value="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPCARGOSs}" itemValue="#{tbCONHECIMENTOSESPCARGOS}"
+                   showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
+                   disabled="#{not tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:update')}">
+           <o:converter converterId="omnifaces.ListConverter" list="#{tbCONHECIMENTOSESPECIFICOSBean.fullTbCONHECIMENTOSESPCARGOSsList}"/>
+         <p:ajax event="transfer" listener="#{tbCONHECIMENTOSESPECIFICOSBean.onTbCONHECIMENTOSESPCARGOSsPickListTransfer}" partialSubmit="true" process="@this" />
+         <f:facet name="sourceCaption"><h:outputText value="#{messages.label_picklist_available}" /></f:facet>
+         <f:facet name="targetCaption"><h:outputText value="#{messages.label_picklist_assigned}" /></f:facet>
+       </p:pickList>
+</h:panelGrid>
+</html>

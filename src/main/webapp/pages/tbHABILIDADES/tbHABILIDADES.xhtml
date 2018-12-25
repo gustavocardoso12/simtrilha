@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbHABILIDADESDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="tbHABILIDADESTable" value="#{tbHABILIDADESBean.tbHABILIDADESList}" var="tbHABILIDADES" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="tbHABILIDADESTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_tbHABILIDADES}" icon="ui-icon-plusthick" action="#{tbHABILIDADESBean.prepareNewTbHABILIDADES()}"
+                      resetValues="true" update=":editTbHABILIDADESDialog" oncomplete="PF('editTbHABILIDADESDialogWidget').show()"
+                      rendered="#{tbHABILIDADESBean.isPermitted('tbHABILIDADES:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="tbHABILIDADESTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_tbHABILIDADES_deSCHABILIDADES}" sortBy="#{tbHABILIDADES.deSCHABILIDADES}" filterBy="#{tbHABILIDADES.deSCHABILIDADES}">
+            <f:facet name="filter">
+                <p:inputText id="deSCHABILIDADESFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('tbHABILIDADESTable').filter(); updateDeSCHABILIDADESFilter(); return false; }" >
+                    <p:remoteCommand name="updateDeSCHABILIDADESFilter" update="tbHABILIDADESTable:deSCHABILIDADESFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{tbHABILIDADES.deSCHABILIDADES}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbHABILIDADES_tbHABILIDADESCARGOS_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_tbHABILIDADES_tbHABILIDADESCARGOS_plural}" action="#{tbHABILIDADESBean.onTbHABILIDADESCARGOSsDialog(tbHABILIDADES)}" oncomplete="PF('tbHABILIDADESTbHABILIDADESCARGOSsDialogWidget').show()" update=":tbHABILIDADESTbHABILIDADESCARGOSsDialog"/>
+            
+          </p:column>
+          
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton icon="ui-icon-zoomin" update=":viewTbHABILIDADESDialog" oncomplete="PF('viewTbHABILIDADESDialogWidget').show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{tbHABILIDADES}" target="#{tbHABILIDADESBean.tbHABILIDADES}" />
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-pencil" update=":editTbHABILIDADESDialog"
+                resetValues="true" rendered="#{tbHABILIDADESBean.isPermitted(tbHABILIDADES, 'tbHABILIDADES:update')}"
+                action="#{tbHABILIDADESBean.onDialogOpen(tbHABILIDADES)}"
+                oncomplete="PF('editTbHABILIDADESDialogWidget').show()"
+                title="#{messages.label_edit}" >
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-close" rendered="#{tbHABILIDADESBean.isPermitted(tbHABILIDADES, 'tbHABILIDADES:delete')}"
+                oncomplete="PF('deleteTbHABILIDADESDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{tbHABILIDADES}"
+                    target="#{tbHABILIDADESBean.tbHABILIDADES}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+        <h:panelGrid columns="2">
+            <p:panel header="#{messages.export_all_data}">
+
+                <h:commandLink>
+                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbHABILIDADESTable" fileName="TbHABILIDADESs"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbHABILIDADESTable" fileName="TbHABILIDADESs"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbHABILIDADESTable" fileName="TbHABILIDADESs" />
+                </h:commandLink>
+
+            </p:panel>
+            
+            <p:panel header="#{messages.export_page_data}">
+                <h:commandLink>
+                    <h:graphicImage name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbHABILIDADESTable" fileName="TbHABILIDADESs" pageOnly="true"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbHABILIDADESTable" fileName="TbHABILIDADESs" pageOnly="true"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbHABILIDADESTable" fileName="TbHABILIDADESs" pageOnly="true"/>
+                </h:commandLink>
+                
+            </p:panel>
+        </h:panelGrid>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbHABILIDADESDialog" widgetVar="deleteTbHABILIDADESDialogWidget"
+        rendered="#{tbHABILIDADESBean.isPermitted(tbHABILIDADESBean.tbHABILIDADES, 'tbHABILIDADES:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{tbHABILIDADESBean.delete}" update=":tbHABILIDADESDataForm :growlForm:growl" oncomplete="PF('deleteTbHABILIDADESDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbHABILIDADESDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbHABILIDADESDialog" header="#{messages.label_tbHABILIDADES_caption}"
+            modal="true" widgetVar="editTbHABILIDADESDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbHABILIDADESBean.reset}"/>
+        <h:form id="editTbHABILIDADESForm" >
+            <p:outputPanel id="tbHABILIDADESEditPanel">
+                <ui:include src="/pages/tbHABILIDADES/tbHABILIDADESEditInclude.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            icon="ui-icon-disk" action="#{tbHABILIDADESBean.persist}"
+                            update=":editTbHABILIDADESForm:tbHABILIDADESEditPanel :tbHABILIDADESDataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbHABILIDADESDialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbHABILIDADESDialogWidget').hide()" type="button" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="viewTbHABILIDADESDialog" header="#{messages.label_tbHABILIDADES_caption}" modal="true" widgetVar="viewTbHABILIDADESDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbHABILIDADESBean.reset}" />
+        <h:form id="viewTbHABILIDADESForm">
+          <ui:include src="/pages/tbHABILIDADES/tbHABILIDADESViewInclude.xhtml"/>
+          <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbHABILIDADESDialogWidget').hide()" type="button" />
+          </div>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="tbHABILIDADESTbHABILIDADESCARGOSsDialog" header="#{messages.dialog_header_tbHABILIDADES_tbHABILIDADESCARGOS_plural}" modal="true" widgetVar="tbHABILIDADESTbHABILIDADESCARGOSsDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbHABILIDADESBean.reset}" />
+        <p:outputPanel id="tbHABILIDADESTbHABILIDADESCARGOSsPanel">
+            <h:form id="tbHABILIDADESTbHABILIDADESCARGOSsForm">
+                <ui:include src="/pages/tbHABILIDADES/tbHABILIDADESTbHABILIDADESCARGOSInclude.xhtml" />
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                        icon="ui-icon-disk"
+                        action="#{tbHABILIDADESBean.onTbHABILIDADESCARGOSsSubmit}"
+                        update=":growlForm:growl"
+                        oncomplete="if(!args.validationFailed) PF('tbHABILIDADESTbHABILIDADESCARGOSsDialogWidget').hide()"
+                        rendered="#{tbHABILIDADESBean.isPermitted(tbHABILIDADESBean.tbHABILIDADES, 'tbHABILIDADES:update')}"
+                        partialSubmit="true" process="@this" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('tbHABILIDADESTbHABILIDADESCARGOSsDialogWidget').hide()" type="button" />
+                </div>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createTbHABILIDADESCARGOSDialog"
+        header="#{messages.dialog_tbHABILIDADES_create_tbHABILIDADESCARGOS}" modal="true"
+        widgetVar="createTbHABILIDADESCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbHABILIDADESCARGOSBean.reset}" />
+        <p:outputPanel id="createTbHABILIDADESCARGOSPanel">
+                <h:form id="createTbHABILIDADESCARGOSForm">
+                    <ui:include src="/pages/tbHABILIDADESCARGOS/tbHABILIDADESCARGOSEditInclude.xhtml">
+                        <ui:param name="hideIdHABCARGOSSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbHABILIDADESBean.updateTbHABILIDADESCARGOS(tbHABILIDADESCARGOSBean.tbHABILIDADESCARGOS)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbHABILIDADESCARGOSBean.persist}"
+                            update=":tbHABILIDADESTbHABILIDADESCARGOSsPanel :createTbHABILIDADESCARGOSPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createTbHABILIDADESCARGOSDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createTbHABILIDADESCARGOSDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+        <p:outputPanel styleClass="ui-fluid">
+
+            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+            
+                <h:outputLabel value="#{messages.field_label_tbHABILIDADESCULTCARGOS_idCARGOS}:" for="idCARGOSSelectInput" rendered="#{not hideIdCARGOSSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
+                    <p:selectOneMenu value="#{tbHABILIDADESCULTCARGOSBean.tbHABILIDADESCULTCARGOS.idCARGOS}"
+                                    id="idCARGOSSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{tbHABILIDADESCULTCARGOSBean.idCARGOSs}" 
+                                    var="tbCARGOS" 
+                                    itemLabel="#{tbCARGOS.deSCCARGO}"
+                                    itemValue="#{tbCARGOS}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbHABILIDADESCULTCARGOSBean.idCARGOSs}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
+                
+                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                              action="#{tbCARGOSBean.prepareNewTbCARGOS()}"
+                              update=":createIdCARGOSFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createIdCARGOSFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createIdCARGOSFromEditDialog')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="idCARGOSSelectInput" display="icon" rendered="#{not hideIdCARGOSSelectInput}"/>
+                </h:panelGroup>
+                
+                <h:outputLabel value="#{messages.field_label_tbHABILIDADESCULTCARGOS_idHABCULTCAR}:" for="idHABCULTCARSelectInput" rendered="#{not hideIdHABCULTCARSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdHABCULTCARSelectInput}">
+                    <p:selectOneMenu value="#{tbHABILIDADESCULTCARGOSBean.tbHABILIDADESCULTCARGOS.idHABCULTCAR}"
+                                    id="idHABCULTCARSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{tbHABILIDADESCULTCARGOSBean.idHABCULTCARs}" 
+                                    var="tbHABILIDADESCULTURAIS" 
+                                    itemLabel="#{tbHABILIDADESCULTURAIS.deSCHABCULT}"
+                                    itemValue="#{tbHABILIDADESCULTURAIS}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbHABILIDADESCULTCARGOSBean.idHABCULTCARs}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideIdHABCULTCARSelectInput}">
+                
+                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                              action="#{tbHABILIDADESCULTURAISBean.prepareNewTbHABILIDADESCULTURAIS()}"
+                              update=":createIdHABCULTCARFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createIdHABCULTCARFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createIdHABCULTCARFromEditDialog') and tbHABILIDADESCULTCARGOSBean.isPermitted('tbHABILIDADESCULTURAIS:create')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="idHABCULTCARSelectInput" display="icon" rendered="#{not hideIdHABCULTCARSelectInput}"/>
+                </h:panelGroup>
+                
+                <h:outputLabel value="#{messages.field_label_tbHABILIDADESCULTCARGOS_poNTUACAOHABCULT}:" for="poNTUACAOHABCULTEditInput" />
+                <p:inputText value="#{tbHABILIDADESCULTCARGOSBean.tbHABILIDADESCULTCARGOS.poNTUACAOHABCULT}" id="poNTUACAOHABCULTEditInput" label="#{messages.field_label_tbHABILIDADESCULTCARGOS_poNTUACAOHABCULT}" >
+                    <f:convertNumber />
+                </p:inputText>
+                <p:message for="poNTUACAOHABCULTEditInput" display="icon" />
+
+            </p:panelGrid>
+
+        </p:outputPanel>
+</html>

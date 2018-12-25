@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+  <h:form>
+  <p:menu>
+    <p:submenu label="#{messages.menu_pages}">
+      
+      <p:menuitem value="#{messages.menu_tbFORMACAOs}" url="/pages/tbFORMACAO/tbFORMACAO.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCURSOSs}" url="/pages/tbCURSOS/tbCURSOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbVICEPRESIDENCIAs}" url="/pages/tbVICEPRESIDENCIA/tbVICEPRESIDENCIA.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbDIRETORIAs}" url="/pages/tbDIRETORIA/tbDIRETORIA.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbESTATUARIOs}" url="/pages/tbESTATUARIO/tbESTATUARIO.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCARGOSs}" url="/pages/tbCARGOS/tbCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/pages/tbCOMPETENCIAS/tbCOMPETENCIAS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCOMPETENCIASCARGOSs}" url="/pages/tbCOMPETENCIASCARGOS/tbCOMPETENCIASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCOMPETENCIASEMOCIONAISs}" url="/pages/tbCOMPETENCIASEMOCIONAIS/tbCOMPETENCIASEMOCIONAIS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCOMPETENCIASEMCARGOSs}" url="/pages/tbCOMPETENCIASEMCARGOS/tbCOMPETENCIASEMCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASCARGOSs}" url="/pages/tbCONHECIMENTOSBASCARGOS/tbCONHECIMENTOSBASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPCARGOSs}" url="/pages/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbESTILOLIDERANCAs}" url="/pages/tbESTILOLIDERANCA/tbESTILOLIDERANCA.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbESTILOLIDERANCACARGOSs}" url="/pages/tbESTILOLIDERANCACARGOS/tbESTILOLIDERANCACARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOs}" url="/pages/tbESTILOPENSAMENTO/tbESTILOPENSAMENTO.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOCARGOSs}" url="/pages/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbHABILIDADESs}" url="/pages/tbHABILIDADES/tbHABILIDADES.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbHABILIDADESCARGOSs}" url="/pages/tbHABILIDADESCARGOS/tbHABILIDADESCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbHABILIDADESCULTURAISs}" url="/pages/tbHABILIDADESCULTURAIS/tbHABILIDADESCULTURAIS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbHABILIDADESCULTCARGOSs}" url="/pages/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+    </p:submenu>
+    
+    <p:submenu label="#{messages.menu_admin}" rendered="#{p:ifGranted('Administrator')}">
+      <p:menuitem value="#{messages.menu_user_management}" url="/pages/admin/user.xhtml" icon="ui-icon-person" ajax="false" async="false"/>
+    </p:submenu>
+    
+  </p:menu>
+  </h:form>
+</ui:composition>
+</html>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbESTILOPENSAMENTODataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="tbESTILOPENSAMENTOTable" value="#{tbESTILOPENSAMENTOBean.tbESTILOPENSAMENTOList}" var="tbESTILOPENSAMENTO" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="tbESTILOPENSAMENTOTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_tbESTILOPENSAMENTO}" icon="ui-icon-plusthick" action="#{tbESTILOPENSAMENTOBean.prepareNewTbESTILOPENSAMENTO()}"
+                      resetValues="true" update=":editTbESTILOPENSAMENTODialog" oncomplete="PF('editTbESTILOPENSAMENTODialogWidget').show()"
+                      rendered="#{tbESTILOPENSAMENTOBean.isPermitted('tbESTILOPENSAMENTO:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="tbESTILOPENSAMENTOTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_tbESTILOPENSAMENTO_deSCESTILOPENSAMENTO}" sortBy="#{tbESTILOPENSAMENTO.deSCESTILOPENSAMENTO}" filterBy="#{tbESTILOPENSAMENTO.deSCESTILOPENSAMENTO}">
+            <f:facet name="filter">
+                <p:inputText id="deSCESTILOPENSAMENTOFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('tbESTILOPENSAMENTOTable').filter(); updateDeSCESTILOPENSAMENTOFilter(); return false; }" >
+                    <p:remoteCommand name="updateDeSCESTILOPENSAMENTOFilter" update="tbESTILOPENSAMENTOTable:deSCESTILOPENSAMENTOFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{tbESTILOPENSAMENTO.deSCESTILOPENSAMENTO}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbESTILOPENSAMENTO_tbESTILOPENSAMENTOCARGOS_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_tbESTILOPENSAMENTO_tbESTILOPENSAMENTOCARGOS_plural}" action="#{tbESTILOPENSAMENTOBean.onTbESTILOPENSAMENTOCARGOSsDialog(tbESTILOPENSAMENTO)}" oncomplete="PF('tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSsDialogWidget').show()" update=":tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSsDialog"/>
+            
+          </p:column>
+          
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton icon="ui-icon-zoomin" update=":viewTbESTILOPENSAMENTODialog" oncomplete="PF('viewTbESTILOPENSAMENTODialogWidget').show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{tbESTILOPENSAMENTO}" target="#{tbESTILOPENSAMENTOBean.tbESTILOPENSAMENTO}" />
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-pencil" update=":editTbESTILOPENSAMENTODialog"
+                resetValues="true" rendered="#{tbESTILOPENSAMENTOBean.isPermitted(tbESTILOPENSAMENTO, 'tbESTILOPENSAMENTO:update')}"
+                action="#{tbESTILOPENSAMENTOBean.onDialogOpen(tbESTILOPENSAMENTO)}"
+                oncomplete="PF('editTbESTILOPENSAMENTODialogWidget').show()"
+                title="#{messages.label_edit}" >
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-close" rendered="#{tbESTILOPENSAMENTOBean.isPermitted(tbESTILOPENSAMENTO, 'tbESTILOPENSAMENTO:delete')}"
+                oncomplete="PF('deleteTbESTILOPENSAMENTODialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{tbESTILOPENSAMENTO}"
+                    target="#{tbESTILOPENSAMENTOBean.tbESTILOPENSAMENTO}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+        <h:panelGrid columns="2">
+            <p:panel header="#{messages.export_all_data}">
+
+                <h:commandLink>
+                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbESTILOPENSAMENTOTable" fileName="TbESTILOPENSAMENTOs"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbESTILOPENSAMENTOTable" fileName="TbESTILOPENSAMENTOs"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbESTILOPENSAMENTOTable" fileName="TbESTILOPENSAMENTOs" />
+                </h:commandLink>
+
+            </p:panel>
+            
+            <p:panel header="#{messages.export_page_data}">
+                <h:commandLink>
+                    <h:graphicImage name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbESTILOPENSAMENTOTable" fileName="TbESTILOPENSAMENTOs" pageOnly="true"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbESTILOPENSAMENTOTable" fileName="TbESTILOPENSAMENTOs" pageOnly="true"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbESTILOPENSAMENTOTable" fileName="TbESTILOPENSAMENTOs" pageOnly="true"/>
+                </h:commandLink>
+                
+            </p:panel>
+        </h:panelGrid>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbESTILOPENSAMENTODialog" widgetVar="deleteTbESTILOPENSAMENTODialogWidget"
+        rendered="#{tbESTILOPENSAMENTOBean.isPermitted(tbESTILOPENSAMENTOBean.tbESTILOPENSAMENTO, 'tbESTILOPENSAMENTO:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{tbESTILOPENSAMENTOBean.delete}" update=":tbESTILOPENSAMENTODataForm :growlForm:growl" oncomplete="PF('deleteTbESTILOPENSAMENTODialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbESTILOPENSAMENTODialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbESTILOPENSAMENTODialog" header="#{messages.label_tbESTILOPENSAMENTO_caption}"
+            modal="true" widgetVar="editTbESTILOPENSAMENTODialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbESTILOPENSAMENTOBean.reset}"/>
+        <h:form id="editTbESTILOPENSAMENTOForm" >
+            <p:outputPanel id="tbESTILOPENSAMENTOEditPanel">
+                <ui:include src="/pages/tbESTILOPENSAMENTO/tbESTILOPENSAMENTOEditInclude.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            icon="ui-icon-disk" action="#{tbESTILOPENSAMENTOBean.persist}"
+                            update=":editTbESTILOPENSAMENTOForm:tbESTILOPENSAMENTOEditPanel :tbESTILOPENSAMENTODataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbESTILOPENSAMENTODialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbESTILOPENSAMENTODialogWidget').hide()" type="button" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="viewTbESTILOPENSAMENTODialog" header="#{messages.label_tbESTILOPENSAMENTO_caption}" modal="true" widgetVar="viewTbESTILOPENSAMENTODialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbESTILOPENSAMENTOBean.reset}" />
+        <h:form id="viewTbESTILOPENSAMENTOForm">
+          <ui:include src="/pages/tbESTILOPENSAMENTO/tbESTILOPENSAMENTOViewInclude.xhtml"/>
+          <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbESTILOPENSAMENTODialogWidget').hide()" type="button" />
+          </div>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSsDialog" header="#{messages.dialog_header_tbESTILOPENSAMENTO_tbESTILOPENSAMENTOCARGOS_plural}" modal="true" widgetVar="tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSsDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbESTILOPENSAMENTOBean.reset}" />
+        <p:outputPanel id="tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSsPanel">
+            <h:form id="tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSsForm">
+                <ui:include src="/pages/tbESTILOPENSAMENTO/tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSInclude.xhtml" />
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                        icon="ui-icon-disk"
+                        action="#{tbESTILOPENSAMENTOBean.onTbESTILOPENSAMENTOCARGOSsSubmit}"
+                        update=":growlForm:growl"
+                        oncomplete="if(!args.validationFailed) PF('tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSsDialogWidget').hide()"
+                        rendered="#{tbESTILOPENSAMENTOBean.isPermitted(tbESTILOPENSAMENTOBean.tbESTILOPENSAMENTO, 'tbESTILOPENSAMENTO:update')}"
+                        partialSubmit="true" process="@this" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSsDialogWidget').hide()" type="button" />
+                </div>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createTbESTILOPENSAMENTOCARGOSDialog"
+        header="#{messages.dialog_tbESTILOPENSAMENTO_create_tbESTILOPENSAMENTOCARGOS}" modal="true"
+        widgetVar="createTbESTILOPENSAMENTOCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbESTILOPENSAMENTOCARGOSBean.reset}" />
+        <p:outputPanel id="createTbESTILOPENSAMENTOCARGOSPanel">
+                <h:form id="createTbESTILOPENSAMENTOCARGOSForm">
+                    <ui:include src="/pages/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOSEditInclude.xhtml">
+                        <ui:param name="hideIdESTPENSAMENTOSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbESTILOPENSAMENTOBean.updateTbESTILOPENSAMENTOCARGOS(tbESTILOPENSAMENTOCARGOSBean.tbESTILOPENSAMENTOCARGOS)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbESTILOPENSAMENTOCARGOSBean.persist}"
+                            update=":tbESTILOPENSAMENTOTbESTILOPENSAMENTOCARGOSsPanel :createTbESTILOPENSAMENTOCARGOSPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createTbESTILOPENSAMENTOCARGOSDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createTbESTILOPENSAMENTOCARGOSDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

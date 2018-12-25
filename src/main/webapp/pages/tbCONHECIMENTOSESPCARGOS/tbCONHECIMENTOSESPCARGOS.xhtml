@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbCONHECIMENTOSESPCARGOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="tbCONHECIMENTOSESPCARGOSTable" value="#{tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOSList}" var="tbCONHECIMENTOSESPCARGOS" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="tbCONHECIMENTOSESPCARGOSTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_tbCONHECIMENTOSESPCARGOS}" icon="ui-icon-plusthick" action="#{tbCONHECIMENTOSESPCARGOSBean.prepareNewTbCONHECIMENTOSESPCARGOS()}"
+                      resetValues="true" update=":editTbCONHECIMENTOSESPCARGOSDialog" oncomplete="PF('editTbCONHECIMENTOSESPCARGOSDialogWidget').show()"
+                      style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="tbCONHECIMENTOSESPCARGOSTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column headerText="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_idCARGOS}" sortBy="#{tbCONHECIMENTOSESPCARGOS.idCARGOS}" filterBy="#{tbCONHECIMENTOSESPCARGOS.idCARGOS}">
+            <f:facet name="filter">
+            <p:selectOneMenu  id="idCARGOSFilter"
+                            style="width:145px;"
+                            onchange="PF('tbCONHECIMENTOSESPCARGOSTable').filter(); return false;">
+                <f:selectItem noSelectionOption="true" itemLabel="" />
+                <f:selectItems itemLabel="#{tbCARGOS.deSCCARGO}"
+                            value="#{tbCONHECIMENTOSESPCARGOSBean.idCARGOSs}" 
+                            var="tbCARGOS" 
+                            itemValue="#{tbCARGOS}" />
+                <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCONHECIMENTOSESPCARGOSBean.idCARGOSs}" />
+            </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{tbCONHECIMENTOSESPCARGOS.idCARGOS.deSCCARGO}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_idCONHECESP}" sortBy="#{tbCONHECIMENTOSESPCARGOS.idCONHECESP}" filterBy="#{tbCONHECIMENTOSESPCARGOS.idCONHECESP}">
+            <f:facet name="filter">
+            <p:selectOneMenu  id="idCONHECESPFilter"
+                            style="width:145px;"
+                            onchange="PF('tbCONHECIMENTOSESPCARGOSTable').filter(); return false;">
+                <f:selectItem noSelectionOption="true" itemLabel="" />
+                <f:selectItems itemLabel="#{tbCONHECIMENTOSESPECIFICOS.deSCCONHECIMENTOSESPECIFICOS}"
+                            value="#{tbCONHECIMENTOSESPCARGOSBean.idCONHECESPs}" 
+                            var="tbCONHECIMENTOSESPECIFICOS" 
+                            itemValue="#{tbCONHECIMENTOSESPECIFICOS}" />
+                <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCONHECIMENTOSESPCARGOSBean.idCONHECESPs}" />
+            </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{tbCONHECIMENTOSESPCARGOS.idCONHECESP.deSCCONHECIMENTOSESPECIFICOS}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_poNTUACAOCONESP}" sortBy="#{tbCONHECIMENTOSESPCARGOS.poNTUACAOCONESP}" filterBy="#{tbCONHECIMENTOSESPCARGOS.poNTUACAOCONESP}">
+            <f:facet name="filter">
+                <p:inputText id="poNTUACAOCONESPFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('tbCONHECIMENTOSESPCARGOSTable').filter(); updatePoNTUACAOCONESPFilter(); return false; }" >
+                    <f:convertNumber />
+                    <p:remoteCommand name="updatePoNTUACAOCONESPFilter" update="tbCONHECIMENTOSESPCARGOSTable:poNTUACAOCONESPFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{tbCONHECIMENTOSESPCARGOS.poNTUACAOCONESP}"><f:convertNumber /></h:outputText>
+          </p:column>
+
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton icon="ui-icon-zoomin" update=":viewTbCONHECIMENTOSESPCARGOSDialog" oncomplete="PF('viewTbCONHECIMENTOSESPCARGOSDialogWidget').show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{tbCONHECIMENTOSESPCARGOS}" target="#{tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS}" />
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-pencil" update=":editTbCONHECIMENTOSESPCARGOSDialog"
+                resetValues="true" 
+                action="#{tbCONHECIMENTOSESPCARGOSBean.onDialogOpen(tbCONHECIMENTOSESPCARGOS)}"
+                oncomplete="PF('editTbCONHECIMENTOSESPCARGOSDialogWidget').show()"
+                title="#{messages.label_edit}" >
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-close" 
+                oncomplete="PF('deleteTbCONHECIMENTOSESPCARGOSDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{tbCONHECIMENTOSESPCARGOS}"
+                    target="#{tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+        <h:panelGrid columns="2">
+            <p:panel header="#{messages.export_all_data}">
+
+                <h:commandLink>
+                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbCONHECIMENTOSESPCARGOSTable" fileName="TbCONHECIMENTOSESPCARGOSs"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbCONHECIMENTOSESPCARGOSTable" fileName="TbCONHECIMENTOSESPCARGOSs"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbCONHECIMENTOSESPCARGOSTable" fileName="TbCONHECIMENTOSESPCARGOSs" />
+                </h:commandLink>
+
+            </p:panel>
+            
+            <p:panel header="#{messages.export_page_data}">
+                <h:commandLink>
+                    <h:graphicImage name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbCONHECIMENTOSESPCARGOSTable" fileName="TbCONHECIMENTOSESPCARGOSs" pageOnly="true"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbCONHECIMENTOSESPCARGOSTable" fileName="TbCONHECIMENTOSESPCARGOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbCONHECIMENTOSESPCARGOSTable" fileName="TbCONHECIMENTOSESPCARGOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+            </p:panel>
+        </h:panelGrid>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbCONHECIMENTOSESPCARGOSDialog" widgetVar="deleteTbCONHECIMENTOSESPCARGOSDialogWidget"
+        header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{tbCONHECIMENTOSESPCARGOSBean.delete}" update=":tbCONHECIMENTOSESPCARGOSDataForm :growlForm:growl" oncomplete="PF('deleteTbCONHECIMENTOSESPCARGOSDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbCONHECIMENTOSESPCARGOSDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbCONHECIMENTOSESPCARGOSDialog" header="#{messages.label_tbCONHECIMENTOSESPCARGOS_caption}"
+            modal="true" widgetVar="editTbCONHECIMENTOSESPCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCONHECIMENTOSESPCARGOSBean.reset}"/>
+        <h:form id="editTbCONHECIMENTOSESPCARGOSForm" >
+            <p:outputPanel id="tbCONHECIMENTOSESPCARGOSEditPanel">
+                <ui:include src="/pages/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOSEditInclude.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            icon="ui-icon-disk" action="#{tbCONHECIMENTOSESPCARGOSBean.persist}"
+                            update=":editTbCONHECIMENTOSESPCARGOSForm:tbCONHECIMENTOSESPCARGOSEditPanel :tbCONHECIMENTOSESPCARGOSDataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSESPCARGOSDialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbCONHECIMENTOSESPCARGOSDialogWidget').hide()" type="button" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="viewTbCONHECIMENTOSESPCARGOSDialog" header="#{messages.label_tbCONHECIMENTOSESPCARGOS_caption}" modal="true" widgetVar="viewTbCONHECIMENTOSESPCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCONHECIMENTOSESPCARGOSBean.reset}" />
+        <h:form id="viewTbCONHECIMENTOSESPCARGOSForm">
+          <ui:include src="/pages/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOSViewInclude.xhtml"/>
+          <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbCONHECIMENTOSESPCARGOSDialogWidget').hide()" type="button" />
+          </div>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createIdCARGOSFromEditDialog"
+        header="#{messages.dialog_tbCONHECIMENTOSESPCARGOS_create_idCARGOS}" modal="true"
+        widgetVar="createIdCARGOSFromEditDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCARGOSBean.reset}" />
+        <p:outputPanel id="createIdCARGOSPanel">
+                <h:form id="createIdCARGOSForm">
+                    <ui:include src="/pages/tbCARGOS/tbCARGOSEditInclude.xhtml">
+                        <ui:param name="hideTbCONHECIMENTOSESPCARGOSSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbCONHECIMENTOSESPCARGOSBean.updateIdCARGOS(tbCARGOSBean.tbCARGOS)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbCARGOSBean.persist}"
+                            update=":editTbCONHECIMENTOSESPCARGOSForm:idCARGOSSelectInput :createIdCARGOSPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createIdCARGOSFromEditDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createIdCARGOSFromEditDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createIdCONHECESPFromEditDialog"
+        rendered="#{tbCONHECIMENTOSESPCARGOSBean.isPermitted('tbCONHECIMENTOSESPECIFICOS:create')}"
+        header="#{messages.dialog_tbCONHECIMENTOSESPCARGOS_create_idCONHECESP}" modal="true"
+        widgetVar="createIdCONHECESPFromEditDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}" />
+        <p:outputPanel id="createIdCONHECESPPanel">
+                <h:form id="createIdCONHECESPForm">
+                    <ui:include src="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOSEditInclude.xhtml">
+                        <ui:param name="hideTbCONHECIMENTOSESPCARGOSSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbCONHECIMENTOSESPCARGOSBean.updateIdCONHECESP(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbCONHECIMENTOSESPECIFICOSBean.persist}"
+                            update=":editTbCONHECIMENTOSESPCARGOSForm:idCONHECESPSelectInput :createIdCONHECESPPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createIdCONHECESPFromEditDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createIdCONHECESPFromEditDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

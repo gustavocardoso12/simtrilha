@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbCONHECIMENTOSBASICOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="tbCONHECIMENTOSBASICOSTable" value="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOSList}" var="tbCONHECIMENTOSBASICOS" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="tbCONHECIMENTOSBASICOSTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_tbCONHECIMENTOSBASICOS}" icon="ui-icon-plusthick" action="#{tbCONHECIMENTOSBASICOSBean.prepareNewTbCONHECIMENTOSBASICOS()}"
+                      resetValues="true" update=":editTbCONHECIMENTOSBASICOSDialog" oncomplete="PF('editTbCONHECIMENTOSBASICOSDialogWidget').show()"
+                      rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted('tbCONHECIMENTOSBASICOS:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="tbCONHECIMENTOSBASICOSTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_tbCONHECIMENTOSBASICOS_deSCCONHECIMENTOSBASICOS}" sortBy="#{tbCONHECIMENTOSBASICOS.deSCCONHECIMENTOSBASICOS}" filterBy="#{tbCONHECIMENTOSBASICOS.deSCCONHECIMENTOSBASICOS}">
+            <f:facet name="filter">
+                <p:inputText id="deSCCONHECIMENTOSBASICOSFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('tbCONHECIMENTOSBASICOSTable').filter(); updateDeSCCONHECIMENTOSBASICOSFilter(); return false; }" >
+                    <p:remoteCommand name="updateDeSCCONHECIMENTOSBASICOSFilter" update="tbCONHECIMENTOSBASICOSTable:deSCCONHECIMENTOSBASICOSFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{tbCONHECIMENTOSBASICOS.deSCCONHECIMENTOSBASICOS}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_tbCONHECIMENTOSBASICOS_tbCONHECIMENTOSBASCARGOS_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_tbCONHECIMENTOSBASICOS_tbCONHECIMENTOSBASCARGOS_plural}" action="#{tbCONHECIMENTOSBASICOSBean.onTbCONHECIMENTOSBASCARGOSsDialog(tbCONHECIMENTOSBASICOS)}" oncomplete="PF('tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialogWidget').show()" update=":tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialog"/>
+            
+          </p:column>
+          
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton icon="ui-icon-zoomin" update=":viewTbCONHECIMENTOSBASICOSDialog" oncomplete="PF('viewTbCONHECIMENTOSBASICOSDialogWidget').show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{tbCONHECIMENTOSBASICOS}" target="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS}" />
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-pencil" update=":editTbCONHECIMENTOSBASICOSDialog"
+                resetValues="true" rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:update')}"
+                action="#{tbCONHECIMENTOSBASICOSBean.onDialogOpen(tbCONHECIMENTOSBASICOS)}"
+                oncomplete="PF('editTbCONHECIMENTOSBASICOSDialogWidget').show()"
+                title="#{messages.label_edit}" >
+            </p:commandButton>
+
+            <p:commandButton icon="ui-icon-close" rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:delete')}"
+                oncomplete="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{tbCONHECIMENTOSBASICOS}"
+                    target="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+        <h:panelGrid columns="2">
+            <p:panel header="#{messages.export_all_data}">
+
+                <h:commandLink>
+                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbCONHECIMENTOSBASICOSTable" fileName="TbCONHECIMENTOSBASICOSs"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbCONHECIMENTOSBASICOSTable" fileName="TbCONHECIMENTOSBASICOSs"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbCONHECIMENTOSBASICOSTable" fileName="TbCONHECIMENTOSBASICOSs" />
+                </h:commandLink>
+
+            </p:panel>
+            
+            <p:panel header="#{messages.export_page_data}">
+                <h:commandLink>
+                    <h:graphicImage name="images/excel.png" alt="Excel|" />
+                    <p:dataExporter type="xls" target="tbCONHECIMENTOSBASICOSTable" fileName="TbCONHECIMENTOSBASICOSs" pageOnly="true"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
+                    <p:dataExporter type="pdf" target="tbCONHECIMENTOSBASICOSTable" fileName="TbCONHECIMENTOSBASICOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage name="images/csv.png" alt="CSV" />
+                    <p:dataExporter type="csv" target="tbCONHECIMENTOSBASICOSTable" fileName="TbCONHECIMENTOSBASICOSs" pageOnly="true"/>
+                </h:commandLink>
+                
+            </p:panel>
+        </h:panelGrid>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbCONHECIMENTOSBASICOSDialog" widgetVar="deleteTbCONHECIMENTOSBASICOSDialogWidget"
+        rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{tbCONHECIMENTOSBASICOSBean.delete}" update=":tbCONHECIMENTOSBASICOSDataForm :growlForm:growl" oncomplete="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbCONHECIMENTOSBASICOSDialog" header="#{messages.label_tbCONHECIMENTOSBASICOS_caption}"
+            modal="true" widgetVar="editTbCONHECIMENTOSBASICOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCONHECIMENTOSBASICOSBean.reset}"/>
+        <h:form id="editTbCONHECIMENTOSBASICOSForm" >
+            <p:outputPanel id="tbCONHECIMENTOSBASICOSEditPanel">
+                <ui:include src="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOSEditInclude.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            icon="ui-icon-disk" action="#{tbCONHECIMENTOSBASICOSBean.persist}"
+                            update=":editTbCONHECIMENTOSBASICOSForm:tbCONHECIMENTOSBASICOSEditPanel :tbCONHECIMENTOSBASICOSDataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSBASICOSDialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbCONHECIMENTOSBASICOSDialogWidget').hide()" type="button" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="viewTbCONHECIMENTOSBASICOSDialog" header="#{messages.label_tbCONHECIMENTOSBASICOS_caption}" modal="true" widgetVar="viewTbCONHECIMENTOSBASICOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCONHECIMENTOSBASICOSBean.reset}" />
+        <h:form id="viewTbCONHECIMENTOSBASICOSForm">
+          <ui:include src="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOSViewInclude.xhtml"/>
+          <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbCONHECIMENTOSBASICOSDialogWidget').hide()" type="button" />
+          </div>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialog" header="#{messages.dialog_header_tbCONHECIMENTOSBASICOS_tbCONHECIMENTOSBASCARGOS_plural}" modal="true" widgetVar="tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCONHECIMENTOSBASICOSBean.reset}" />
+        <p:outputPanel id="tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsPanel">
+            <h:form id="tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsForm">
+                <ui:include src="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSInclude.xhtml" />
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                        icon="ui-icon-disk"
+                        action="#{tbCONHECIMENTOSBASICOSBean.onTbCONHECIMENTOSBASCARGOSsSubmit}"
+                        update=":growlForm:growl"
+                        oncomplete="if(!args.validationFailed) PF('tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialogWidget').hide()"
+                        rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:update')}"
+                        partialSubmit="true" process="@this" />
+                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialogWidget').hide()" type="button" />
+                </div>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog dynamic="true" id="createTbCONHECIMENTOSBASCARGOSDialog"
+        header="#{messages.dialog_tbCONHECIMENTOSBASICOS_create_tbCONHECIMENTOSBASCARGOS}" modal="true"
+        widgetVar="createTbCONHECIMENTOSBASCARGOSDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{tbCONHECIMENTOSBASCARGOSBean.reset}" />
+        <p:outputPanel id="createTbCONHECIMENTOSBASCARGOSPanel">
+                <h:form id="createTbCONHECIMENTOSBASCARGOSForm">
+                    <ui:include src="/pages/tbCONHECIMENTOSBASCARGOS/tbCONHECIMENTOSBASCARGOSEditInclude.xhtml">
+                        <ui:param name="hideIdCONHECBASSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{tbCONHECIMENTOSBASICOSBean.updateTbCONHECIMENTOSBASCARGOS(tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOS)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{tbCONHECIMENTOSBASCARGOSBean.persist}"
+                            update=":tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsPanel :createTbCONHECIMENTOSBASCARGOSPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createTbCONHECIMENTOSBASCARGOSDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createTbCONHECIMENTOSBASCARGOSDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+</ui:composition>
+</html>
