@@ -38,10 +38,10 @@
         </dependency>
         
         <dependency>
-            <groupId>org.primefaces.themes</groupId>
-            <artifactId>dot-luv</artifactId>
-            <version>1.0.10</version>
-        </dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>1.0.10</version>
+		</dependency>
         
         <dependency>
             <groupId>org.omnifaces</groupId>
@@ -90,34 +90,12 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.5.0</version>
                 <dependencies>
-                    <dependency>
-                        <groupId>fish.payara.extras</groupId>
-                        <artifactId>payara-micro</artifactId>
-                        <version>4.1.1.163</version>
-                    </dependency>
+                    
                 </dependencies>
                 <executions>
                     <execution>
-                        <id>payara-uber-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>fish.payara.micro.PayaraMicro</mainClass>
-                            <arguments>
-                                <argument>--deploy</argument>
-                                <argument>${basedir}/target/${project.build.finalName}.war</argument>
-                                <argument>--outputUberJar</argument>                                                  
-                                <argument>${basedir}/target/SimuladordeTrilhasdeCarreira.jar</argument>
-                            </arguments>
-                            <includeProjectDependencies>false</includeProjectDependencies>
-                            <includePluginDependencies>true</includePluginDependencies>
-                            <executableDependency>
-                                <groupId>fish.payara.extras</groupId>
-                                <artifactId>payara-micro</artifactId>
-                            </executableDependency>
-                        </configuration>
+                      
+                     
                     </execution>
                 </executions>
             </plugin>

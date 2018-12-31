@@ -7,20 +7,19 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:o="http://omnifaces.org/ui">
 
-        <p:outputPanel styleClass="ui-fluid">
 
-            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+
+            <p:panelGrid columns="3" styleClass="dialog"  columnClasses="col1,col2,col3"  >
             
                 <h:outputLabel value="#{messages.field_label_tbCURSOS_deSCCURSO}:" for="deSCCURSOEditInput" />
-                <p:inputText value="#{tbCURSOSBean.tbCURSOS.deSCCURSO}" id="deSCCURSOEditInput" 
-                    label="#{messages.field_label_tbCURSOS_deSCCURSO}" />
+                <p:inputText value="#{tbCURSOSBean.tbCURSOS.deSCCURSO}" id="deSCCURSOEditInput"  />
                 <p:message for="deSCCURSOEditInput" display="icon" />
 
                 <h:outputLabel value="#{messages.field_label_tbCURSOS_idFORMACAO}:" for="idFORMACAOSelectInput" rendered="#{not hideIdFORMACAOSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdFORMACAOSelectInput}">
-                    <p:selectOneMenu value="#{tbCURSOSBean.tbCURSOS.idFORMACAO}"
+                    <p:selectOneMenu style="font-size:13px" value="#{tbCURSOSBean.tbCURSOS.idFORMACAO}"
                                     id="idFORMACAOSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItem noSelectionOption="true" itemLabel="Selecione uma formação..." />
                         <f:selectItems value="#{tbCURSOSBean.idFORMACAOs}" 
                                     var="tbFORMACAO" 
                                     itemLabel="#{tbFORMACAO.deSCFORMACAO}"
@@ -30,7 +29,7 @@
                 </h:panelGroup>
                 <h:panelGroup rendered="#{not hideIdFORMACAOSelectInput}">
                 
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                    <p:commandButton value="#{messages.label_create} Nova formação"
                               action="#{tbFORMACAOBean.prepareNewTbFORMACAO()}"
                               update=":createIdFORMACAOFromEditDialog"
                               resetValues="true"
@@ -44,5 +43,4 @@
                 
             </p:panelGrid>
 
-        </p:outputPanel>
 </html>

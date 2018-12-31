@@ -12,35 +12,24 @@
 
     <h:form prependId="false" id="tbVICEPRESIDENCIADataForm" onkeypress="if (event.keyCode == 13) {return false; }">
 
-        <p:dataTable id="tbVICEPRESIDENCIATable" value="#{tbVICEPRESIDENCIABean.tbVICEPRESIDENCIAList}" var="tbVICEPRESIDENCIA" resizableColumns="true" paginator="true"
-                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
-                paginatorPosition="bottom" widgetVar="tbVICEPRESIDENCIATable" emptyMessage="#{messages.label_no_records_found}"
+        <p:dataTable id="tbVICEPRESIDENCIATable" value="#{tbVICEPRESIDENCIABean.tbVICEPRESIDENCIAList}" var="tbVICEPRESIDENCIA" resizableColumns="true"
+			 widgetVar="tbVICEPRESIDENCIATable" emptyMessage="#{messages.label_no_records_found}"
                 reflow="true">
         
-          <f:facet name="header" >
+  
 
-              <p:commandButton value="#{messages.create_new_tbVICEPRESIDENCIA}" icon="ui-icon-plusthick" action="#{tbVICEPRESIDENCIABean.prepareNewTbVICEPRESIDENCIA()}"
-                      resetValues="true" update=":editTbVICEPRESIDENCIADialog" oncomplete="PF('editTbVICEPRESIDENCIADialogWidget').show()"
-                      rendered="#{tbVICEPRESIDENCIABean.isPermitted('tbVICEPRESIDENCIA:create')}" style="float:left" />
-              
-              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
-              <p:columnToggler datasource="tbVICEPRESIDENCIATable" trigger="toggler" />
-          </f:facet>
-          
-          <p:column  headerText="#{messages.field_label_tbVICEPRESIDENCIA_deSCVP}" sortBy="#{tbVICEPRESIDENCIA.deSCVP}" filterBy="#{tbVICEPRESIDENCIA.deSCVP}">
-            <f:facet name="filter">
-                <p:inputText id="deSCVPFilter"
-                        onkeypress="if (event.keyCode == 13) {PF('tbVICEPRESIDENCIATable').filter(); updateDeSCVPFilter(); return false; }" >
-                    <p:remoteCommand name="updateDeSCVPFilter" update="tbVICEPRESIDENCIATable:deSCVPFilter" />
-                </p:inputText>
-            </f:facet>
+             
+        
+  
+          <p:column style="width:40%;text-align:center;font-size:14px;color:white;font-weight:bold;" 
+					headerText="#{messages.field_label_tbVICEPRESIDENCIA_deSCVP}">
             <h:outputText value="#{tbVICEPRESIDENCIA.deSCVP}" />
           </p:column>
 
-          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+          	<p:column headerText="Ações" style="background:#410D34;width:100%"
+					exportable="false">
             
-            <p:commandButton icon="ui-icon-zoomin" update=":viewTbVICEPRESIDENCIADialog" oncomplete="PF('viewTbVICEPRESIDENCIADialogWidget').show()" title="#{messages.label_view}">
+            <p:commandButton  update=":viewTbVICEPRESIDENCIADialog" oncomplete="PF('viewTbVICEPRESIDENCIADialogWidget').show()" title="#{messages.label_view}">
               <f:setPropertyActionListener value="#{tbVICEPRESIDENCIA}" target="#{tbVICEPRESIDENCIABean.tbVICEPRESIDENCIA}" />
             </p:commandButton>
 
@@ -60,46 +49,17 @@
     
           </p:column>
           
+                  <f:facet name="footer" >
+                   <p:commandButton
+                   style="width:29.5%"
+                    value="#{messages.create_new_tbVICEPRESIDENCIA}"  action="#{tbVICEPRESIDENCIABean.prepareNewTbVICEPRESIDENCIA()}"
+                      resetValues="true" update=":editTbVICEPRESIDENCIADialog" oncomplete="PF('editTbVICEPRESIDENCIADialogWidget').show()"
+                      rendered="#{tbVICEPRESIDENCIABean.isPermitted('tbVICEPRESIDENCIA:create')}"/>
+                  </f:facet>
+          
         </p:dataTable>
         
-        <h:panelGrid columns="2">
-            <p:panel header="#{messages.export_all_data}">
-
-                <h:commandLink>
-                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
-                    <p:dataExporter type="xls" target="tbVICEPRESIDENCIATable" fileName="TbVICEPRESIDENCIAs"/>
-                </h:commandLink>
-
-                <h:commandLink>
-                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
-                    <p:dataExporter type="pdf" target="tbVICEPRESIDENCIATable" fileName="TbVICEPRESIDENCIAs"/>
-                </h:commandLink>
-                
-                <h:commandLink>
-                    <h:graphicImage name="images/csv.png" alt="CSV" />
-                    <p:dataExporter type="csv" target="tbVICEPRESIDENCIATable" fileName="TbVICEPRESIDENCIAs" />
-                </h:commandLink>
-
-            </p:panel>
-            
-            <p:panel header="#{messages.export_page_data}">
-                <h:commandLink>
-                    <h:graphicImage name="images/excel.png" alt="Excel|" />
-                    <p:dataExporter type="xls" target="tbVICEPRESIDENCIATable" fileName="TbVICEPRESIDENCIAs" pageOnly="true"/>
-                </h:commandLink>
-
-                <h:commandLink>
-                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
-                    <p:dataExporter type="pdf" target="tbVICEPRESIDENCIATable" fileName="TbVICEPRESIDENCIAs" pageOnly="true"/>
-                </h:commandLink>
-                
-                <h:commandLink>
-                    <h:graphicImage name="images/csv.png" alt="CSV" />
-                    <p:dataExporter type="csv" target="tbVICEPRESIDENCIATable" fileName="TbVICEPRESIDENCIAs" pageOnly="true"/>
-                </h:commandLink>
-                
-            </p:panel>
-        </h:panelGrid>
+     
         
     </h:form>
 
@@ -117,18 +77,19 @@
         </p:outputPanel>
     </p:confirmDialog>
     
-    <p:dialog dynamic="true" id="editTbVICEPRESIDENCIADialog" header="#{messages.label_tbVICEPRESIDENCIA_caption}"
-            modal="true" widgetVar="editTbVICEPRESIDENCIADialogWidget" maximizable="true">
+    <p:dialog dynamic="true" id="editTbVICEPRESIDENCIADialog" header="#{tbVICEPRESIDENCIABean.dialogHeader}"
+    		showEffect="explode" hideEffect="bounce" responsive="true" resizable="false"
+            modal="true" widgetVar="editTbVICEPRESIDENCIADialogWidget" maximizable="false">
         <p:ajax event="close" listener="#{tbVICEPRESIDENCIABean.reset}"/>
         <h:form id="editTbVICEPRESIDENCIAForm" >
             <p:outputPanel id="tbVICEPRESIDENCIAEditPanel">
                 <ui:include src="/pages/tbVICEPRESIDENCIA/tbVICEPRESIDENCIAEditInclude.xhtml"/>
                 <div style="text-align: center; margin:10px">
                     <p:commandButton value="#{messages.label_save}"
-                            icon="ui-icon-disk" action="#{tbVICEPRESIDENCIABean.persist}"
+                           action="#{tbVICEPRESIDENCIABean.persist}"
                             update=":editTbVICEPRESIDENCIAForm:tbVICEPRESIDENCIAEditPanel :tbVICEPRESIDENCIADataForm :growlForm:growl"
                             oncomplete="if(!args.validationFailed) PF('editTbVICEPRESIDENCIADialogWidget').hide()" />
-                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbVICEPRESIDENCIADialogWidget').hide()" type="button" />
+                
                 </div>
             </p:outputPanel>
         </h:form>
@@ -138,9 +99,7 @@
         <p:ajax event="close" listener="#{tbVICEPRESIDENCIABean.reset}" />
         <h:form id="viewTbVICEPRESIDENCIAForm">
           <ui:include src="/pages/tbVICEPRESIDENCIA/tbVICEPRESIDENCIAViewInclude.xhtml"/>
-          <div style="text-align: center; margin:10px">
-              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbVICEPRESIDENCIADialogWidget').hide()" type="button" />
-          </div>
+
         </h:form>
     </p:dialog>
     

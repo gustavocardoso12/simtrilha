@@ -30,14 +30,33 @@ public class TbFORMACAOBean implements Serializable {
 
     private TbFORMACAOEntity tbFORMACAO;
     
+    
     @Inject
     private TbFORMACAOService tbFORMACAOService;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar formação");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar formação");
+    }
+    
+    
     public void prepareNewTbFORMACAO() {
         reset();
+        changeHeaderCadastrar();
         this.tbFORMACAO = new TbFORMACAOEntity();
-        // set any default values now, if you need
-        // Example: this.tbFORMACAO.setAnything("test");
     }
 
     public String persist() {
@@ -104,6 +123,7 @@ public class TbFORMACAOBean implements Serializable {
     
     public void onDialogOpen(TbFORMACAOEntity tbFORMACAO) {
         reset();
+        changeHeaderEditar();
         this.tbFORMACAO = tbFORMACAO;
     }
     

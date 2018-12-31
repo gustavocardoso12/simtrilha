@@ -6,14 +6,18 @@
       xmlns:p="http://primefaces.org/ui">
 <ui:composition>
   <h:form>
-  <p:menu>
-    <p:submenu label="#{messages.menu_pages}">
+  <p:menu toggleable="true">
+      <p:submenu label ="#{messages.menu_customizacao}">
+      <p:menuitem value="#{messages.menu_Formacao}" url="/pages/tbFORMACAO/tbFORMACAO.xhtml"  ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_Cursos}" url="/pages/tbCURSOS/tbCURSOS.xhtml"  ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbVICEPRESIDENCIAs}" url="/pages/tbVICEPRESIDENCIA/tbVICEPRESIDENCIA.xhtml" ajax="false" async="false" />
+      </p:submenu>
+   </p:menu>
+   
+   <!--     
+     
       
-      <p:menuitem value="#{messages.menu_tbFORMACAOs}" url="/pages/tbFORMACAO/tbFORMACAO.xhtml" icon="icon-entity" ajax="false" async="false" />
-      
-      <p:menuitem value="#{messages.menu_tbCURSOSs}" url="/pages/tbCURSOS/tbCURSOS.xhtml" icon="icon-entity" ajax="false" async="false" />
-      
-      <p:menuitem value="#{messages.menu_tbVICEPRESIDENCIAs}" url="/pages/tbVICEPRESIDENCIA/tbVICEPRESIDENCIA.xhtml" icon="icon-entity" ajax="false" async="false" />
+
       
       <p:menuitem value="#{messages.menu_tbDIRETORIAs}" url="/pages/tbDIRETORIA/tbDIRETORIA.xhtml" icon="icon-entity" ajax="false" async="false" />
       
@@ -53,13 +57,12 @@
       
       <p:menuitem value="#{messages.menu_tbHABILIDADESCULTCARGOSs}" url="/pages/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-    </p:submenu>
     
     <p:submenu label="#{messages.menu_admin}" rendered="#{p:ifGranted('Administrator')}">
       <p:menuitem value="#{messages.menu_user_management}" url="/pages/admin/user.xhtml" icon="ui-icon-person" ajax="false" async="false"/>
     </p:submenu>
-    
-  </p:menu>
+    --> 
+ 
   </h:form>
 </ui:composition>
 </html>

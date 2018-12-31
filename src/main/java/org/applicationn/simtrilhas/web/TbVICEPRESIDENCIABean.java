@@ -33,8 +33,27 @@ public class TbVICEPRESIDENCIABean implements Serializable {
     @Inject
     private TbVICEPRESIDENCIAService tbVICEPRESIDENCIAService;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Vice presidência");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Vice presidência");
+    }
+    
     public void prepareNewTbVICEPRESIDENCIA() {
         reset();
+        changeHeaderCadastrar();
         this.tbVICEPRESIDENCIA = new TbVICEPRESIDENCIAEntity();
         // set any default values now, if you need
         // Example: this.tbVICEPRESIDENCIA.setAnything("test");
@@ -104,6 +123,7 @@ public class TbVICEPRESIDENCIABean implements Serializable {
     
     public void onDialogOpen(TbVICEPRESIDENCIAEntity tbVICEPRESIDENCIA) {
         reset();
+        changeHeaderEditar();
         this.tbVICEPRESIDENCIA = tbVICEPRESIDENCIA;
     }
     

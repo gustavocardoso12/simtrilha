@@ -13,19 +13,19 @@
     
     <h:panelGrid columns="2" styleClass="dialog" columnClasses="col1,col2" rendered="#{tbFORMACAOBean.isPermitted(tbFORMACAOBean.tbFORMACAO, 'tbFORMACAO:read')}">
         
-        <h:outputText value="#{messages.field_label_tbFORMACAO_deSCFORMACAO}:" />
+        <h:outputText  value="#{messages.field_label_tbFORMACAO_deSCFORMACAO}:" />
         <h:outputText value="#{tbFORMACAOBean.tbFORMACAO.deSCFORMACAO}" />
 
         <h:outputText value="#{messages.audit_created}:" />
         <h:panelGroup>
             <h:outputText value="#{tbFORMACAOBean.tbFORMACAO.createdAt}"><f:convertDateTime type="both" /></h:outputText>
-            <h:outputText value=", #{tbFORMACAOBean.tbFORMACAO.createdBy}"/>
+    
         </h:panelGroup>
         
         <h:outputText value="#{messages.audit_modified}:" />
         <h:panelGroup>
             <h:outputText value="#{tbFORMACAOBean.tbFORMACAO.modifiedAt}"><f:convertDateTime type="both" /></h:outputText>
-            <h:outputText value=", #{tbFORMACAOBean.tbFORMACAO.modifiedBy}"/>
+      
         </h:panelGroup>
         
     </h:panelGrid>

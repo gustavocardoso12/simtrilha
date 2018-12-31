@@ -37,7 +37,7 @@ public class LocaleBean implements Serializable {
         Iterator<Locale> supportedLocales = FacesContext.getCurrentInstance().getApplication().getSupportedLocales();
         while (supportedLocales.hasNext()) {
             Locale supportedLocale = supportedLocales.next();
-            items.add(new SelectItem(supportedLocale.toString(), supportedLocale.getDisplayName(supportedLocale)));
+            items.add(new SelectItem(supportedLocale.toString(), supportedLocale.getDisplayName(supportedLocale).replace("p","P")));
         }
         return items.toArray(new SelectItem[] {});
     }

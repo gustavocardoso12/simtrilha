@@ -40,8 +40,28 @@ public class TbCURSOSBean implements Serializable {
     
     private List<TbFORMACAOEntity> allIdFORMACAOsList;
     
+    
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar curso");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar curso");
+    }
+    
     public void prepareNewTbCURSOS() {
         reset();
+        changeHeaderCadastrar();
         this.tbCURSOS = new TbCURSOSEntity();
         // set any default values now, if you need
         // Example: this.tbCURSOS.setAnything("test");
@@ -111,6 +131,7 @@ public class TbCURSOSBean implements Serializable {
     
     public void onDialogOpen(TbCURSOSEntity tbCURSOS) {
         reset();
+        changeHeaderEditar();
         this.tbCURSOS = tbCURSOS;
     }
     

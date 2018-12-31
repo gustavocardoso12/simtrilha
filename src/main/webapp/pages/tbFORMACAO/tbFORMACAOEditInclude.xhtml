@@ -7,16 +7,15 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:o="http://omnifaces.org/ui">
 
-        <p:outputPanel styleClass="ui-fluid">
+     
 
-            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+            <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
             
-                <h:outputLabel value="#{messages.field_label_tbFORMACAO_deSCFORMACAO}:" for="deSCFORMACAOEditInput" />
-                <p:inputText value="#{tbFORMACAOBean.tbFORMACAO.deSCFORMACAO}" id="deSCFORMACAOEditInput" 
-                    label="#{messages.field_label_tbFORMACAO_deSCFORMACAO}" />
+                <h:outputText  value="#{messages.field_label_tbFORMACAO_deSCFORMACAO}:" for="deSCFORMACAOEditInput" />
+                <p:inputText style="width:200px" value="#{tbFORMACAOBean.tbFORMACAO.deSCFORMACAO}" id="deSCFORMACAOEditInput"  />
                 <p:message for="deSCFORMACAOEditInput" display="icon" />
 
             </p:panelGrid>
 
-        </p:outputPanel>
+       
 </html>
