@@ -18,11 +18,8 @@
        
        <p:pickList id="tbCARGOSTbHABILIDADESCULTCARGOSsPickList" var="tbHABILIDADESCULTCARGOS" itemLabel="#{tbHABILIDADESCULTCARGOS.id}"
                    value="#{tbCARGOSBean.tbHABILIDADESCULTCARGOSs}" itemValue="#{tbHABILIDADESCULTCARGOS}"
-                   showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >
+                  showTargetFilter="true" >
            <o:converter converterId="omnifaces.ListConverter" list="#{tbCARGOSBean.fullTbHABILIDADESCULTCARGOSsList}"/>
-         <p:ajax event="transfer" listener="#{tbCARGOSBean.onTbHABILIDADESCULTCARGOSsPickListTransfer}" partialSubmit="true" process="@this" />
-         <f:facet name="sourceCaption"><h:outputText value="#{messages.label_picklist_available}" /></f:facet>
-         <f:facet name="targetCaption"><h:outputText value="#{messages.label_picklist_assigned}" /></f:facet>
        </p:pickList>
 </h:panelGrid>
 </html>

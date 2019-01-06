@@ -2,198 +2,207 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:o="http://omnifaces.org/ui">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 <ui:composition template="/templates/layout.xhtml">
-  <ui:define name="content">
+	<ui:define name="content">
 
-    <h:form prependId="false" id="tbCONHECIMENTOSESPECIFICOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+		<h:form prependId="false" id="tbCONHECIMENTOSESPECIFICOSDataForm"
+			onkeypress="if (event.keyCode == 13) {return false; }">
 
-        <p:dataTable id="tbCONHECIMENTOSESPECIFICOSTable" value="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOSList}" var="tbCONHECIMENTOSESPECIFICOS" resizableColumns="true" paginator="true"
-                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
-                paginatorPosition="bottom" widgetVar="tbCONHECIMENTOSESPECIFICOSTable" emptyMessage="#{messages.label_no_records_found}"
-                reflow="true">
-        
-          <f:facet name="header" >
+			<p:dataTable id="tbCONHECIMENTOSESPECIFICOSTable"
+				value="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOSList}"
+				var="tbCONHECIMENTOSESPECIFICOS" resizableColumns="true"
+				draggableColumns="true"
+				widgetVar="tbCONHECIMENTOSESPECIFICOSTable"
+				emptyMessage="#{messages.label_no_records_found}" reflow="true">
 
-              <p:commandButton value="#{messages.create_new_tbCONHECIMENTOSESPECIFICOS}" icon="ui-icon-plusthick" action="#{tbCONHECIMENTOSESPECIFICOSBean.prepareNewTbCONHECIMENTOSESPECIFICOS()}"
-                      resetValues="true" update=":editTbCONHECIMENTOSESPECIFICOSDialog" oncomplete="PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"
-                      rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted('tbCONHECIMENTOSESPECIFICOS:create')}" style="float:left" />
-              
-              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
-              <p:columnToggler datasource="tbCONHECIMENTOSESPECIFICOSTable" trigger="toggler" />
-          </f:facet>
-          
-          <p:column  headerText="#{messages.field_label_tbCONHECIMENTOSESPECIFICOS_deSCCONHECIMENTOSESPECIFICOS}" sortBy="#{tbCONHECIMENTOSESPECIFICOS.deSCCONHECIMENTOSESPECIFICOS}" filterBy="#{tbCONHECIMENTOSESPECIFICOS.deSCCONHECIMENTOSESPECIFICOS}">
-            <f:facet name="filter">
-                <p:inputText id="deSCCONHECIMENTOSESPECIFICOSFilter"
-                        onkeypress="if (event.keyCode == 13) {PF('tbCONHECIMENTOSESPECIFICOSTable').filter(); updateDeSCCONHECIMENTOSESPECIFICOSFilter(); return false; }" >
-                    <p:remoteCommand name="updateDeSCCONHECIMENTOSESPECIFICOSFilter" update="tbCONHECIMENTOSESPECIFICOSTable:deSCCONHECIMENTOSESPECIFICOSFilter" />
-                </p:inputText>
-            </f:facet>
-            <h:outputText value="#{tbCONHECIMENTOSESPECIFICOS.deSCCONHECIMENTOSESPECIFICOS}" />
-          </p:column>
 
-          <p:column headerText="#{messages.field_label_tbCONHECIMENTOSESPECIFICOS_tbCONHECIMENTOSESPCARGOS_plural}" styleClass="action-column" exportable="false">
-            
-            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_tbCONHECIMENTOSESPECIFICOS_tbCONHECIMENTOSESPCARGOS_plural}" action="#{tbCONHECIMENTOSESPECIFICOSBean.onTbCONHECIMENTOSESPCARGOSsDialog(tbCONHECIMENTOSESPECIFICOS)}" oncomplete="PF('tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialogWidget').show()" update=":tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialog"/>
-            
-          </p:column>
-          
-          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
-            
-            <p:commandButton icon="ui-icon-zoomin" update=":viewTbCONHECIMENTOSESPECIFICOSDialog" oncomplete="PF('viewTbCONHECIMENTOSESPECIFICOSDialogWidget').show()" title="#{messages.label_view}">
-              <f:setPropertyActionListener value="#{tbCONHECIMENTOSESPECIFICOS}" target="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS}" />
-            </p:commandButton>
+				<p:column
+					style="width:45%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					headerText="#{messages.field_label_tbCONHECIMENTOSESPECIFICOS_deSCCONHECIMENTOSESPECIFICOS}">
+					<h:outputText
+						value="#{tbCONHECIMENTOSESPECIFICOS.deSCCONHECIMENTOSESPECIFICOS}" />
+				</p:column>
 
-            <p:commandButton icon="ui-icon-pencil" update=":editTbCONHECIMENTOSESPECIFICOSDialog"
-                resetValues="true" rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:update')}"
-                action="#{tbCONHECIMENTOSESPECIFICOSBean.onDialogOpen(tbCONHECIMENTOSESPECIFICOS)}"
-                oncomplete="PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"
-                title="#{messages.label_edit}" >
-            </p:commandButton>
+				<!--  p:column
+					headerText="#{messages.field_label_tbCONHECIMENTOSESPECIFICOS_tbCONHECIMENTOSESPCARGOS_plural}"
+					styleClass="action-column" exportable="false">
 
-            <p:commandButton icon="ui-icon-close" rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:delete')}"
-                oncomplete="PF('deleteTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"
-                title="#{messages.label_delete}" >
-                <f:setPropertyActionListener value="#{tbCONHECIMENTOSESPECIFICOS}"
-                    target="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS}" />
-            </p:commandButton>
-    
-          </p:column>
-          
-        </p:dataTable>
-        
-        <h:panelGrid columns="2">
-            <p:panel header="#{messages.export_all_data}">
+					<p:commandButton icon="ui-icon-transfer-e-w"
+						title="#{messages.field_label_tbCONHECIMENTOSESPECIFICOS_tbCONHECIMENTOSESPCARGOS_plural}"
+						action="#{tbCONHECIMENTOSESPECIFICOSBean.onTbCONHECIMENTOSESPCARGOSsDialog(tbCONHECIMENTOSESPECIFICOS)}"
+						oncomplete="PF('tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialogWidget').show()"
+						update=":tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialog" />
 
-                <h:commandLink>
-                    <h:graphicImage  name="images/excel.png" alt="Excel|" />
-                    <p:dataExporter type="xls" target="tbCONHECIMENTOSESPECIFICOSTable" fileName="TbCONHECIMENTOSESPECIFICOSs"/>
-                </h:commandLink>
+				</p:column>-->
 
-                <h:commandLink>
-                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
-                    <p:dataExporter type="pdf" target="tbCONHECIMENTOSESPECIFICOSTable" fileName="TbCONHECIMENTOSESPECIFICOSs"/>
-                </h:commandLink>
-                
-                <h:commandLink>
-                    <h:graphicImage name="images/csv.png" alt="CSV" />
-                    <p:dataExporter type="csv" target="tbCONHECIMENTOSESPECIFICOSTable" fileName="TbCONHECIMENTOSESPECIFICOSs" />
-                </h:commandLink>
+				<p:column headerText="Ações"
+					style="background:#410D34;width:100%;font-size:14px;font-weight:bold;"
+					exportable="false">
 
-            </p:panel>
-            
-            <p:panel header="#{messages.export_page_data}">
-                <h:commandLink>
-                    <h:graphicImage name="images/excel.png" alt="Excel|" />
-                    <p:dataExporter type="xls" target="tbCONHECIMENTOSESPECIFICOSTable" fileName="TbCONHECIMENTOSESPECIFICOSs" pageOnly="true"/>
-                </h:commandLink>
+					<p:commandButton 
+						update=":viewTbCONHECIMENTOSESPECIFICOSDialog"
+						style="background:#ED6D09;width:33%;font-size:12px"
+						oncomplete="PF('viewTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"
+						value="#{messages.AuditoriaDescricao}">
+						<f:setPropertyActionListener value="#{tbCONHECIMENTOSESPECIFICOS}"
+							target="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS}" />
+					</p:commandButton>
 
-                <h:commandLink>
-                    <h:graphicImage name="images/pdf.png" alt="PDF|" />
-                    <p:dataExporter type="pdf" target="tbCONHECIMENTOSESPECIFICOSTable" fileName="TbCONHECIMENTOSESPECIFICOSs" pageOnly="true"/>
-                </h:commandLink>
-                
-                <h:commandLink>
-                    <h:graphicImage name="images/csv.png" alt="CSV" />
-                    <p:dataExporter type="csv" target="tbCONHECIMENTOSESPECIFICOSTable" fileName="TbCONHECIMENTOSESPECIFICOSs" pageOnly="true"/>
-                </h:commandLink>
-                
-            </p:panel>
-        </h:panelGrid>
-        
-    </h:form>
+					<p:commandButton 
+						update=":editTbCONHECIMENTOSESPECIFICOSDialog" resetValues="true"
+						style="background:#ED6D09;width:33%;font-size:12px"
+						rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:update')}"
+						action="#{tbCONHECIMENTOSESPECIFICOSBean.onDialogOpen(tbCONHECIMENTOSESPECIFICOS)}"
+						oncomplete="PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"
+						value="#{messages.EditarConhecimentosEsp}">
+					</p:commandButton>
 
-    <p:confirmDialog id="deleteTbCONHECIMENTOSESPECIFICOSDialog" widgetVar="deleteTbCONHECIMENTOSESPECIFICOSDialogWidget"
-        rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:delete')}" header="#{messages.label_confirm_deletion}"
-        severity="alarm">
-        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
-        <p:outputPanel>
-          <h:form>
-            <div style="text-align: center; margin:10px">
-              <p:commandButton value="#{messages.label_yes}" action="#{tbCONHECIMENTOSESPECIFICOSBean.delete}" update=":tbCONHECIMENTOSESPECIFICOSDataForm :growlForm:growl" oncomplete="PF('deleteTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" />
-              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" type="button" />
-            </div>
-          </h:form>
-        </p:outputPanel>
-    </p:confirmDialog>
-    
-    <p:dialog dynamic="true" id="editTbCONHECIMENTOSESPECIFICOSDialog" header="#{messages.label_tbCONHECIMENTOSESPECIFICOS_caption}"
-            modal="true" widgetVar="editTbCONHECIMENTOSESPECIFICOSDialogWidget" maximizable="true">
-        <p:ajax event="close" listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}"/>
-        <h:form id="editTbCONHECIMENTOSESPECIFICOSForm" >
-            <p:outputPanel id="tbCONHECIMENTOSESPECIFICOSEditPanel">
-                <ui:include src="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOSEditInclude.xhtml"/>
-                <div style="text-align: center; margin:10px">
-                    <p:commandButton value="#{messages.label_save}"
-                            icon="ui-icon-disk" action="#{tbCONHECIMENTOSESPECIFICOSBean.persist}"
-                            update=":editTbCONHECIMENTOSESPECIFICOSForm:tbCONHECIMENTOSESPECIFICOSEditPanel :tbCONHECIMENTOSESPECIFICOSDataForm :growlForm:growl"
-                            oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" />
-                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" type="button" />
-                </div>
-            </p:outputPanel>
-        </h:form>
-    </p:dialog>
-    
-    <p:dialog dynamic="true" id="viewTbCONHECIMENTOSESPECIFICOSDialog" header="#{messages.label_tbCONHECIMENTOSESPECIFICOS_caption}" modal="true" widgetVar="viewTbCONHECIMENTOSESPECIFICOSDialogWidget" maximizable="true">
-        <p:ajax event="close" listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}" />
-        <h:form id="viewTbCONHECIMENTOSESPECIFICOSForm">
-          <ui:include src="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOSViewInclude.xhtml"/>
-          <div style="text-align: center; margin:10px">
-              <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" type="button" />
-          </div>
-        </h:form>
-    </p:dialog>
-    
-    <p:dialog dynamic="true" id="tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialog" header="#{messages.dialog_header_tbCONHECIMENTOSESPECIFICOS_tbCONHECIMENTOSESPCARGOS_plural}" modal="true" widgetVar="tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialogWidget" maximizable="true">
-        <p:ajax event="close" listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}" />
-        <p:outputPanel id="tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsPanel">
-            <h:form id="tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsForm">
-                <ui:include src="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSInclude.xhtml" />
-                <div style="text-align: center; margin:10px">
-                    <p:commandButton value="#{messages.label_save}"
-                        icon="ui-icon-disk"
-                        action="#{tbCONHECIMENTOSESPECIFICOSBean.onTbCONHECIMENTOSESPCARGOSsSubmit}"
-                        update=":growlForm:growl"
-                        oncomplete="if(!args.validationFailed) PF('tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialogWidget').hide()"
-                        rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:update')}"
-                        partialSubmit="true" process="@this" />
-                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialogWidget').hide()" type="button" />
-                </div>
-            </h:form>
-        </p:outputPanel>
-    </p:dialog>
-    
-    <p:dialog dynamic="true" id="createTbCONHECIMENTOSESPCARGOSDialog"
-        header="#{messages.dialog_tbCONHECIMENTOSESPECIFICOS_create_tbCONHECIMENTOSESPCARGOS}" modal="true"
-        widgetVar="createTbCONHECIMENTOSESPCARGOSDialogWidget" maximizable="true">
-        <p:ajax event="close" listener="#{tbCONHECIMENTOSESPCARGOSBean.reset}" />
-        <p:outputPanel id="createTbCONHECIMENTOSESPCARGOSPanel">
-                <h:form id="createTbCONHECIMENTOSESPCARGOSForm">
-                    <ui:include src="/pages/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOSEditInclude.xhtml">
-                        <ui:param name="hideIdCONHECESPSelectInput" value="true" />
-                    </ui:include>
-                    <div style="text-align: center; margin: 10px">
-                        <p:commandButton
-                            action="#{tbCONHECIMENTOSESPECIFICOSBean.updateTbCONHECIMENTOSESPCARGOS(tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS)}"
-                            value="#{messages.label_save}" icon="ui-icon-disk"
-                            actionListener="#{tbCONHECIMENTOSESPCARGOSBean.persist}"
-                            update=":tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsPanel :createTbCONHECIMENTOSESPCARGOSPanel :growlForm:growl"
-                            oncomplete="if(!args.validationFailed) PF('createTbCONHECIMENTOSESPCARGOSDialogWidget').hide()" />
-                        <p:commandButton value="#{messages.label_close}"
-                            icon="ui-icon-close"
-                            onclick="PF('createTbCONHECIMENTOSESPCARGOSDialogWidget').hide()"
-                            type="button" />
-                    </div>
-                </h:form>
-            </p:outputPanel>
-    </p:dialog>
-    
-  </ui:define>
+					<p:commandButton
+						rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:delete')}"
+						style="background:#ED6D09;width:33%;font-size:12px"
+						oncomplete="PF('deleteTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"
+						value="#{messages.ExcluirConhecimentosEsp}">
+						<f:setPropertyActionListener value="#{tbCONHECIMENTOSESPECIFICOS}"
+							target="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS}" />
+					</p:commandButton>
+
+				</p:column>
+				<f:facet name="footer">
+
+					<p:commandButton
+						value="#{messages.CadastrarConhecimentosEspecificos}"
+						action="#{tbCONHECIMENTOSESPECIFICOSBean.prepareNewTbCONHECIMENTOSESPECIFICOS()}"
+						resetValues="true" update=":editTbCONHECIMENTOSESPECIFICOSDialog"
+						oncomplete="PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"
+						rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted('tbCONHECIMENTOSESPECIFICOS:create')}"
+						style="width:29.5%" />
+						</f:facet>
+			</p:dataTable>
+
+
+		</h:form>
+
+		<p:confirmDialog id="deleteTbCONHECIMENTOSESPECIFICOSDialog"
+			widgetVar="deleteTbCONHECIMENTOSESPECIFICOSDialogWidget"
+			showEffect="explode" hideEffect="fade"
+			rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:delete')}"
+			header="#{messages.label_confirm_deletion}" severity="alarm">
+			<f:facet name="message">
+				<h:outputText value="#{messages.label_delete_record}" escape="false" />
+			</f:facet>
+			<p:outputPanel>
+				<h:form>
+					<p:panelGrid columns="2" style="margin:auto">
+						<p:commandButton value="#{messages.label_yes}"
+							action="#{tbCONHECIMENTOSESPECIFICOSBean.delete}"
+							update=":tbCONHECIMENTOSESPECIFICOSDataForm :growlForm:growl"
+							oncomplete="PF('deleteTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_no}"
+							onclick="PF('deleteTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()"
+							type="button" />
+					</p:panelGrid>
+				</h:form>
+			</p:outputPanel>
+		</p:confirmDialog>
+
+		<p:dialog dynamic="true" id="editTbCONHECIMENTOSESPECIFICOSDialog"
+			header="#{tbCONHECIMENTOSESPECIFICOSBean.dialogHeader}"
+			showEffect="explode"
+			hideEffect="bounce" responsive="true" resizable="false"
+			modal="true" widgetVar="editTbCONHECIMENTOSESPECIFICOSDialogWidget"
+			maximizable="false">
+			<p:ajax event="close"
+				listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}" />
+			<h:form id="editTbCONHECIMENTOSESPECIFICOSForm">
+				<p:outputPanel id="tbCONHECIMENTOSESPECIFICOSEditPanel">
+					<ui:include
+						src="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOSEditInclude.xhtml" />
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton value="#{messages.label_save}"
+							action="#{tbCONHECIMENTOSESPECIFICOSBean.persist}"
+							update=":editTbCONHECIMENTOSESPECIFICOSForm:tbCONHECIMENTOSESPECIFICOSEditPanel :tbCONHECIMENTOSESPECIFICOSDataForm :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" />
+					</div>
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog dynamic="true" id="viewTbCONHECIMENTOSESPECIFICOSDialog"
+			header="#{messages.VisualizarRegistro}"
+			showEffect="explode"
+			hideEffect="bounce" responsive="true" resizable="false"
+			modal="true" widgetVar="viewTbCONHECIMENTOSESPECIFICOSDialogWidget"
+			maximizable="false">
+			<p:ajax event="close"
+				listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}" />
+			<h:form id="viewTbCONHECIMENTOSESPECIFICOSForm">
+				<ui:include
+					src="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOSViewInclude.xhtml" />
+			</h:form>
+		</p:dialog>
+
+	<!-- 	<p:dialog dynamic="true"
+			id="tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialog"
+			header="#{messages.dialog_header_tbCONHECIMENTOSESPECIFICOS_tbCONHECIMENTOSESPCARGOS_plural}"
+			modal="true"
+			widgetVar="tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialogWidget"
+			maximizable="true">
+			<p:ajax event="close"
+				listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}" />
+			<p:outputPanel
+				id="tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsPanel">
+				<h:form id="tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsForm">
+					<ui:include
+						src="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSInclude.xhtml" />
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton value="#{messages.label_save}"
+							icon="ui-icon-disk"
+							action="#{tbCONHECIMENTOSESPECIFICOSBean.onTbCONHECIMENTOSESPCARGOSsSubmit}"
+							update=":growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialogWidget').hide()"
+							rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:update')}"
+							partialSubmit="true" process="@this" />
+						<p:commandButton value="#{messages.label_close}"
+							icon="ui-icon-close"
+							onclick="PF('tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsDialogWidget').hide()"
+							type="button" />
+					</div>
+				</h:form>
+			</p:outputPanel>
+		</p:dialog>
+
+		<p:dialog dynamic="true" id="createTbCONHECIMENTOSESPCARGOSDialog"
+			header="#{messages.dialog_tbCONHECIMENTOSESPECIFICOS_create_tbCONHECIMENTOSESPCARGOS}"
+			modal="true" widgetVar="createTbCONHECIMENTOSESPCARGOSDialogWidget"
+			maximizable="true">
+			<p:ajax event="close"
+				listener="#{tbCONHECIMENTOSESPCARGOSBean.reset}" />
+			<p:outputPanel id="createTbCONHECIMENTOSESPCARGOSPanel">
+				<h:form id="createTbCONHECIMENTOSESPCARGOSForm">
+					<ui:include
+						src="/pages/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOSEditInclude.xhtml">
+						<ui:param name="hideIdCONHECESPSelectInput" value="true" />
+					</ui:include>
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton
+							action="#{tbCONHECIMENTOSESPECIFICOSBean.updateTbCONHECIMENTOSESPCARGOS(tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS)}"
+							value="#{messages.label_save}" icon="ui-icon-disk"
+							actionListener="#{tbCONHECIMENTOSESPCARGOSBean.persist}"
+							update=":tbCONHECIMENTOSESPECIFICOSTbCONHECIMENTOSESPCARGOSsPanel :createTbCONHECIMENTOSESPCARGOSPanel :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('createTbCONHECIMENTOSESPCARGOSDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_close}"
+							icon="ui-icon-close"
+							onclick="PF('createTbCONHECIMENTOSESPCARGOSDialogWidget').hide()"
+							type="button" />
+					</div>
+				</h:form>
+			</p:outputPanel>
+		</p:dialog> -->
+
+	</ui:define>
 </ui:composition>
 </html>

@@ -45,8 +45,28 @@ public class TbESTILOPENSAMENTOBean implements Serializable {
     private List<String> transferedTbESTILOPENSAMENTOCARGOSIDs;
     private List<String> removedTbESTILOPENSAMENTOCARGOSIDs;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Competências");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Competências");
+    }
+    
+    
     public void prepareNewTbESTILOPENSAMENTO() {
         reset();
+        changeHeaderCadastrar();
         this.tbESTILOPENSAMENTO = new TbESTILOPENSAMENTOEntity();
         // set any default values now, if you need
         // Example: this.tbESTILOPENSAMENTO.setAnything("test");
@@ -116,6 +136,7 @@ public class TbESTILOPENSAMENTOBean implements Serializable {
     
     public void onDialogOpen(TbESTILOPENSAMENTOEntity tbESTILOPENSAMENTO) {
         reset();
+        changeHeaderEditar();
         this.tbESTILOPENSAMENTO = tbESTILOPENSAMENTO;
     }
     

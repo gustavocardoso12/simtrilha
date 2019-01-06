@@ -25,6 +25,13 @@ public class TbDIRETORIAService extends BaseService<TbDIRETORIAEntity> implement
         return entityManager.createQuery("SELECT o FROM TbDIRETORIA o ", TbDIRETORIAEntity.class).getResultList();
     }
     
+    @Transactional
+    public List<TbDIRETORIAEntity> findTbDIRETORIAVP(int idVP) {
+        Long n = (long) idVP;
+     	System.out.println(idVP);
+        return entityManager.createQuery("SELECT o FROM TbDIRETORIA o WHERE o.idVP.id= :idVP ", TbDIRETORIAEntity.class).setMaxResults(1).setParameter("idVP", n).getResultList();
+    }
+    
     @Override
     @Transactional
     public long countAllEntries() {

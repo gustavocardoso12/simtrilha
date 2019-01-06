@@ -45,8 +45,27 @@ public class TbCONHECIMENTOSBASICOSBean implements Serializable {
     private List<String> transferedTbCONHECIMENTOSBASCARGOSIDs;
     private List<String> removedTbCONHECIMENTOSBASCARGOSIDs;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Conhecimentos Básicos");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Conhecimentos Básicos");
+    }
+    
     public void prepareNewTbCONHECIMENTOSBASICOS() {
         reset();
+        changeHeaderCadastrar();
         this.tbCONHECIMENTOSBASICOS = new TbCONHECIMENTOSBASICOSEntity();
         // set any default values now, if you need
         // Example: this.tbCONHECIMENTOSBASICOS.setAnything("test");
@@ -116,6 +135,7 @@ public class TbCONHECIMENTOSBASICOSBean implements Serializable {
     
     public void onDialogOpen(TbCONHECIMENTOSBASICOSEntity tbCONHECIMENTOSBASICOS) {
         reset();
+        changeHeaderEditar();
         this.tbCONHECIMENTOSBASICOS = tbCONHECIMENTOSBASICOS;
     }
     

@@ -9,32 +9,18 @@
 
         <p:outputPanel styleClass="ui-fluid">
 
-            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+             <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
             
-                <h:outputLabel value="#{messages.field_label_tbHABILIDADESCARGOS_idCARGOS}:" for="idCARGOSSelectInput" rendered="#{not hideIdCARGOSSelectInput}"/>
+                <h:outputLabel value="#{messages.field_label_tbHABILIDADESCULTCARGOS_idCARGOS}:" for="idCARGOSSelectInput" rendered="#{not hideIdCARGOSSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
                     <p:selectOneMenu value="#{tbHABILIDADESCARGOSBean.tbHABILIDADESCARGOS.idCARGOS}"
                                     id="idCARGOSSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
                         <f:selectItems value="#{tbHABILIDADESCARGOSBean.idCARGOSs}" 
                                     var="tbCARGOS" 
                                     itemLabel="#{tbCARGOS.deSCCARGO}"
                                     itemValue="#{tbCARGOS}" />
                         <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbHABILIDADESCARGOSBean.idCARGOSs}" />
                     </p:selectOneMenu>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
-                
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbCARGOSBean.prepareNewTbCARGOS()}"
-                              update=":createIdCARGOSFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdCARGOSFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdCARGOSFromEditDialog')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idCARGOSSelectInput" display="icon" rendered="#{not hideIdCARGOSSelectInput}"/>
                 </h:panelGroup>
                 
                 <h:outputLabel value="#{messages.field_label_tbHABILIDADESCARGOS_idHABCARGOS}:" for="idHABCARGOSSelectInput" rendered="#{not hideIdHABCARGOSSelectInput}"/>
@@ -48,19 +34,6 @@
                                     itemValue="#{tbHABILIDADES}" />
                         <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbHABILIDADESCARGOSBean.idHABCARGOSs}" />
                     </p:selectOneMenu>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdHABCARGOSSelectInput}">
-                
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbHABILIDADESBean.prepareNewTbHABILIDADES()}"
-                              update=":createIdHABCARGOSFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdHABCARGOSFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdHABCARGOSFromEditDialog') and tbHABILIDADESCARGOSBean.isPermitted('tbHABILIDADES:create')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idHABCARGOSSelectInput" display="icon" rendered="#{not hideIdHABCARGOSSelectInput}"/>
                 </h:panelGroup>
                 
                 <h:outputLabel value="#{messages.field_label_tbHABILIDADESCARGOS_poNTUACAOHABCARGOS}:" for="poNTUACAOHABCARGOSEditInput" />

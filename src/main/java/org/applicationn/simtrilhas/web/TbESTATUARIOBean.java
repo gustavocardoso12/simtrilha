@@ -15,6 +15,7 @@ import javax.persistence.PersistenceException;
 
 import org.applicationn.simtrilhas.domain.TbDIRETORIAEntity;
 import org.applicationn.simtrilhas.domain.TbESTATUARIOEntity;
+import org.applicationn.simtrilhas.domain.TbVICEPRESIDENCIAEntity;
 import org.applicationn.simtrilhas.service.TbDIRETORIAService;
 import org.applicationn.simtrilhas.service.TbESTATUARIOService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
@@ -40,8 +41,30 @@ public class TbESTATUARIOBean implements Serializable {
     
     private List<TbDIRETORIAEntity> allIdDIRETORIAsList;
     
+    private List<TbDIRETORIAEntity> filterIdDIRETORIAsList;
+    
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Estatuário");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Estatuário");
+    }
+   
+    
     public void prepareNewTbESTATUARIO() {
         reset();
+        changeHeaderCadastrar();
         this.tbESTATUARIO = new TbESTATUARIOEntity();
         // set any default values now, if you need
         // Example: this.tbESTATUARIO.setAnything("test");
@@ -111,7 +134,10 @@ public class TbESTATUARIOBean implements Serializable {
     
     public void onDialogOpen(TbESTATUARIOEntity tbESTATUARIO) {
         reset();
+        changeHeaderEditar();
+        
         this.tbESTATUARIO = tbESTATUARIO;
+        getIdDIRETORIAsVP(tbESTATUARIO.getIdDIRETORIA().getIdVP().getId().intValue());
     }
     
     public void reset() {
@@ -128,6 +154,16 @@ public class TbESTATUARIOBean implements Serializable {
             this.allIdDIRETORIAsList = tbDIRETORIAService.findAllTbDIRETORIAEntities();
         }
         return this.allIdDIRETORIAsList;
+    }
+    
+    //Captura uma lista de todas as vice presidências correspondentes à diretoria
+    public List<TbDIRETORIAEntity> getIdDIRETORIAsVP(int idVP) {
+    	if(filterIdDIRETORIAsList!=null) {
+    		filterIdDIRETORIAsList.clear();
+    	}
+    		 this.filterIdDIRETORIAsList = tbDIRETORIAService.findTbDIRETORIAVP(idVP);	
+   
+        return this.filterIdDIRETORIAsList;
     }
     
     // Update idDIRETORIA of the current tbESTATUARIO
@@ -149,6 +185,7 @@ public class TbESTATUARIOBean implements Serializable {
     }
     
     public List<TbESTATUARIOEntity> getTbESTATUARIOList() {
+ 
         if (tbESTATUARIOList == null) {
             tbESTATUARIOList = tbESTATUARIOService.findAllTbESTATUARIOEntities();
         }
@@ -168,5 +205,13 @@ public class TbESTATUARIOBean implements Serializable {
         return SecurityWrapper.isPermitted(permission);
         
     }
+
+	public List<TbDIRETORIAEntity> getFilterIdDIRETORIAsList() {
+		return filterIdDIRETORIAsList;
+	}
+
+	public void setFilterIdDIRETORIAsList(List<TbDIRETORIAEntity> filterIdDIRETORIAsList) {
+		this.filterIdDIRETORIAsList = filterIdDIRETORIAsList;
+	}
     
 }

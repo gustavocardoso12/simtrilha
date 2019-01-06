@@ -21,10 +21,11 @@ import org.applicationn.simtrilhas.service.TbESTILOPENSAMENTOCARGOSService;
 import org.applicationn.simtrilhas.service.TbESTILOPENSAMENTOService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
+import org.primefaces.context.RequestContext;
 
 @Named("tbESTILOPENSAMENTOCARGOSBean")
 @ViewScoped
-public class TbESTILOPENSAMENTOCARGOSBean implements Serializable {
+public class TbESTILOPENSAMENTOCARGOSBean extends TbCARGOSBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,12 +48,70 @@ public class TbESTILOPENSAMENTOCARGOSBean implements Serializable {
     
     private List<TbESTILOPENSAMENTOEntity> allIdESTPENSAMENTOsList;
     
-    public void prepareNewTbESTILOPENSAMENTOCARGOS() {
+    private String dialogHeader;
+    
+    
+
+   	public void setDialogHeader(final String dialogHeader) { 
+   		this.dialogHeader = dialogHeader;
+   	}
+
+   	public String getDialogHeader() {
+   		return dialogHeader;
+   	}
+
+   	public void changeHeaderCadastrar() {
+   		setDialogHeader("Cadastrar Estilo de pensamento");
+   	}
+
+   	public void changeHeaderEditar() {
+   		setDialogHeader("Editar Estilo de pensamento");
+   	}
+    
+    
+    public void prepareNewTbESTILOPENSAMENTOCARGOS(TbCARGOSEntity tbCARGOS) {
         reset();
+        changeHeaderCadastrar();
         this.tbESTILOPENSAMENTOCARGOS = new TbESTILOPENSAMENTOCARGOSEntity();
-        // set any default values now, if you need
-        // Example: this.tbESTILOPENSAMENTOCARGOS.setAnything("test");
+        filtraListas(tbCARGOS);
     }
+    
+    public void onDialogOpen(TbESTILOPENSAMENTOCARGOSEntity tbESTILOPENSAMENTOCARGOS) {
+        reset();
+        changeHeaderEditar();
+        this.tbESTILOPENSAMENTOCARGOS = tbESTILOPENSAMENTOCARGOS;
+    }
+    
+    public void filtraListas(TbCARGOSEntity tbCARGOS) {
+
+    	tbESTILOPENSAMENTOs = InicializaTabelasAuxiliaresELI(tbCARGOS);
+		allIdESTPENSAMENTOsList= tbESTILOPENSAMENTOService.findAllTbESTILOPENSAMENTOEntities();
+		for(int i=0;i<this.getTbESTILOPENSAMENTOs().size();i++) {
+			for(int j=0;j<allIdESTPENSAMENTOsList.size();j++) {
+				if(tbESTILOPENSAMENTOs.get(i).getIdESTPENSAMENTO().getDeSCESTILOPENSAMENTO().
+						equals(allIdESTPENSAMENTOsList.get(j).getDeSCESTILOPENSAMENTO())) {
+					allIdESTPENSAMENTOsList.remove(allIdESTPENSAMENTOsList.get(j));
+				}
+			}
+		}
+		
+		allIdCARGOSsList = tbCARGOSService.findAllTbCARGOSEntities();
+
+			for(int j2=0;j2<allIdCARGOSsList.size();j2++) {
+				if(!tbCARGOS.getId().equals(allIdCARGOSsList.get(j2).getId())) {
+					allIdCARGOSsList.remove(allIdCARGOSsList.remove(j2));
+				}
+			
+		}
+		if(allIdESTPENSAMENTOsList.size()==0) {
+			FacesContext.getCurrentInstance().validationFailed();
+			FacesMessage message = MessageFactory.getMessage("label_listaCultvazia");
+			message.setDetail(MessageFactory.getMessageString("label_listaELIvazia_message" ));
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			return;
+		
+		}
+	}
 
     public String persist() {
 
@@ -106,10 +165,7 @@ public class TbESTILOPENSAMENTOCARGOSBean implements Serializable {
         return null;
     }
     
-    public void onDialogOpen(TbESTILOPENSAMENTOCARGOSEntity tbESTILOPENSAMENTOCARGOS) {
-        reset();
-        this.tbESTILOPENSAMENTOCARGOS = tbESTILOPENSAMENTOCARGOS;
-    }
+  
     
     public void reset() {
         tbESTILOPENSAMENTOCARGOS = null;
@@ -152,9 +208,6 @@ public class TbESTILOPENSAMENTOCARGOSBean implements Serializable {
     }
     
     public TbESTILOPENSAMENTOCARGOSEntity getTbESTILOPENSAMENTOCARGOS() {
-        if (this.tbESTILOPENSAMENTOCARGOS == null) {
-            prepareNewTbESTILOPENSAMENTOCARGOS();
-        }
         return this.tbESTILOPENSAMENTOCARGOS;
     }
     

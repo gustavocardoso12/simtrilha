@@ -21,10 +21,11 @@ import org.applicationn.simtrilhas.service.TbESTILOLIDERANCACARGOSService;
 import org.applicationn.simtrilhas.service.TbESTILOLIDERANCAService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
+import org.primefaces.context.RequestContext;
 
 @Named("tbESTILOLIDERANCACARGOSBean")
 @ViewScoped
-public class TbESTILOLIDERANCACARGOSBean implements Serializable {
+public class TbESTILOLIDERANCACARGOSBean extends TbCARGOSBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,11 +48,70 @@ public class TbESTILOLIDERANCACARGOSBean implements Serializable {
     
     private List<TbESTILOLIDERANCAEntity> allIdESTLIDERsList;
     
-    public void prepareNewTbESTILOLIDERANCACARGOS() {
-        reset();
+    
+    private String dialogHeader;
+    
+    
+
+	public void setDialogHeader(final String dialogHeader) { 
+		this.dialogHeader = dialogHeader;
+	}
+
+	public String getDialogHeader() {
+		return dialogHeader;
+	}
+
+	public void changeHeaderCadastrar() {
+		setDialogHeader("Cadastrar Estilo de liderança");
+	}
+
+	public void changeHeaderEditar() {
+		setDialogHeader("Editar Estilo de liderança");
+	}
+    
+    public void prepareNewTbESTILOLIDERANCACARGOS(TbCARGOSEntity tbCARGOS) {
         this.tbESTILOLIDERANCACARGOS = new TbESTILOLIDERANCACARGOSEntity();
-        // set any default values now, if you need
-        // Example: this.tbESTILOLIDERANCACARGOS.setAnything("test");
+        changeHeaderCadastrar();
+        filtraListas(tbCARGOS);
+    }
+    
+    
+    
+    public void filtraListas(TbCARGOSEntity tbCARGOS) {
+
+    	tbESTILOLIDERANCAs = InicializaTabelasAuxiliaresEST(tbCARGOS);
+		allIdESTLIDERsList= tbESTILOLIDERANCAService.findAllTbESTILOLIDERANCAEntities();
+		for(int i=0;i<this.getTbESTILOLIDERANCAs().size();i++) {
+			for(int j=0;j<allIdESTLIDERsList.size();j++) {
+				if(tbESTILOLIDERANCAs.get(i).getIdESTLIDER().getDeSCESTILOLIDER().
+						equals(allIdESTLIDERsList.get(j).getDeSCESTILOLIDER())) {
+					allIdESTLIDERsList.remove(allIdESTLIDERsList.get(j));
+				}
+			}
+		}
+		
+		allIdCARGOSsList = tbCARGOSService.findAllTbCARGOSEntities();
+		for(int i2 = 0; i2<tbESTILOLIDERANCAs.size();i2++) {
+			for(int j2=0;j2<allIdCARGOSsList.size();j2++) {
+				if(!tbCARGOS.getId().equals(allIdCARGOSsList.get(j2).getId())) {
+					allIdCARGOSsList.remove(allIdCARGOSsList.remove(j2));
+				}
+			}
+		}
+		if(allIdESTLIDERsList.size()==0) {
+			FacesContext.getCurrentInstance().validationFailed();
+			FacesMessage message = MessageFactory.getMessage("label_listaCultvazia");
+			message.setDetail(MessageFactory.getMessageString("label_listaHabvazia_message" ));
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			return;
+		
+		}
+	}
+    
+    public void onDialogOpen(TbESTILOLIDERANCACARGOSEntity tbESTILOLIDERANCACARGOS) {
+        reset();
+        changeHeaderEditar();
+        this.tbESTILOLIDERANCACARGOS = tbESTILOLIDERANCACARGOS;
     }
 
     public String persist() {
@@ -106,10 +166,7 @@ public class TbESTILOLIDERANCACARGOSBean implements Serializable {
         return null;
     }
     
-    public void onDialogOpen(TbESTILOLIDERANCACARGOSEntity tbESTILOLIDERANCACARGOS) {
-        reset();
-        this.tbESTILOLIDERANCACARGOS = tbESTILOLIDERANCACARGOS;
-    }
+   
     
     public void reset() {
         tbESTILOLIDERANCACARGOS = null;
@@ -152,9 +209,6 @@ public class TbESTILOLIDERANCACARGOSBean implements Serializable {
     }
     
     public TbESTILOLIDERANCACARGOSEntity getTbESTILOLIDERANCACARGOS() {
-        if (this.tbESTILOLIDERANCACARGOS == null) {
-            prepareNewTbESTILOLIDERANCACARGOS();
-        }
         return this.tbESTILOLIDERANCACARGOS;
     }
     

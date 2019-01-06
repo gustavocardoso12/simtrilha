@@ -31,7 +31,7 @@
 					<h:outputText value="#{tbCURSOS.idFORMACAO.deSCFORMACAO}" />
 				</p:column>
 
-				<p:column headerText="Ações" style="background:#410D34;width:100%"
+				<p:column headerText="Ações" style="background:#410D34;width:100%;font-size:14px;font-weight:bold;" 
 					exportable="false">
 
 					<p:commandButton
@@ -79,16 +79,16 @@
         
     </h:form>
 
-    <p:confirmDialog id="deleteTbCURSOSDialog" widgetVar="deleteTbCURSOSDialogWidget"
+    <p:confirmDialog id="deleteTbCURSOSDialog" showEffect="explode" hideEffect="fade" widgetVar="deleteTbCURSOSDialogWidget"
         rendered="#{tbCURSOSBean.isPermitted(tbCURSOSBean.tbCURSOS, 'tbCURSOS:delete')}" header="#{messages.label_confirm_deletion}"
         severity="alarm">
         <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
         <p:outputPanel>
           <h:form>
-            <div style="text-align: center; margin:10px">
+           <p:panelGrid   columns="2" style="margin:auto"  >
               <p:commandButton value="#{messages.label_yes}" action="#{tbCURSOSBean.delete}" update=":tbCURSOSDataForm :growlForm:growl" oncomplete="PF('deleteTbCURSOSDialogWidget').hide()" />
               <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbCURSOSDialogWidget').hide()" type="button" />
-            </div>
+           </p:panelGrid>
           </h:form>
         </p:outputPanel>
     </p:confirmDialog>

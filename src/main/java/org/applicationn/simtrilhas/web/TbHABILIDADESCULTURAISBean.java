@@ -45,8 +45,28 @@ public class TbHABILIDADESCULTURAISBean implements Serializable {
     private List<String> transferedTbHABILIDADESCULTCARGOSIDs;
     private List<String> removedTbHABILIDADESCULTCARGOSIDs;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Habilidades Culturais");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Habilidades Culturais");
+    }
+    
+    
     public void prepareNewTbHABILIDADESCULTURAIS() {
         reset();
+        changeHeaderCadastrar();
         this.tbHABILIDADESCULTURAIS = new TbHABILIDADESCULTURAISEntity();
         // set any default values now, if you need
         // Example: this.tbHABILIDADESCULTURAIS.setAnything("test");
@@ -116,6 +136,7 @@ public class TbHABILIDADESCULTURAISBean implements Serializable {
     
     public void onDialogOpen(TbHABILIDADESCULTURAISEntity tbHABILIDADESCULTURAIS) {
         reset();
+        changeHeaderEditar();
         this.tbHABILIDADESCULTURAIS = tbHABILIDADESCULTURAIS;
     }
     

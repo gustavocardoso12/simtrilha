@@ -22,7 +22,7 @@ public class TbHABILIDADESCULTCARGOSService extends BaseService<TbHABILIDADESCUL
     @Transactional
     public List<TbHABILIDADESCULTCARGOSEntity> findAllTbHABILIDADESCULTCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbHABILIDADESCULTCARGOS o ", TbHABILIDADESCULTCARGOSEntity.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbHABILIDADESCULTCARGOS o  ", TbHABILIDADESCULTCARGOSEntity.class).getResultList();
     }
     
     @Override

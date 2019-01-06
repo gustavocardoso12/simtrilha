@@ -45,8 +45,27 @@ public class TbHABILIDADESBean implements Serializable {
     private List<String> transferedTbHABILIDADESCARGOSIDs;
     private List<String> removedTbHABILIDADESCARGOSIDs;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Habilidades de Aprendizado");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Habilidades de Aprendizado");
+    }
+    
     public void prepareNewTbHABILIDADES() {
         reset();
+        changeHeaderCadastrar();
         this.tbHABILIDADES = new TbHABILIDADESEntity();
         // set any default values now, if you need
         // Example: this.tbHABILIDADES.setAnything("test");
@@ -116,6 +135,7 @@ public class TbHABILIDADESBean implements Serializable {
     
     public void onDialogOpen(TbHABILIDADESEntity tbHABILIDADES) {
         reset();
+        changeHeaderEditar();
         this.tbHABILIDADES = tbHABILIDADES;
     }
     

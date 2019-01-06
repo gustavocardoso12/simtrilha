@@ -9,13 +9,12 @@
 
         <p:outputPanel styleClass="ui-fluid">
 
-            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+          <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
             
                 <h:outputLabel value="#{messages.field_label_tbESTILOLIDERANCACARGOS_idCARGOS}:" for="idCARGOSSelectInput" rendered="#{not hideIdCARGOSSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
                     <p:selectOneMenu value="#{tbESTILOLIDERANCACARGOSBean.tbESTILOLIDERANCACARGOS.idCARGOS}"
                                     id="idCARGOSSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
                         <f:selectItems value="#{tbESTILOLIDERANCACARGOSBean.idCARGOSs}" 
                                     var="tbCARGOS" 
                                     itemLabel="#{tbCARGOS.deSCCARGO}"
@@ -23,19 +22,7 @@
                         <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbESTILOLIDERANCACARGOSBean.idCARGOSs}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
-                
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbCARGOSBean.prepareNewTbCARGOS()}"
-                              update=":createIdCARGOSFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdCARGOSFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdCARGOSFromEditDialog')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idCARGOSSelectInput" display="icon" rendered="#{not hideIdCARGOSSelectInput}"/>
-                </h:panelGroup>
+              
                 
                 <h:outputLabel value="#{messages.field_label_tbESTILOLIDERANCACARGOS_idESTLIDER}:" for="idESTLIDERSelectInput" rendered="#{not hideIdESTLIDERSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdESTLIDERSelectInput}">
@@ -48,19 +35,6 @@
                                     itemValue="#{tbESTILOLIDERANCA}" />
                         <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbESTILOLIDERANCACARGOSBean.idESTLIDERs}" />
                     </p:selectOneMenu>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdESTLIDERSelectInput}">
-                
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbESTILOLIDERANCABean.prepareNewTbESTILOLIDERANCA()}"
-                              update=":createIdESTLIDERFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdESTLIDERFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdESTLIDERFromEditDialog') and tbESTILOLIDERANCACARGOSBean.isPermitted('tbESTILOLIDERANCA:create')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idESTLIDERSelectInput" display="icon" rendered="#{not hideIdESTLIDERSelectInput}"/>
                 </h:panelGroup>
                 
                 <h:outputLabel value="#{messages.field_label_tbESTILOLIDERANCACARGOS_poNTUACAOESTLIDER}:" for="poNTUACAOESTLIDEREditInput" />

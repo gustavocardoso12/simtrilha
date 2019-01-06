@@ -45,8 +45,28 @@ public class TbCOMPETENCIASEMOCIONAISBean implements Serializable {
     private List<String> transferedTbCOMPETENCIASEMCARGOSIDs;
     private List<String> removedTbCOMPETENCIASEMCARGOSIDs;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Competências");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Competências");
+    }
+    
+    
     public void prepareNewTbCOMPETENCIASEMOCIONAIS() {
         reset();
+        changeHeaderCadastrar();
         this.tbCOMPETENCIASEMOCIONAIS = new TbCOMPETENCIASEMOCIONAISEntity();
         // set any default values now, if you need
         // Example: this.tbCOMPETENCIASEMOCIONAIS.setAnything("test");
@@ -116,6 +136,7 @@ public class TbCOMPETENCIASEMOCIONAISBean implements Serializable {
     
     public void onDialogOpen(TbCOMPETENCIASEMOCIONAISEntity tbCOMPETENCIASEMOCIONAIS) {
         reset();
+        changeHeaderEditar();
         this.tbCOMPETENCIASEMOCIONAIS = tbCOMPETENCIASEMOCIONAIS;
     }
     

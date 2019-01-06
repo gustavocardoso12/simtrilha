@@ -45,8 +45,28 @@ public class TbESTILOLIDERANCABean implements Serializable {
     private List<String> transferedTbESTILOLIDERANCACARGOSIDs;
     private List<String> removedTbESTILOLIDERANCACARGOSIDs;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Competências");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Competências");
+    }
+    
+    
     public void prepareNewTbESTILOLIDERANCA() {
         reset();
+        changeHeaderCadastrar();
         this.tbESTILOLIDERANCA = new TbESTILOLIDERANCAEntity();
         // set any default values now, if you need
         // Example: this.tbESTILOLIDERANCA.setAnything("test");
@@ -116,6 +136,7 @@ public class TbESTILOLIDERANCABean implements Serializable {
     
     public void onDialogOpen(TbESTILOLIDERANCAEntity tbESTILOLIDERANCA) {
         reset();
+        changeHeaderEditar();
         this.tbESTILOLIDERANCA = tbESTILOLIDERANCA;
     }
     

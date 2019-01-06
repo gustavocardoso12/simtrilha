@@ -6,34 +6,72 @@
       xmlns:p="http://primefaces.org/ui">
 <ui:composition>
   <h:form>
+  
+   <p:panel id="toggleable" header="Customização" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="true" style="background:#9d4110;">
   <p:menu toggleable="true">
-      <p:submenu label ="#{messages.menu_customizacao}">
-      <p:menuitem value="#{messages.menu_Formacao}" url="/pages/tbFORMACAO/tbFORMACAO.xhtml"  ajax="false" async="false" />
-      <p:menuitem value="#{messages.menu_Cursos}" url="/pages/tbCURSOS/tbCURSOS.xhtml"  ajax="false" async="false" />
-      <p:menuitem value="#{messages.menu_tbVICEPRESIDENCIAs}" url="/pages/tbVICEPRESIDENCIA/tbVICEPRESIDENCIA.xhtml" ajax="false" async="false" />
-      </p:submenu>
+     		<p:submenu label ="Acadêmico" expanded="false">	         
+     			<p:menuitem value="#{messages.menu_Formacao}" url="/pages/tbFORMACAO/tbFORMACAO.xhtml"  ajax="false" async="false" />
+      			<p:menuitem value="#{messages.menu_Cursos}" url="/pages/tbCURSOS/tbCURSOS.xhtml"  ajax="false" async="false" />
+      		</p:submenu>
+      		<p:submenu label ="Setores">
+      			<p:menuitem value="#{messages.menu_tbVICEPRESIDENCIAs}" url="/pages/tbVICEPRESIDENCIA/tbVICEPRESIDENCIA.xhtml" ajax="false" async="false" />
+      			<p:menuitem value="#{messages.menu_tbDIRETORIAs}" url="/pages/tbDIRETORIA/tbDIRETORIA.xhtml" ajax="false" async="false" />
+      			<p:menuitem value="#{messages.menu_tbESTATUARIOs}" url="/pages/tbESTATUARIO/tbESTATUARIO.xhtml"  ajax="false" async="false" />
+      		</p:submenu>
+       		<p:submenu label ="Aprendizado">
+      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/pages/tbCOMPETENCIAS/tbCOMPETENCIAS.xhtml" ajax="false" async="false" />
+      			<p:menuitem value="#{messages.menu_tbHABILIDADESs}" url="/pages/tbHABILIDADES/tbHABILIDADES.xhtml" ajax="false" async="false" />
+       		</p:submenu>
+       		<p:submenu label ="Estilo de liderança">
+      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASEMOCIONAISs}" url="/pages/tbCOMPETENCIASEMOCIONAIS/tbCOMPETENCIASEMOCIONAIS.xhtml" ajax="false" async="false" />
+	  			<p:menuitem value="#{messages.menu_tbESTILOLIDERANCAs}" url="/pages/tbESTILOLIDERANCA/tbESTILOLIDERANCA.xhtml" ajax="false" async="false" />
+	  			<p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOs}" url="/pages/tbESTILOPENSAMENTO/tbESTILOPENSAMENTO.xhtml" ajax="false" async="false" />      
+	  		    <p:menuitem value="#{messages.menu_tbHABILIDADESCULTURAISs}" url="/pages/tbHABILIDADESCULTURAIS/tbHABILIDADESCULTURAIS.xhtml"  ajax="false" async="false" />      
+     		</p:submenu>
+     		<p:submenu label ="Conhecimentos">
+       			<p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOS.xhtml" ajax="false" async="false" />
+				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOS.xhtml" ajax="false" async="false" />     
+    		</p:submenu> 
+	
    </p:menu>
-   
-   <!--     
+
+   </p:panel>
+
+
+		<p:panel id="toggleableCargos" header="Classificação" collapsed="true"
+			toggleable="true" toggleSpeed="500" closeSpeed="500"
+			widgetVar="panel3" style="background:#9d4110;">
+			<p:menu toggleable="true">
+				<p:menuitem value="#{messages.menu_tbCARGOSs}"
+					url="/pages/tbCARGOS/tbCARGOS.xhtml"
+					ajax="false" async="false" />
+				
+			</p:menu>
+		</p:panel>
+
+
+
+
+		<!--     
      
       
 
       
-      <p:menuitem value="#{messages.menu_tbDIRETORIAs}" url="/pages/tbDIRETORIA/tbDIRETORIA.xhtml" icon="icon-entity" ajax="false" async="false" />
+
       
-      <p:menuitem value="#{messages.menu_tbESTATUARIOs}" url="/pages/tbESTATUARIO/tbESTATUARIO.xhtml" icon="icon-entity" ajax="false" async="false" />
+     
       
       <p:menuitem value="#{messages.menu_tbCARGOSs}" url="/pages/tbCARGOS/tbCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/pages/tbCOMPETENCIAS/tbCOMPETENCIAS.xhtml" icon="icon-entity" ajax="false" async="false" />
+  
       
       <p:menuitem value="#{messages.menu_tbCOMPETENCIASCARGOSs}" url="/pages/tbCOMPETENCIASCARGOS/tbCOMPETENCIASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbCOMPETENCIASEMOCIONAISs}" url="/pages/tbCOMPETENCIASEMOCIONAIS/tbCOMPETENCIASEMOCIONAIS.xhtml" icon="icon-entity" ajax="false" async="false" />
+     
       
       <p:menuitem value="#{messages.menu_tbCOMPETENCIASEMCARGOSs}" url="/pages/tbCOMPETENCIASEMCARGOS/tbCOMPETENCIASEMCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+     
       
       <p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASCARGOSs}" url="/pages/tbCONHECIMENTOSBASCARGOS/tbCONHECIMENTOSBASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
@@ -41,11 +79,11 @@
       
       <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPCARGOSs}" url="/pages/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbESTILOLIDERANCAs}" url="/pages/tbESTILOLIDERANCA/tbESTILOLIDERANCA.xhtml" icon="icon-entity" ajax="false" async="false" />
+     
       
       <p:menuitem value="#{messages.menu_tbESTILOLIDERANCACARGOSs}" url="/pages/tbESTILOLIDERANCACARGOS/tbESTILOLIDERANCACARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOs}" url="/pages/tbESTILOPENSAMENTO/tbESTILOPENSAMENTO.xhtml" icon="icon-entity" ajax="false" async="false" />
+     
       
       <p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOCARGOSs}" url="/pages/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
@@ -53,7 +91,7 @@
       
       <p:menuitem value="#{messages.menu_tbHABILIDADESCARGOSs}" url="/pages/tbHABILIDADESCARGOS/tbHABILIDADESCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbHABILIDADESCULTURAISs}" url="/pages/tbHABILIDADESCULTURAIS/tbHABILIDADESCULTURAIS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
       
       <p:menuitem value="#{messages.menu_tbHABILIDADESCULTCARGOSs}" url="/pages/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       

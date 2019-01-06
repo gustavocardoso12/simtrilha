@@ -50,9 +50,6 @@ public class TbVICEPRESIDENCIAService extends BaseService<TbVICEPRESIDENCIAEntit
     
     @Override
     protected void handleDependenciesBeforeDelete(TbVICEPRESIDENCIAEntity tbVICEPRESIDENCIA) {
-
-        /* This is called before a TbVICEPRESIDENCIA is deleted. Place here all the
-           steps to cut dependencies to other entities */
         
         this.cutAllIdVPTbDIRETORIAsAssignments(tbVICEPRESIDENCIA);
         

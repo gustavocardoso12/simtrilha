@@ -45,8 +45,28 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
     private List<String> transferedTbCONHECIMENTOSESPCARGOSIDs;
     private List<String> removedTbCONHECIMENTOSESPCARGOSIDs;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Conhecimentos Específicos");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Conhecimentos Específicos");
+    }
+    
+    
     public void prepareNewTbCONHECIMENTOSESPECIFICOS() {
         reset();
+        changeHeaderCadastrar();
         this.tbCONHECIMENTOSESPECIFICOS = new TbCONHECIMENTOSESPECIFICOSEntity();
         // set any default values now, if you need
         // Example: this.tbCONHECIMENTOSESPECIFICOS.setAnything("test");
@@ -116,6 +136,7 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
     
     public void onDialogOpen(TbCONHECIMENTOSESPECIFICOSEntity tbCONHECIMENTOSESPECIFICOS) {
         reset();
+        changeHeaderEditar();
         this.tbCONHECIMENTOSESPECIFICOS = tbCONHECIMENTOSESPECIFICOS;
     }
     

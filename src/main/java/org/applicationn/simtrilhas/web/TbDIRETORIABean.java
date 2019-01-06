@@ -40,8 +40,27 @@ public class TbDIRETORIABean implements Serializable {
     
     private List<TbVICEPRESIDENCIAEntity> allIdVPsList;
     
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Vice presidência");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Vice presidência");
+    }
+    
     public void prepareNewTbDIRETORIA() {
         reset();
+        changeHeaderCadastrar();
         this.tbDIRETORIA = new TbDIRETORIAEntity();
         // set any default values now, if you need
         // Example: this.tbDIRETORIA.setAnything("test");
@@ -111,6 +130,7 @@ public class TbDIRETORIABean implements Serializable {
     
     public void onDialogOpen(TbDIRETORIAEntity tbDIRETORIA) {
         reset();
+        changeHeaderEditar();
         this.tbDIRETORIA = tbDIRETORIA;
     }
     

@@ -76,9 +76,9 @@ a, img {
 }
 
 .MenuLinguagem.ui-selectonemenu .ui-selectonemenu-label   {
-	background: #ED6707 !important;
+	background: white !important;
 	font-weight:bold;
-	color:white;
+	color:black;
 }
 
 .ui-selectonemenu-trigger{
@@ -87,13 +87,14 @@ a, img {
 
 /* Colunas das data tables */
 td {
-  color: white !important;
-  background: #410D34;
+  color: black !important;
+  background: #f2f2f2;
+  color:black !important;
   border:none !important;
 }
 
 th {
-  color: white !important;
+  color:#f2f2f2 !importnt;
   background: #5C2C5E !important;
    border:none !important;
 }
@@ -101,8 +102,15 @@ th {
 
 .ui-dialog {
     width: auto !important;
-    background:#410D34 !important;
+    background:#f2f2f2 !important;
 
+}
+
+
+.ui-confirm-dialog-message {
+    display: inline-block;
+    margin-top: 1px;
+    color: black !important;
 }
 
 /*Barra de título do dialog primefaces*/
@@ -151,8 +159,15 @@ th {
     background: #9d4110;
 }
 
+.ui-panelgrid .ui-grid-responsive .ui-panelgrid-cell {
+    border: 0 none;
+    padding: 0px;
+}
 
-
+.ui-panel .ui-panel-titlebar {
+    padding: .5em 1em .3em;
+    background: #5C2C5E;
+}
 
 .ui-fluid .ui-menu {
     width: 100%;
@@ -165,13 +180,24 @@ th {
 
 .ui-widget-content {
     border: none;
+    color:black !important
 }
 
 .ui-menu .ui-menuitem-text {
     float: left;
-    color:white;
+    color:black;
     font-weight: bold;
     font-family: Calibri;
+}
+
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item {
+    border: 0 none;
+    margin: 1px 0;
+    padding: 3px 5px;
+    text-align: left;
+    color: white !important;
+    white-space: nowrap;
 }
 
 
@@ -197,9 +223,21 @@ th {
     text-align: center;
 }
 
+
+.ui-fluid .ui-menu {
+    background: white;
+
+}
+
+.ui-panel .ui-panel-content {
+    border: 0;
+    background: white !important;
+    padding: .5em 1em;
+}
+
 .panel.ui-selectonemenu-list .ui-selectonemenu-trigger
  .ui-state-default{ 
-    background:#9d4110 !important;
+    background:white !important;
 }
 
 

@@ -27,7 +27,6 @@ public class TbHABILIDADESCULTCARGOSEntity extends BaseEntity implements Seriali
 
     @Digits(integer = 5,  fraction = 2)
     @Column(precision = 7, scale = 2, name="\"poNTUACAOHABCULT\"")
-    @NotNull
     private BigDecimal poNTUACAOHABCULT;
 
     public TbCARGOSEntity getIdCARGOS() {

@@ -55,8 +55,6 @@ public class TbVICEPRESIDENCIABean implements Serializable {
         reset();
         changeHeaderCadastrar();
         this.tbVICEPRESIDENCIA = new TbVICEPRESIDENCIAEntity();
-        // set any default values now, if you need
-        // Example: this.tbVICEPRESIDENCIA.setAnything("test");
     }
 
     public String persist() {

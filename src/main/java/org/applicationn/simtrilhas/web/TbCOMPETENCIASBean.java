@@ -45,11 +45,31 @@ public class TbCOMPETENCIASBean implements Serializable {
     private List<String> transferedTbCOMPETENCIASCARGOSIDs;
     private List<String> removedTbCOMPETENCIASCARGOSIDs;
     
+    
+    private String dialogHeader;
+
+    public void setDialogHeader(final String dialogHeader) { 
+        this.dialogHeader = dialogHeader;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void changeHeaderCadastrar() {
+        setDialogHeader("Cadastrar Competências");
+    }
+    
+    public void changeHeaderEditar() {
+        setDialogHeader("Editar Competências");
+    }
+    
+    
     public void prepareNewTbCOMPETENCIAS() {
         reset();
+        changeHeaderCadastrar();
         this.tbCOMPETENCIAS = new TbCOMPETENCIASEntity();
-        // set any default values now, if you need
-        // Example: this.tbCOMPETENCIAS.setAnything("test");
+  
     }
 
     public String persist() {
@@ -116,6 +136,7 @@ public class TbCOMPETENCIASBean implements Serializable {
     
     public void onDialogOpen(TbCOMPETENCIASEntity tbCOMPETENCIAS) {
         reset();
+        changeHeaderEditar();
         this.tbCOMPETENCIAS = tbCOMPETENCIAS;
     }
     

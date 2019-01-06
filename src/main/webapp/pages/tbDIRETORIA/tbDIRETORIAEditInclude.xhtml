@@ -7,20 +7,19 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:o="http://omnifaces.org/ui">
 
-        <p:outputPanel styleClass="ui-fluid">
+ 
 
-            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+              <p:panelGrid columns="3" styleClass="dialog"  columnClasses="col1,col2,col3"  >
             
                 <h:outputLabel value="#{messages.field_label_tbDIRETORIA_deSCDIRETORIA}:" for="deSCDIRETORIAEditInput" />
-                <p:inputText value="#{tbDIRETORIABean.tbDIRETORIA.deSCDIRETORIA}" id="deSCDIRETORIAEditInput" 
-                    label="#{messages.field_label_tbDIRETORIA_deSCDIRETORIA}" />
+                <p:inputText value="#{tbDIRETORIABean.tbDIRETORIA.deSCDIRETORIA}" id="deSCDIRETORIAEditInput"  />
                 <p:message for="deSCDIRETORIAEditInput" display="icon" />
 
                 <h:outputLabel value="#{messages.field_label_tbDIRETORIA_idVP}:" for="idVPSelectInput" rendered="#{not hideIdVPSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdVPSelectInput}">
-                    <p:selectOneMenu value="#{tbDIRETORIABean.tbDIRETORIA.idVP}"
+                    <p:selectOneMenu style="font-size:12px" value="#{tbDIRETORIABean.tbDIRETORIA.idVP}"
                                     id="idVPSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItem noSelectionOption="true" itemLabel="Escolha uma Vice Presidência" />
                         <f:selectItems value="#{tbDIRETORIABean.idVPs}" 
                                     var="tbVICEPRESIDENCIA" 
                                     itemLabel="#{tbVICEPRESIDENCIA.deSCVP}"
@@ -30,7 +29,7 @@
                 </h:panelGroup>
                 <h:panelGroup rendered="#{not hideIdVPSelectInput}">
                 
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                    <p:commandButton  value="#{messages.label_create} Nova Vice presidência"
                               action="#{tbVICEPRESIDENCIABean.prepareNewTbVICEPRESIDENCIA()}"
                               update=":createIdVPFromEditDialog"
                               resetValues="true"
@@ -44,5 +43,5 @@
                 
             </p:panelGrid>
 
-        </p:outputPanel>
+
 </html>

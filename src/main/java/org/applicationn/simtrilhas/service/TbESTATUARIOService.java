@@ -25,6 +25,12 @@ public class TbESTATUARIOService extends BaseService<TbESTATUARIOEntity> impleme
         return entityManager.createQuery("SELECT o FROM TbESTATUARIO o ", TbESTATUARIOEntity.class).getResultList();
     }
     
+    @Transactional
+    public List<String> findByTbESTATUARIOEntities() {
+        
+        return entityManager.createQuery("SELECT DISTINCT(o.deSCESTATUARIO) FROM TbESTATUARIO o ", String.class).getResultList();
+    }
+    
     @Override
     @Transactional
     public long countAllEntries() {

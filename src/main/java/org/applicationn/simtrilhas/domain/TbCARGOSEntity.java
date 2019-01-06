@@ -26,7 +26,7 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
     @NotNull
     private String miSSAO;
 
-    @Size(max = 500)
+    @Size(max =900)
     @Column(length = 500, name="\"reSPONSABILIDADES\"")
     @NotNull
     private String reSPONSABILIDADES;
@@ -56,6 +56,11 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
     }
 
     public String getReSPONSABILIDADES() {
+    	if(this.reSPONSABILIDADES ==null) {
+    		
+    	}else {
+    	this.reSPONSABILIDADES = reSPONSABILIDADES.replace(";", " <br>").replace(":", "<br>");
+    	}
         return this.reSPONSABILIDADES;
     }
 
