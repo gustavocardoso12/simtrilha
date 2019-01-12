@@ -21,10 +21,11 @@ import org.applicationn.simtrilhas.service.TbCONHECIMENTOSESPCARGOSService;
 import org.applicationn.simtrilhas.service.TbCONHECIMENTOSESPECIFICOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
+import org.primefaces.context.RequestContext;
 
 @Named("tbCONHECIMENTOSESPCARGOSBean")
 @ViewScoped
-public class TbCONHECIMENTOSESPCARGOSBean implements Serializable {
+public class TbCONHECIMENTOSESPCARGOSBean extends TbCARGOSBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,13 +48,74 @@ public class TbCONHECIMENTOSESPCARGOSBean implements Serializable {
     
     private List<TbCONHECIMENTOSESPECIFICOSEntity> allIdCONHECESPsList;
     
-    public void prepareNewTbCONHECIMENTOSESPCARGOS() {
+
+    private String dialogHeader;
+    
+    
+ 	public void setDialogHeader(final String dialogHeader) { 
+   		this.dialogHeader = dialogHeader;
+   	}
+
+   	public String getDialogHeader() {
+   		return dialogHeader;
+   	}
+
+   	public void changeHeaderCadastrar() {
+   		setDialogHeader("Cadastrar Conhecimentos Específicos");
+   	}
+
+   	public void changeHeaderEditar() {
+   		setDialogHeader("Editar Conhecimentos Específicos");
+   	}
+    
+    
+    
+    public void prepareNewTbCONHECIMENTOSESPCARGOS(TbCARGOSEntity tbCARGOS) {
         reset();
+        changeHeaderCadastrar();
         this.tbCONHECIMENTOSESPCARGOS = new TbCONHECIMENTOSESPCARGOSEntity();
-        // set any default values now, if you need
-        // Example: this.tbCONHECIMENTOSESPCARGOS.setAnything("test");
+        filtraListas(tbCARGOS);
     }
 
+    
+    public void onDialogOpen(TbCONHECIMENTOSESPCARGOSEntity tbCONHECIMENTOSESPCARGOS) {
+        reset();
+        changeHeaderEditar();
+        this.tbCONHECIMENTOSESPCARGOS = tbCONHECIMENTOSESPCARGOS;
+    }
+    
+    public void filtraListas(TbCARGOSEntity tbCARGOS) {
+
+    	tbCONHECIMENTOSESPCARGOSs = InicializaTabelasAuxiliaresCE(tbCARGOS);
+		allIdCONHECESPsList= tbCONHECIMENTOSESPECIFICOSService.findAllTbCONHECIMENTOSESPECIFICOSEntities();
+		for(int i=0;i<this.getTbCONHECIMENTOSESPCARGOSs().size();i++) {
+			for(int j=0;j<allIdCONHECESPsList.size();j++) {
+				if(tbCONHECIMENTOSESPCARGOSs.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().
+						equals(allIdCONHECESPsList.get(j).getDeSCCONHECIMENTOSESPECIFICOS())) {
+					allIdCONHECESPsList.remove(allIdCONHECESPsList.get(j));
+				}
+			}
+		}
+		
+		allIdCARGOSsList = tbCARGOSService.findAllTbCARGOSEntities();
+
+			for(int j2=0;j2<allIdCARGOSsList.size();j2++) {
+				if(!tbCARGOS.getId().equals(allIdCARGOSsList.get(j2).getId())) {
+					allIdCARGOSsList.remove(allIdCARGOSsList.remove(j2));
+				}
+			
+		}
+		if(allIdCONHECESPsList.size()==0) {
+			FacesContext.getCurrentInstance().validationFailed();
+			FacesMessage message = MessageFactory.getMessage("label_listaCultvazia");
+			message.setDetail(MessageFactory.getMessageString("label_listaCEvazia_message" ));
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			return;
+		
+		}
+	}
+
+    
     public String persist() {
 
         String message;
@@ -105,12 +167,7 @@ public class TbCONHECIMENTOSESPCARGOSBean implements Serializable {
         
         return null;
     }
-    
-    public void onDialogOpen(TbCONHECIMENTOSESPCARGOSEntity tbCONHECIMENTOSESPCARGOS) {
-        reset();
-        this.tbCONHECIMENTOSESPCARGOS = tbCONHECIMENTOSESPCARGOS;
-    }
-    
+   
     public void reset() {
         tbCONHECIMENTOSESPCARGOS = null;
         tbCONHECIMENTOSESPCARGOSList = null;
@@ -152,9 +209,6 @@ public class TbCONHECIMENTOSESPCARGOSBean implements Serializable {
     }
     
     public TbCONHECIMENTOSESPCARGOSEntity getTbCONHECIMENTOSESPCARGOS() {
-        if (this.tbCONHECIMENTOSESPCARGOS == null) {
-            prepareNewTbCONHECIMENTOSESPCARGOS();
-        }
         return this.tbCONHECIMENTOSESPCARGOS;
     }
     

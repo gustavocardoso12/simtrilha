@@ -21,10 +21,11 @@ import org.applicationn.simtrilhas.service.TbCOMPETENCIASEMCARGOSService;
 import org.applicationn.simtrilhas.service.TbCOMPETENCIASEMOCIONAISService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
+import org.primefaces.context.RequestContext;
 
 @Named("tbCOMPETENCIASEMCARGOSBean")
 @ViewScoped
-public class TbCOMPETENCIASEMCARGOSBean implements Serializable {
+public class TbCOMPETENCIASEMCARGOSBean extends TbCARGOSBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,12 +48,70 @@ public class TbCOMPETENCIASEMCARGOSBean implements Serializable {
     
     private List<TbCOMPETENCIASEMOCIONAISEntity> allIdCOMPEMsList;
     
-    public void prepareNewTbCOMPETENCIASEMCARGOS() {
+    
+    private String dialogHeader;
+    
+    
+
+   	public void setDialogHeader(final String dialogHeader) { 
+   		this.dialogHeader = dialogHeader;
+   	}
+
+   	public String getDialogHeader() {
+   		return dialogHeader;
+   	}
+
+   	public void changeHeaderCadastrar() {
+   		setDialogHeader("Cadastrar Competências emocionais");
+   	}
+
+   	public void changeHeaderEditar() {
+   		setDialogHeader("Editar Competências emocionais");
+   	}
+    
+    public void prepareNewTbCOMPETENCIASEMCARGOS(TbCARGOSEntity tbCARGOS) {
         reset();
+        changeHeaderCadastrar();
         this.tbCOMPETENCIASEMCARGOS = new TbCOMPETENCIASEMCARGOSEntity();
-        // set any default values now, if you need
-        // Example: this.tbCOMPETENCIASEMCARGOS.setAnything("test");
+        filtraListas(tbCARGOS);
     }
+    
+    public void onDialogOpen(TbCOMPETENCIASEMCARGOSEntity tbCOMPETENCIASEMCARGOS) {
+        reset();
+        changeHeaderEditar();
+        this.tbCOMPETENCIASEMCARGOS = tbCOMPETENCIASEMCARGOS;
+    }
+    
+    public void filtraListas(TbCARGOSEntity tbCARGOS) {
+
+    	tbCOMPETENCIASEMs = InicializaTabelasAuxiliaresEM(tbCARGOS);
+		allIdCOMPEMsList= tbCOMPETENCIASEMOCIONAISService.findAllTbCOMPETENCIASEMOCIONAISEntities();
+		for(int i=0;i<this.getTbCOMPETENCIASEMs().size();i++) {
+			for(int j=0;j<allIdCOMPEMsList.size();j++) {
+				if(tbCOMPETENCIASEMs.get(i).getIdCOMPEM().getDeSCCOMPEMOCIONAIS().
+						equals(allIdCOMPEMsList.get(j).getDeSCCOMPEMOCIONAIS())) {
+					allIdCOMPEMsList.remove(allIdCOMPEMsList.get(j));
+				}
+			}
+		}
+		
+		allIdCARGOSsList = tbCARGOSService.findAllTbCARGOSEntities();
+
+			for(int j2=0;j2<allIdCARGOSsList.size();j2++) {
+				if(!tbCARGOS.getId().equals(allIdCARGOSsList.get(j2).getId())) {
+					allIdCARGOSsList.remove(allIdCARGOSsList.remove(j2));
+				}
+			
+		}
+		if(allIdCOMPEMsList.size()==0) {
+			FacesContext.getCurrentInstance().validationFailed();
+			FacesMessage message = MessageFactory.getMessage("label_listaCultvazia");
+			message.setDetail(MessageFactory.getMessageString("label_listaELIvazia_message" ));
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			return;
+		
+		}
+	}
 
     public String persist() {
 
@@ -106,10 +165,7 @@ public class TbCOMPETENCIASEMCARGOSBean implements Serializable {
         return null;
     }
     
-    public void onDialogOpen(TbCOMPETENCIASEMCARGOSEntity tbCOMPETENCIASEMCARGOS) {
-        reset();
-        this.tbCOMPETENCIASEMCARGOS = tbCOMPETENCIASEMCARGOS;
-    }
+ 
     
     public void reset() {
         tbCOMPETENCIASEMCARGOS = null;
@@ -152,9 +208,6 @@ public class TbCOMPETENCIASEMCARGOSBean implements Serializable {
     }
     
     public TbCOMPETENCIASEMCARGOSEntity getTbCOMPETENCIASEMCARGOS() {
-        if (this.tbCOMPETENCIASEMCARGOS == null) {
-            prepareNewTbCOMPETENCIASEMCARGOS();
-        }
         return this.tbCOMPETENCIASEMCARGOS;
     }
     

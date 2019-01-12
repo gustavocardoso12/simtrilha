@@ -22,7 +22,11 @@
 					update="paneCult DS toggleable2 tbCARGOSTable paneCargos tbCARGOSTable2 tbCARGOSTable3 tbCARGOSTable4 tbHABILIDADESCULTCARGOSDataForm
 					tbHABILIDADESCARGOSDataForm DSHB toggleable4 paneHAB
 					DSEST toggleable5 paneEST tbESTILOLIDERANCACARGOSDataForm
-					DSELI toggleable6 paneELI" />
+					DSELI toggleable6 paneELI tbESTILOPENSAMENTOCARGOSDataForm
+					DSEM toggleable7 paneEM tbCOMPETENCIASEMCARGOSDataForm
+					paneCO DSCO toggleable8 tbCOMPETENCIASCARGOSDataForm
+					DSCB toggleable9 paneCB tbCONHECIMENTOSBASCARGOSDataForm
+					DSCE toggleable10 paneCE tbCONHECIMENTOSESPCARGOSDataForm" />
 
 				<p:column
 					style="width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;"
@@ -243,7 +247,7 @@
 			<p:panel id="toggleable2" header="Habilidades Culturais (DS)"
 				rendered="#{tbCARGOSBean.flagCultura==1}" toggleable="true"
 				toggleSpeed="500" closeSpeed="500" widgetVar="panel2"
-				collapsed="false" style="width:auto;background:black;">
+				collapsed="true" style="width:auto;background:black;">
 				<h:panelGrid id="paneCult" rendered="#{tbCARGOSBean.flagCultura==1}">
 
 					<h:form prependId="false" rendered="#{tbCARGOSBean.flagCultura==1}"
@@ -437,7 +441,7 @@
 			<p:panel id="toggleable4" header="Habilidades Comportamentais "
 				rendered="#{tbCARGOSBean.flagCultura==1}" toggleable="true"
 				toggleSpeed="500" closeSpeed="500" widgetVar="panel4"
-				collapsed="false" style="width:auto;background:black;">
+				collapsed="true" style="width:auto;background:black;">
 				<h:panelGrid id="paneHAB" rendered="#{tbCARGOSBean.flagCultura==1}">
 
 					<h:form prependId="false" id="tbHABILIDADESCARGOSDataForm"
@@ -576,7 +580,7 @@
 			<p:panel id="toggleable5" header="Estilo de liderança (DS)"
 				rendered="#{tbCARGOSBean.flagCultura==1}" toggleable="true"
 				toggleSpeed="500" closeSpeed="500" widgetVar="panel5"
-				collapsed="false" style="width:auto;background:black;">
+				collapsed="true" style="width:auto;background:black;">
 				<h:panelGrid id="paneEST" rendered="#{tbCARGOSBean.flagCultura==1}">
 
 					<h:form prependId="false" id="tbESTILOLIDERANCACARGOSDataForm"
@@ -740,7 +744,7 @@
 			<p:panel id="toggleable6" header="Estilo de pensamento (DS)"
 				rendered="#{tbCARGOSBean.flagCultura==1}" toggleable="true"
 				toggleSpeed="500" closeSpeed="500" widgetVar="panel6"
-				collapsed="false" style="width:auto;background:black;">
+				collapsed="true" style="width:auto;background:black;">
 				<h:panelGrid id="paneELI" rendered="#{tbCARGOSBean.flagCultura==1}">
 					<h:form prependId="false" id="tbESTILOPENSAMENTOCARGOSDataForm"
 						onkeypress="if (event.keyCode == 13) {return false; }">
@@ -753,26 +757,25 @@
 
 							<f:facet name="header">
 
-								<p:commandButton
-									value="#{messages.CadastrarEstiloPensamento}"
+								<p:commandButton value="#{messages.CadastrarEstiloPensamento}"
 									action="#{tbESTILOPENSAMENTOCARGOSBean.prepareNewTbESTILOPENSAMENTOCARGOS(tbCARGOSBean.selectedCargo)}"
 									resetValues="true" update=":editTbESTILOPENSAMENTOCARGOSDialog"
 									oncomplete="if(!args.validationFailed) PF('editTbESTILOPENSAMENTOCARGOSDialogWidget').show()"
-									style="width:29.5%"  />
+									style="width:29.5%" />
 
-								
+
 							</f:facet>
 
 
 							<p:column
-							style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
 								headerText="#{messages.field_label_tbESTILOPENSAMENTOCARGOS_idESTPENSAMENTO}">
 								<h:outputText
 									value="#{tbESTILOPENSAMENTOCARGOS.idESTPENSAMENTO.deSCESTILOPENSAMENTO}" />
 							</p:column>
 
 							<p:column
-							style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
 								headerText="#{messages.field_label_tbESTILOPENSAMENTOCARGOS_poNTUACAOESTPENSAMENTO}">
 								<h:outputText
 									value="#{tbESTILOPENSAMENTOCARGOS.poNTUACAOESTPENSAMENTO}">
@@ -780,23 +783,19 @@
 								</h:outputText>
 							</p:column>
 
+
 							<p:column headerText="Ações"
 								style="background:#ffe6ff;width:100%;font-size:14px;font-weight:bold;"
 								exportable="false">
 
-
-						
-
-								<p:commandButton 
-									update=":editTbESTILOPENSAMENTOCARGOSDialog" resetValues="true"
-									style="background:#ED6D09;width:50%" 
+								<p:commandButton update=":editTbESTILOPENSAMENTOCARGOSDialog"
+									resetValues="true" style="background:#ED6D09;width:50%"
 									action="#{tbESTILOPENSAMENTOCARGOSBean.onDialogOpen(tbESTILOPENSAMENTOCARGOS)}"
 									oncomplete="PF('editTbESTILOPENSAMENTOCARGOSDialogWidget').show()"
 									value="#{messages.EditarEstiloPensamento}">
 								</p:commandButton>
 
-								<p:commandButton 
-									style="background:#ED6D09;width:50%" 
+								<p:commandButton style="background:#ED6D09;width:50%"
 									oncomplete="PF('deleteTbESTILOPENSAMENTOCARGOSDialogWidget').show()"
 									value="#{messages.ExcluirEstiloPensamento}">
 									<f:setPropertyActionListener
@@ -805,6 +804,7 @@
 								</p:commandButton>
 
 							</p:column>
+
 
 						</p:dataTable>
 
@@ -817,8 +817,8 @@
 		</p:panel>
 
 
-			
-			
+
+
 		<p:confirmDialog id="deleteTbESTILOPENSAMENTOCARGOSDialog"
 			widgetVar="deleteTbESTILOPENSAMENTOCARGOSDialogWidget"
 			showEffect="explode" hideEffect="fade"
@@ -836,7 +836,7 @@
 						<p:commandButton value="#{messages.label_no}"
 							onclick="PF('deleteTbESTILOPENSAMENTOCARGOSDialogWidget').hide()"
 							type="button" />
-				</p:panelGrid>
+					</p:panelGrid>
 				</h:form>
 			</p:outputPanel>
 		</p:confirmDialog>
@@ -845,8 +845,7 @@
 			header="#{tbESTILOPENSAMENTOBean.dialogHeader}"
 			widgetVar="editTbESTILOPENSAMENTOCARGOSDialogWidget"
 			showEffect="explode" hideEffect="bounce" responsive="true"
-			resizable="false" modal="true"
-			maximizable="false">
+			resizable="false" modal="true" maximizable="false">
 			<p:ajax event="close"
 				listener="#{tbESTILOPENSAMENTOCARGOSBean.reset}" />
 			<h:form id="editTbESTILOPENSAMENTOCARGOSForm">
@@ -863,25 +862,9 @@
 			</h:form>
 		</p:dialog>
 
-		<p:dialog dynamic="true" id="viewTbESTILOPENSAMENTOCARGOSDialog"
-			header="#{messages.label_tbESTILOPENSAMENTOCARGOS_caption}"
-			modal="true" widgetVar="viewTbESTILOPENSAMENTOCARGOSDialogWidget"
-			maximizable="true">
-			<p:ajax event="close"
-				listener="#{tbESTILOPENSAMENTOCARGOSBean.reset}" />
-			<h:form id="viewTbESTILOPENSAMENTOCARGOSForm">
-				<ui:include
-					src="/pages/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOSViewInclude.xhtml" />
-				<div style="text-align: center; margin: 10px">
-					<p:commandButton value="#{messages.label_close}"
-						icon="ui-icon-close"
-						onclick="PF('viewTbESTILOPENSAMENTOCARGOSDialogWidget').hide()"
-						type="button" />
-				</div>
-			</h:form>
-		</p:dialog>
 
-		
+
+
 
 		<p:dialog dynamic="true" id="createIdESTPENSAMENTOFromEditDialog"
 			rendered="#{tbESTILOPENSAMENTOCARGOSBean.isPermitted('tbESTILOPENSAMENTO:create')}"
@@ -911,6 +894,747 @@
 				</h:form>
 			</p:outputPanel>
 		</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!-- Competecências emocionais -->
+
+
+
+
+		<p:panel visible="#{tbCARGOSBean.flagCultura==1}" style="color:black"
+			id="DSEM">
+			<p:panel id="toggleable7" header="Competências Emocionais (DS)"
+				rendered="#{tbCARGOSBean.flagCultura==1}" toggleable="true"
+				toggleSpeed="500" closeSpeed="500" widgetVar="panel7"
+				collapsed="true" style="width:auto;background:black;">
+				<h:panelGrid id="paneEM" rendered="#{tbCARGOSBean.flagCultura==1}">
+					<h:form prependId="false" id="tbCOMPETENCIASEMCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<p:dataTable id="tbCOMPETENCIASEMCARGOSTable"
+							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresEM(tbCARGOSBean.selectedCargo)}"
+							var="tbCOMPETENCIASEMCARGOS" resizableColumns="true"
+							widgetVar="tbCOMPETENCIASEMCARGOSTable"
+							emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+							<f:facet name="header">
+
+								<p:commandButton
+									value="#{messages.CadastrarCompetenciasEmocional}"
+									action="#{tbCOMPETENCIASEMCARGOSBean.prepareNewTbCOMPETENCIASEMCARGOS(tbCARGOSBean.selectedCargo)}"
+									resetValues="true" update=":editTbCOMPETENCIASEMCARGOSDialog"
+									oncomplete=" if(!args.validationFailed) PF('editTbCOMPETENCIASEMCARGOSDialogWidget').show()"
+									style="width:29.5%" />
+
+							</f:facet>
+
+
+
+
+
+
+
+
+							<p:column
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								headerText="#{messages.field_label_tbCOMPETENCIASEMCARGOS_idCOMPEM}">
+								<h:outputText
+									value="#{tbCOMPETENCIASEMCARGOS.idCOMPEM.deSCCOMPEMOCIONAIS}" />
+							</p:column>
+
+							<p:column
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								headerText="#{messages.field_label_tbCOMPETENCIASEMCARGOS_poNTUACAOCOMPEM}">
+								<h:outputText value="#{tbCOMPETENCIASEMCARGOS.poNTUACAOCOMPEM}">
+									<f:convertNumber />
+								</h:outputText>
+							</p:column>
+
+
+							<p:column headerText="Ações"
+								style="background:#ffe6ff;width:100%;font-size:14px;font-weight:bold;"
+								exportable="false">
+
+
+								<p:commandButton update=":editTbCOMPETENCIASEMCARGOSDialog"
+									resetValues="true" style="background:#ED6D09;width:50%"
+									action="#{tbCOMPETENCIASEMCARGOSBean.onDialogOpen(tbCOMPETENCIASEMCARGOS)}"
+									oncomplete="PF('editTbCOMPETENCIASEMCARGOSDialogWidget').show()"
+									value="#{messages.EditarCompetenciasEmocionais}">
+								</p:commandButton>
+
+								<p:commandButton
+									oncomplete="PF('deleteTbCOMPETENCIASEMCARGOSDialogWidget').show()"
+									style="background:#ED6D09;width:50%"
+									value="#{messages.ExcluirCompetenciasEmocionais}">
+									<f:setPropertyActionListener value="#{tbCOMPETENCIASEMCARGOS}"
+										target="#{tbCOMPETENCIASEMCARGOSBean.tbCOMPETENCIASEMCARGOS}" />
+								</p:commandButton>
+
+							</p:column>
+
+						</p:dataTable>
+
+
+
+					</h:form>
+
+				</h:panelGrid>
+			</p:panel>
+		</p:panel>
+
+		<p:confirmDialog id="deleteTbCOMPETENCIASEMCARGOSDialog"
+			showEffect="explode" hideEffect="fade"
+			widgetVar="deleteTbCOMPETENCIASEMCARGOSDialogWidget"
+			header="#{messages.label_confirm_deletion}" severity="alarm">
+			<f:facet name="message">
+				<h:outputText value="#{messages.label_delete_record}" escape="false" />
+			</f:facet>
+			<p:outputPanel>
+				<h:form>
+					<p:panelGrid columns="2" style="margin:auto">
+						<p:commandButton value="#{messages.label_yes}"
+							action="#{tbCOMPETENCIASEMCARGOSBean.delete}"
+							update=":tbCOMPETENCIASEMCARGOSDataForm :growlForm:growl"
+							oncomplete="PF('deleteTbCOMPETENCIASEMCARGOSDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_no}"
+							onclick="PF('deleteTbCOMPETENCIASEMCARGOSDialogWidget').hide()"
+							type="button" />
+					</p:panelGrid>
+				</h:form>
+			</p:outputPanel>
+		</p:confirmDialog>
+
+
+
+		<p:dialog dynamic="true" id="editTbCOMPETENCIASEMCARGOSDialog"
+			header="#{tbCOMPETENCIASEMCARGOSBean.dialogHeader}"
+			showEffect="explode" hideEffect="bounce" responsive="true"
+			resizable="false" modal="true" maximizable="false"
+			widgetVar="editTbCOMPETENCIASEMCARGOSDialogWidget">
+			<p:ajax event="close" listener="#{tbCOMPETENCIASEMCARGOSBean.reset}" />
+			<h:form id="editTbCOMPETENCIASEMCARGOSForm">
+				<p:outputPanel id="tbCOMPETENCIASEMCARGOSEditPanel">
+					<ui:include
+						src="/pages/tbCOMPETENCIASEMCARGOS/tbCOMPETENCIASEMCARGOSEditInclude.xhtml" />
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton value="#{messages.label_save}"
+							action="#{tbCOMPETENCIASEMCARGOSBean.persist}"
+							update=":editTbCOMPETENCIASEMCARGOSForm:tbCOMPETENCIASEMCARGOSEditPanel :tbCOMPETENCIASEMCARGOSDataForm :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('editTbCOMPETENCIASEMCARGOSDialogWidget').hide()" />
+					</div>
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+
+
+		<p:dialog dynamic="true" id="createIdCOMPEMFromEditDialog"
+			rendered="#{tbCOMPETENCIASEMCARGOSBean.isPermitted('tbCOMPETENCIASEMOCIONAIS:create')}"
+			header="#{messages.dialog_tbCOMPETENCIASEMCARGOS_create_idCOMPEM}"
+			modal="true" widgetVar="createIdCOMPEMFromEditDialogWidget"
+			maximizable="true">
+			<p:ajax event="close"
+				listener="#{tbCOMPETENCIASEMOCIONAISBean.reset}" />
+			<p:outputPanel id="createIdCOMPEMPanel">
+				<h:form id="createIdCOMPEMForm">
+					<ui:include
+						src="/pages/tbCOMPETENCIASEMOCIONAIS/tbCOMPETENCIASEMOCIONAISEditInclude.xhtml">
+						<ui:param name="hideTbCOMPETENCIASEMCARGOSSelectInput"
+							value="true" />
+					</ui:include>
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton
+							action="#{tbCOMPETENCIASEMCARGOSBean.updateIdCOMPEM(tbCOMPETENCIASEMOCIONAISBean.tbCOMPETENCIASEMOCIONAIS)}"
+							value="#{messages.label_save}" icon="ui-icon-disk"
+							actionListener="#{tbCOMPETENCIASEMOCIONAISBean.persist}"
+							update=":editTbCOMPETENCIASEMCARGOSForm:idCOMPEMSelectInput :createIdCOMPEMPanel :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('createIdCOMPEMFromEditDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_close}"
+							icon="ui-icon-close"
+							onclick="PF('createIdCOMPEMFromEditDialogWidget').hide()"
+							type="button" />
+					</div>
+				</h:form>
+			</p:outputPanel>
+		</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!-- Competências -->
+
+
+
+		<p:panel visible="#{tbCARGOSBean.flagCultura==1}" style="color:black"
+			id="DSCO">
+			<p:panel id="toggleable8" header="Competências Gerais"
+				rendered="#{tbCARGOSBean.flagCultura==1}" toggleable="true"
+				toggleSpeed="500" closeSpeed="500" widgetVar="panel8"
+				collapsed="true" style="width:auto;background:black;">
+				<h:panelGrid id="paneCO" rendered="#{tbCARGOSBean.flagCultura==1}">
+
+
+					<h:form prependId="false" id="tbCOMPETENCIASCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<p:dataTable id="tbCOMPETENCIASCARGOSTable"
+							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCO(tbCARGOSBean.selectedCargo)}"
+							var="tbCOMPETENCIASCARGOS" resizableColumns="true"
+							widgetVar="tbCOMPETENCIASCARGOSTable"
+							emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+							<f:facet name="header">
+
+								<p:commandButton value="#{messages.CadastrarCompetencias}"
+									action="#{tbCOMPETENCIASCARGOSBean.prepareNewTbCOMPETENCIASCARGOS(tbCARGOSBean.selectedCargo)}"
+									resetValues="true" update=":editTbCOMPETENCIASCARGOSDialog"
+									oncomplete="if(!args.validationFailed) PF('editTbCOMPETENCIASCARGOSDialogWidget').show()"
+									style="width:29.5%" />
+
+							</f:facet>
+
+							<p:column
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								headerText="#{messages.field_label_tbCOMPETENCIASCARGOS_idCOMPETENCIAS}">
+
+								<h:outputText
+									value="#{tbCOMPETENCIASCARGOS.idCOMPETENCIAS.deSCCOMPETENCIA}" />
+							</p:column>
+
+
+							<p:column
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								headerText="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}">
+								<h:outputText
+									value="#{tbCOMPETENCIASCARGOS.poNTUACAOCOMPETENCIA}">
+									<f:convertNumber />
+								</h:outputText>
+							</p:column>
+
+
+
+
+
+							<p:column headerText="Ações"
+								style="background:#ffe6ff;width:100%;font-size:14px;font-weight:bold;"
+								exportable="false">
+
+
+								<p:commandButton update=":editTbCOMPETENCIASCARGOSDialog"
+									resetValues="true" style="background:#ED6D09;width:50%"
+									action="#{tbCOMPETENCIASCARGOSBean.onDialogOpen(tbCOMPETENCIASCARGOS)}"
+									oncomplete="PF('editTbCOMPETENCIASCARGOSDialogWidget').show()"
+									value="#{messages.EditarCompetencias}">
+								</p:commandButton>
+
+								<p:commandButton
+									oncomplete="PF('deleteTbCOMPETENCIASCARGOSDialogWidget').show()"
+									style="background:#ED6D09;width:50%"
+									value="#{messages.ExcluirCompetencias}">
+									<f:setPropertyActionListener value="#{tbCOMPETENCIASCARGOS}"
+										target="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS}" />
+								</p:commandButton>
+
+							</p:column>
+
+						</p:dataTable>
+
+
+
+
+					</h:form>
+
+
+				</h:panelGrid>
+			</p:panel>
+		</p:panel>
+
+
+
+
+		<p:confirmDialog id="deleteTbCOMPETENCIASCARGOSDialog"
+			widgetVar="deleteTbCOMPETENCIASCARGOSDialogWidget"
+			showEffect="explode" hideEffect="fade"
+			header="#{messages.label_confirm_deletion}" severity="alarm">
+			<f:facet name="message">
+				<h:outputText value="#{messages.label_delete_record}" escape="false" />
+			</f:facet>
+			<p:outputPanel>
+				<h:form>
+					<p:panelGrid columns="2" style="margin:auto">
+						<p:commandButton value="#{messages.label_yes}"
+							action="#{tbCOMPETENCIASCARGOSBean.delete}"
+							update=":tbCOMPETENCIASCARGOSDataForm :growlForm:growl"
+							oncomplete="PF('deleteTbCOMPETENCIASCARGOSDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_no}"
+							onclick="PF('deleteTbCOMPETENCIASCARGOSDialogWidget').hide()"
+							type="button" />
+					</p:panelGrid>
+				</h:form>
+			</p:outputPanel>
+		</p:confirmDialog>
+
+		<p:dialog dynamic="true" id="editTbCOMPETENCIASCARGOSDialog"
+			showEffect="explode" hideEffect="bounce" responsive="true"
+			resizable="false" modal="true" maximizable="false"
+			header="#{tbCOMPETENCIASCARGOSBean.dialogHeader}"
+			widgetVar="editTbCOMPETENCIASCARGOSDialogWidget">
+			<p:ajax event="close" listener="#{tbCOMPETENCIASCARGOSBean.reset}" />
+			<h:form id="editTbCOMPETENCIASCARGOSForm">
+				<p:outputPanel id="tbCOMPETENCIASCARGOSEditPanel">
+					<ui:include
+						src="/pages/tbCOMPETENCIASCARGOS/tbCOMPETENCIASCARGOSEditInclude.xhtml" />
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton value="#{messages.label_save}"
+							action="#{tbCOMPETENCIASCARGOSBean.persist}"
+							update=":editTbCOMPETENCIASCARGOSForm:tbCOMPETENCIASCARGOSEditPanel :tbCOMPETENCIASCARGOSDataForm :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('editTbCOMPETENCIASCARGOSDialogWidget').hide()" />
+					</div>
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+
+		<p:dialog dynamic="true" id="createIdCOMPETENCIASFromEditDialog"
+			rendered="#{tbCOMPETENCIASCARGOSBean.isPermitted('tbCOMPETENCIAS:create')}"
+			header="#{messages.dialog_tbCOMPETENCIASCARGOS_create_idCOMPETENCIAS}"
+			modal="true" widgetVar="createIdCOMPETENCIASFromEditDialogWidget"
+			maximizable="true">
+			<p:ajax event="close" listener="#{tbCOMPETENCIASBean.reset}" />
+			<p:outputPanel id="createIdCOMPETENCIASPanel">
+				<h:form id="createIdCOMPETENCIASForm">
+					<ui:include
+						src="/pages/tbCOMPETENCIAS/tbCOMPETENCIASEditInclude.xhtml">
+						<ui:param name="hideTbCOMPETENCIASCARGOSSelectInput" value="true" />
+					</ui:include>
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton
+							action="#{tbCOMPETENCIASCARGOSBean.updateIdCOMPETENCIAS(tbCOMPETENCIASBean.tbCOMPETENCIAS)}"
+							value="#{messages.label_save}" icon="ui-icon-disk"
+							actionListener="#{tbCOMPETENCIASBean.persist}"
+							update=":editTbCOMPETENCIASCARGOSForm:idCOMPETENCIASSelectInput :createIdCOMPETENCIASPanel :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('createIdCOMPETENCIASFromEditDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_close}"
+							icon="ui-icon-close"
+							onclick="PF('createIdCOMPETENCIASFromEditDialogWidget').hide()"
+							type="button" />
+					</div>
+				</h:form>
+			</p:outputPanel>
+		</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!-- Conhecimentos básicos -->
+
+
+
+
+
+		<p:panel visible="#{tbCARGOSBean.flagCultura==1}" style="color:black"
+			id="DSCB">
+			<p:panel id="toggleable9" header="Conhecimentos básicos"
+				rendered="#{tbCARGOSBean.flagCultura==1}" toggleable="true"
+				toggleSpeed="500" closeSpeed="500" widgetVar="panel9"
+				collapsed="true" style="width:auto;background:black;">
+				<h:panelGrid id="paneCB" rendered="#{tbCARGOSBean.flagCultura==1}">
+
+					<h:form prependId="false" id="tbCONHECIMENTOSBASCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<p:dataTable id="tbCONHECIMENTOSBASCARGOSTable"
+							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCB(tbCARGOSBean.selectedCargo)}"
+							var="tbCONHECIMENTOSBASCARGOS" resizableColumns="true"
+							draggableColumns="true" widgetVar="tbCONHECIMENTOSBASCARGOSTable"
+							emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+							<f:facet name="header">
+
+								<p:commandButton value="#{messages.CadastrarConhecimentoBasico}"
+									action="#{tbCONHECIMENTOSBASCARGOSBean.prepareNewTbCONHECIMENTOSBASCARGOS(tbCARGOSBean.selectedCargo)}"
+									resetValues="true" update=":editTbCONHECIMENTOSBASCARGOSDialog"
+									oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSBASCARGOSDialogWidget').show()"
+									style="width:29.5%" />
+
+							</f:facet>
+
+
+
+							<p:column
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								headerText="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_idCONHECBAS}">
+
+								<h:outputText
+									value="#{tbCONHECIMENTOSBASCARGOS.idCONHECBAS.deSCCONHECIMENTOSBASICOS}" />
+							</p:column>
+
+							<p:column
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								headerText="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_poNTUACAOCONBAS}">
+
+								<h:outputText
+									value="#{tbCONHECIMENTOSBASCARGOS.poNTUACAOCONBAS}">
+									<f:convertNumber />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Ações"
+								style="background:#ffe6ff;width:100%;font-size:14px;font-weight:bold;"
+								exportable="false">
+
+
+								<p:commandButton update=":editTbCONHECIMENTOSBASCARGOSDialog"
+									resetValues="true" style="background:#ED6D09;width:50%"
+									action="#{tbCONHECIMENTOSBASCARGOSBean.onDialogOpen(tbCONHECIMENTOSBASCARGOS)}"
+									oncomplete="PF('editTbCONHECIMENTOSBASCARGOSDialogWidget').show()"
+									value="#{messages.label_edit}">
+								</p:commandButton>
+
+								<p:commandButton
+									oncomplete="PF('deleteTbCONHECIMENTOSBASCARGOSDialogWidget').show()"
+									style="background:#ED6D09;width:50%"
+									value="#{messages.label_delete}">
+									<f:setPropertyActionListener
+										value="#{tbCONHECIMENTOSBASCARGOS}"
+										target="#{tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOS}" />
+								</p:commandButton>
+
+							</p:column>
+
+						</p:dataTable>
+
+
+
+					</h:form>
+
+				</h:panelGrid>
+			</p:panel>
+		</p:panel>
+
+
+		<p:confirmDialog id="deleteTbCONHECIMENTOSBASCARGOSDialog"
+			widgetVar="deleteTbCONHECIMENTOSBASCARGOSDialogWidget"
+			showEffect="explode" hideEffect="fade"
+			header="#{messages.label_confirm_deletion}" severity="alarm">
+			<f:facet name="message">
+				<h:outputText value="#{messages.label_delete_record}" escape="false" />
+			</f:facet>
+			<p:outputPanel>
+				<h:form>
+					<p:panelGrid columns="2" style="margin:auto">
+						<p:commandButton value="#{messages.label_yes}"
+							action="#{tbCONHECIMENTOSBASCARGOSBean.delete}"
+							update=":tbCONHECIMENTOSBASCARGOSDataForm :growlForm:growl"
+							oncomplete="PF('deleteTbCONHECIMENTOSBASCARGOSDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_no}"
+							onclick="PF('deleteTbCONHECIMENTOSBASCARGOSDialogWidget').hide()"
+							type="button" />
+					</p:panelGrid>
+				</h:form>
+			</p:outputPanel>
+		</p:confirmDialog>
+
+		<p:dialog dynamic="true" id="editTbCONHECIMENTOSBASCARGOSDialog"
+			header="#{tbCONHECIMENTOSBASCARGOSBean.dialogHeader}"
+			showEffect="explode" hideEffect="bounce" responsive="true"
+			resizable="false" modal="true" maximizable="false"
+			widgetVar="editTbCONHECIMENTOSBASCARGOSDialogWidget">
+			<p:ajax event="close"
+				listener="#{tbCONHECIMENTOSBASCARGOSBean.reset}" />
+			<h:form id="editTbCONHECIMENTOSBASCARGOSForm">
+				<p:outputPanel id="tbCONHECIMENTOSBASCARGOSEditPanel">
+					<ui:include
+						src="/pages/tbCONHECIMENTOSBASCARGOS/tbCONHECIMENTOSBASCARGOSEditInclude.xhtml" />
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton value="#{messages.label_save}"
+							action="#{tbCONHECIMENTOSBASCARGOSBean.persist}"
+							update=":editTbCONHECIMENTOSBASCARGOSForm:tbCONHECIMENTOSBASCARGOSEditPanel :tbCONHECIMENTOSBASCARGOSDataForm :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSBASCARGOSDialogWidget').hide()" />
+					</div>
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+
+		<p:dialog dynamic="true" id="createIdCONHECBASFromEditDialog"
+			rendered="#{tbCONHECIMENTOSBASCARGOSBean.isPermitted('tbCONHECIMENTOSBASICOS:create')}"
+			header="#{messages.dialog_tbCONHECIMENTOSBASCARGOS_create_idCONHECBAS}"
+			modal="true" widgetVar="createIdCONHECBASFromEditDialogWidget"
+			maximizable="true">
+			<p:ajax event="close" listener="#{tbCONHECIMENTOSBASICOSBean.reset}" />
+			<p:outputPanel id="createIdCONHECBASPanel">
+				<h:form id="createIdCONHECBASForm">
+					<ui:include
+						src="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOSEditInclude.xhtml">
+						<ui:param name="hideTbCONHECIMENTOSBASCARGOSSelectInput"
+							value="true" />
+					</ui:include>
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton
+							action="#{tbCONHECIMENTOSBASCARGOSBean.updateIdCONHECBAS(tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS)}"
+							value="#{messages.label_save}" icon="ui-icon-disk"
+							actionListener="#{tbCONHECIMENTOSBASICOSBean.persist}"
+							update=":editTbCONHECIMENTOSBASCARGOSForm:idCONHECBASSelectInput :createIdCONHECBASPanel :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('createIdCONHECBASFromEditDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_close}"
+							icon="ui-icon-close"
+							onclick="PF('createIdCONHECBASFromEditDialogWidget').hide()"
+							type="button" />
+					</div>
+				</h:form>
+			</p:outputPanel>
+		</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!--  Conhecimentos específicos -->
+
+
+
+
+
+
+
+		<p:panel visible="#{tbCARGOSBean.flagCultura==1}" style="color:black"
+			id="DSCE">
+			<p:panel id="toggleable10" header="Conhecimentos específicos"
+				rendered="#{tbCARGOSBean.flagCultura==1}" toggleable="true"
+				toggleSpeed="500" closeSpeed="500" widgetVar="panel10"
+				collapsed="true" style="width:auto;background:black;">
+				<h:panelGrid id="paneCE" rendered="#{tbCARGOSBean.flagCultura==1}">
+
+
+
+					<h:form prependId="false" id="tbCONHECIMENTOSESPCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<p:dataTable id="tbCONHECIMENTOSESPCARGOSTable"
+							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCE(tbCARGOSBean.selectedCargo)}"
+							var="tbCONHECIMENTOSESPCARGOS" resizableColumns="true"
+							draggableColumns="true" widgetVar="tbCONHECIMENTOSESPCARGOSTable"
+							emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+							<f:facet name="header">
+
+								<p:commandButton
+									value="#{messages.CadastrarConhecimentosEspecificos}"
+									action="#{tbCONHECIMENTOSESPCARGOSBean.prepareNewTbCONHECIMENTOSESPCARGOS(tbCARGOSBean.selectedCargo)}"
+									resetValues="true" update=":editTbCONHECIMENTOSESPCARGOSDialog"
+									oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSESPCARGOSDialogWidget').show()"
+									style="width:29.5%" />
+
+							</f:facet>
+
+
+							<p:column
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								headerText="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_idCONHECESP}">
+
+								<h:outputText
+									value="#{tbCONHECIMENTOSESPCARGOS.idCONHECESP.deSCCONHECIMENTOSESPECIFICOS}" />
+							</p:column>
+
+							<p:column
+								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+								headerText="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_poNTUACAOCONESP}">
+
+								<h:outputText
+									value="#{tbCONHECIMENTOSESPCARGOS.poNTUACAOCONESP}">
+									<f:convertNumber />
+								</h:outputText>
+							</p:column>
+
+
+							<p:column headerText="Ações"
+								style="background:#ffe6ff;width:100%;font-size:14px;font-weight:bold;"
+								exportable="false">
+
+
+
+								<p:commandButton update=":editTbCONHECIMENTOSESPCARGOSDialog"
+									resetValues="true"	
+									style="background:#ED6D09;width:50%"
+									action="#{tbCONHECIMENTOSESPCARGOSBean.onDialogOpen(tbCONHECIMENTOSESPCARGOS)}"
+									oncomplete="PF('editTbCONHECIMENTOSESPCARGOSDialogWidget').show()"
+									value="#{messages.EditarConhecimentosEsp}">
+								</p:commandButton>
+
+								<p:commandButton
+									oncomplete="PF('deleteTbCONHECIMENTOSESPCARGOSDialogWidget').show()"
+									style="background:#ED6D09;width:50%"
+									value="#{messages.ExcluirConhecimentosEsp}">
+									<f:setPropertyActionListener
+										value="#{tbCONHECIMENTOSESPCARGOS}"
+										target="#{tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS}" />
+								</p:commandButton>
+
+							</p:column>
+
+						</p:dataTable>
+
+
+
+					</h:form>
+
+
+
+
+				</h:panelGrid>
+			</p:panel>
+		</p:panel>
+
+		<p:confirmDialog id="deleteTbCONHECIMENTOSESPCARGOSDialog"
+			widgetVar="deleteTbCONHECIMENTOSESPCARGOSDialogWidget"
+			showEffect="explode" hideEffect="fade"
+			header="#{messages.label_confirm_deletion}" severity="alarm">
+			<f:facet name="message">
+				<h:outputText value="#{messages.label_delete_record}" escape="false" />
+			</f:facet>
+			<p:outputPanel>
+				<h:form>
+						
+					<p:panelGrid columns="2" style="margin:auto">
+						<p:commandButton value="#{messages.label_yes}"
+							action="#{tbCONHECIMENTOSESPCARGOSBean.delete}"
+							update=":tbCONHECIMENTOSESPCARGOSDataForm :growlForm:growl"
+							oncomplete="PF('deleteTbCONHECIMENTOSESPCARGOSDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_no}"
+							onclick="PF('deleteTbCONHECIMENTOSESPCARGOSDialogWidget').hide()"
+							type="button" />
+					</p:panelGrid>
+				</h:form>
+			</p:outputPanel>
+		</p:confirmDialog>
+
+		<p:dialog dynamic="true" id="editTbCONHECIMENTOSESPCARGOSDialog"
+			showEffect="explode" hideEffect="bounce" responsive="true"
+			resizable="false" modal="true" maximizable="false"
+			header="#{tbCONHECIMENTOSESPCARGOSBean.dialogHeader}"
+			widgetVar="editTbCONHECIMENTOSESPCARGOSDialogWidget">
+			<p:ajax event="close"
+				listener="#{tbCONHECIMENTOSESPCARGOSBean.reset}" />
+			<h:form id="editTbCONHECIMENTOSESPCARGOSForm">
+				<p:outputPanel id="tbCONHECIMENTOSESPCARGOSEditPanel">
+					<ui:include
+						src="/pages/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOSEditInclude.xhtml" />
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton value="#{messages.label_save}"
+							action="#{tbCONHECIMENTOSESPCARGOSBean.persist}"
+							update=":editTbCONHECIMENTOSESPCARGOSForm:tbCONHECIMENTOSESPCARGOSEditPanel :tbCONHECIMENTOSESPCARGOSDataForm :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSESPCARGOSDialogWidget').hide()" />
+
+					</div>
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+
+		<p:dialog dynamic="true" id="createIdCONHECESPFromEditDialog"
+			rendered="#{tbCONHECIMENTOSESPCARGOSBean.isPermitted('tbCONHECIMENTOSESPECIFICOS:create')}"
+			header="#{messages.dialog_tbCONHECIMENTOSESPCARGOS_create_idCONHECESP}"
+			modal="true" widgetVar="createIdCONHECESPFromEditDialogWidget"
+			maximizable="true">
+			<p:ajax event="close"
+				listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}" />
+			<p:outputPanel id="createIdCONHECESPPanel">
+				<h:form id="createIdCONHECESPForm">
+					<ui:include
+						src="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOSEditInclude.xhtml">
+						<ui:param name="hideTbCONHECIMENTOSESPCARGOSSelectInput"
+							value="true" />
+					</ui:include>
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton
+							action="#{tbCONHECIMENTOSESPCARGOSBean.updateIdCONHECESP(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS)}"
+							value="#{messages.label_save}" icon="ui-icon-disk"
+							actionListener="#{tbCONHECIMENTOSESPECIFICOSBean.persist}"
+							update=":editTbCONHECIMENTOSESPCARGOSForm:idCONHECESPSelectInput :createIdCONHECESPPanel :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('createIdCONHECESPFromEditDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_close}"
+							icon="ui-icon-close"
+							onclick="PF('createIdCONHECESPFromEditDialogWidget').hide()"
+							type="button" />
+					</div>
+				</h:form>
+			</p:outputPanel>
+		</p:dialog>
+
+
+
+
 
 
 

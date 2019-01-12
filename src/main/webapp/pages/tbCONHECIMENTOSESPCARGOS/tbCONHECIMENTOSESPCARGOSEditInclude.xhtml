@@ -9,13 +9,13 @@
 
         <p:outputPanel styleClass="ui-fluid">
 
-            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+         <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
             
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_idCARGOS}:" for="idCARGOSSelectInput" rendered="#{not hideIdCARGOSSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
                     <p:selectOneMenu value="#{tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS.idCARGOS}"
                                     id="idCARGOSSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                 
                         <f:selectItems value="#{tbCONHECIMENTOSESPCARGOSBean.idCARGOSs}" 
                                     var="tbCARGOS" 
                                     itemLabel="#{tbCARGOS.deSCCARGO}"
@@ -23,19 +23,7 @@
                         <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCONHECIMENTOSESPCARGOSBean.idCARGOSs}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
-                
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbCARGOSBean.prepareNewTbCARGOS()}"
-                              update=":createIdCARGOSFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdCARGOSFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdCARGOSFromEditDialog')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idCARGOSSelectInput" display="icon" rendered="#{not hideIdCARGOSSelectInput}"/>
-                </h:panelGroup>
+               
                 
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_idCONHECESP}:" for="idCONHECESPSelectInput" rendered="#{not hideIdCONHECESPSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCONHECESPSelectInput}">
@@ -49,19 +37,7 @@
                         <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCONHECIMENTOSESPCARGOSBean.idCONHECESPs}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdCONHECESPSelectInput}">
-                
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbCONHECIMENTOSESPECIFICOSBean.prepareNewTbCONHECIMENTOSESPECIFICOS()}"
-                              update=":createIdCONHECESPFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdCONHECESPFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdCONHECESPFromEditDialog') and tbCONHECIMENTOSESPCARGOSBean.isPermitted('tbCONHECIMENTOSESPECIFICOS:create')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idCONHECESPSelectInput" display="icon" rendered="#{not hideIdCONHECESPSelectInput}"/>
-                </h:panelGroup>
+        
                 
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_poNTUACAOCONESP}:" for="poNTUACAOCONESPEditInput" />
                 <p:inputText value="#{tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS.poNTUACAOCONESP}" id="poNTUACAOCONESPEditInput" label="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_poNTUACAOCONESP}" >

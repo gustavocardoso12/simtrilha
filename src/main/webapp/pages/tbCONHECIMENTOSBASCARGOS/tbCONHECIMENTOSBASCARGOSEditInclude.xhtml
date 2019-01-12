@@ -9,13 +9,13 @@
 
         <p:outputPanel styleClass="ui-fluid">
 
-            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+            <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
             
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_idCARGOS}:" for="idCARGOSSelectInput" rendered="#{not hideIdCARGOSSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
                     <p:selectOneMenu value="#{tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOS.idCARGOS}"
                                     id="idCARGOSSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                  
                         <f:selectItems value="#{tbCONHECIMENTOSBASCARGOSBean.idCARGOSs}" 
                                     var="tbCARGOS" 
                                     itemLabel="#{tbCARGOS.deSCCARGO}"
@@ -23,19 +23,7 @@
                         <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCONHECIMENTOSBASCARGOSBean.idCARGOSs}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
-                
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbCARGOSBean.prepareNewTbCARGOS()}"
-                              update=":createIdCARGOSFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdCARGOSFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdCARGOSFromEditDialog')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idCARGOSSelectInput" display="icon" rendered="#{not hideIdCARGOSSelectInput}"/>
-                </h:panelGroup>
+               
                 
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_idCONHECBAS}:" for="idCONHECBASSelectInput" rendered="#{not hideIdCONHECBASSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCONHECBASSelectInput}">
@@ -49,19 +37,7 @@
                         <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCONHECIMENTOSBASCARGOSBean.idCONHECBASs}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdCONHECBASSelectInput}">
-                
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbCONHECIMENTOSBASICOSBean.prepareNewTbCONHECIMENTOSBASICOS()}"
-                              update=":createIdCONHECBASFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdCONHECBASFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdCONHECBASFromEditDialog') and tbCONHECIMENTOSBASCARGOSBean.isPermitted('tbCONHECIMENTOSBASICOS:create')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idCONHECBASSelectInput" display="icon" rendered="#{not hideIdCONHECBASSelectInput}"/>
-                </h:panelGroup>
+              
                 
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_poNTUACAOCONBAS}:" for="poNTUACAOCONBASEditInput" />
                 <p:inputText value="#{tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOS.poNTUACAOCONBAS}" id="poNTUACAOCONBASEditInput" label="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_poNTUACAOCONBAS}" >

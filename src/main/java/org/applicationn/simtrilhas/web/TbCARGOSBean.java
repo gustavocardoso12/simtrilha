@@ -19,6 +19,7 @@ import javax.persistence.PersistenceException;
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCOMPETENCIASCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEMCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCURSOSEntity;
@@ -110,6 +111,14 @@ public class TbCARGOSBean implements Serializable {
 	protected List<TbESTILOLIDERANCACARGOSEntity> tbESTILOLIDERANCAs;
 	
 	protected List<TbESTILOPENSAMENTOCARGOSEntity> tbESTILOPENSAMENTOs;
+	
+	protected List<TbCOMPETENCIASEMCARGOSEntity> tbCOMPETENCIASEMs;
+	
+	protected List<TbCOMPETENCIASCARGOSEntity> tbCOMPETENCIASCARGOSs;
+	
+	protected List<TbCONHECIMENTOSBASCARGOSEntity> tbCONHECIMENTOSBASICOSCARGOSs;
+	
+	protected List<TbCONHECIMENTOSESPCARGOSEntity>  tbCONHECIMENTOSESPCARGOSs;
 
 	private List<TbESTATUARIOEntity> allIdESTsList;
 
@@ -204,6 +213,34 @@ public class TbCARGOSBean implements Serializable {
 		tbESTILOPENSAMENTOs = tbESTILOPENSAMENTOCARGOSService.findTbESTILOPENSAMENTOCARGOSsByIdCARGOS(this.tbCARGOS);
 
 		return tbESTILOPENSAMENTOs;
+	}
+	
+	public List<TbCOMPETENCIASEMCARGOSEntity> InicializaTabelasAuxiliaresEM(TbCARGOSEntity tbCARGOS){
+		this.tbCARGOS = tbCARGOS;
+		tbCOMPETENCIASEMs = tbCOMPETENCIASEMCARGOSService.findTbCOMPETENCIASEMCARGOSsByIdCARGOS(this.tbCARGOS);
+
+		return tbCOMPETENCIASEMs;
+	}
+	
+	public List<TbCOMPETENCIASCARGOSEntity> InicializaTabelasAuxiliaresCO(TbCARGOSEntity tbCARGOS){
+		this.tbCARGOS = tbCARGOS;
+		tbCOMPETENCIASCARGOSs= tbCOMPETENCIASCARGOSService.findTbCOMPETENCIASCARGOSsByIdCARGOS(this.tbCARGOS);
+
+		return tbCOMPETENCIASCARGOSs;
+	}
+	
+	public List<TbCONHECIMENTOSBASCARGOSEntity> InicializaTabelasAuxiliaresCB(TbCARGOSEntity tbCARGOS){
+		this.tbCARGOS = tbCARGOS;
+		tbCONHECIMENTOSBASICOSCARGOSs= tbCONHECIMENTOSBASCARGOSService.findTbCONHECIMENTOSBASCARGOSsByIdCARGOS(this.tbCARGOS);
+
+		return tbCONHECIMENTOSBASICOSCARGOSs;
+	}
+	
+	public List<TbCONHECIMENTOSESPCARGOSEntity> InicializaTabelasAuxiliaresCE(TbCARGOSEntity tbCARGOS){
+		this.tbCARGOS = tbCARGOS;
+		tbCONHECIMENTOSESPCARGOSs= tbCONHECIMENTOSESPCARGOSService.findTbCONHECIMENTOSESPCARGOSsByIdCARGOS(this.tbCARGOS);
+
+		return tbCONHECIMENTOSESPCARGOSs;
 	}
 	
 	
@@ -441,6 +478,40 @@ public class TbCARGOSBean implements Serializable {
 	public void setTbESTILOPENSAMENTOs(List<TbESTILOPENSAMENTOCARGOSEntity> tbESTILOPENSAMENTOs) {
 		this.tbESTILOPENSAMENTOs = tbESTILOPENSAMENTOs;
 	}
+
+	public List<TbCOMPETENCIASEMCARGOSEntity> getTbCOMPETENCIASEMs() {
+		return tbCOMPETENCIASEMs;
+	}
+
+	public void setTbCOMPETENCIASEMs(List<TbCOMPETENCIASEMCARGOSEntity> tbCOMPETENCIASEMs) {
+		this.tbCOMPETENCIASEMs = tbCOMPETENCIASEMs;
+	}
+
+	public List<TbCOMPETENCIASCARGOSEntity> getTbCOMPETENCIASCARGOSs() {
+		return tbCOMPETENCIASCARGOSs;
+	}
+
+	public void setTbCOMPETENCIASCARGOSs(List<TbCOMPETENCIASCARGOSEntity> tbCOMPETENCIASCARGOSs) {
+		this.tbCOMPETENCIASCARGOSs = tbCOMPETENCIASCARGOSs;
+	}
+
+	public List<TbCONHECIMENTOSBASCARGOSEntity> getTbCONHECIMENTOSBASICOSCARGOSs() {
+		return tbCONHECIMENTOSBASICOSCARGOSs;
+	}
+
+	public void setTbCONHECIMENTOSBASICOSCARGOSs(List<TbCONHECIMENTOSBASCARGOSEntity> tbCONHECIMENTOSBASICOSCARGOSs) {
+		this.tbCONHECIMENTOSBASICOSCARGOSs = tbCONHECIMENTOSBASICOSCARGOSs;
+	}
+
+	public List<TbCONHECIMENTOSESPCARGOSEntity> getTbCONHECIMENTOSESPCARGOSs() {
+		return tbCONHECIMENTOSESPCARGOSs;
+	}
+
+	public void setTbCONHECIMENTOSESPCARGOSs(List<TbCONHECIMENTOSESPCARGOSEntity> tbCONHECIMENTOSESPCARGOSs) {
+		this.tbCONHECIMENTOSESPCARGOSs = tbCONHECIMENTOSESPCARGOSs;
+	}
+
+
 
 
 

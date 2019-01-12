@@ -9,7 +9,21 @@
 
         <p:outputPanel styleClass="ui-fluid">
 
-            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+            <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
+            
+            
+              <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASCARGOS_idCARGOS}:" for="idCARGOSSelectInput" rendered="#{not hideIdCARGOSSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
+                    <p:selectOneMenu value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.idCARGOS}"
+                                    id="idCARGOSSelectInput">
+                
+                        <f:selectItems value="#{tbCOMPETENCIASCARGOSBean.idCARGOSs}" 
+                                    var="tbCARGOS" 
+                                    itemLabel="#{tbCARGOS.deSCCARGO}"
+                                    itemValue="#{tbCARGOS}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCOMPETENCIASCARGOSBean.idCARGOSs}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
             
                 <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASCARGOS_idCOMPETENCIAS}:" for="idCOMPETENCIASSelectInput" rendered="#{not hideIdCOMPETENCIASSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCOMPETENCIASSelectInput}">
@@ -23,45 +37,10 @@
                         <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCOMPETENCIASCARGOSBean.idCOMPETENCIASs}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdCOMPETENCIASSelectInput}">
+               
                 
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbCOMPETENCIASBean.prepareNewTbCOMPETENCIAS()}"
-                              update=":createIdCOMPETENCIASFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdCOMPETENCIASFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdCOMPETENCIASFromEditDialog') and tbCOMPETENCIASCARGOSBean.isPermitted('tbCOMPETENCIAS:create')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idCOMPETENCIASSelectInput" display="icon" rendered="#{not hideIdCOMPETENCIASSelectInput}"/>
-                </h:panelGroup>
-                
-                <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASCARGOS_idCARGOS}:" for="idCARGOSSelectInput" rendered="#{not hideIdCARGOSSelectInput}"/>
-                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
-                    <p:selectOneMenu value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.idCARGOS}"
-                                    id="idCARGOSSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
-                        <f:selectItems value="#{tbCOMPETENCIASCARGOSBean.idCARGOSs}" 
-                                    var="tbCARGOS" 
-                                    itemLabel="#{tbCARGOS.deSCCARGO}"
-                                    itemValue="#{tbCARGOS}" />
-                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCOMPETENCIASCARGOSBean.idCARGOSs}" />
-                    </p:selectOneMenu>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{not hideIdCARGOSSelectInput}">
-                
-                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{tbCARGOSBean.prepareNewTbCARGOS()}"
-                              update=":createIdCARGOSFromEditDialog"
-                              resetValues="true"
-                              oncomplete="PF('createIdCARGOSFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createIdCARGOSFromEditDialog')}"
-                              style="vertical-align:top;" partialSubmit="true" process="@this">
-                    </p:commandButton>
-                    
-                    <p:message for="idCARGOSSelectInput" display="icon" rendered="#{not hideIdCARGOSSelectInput}"/>
-                </h:panelGroup>
+              
+              
                 
                 <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}:" for="poNTUACAOCOMPETENCIAEditInput" />
                 <p:inputText value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.poNTUACAOCOMPETENCIA}" id="poNTUACAOCOMPETENCIAEditInput" label="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}" >
