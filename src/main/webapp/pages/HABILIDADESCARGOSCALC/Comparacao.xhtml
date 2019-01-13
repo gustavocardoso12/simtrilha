@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+	<ui:define name="content">
+		<h:panelGrid id="paneCargos" styleClass="dialog"
+			columnClasses="col1,col2,col3" columns="3">
+			<h:form>
+				<h:outputLabel value="Cargo De:" for="idESTSelectInput" />
+				<p:selectOneMenu value="#{tbCARGOSBean.cargoDe}"
+					id="idESTSelectInput">
+					<f:selectItem noSelectionOption="true" itemLabel="" />
+					<f:selectItems value="#{tbCARGOSBean.tbCARGOSList}" var="tbCARGO"
+						itemLabel="Cargo: #{tbCARGO.deSCCARGO} Diretoria: #{tbCARGO.idEST.idDIRETORIA.deSCDIRETORIA}"
+						itemValue="#{tbCARGO}" />
+					<p:ajax event="change"
+						update="paneCO DSCO toggleable8 cargoParaForm tbCOMPETENCIASCARGOSTablePara tbCOMPETENCIASCARGOSDataForm" />
+					<o:converter converterId="omnifaces.SelectItemsConverter"
+						list="#{tbCARGOSBean.tbCARGOSList}" />
+				</p:selectOneMenu>
+			</h:form>
+			<h:form id="cargoParaForm">
+				<h:outputLabel rendered="#{not empty tbCARGOSBean.cargoDe}" value="Cargo Para:"  for="idESTPARASelectInput" />
+				<p:selectOneMenu rendered="#{not empty tbCARGOSBean.cargoDe}" value="#{tbCARGOSBean.cargoPara}"
+					id="idESTPARASelectInput">
+					<f:selectItem noSelectionOption="true" itemLabel="" />
+					<f:selectItems value="#{tbCARGOSBean.tbCARGOSList}" var="tbCARGO"
+						itemLabel="Cargo: #{tbCARGO.deSCCARGO} Diretoria: #{tbCARGO.idEST.idDIRETORIA.deSCDIRETORIA}"
+						itemValue="#{tbCARGO}" />
+					<p:ajax event="change"
+						update="paneCO DSCO toggleable8 cargoGapForm tbCOMPETENCIASCARGOSTablePara" />
+					<o:converter converterId="omnifaces.SelectItemsConverter"
+						list="#{tbCARGOSBean.tbCARGOSList}" />
+				</p:selectOneMenu>
+			</h:form>
+			<h:form id="cargoGapForm">
+				<h:outputLabel rendered="#{not empty tbCARGOSBean.cargoPara}"  value="Variação do GAP" for="GapVar" />
+				<p:inputNumber rendered="#{not empty tbCARGOSBean.cargoPara}"  id="GapVar" value="#{tbCARGOSBean.gapVar}" symbol="%"
+					symbolPosition="s" emptyValue="sign">
+					<p:ajax event="change"
+						listener="#{tbCARGOSBean.calculaCompetenciasDEPARA(tbCARGOSBean.cargoDe,
+                    								   tbCARGOSBean.cargoPara,tbCARGOSBean.gapVar)}"
+						update="tbCOMPETENCIASCARGOSTableGap toggleable8 DSCO" />
+				</p:inputNumber>
+			</h:form>
+		</h:panelGrid>
+
+
+		<!-- Competências -->
+
+
+
+		<p:panel  style="color:black" id="DSCO">
+			<p:panel id="toggleable8" rendered="#{tbCARGOSBean.flagCultura==1}"  header="Competências Gerais"
+				toggleable="true" toggleSpeed="500" closeSpeed="500"
+				widgetVar="panel8" collapsed="false"
+				style="width:auto;background:black;">
+				<h:panelGrid id="paneCO">
+
+
+					<h:form rendered="#{tbCARGOSBean.flagCultura==1}" prependId="false" id="tbCOMPETENCIASCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+						
+						<h:panelGrid id="paneCargos2" styleClass="dialog"
+							columnClasses="col1,col2,col3" columns="3">
+
+							<p:dataTable rendered="#{tbCARGOSBean.flagCultura==1}" id="tbCOMPETENCIASCARGOSTable"
+								value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCO(tbCARGOSBean.cargoDe)}"
+								var="tbCOMPETENCIASCARGOS" resizableColumns="true"
+								widgetVar="tbCOMPETENCIASCARGOSTable"
+								emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+								<f:facet name="header">
+									<h:outputText style="font-size:16px;font-weight:bold"
+										value="Cargo De" />
+								</f:facet>
+
+								<p:column
+									style="width:50%;text-align:center;font-size:12px;color:white;font-weight:bold;"
+									headerText="#{messages.field_label_tbCOMPETENCIASCARGOS_idCOMPETENCIAS}">
+
+									<h:outputText
+										value="#{tbCOMPETENCIASCARGOS.idCOMPETENCIAS.deSCCOMPETENCIA}" />
+								</p:column>
+
+
+								<p:column
+									style="width:50%;text-align:center;font-size:12px;color:white;font-weight:bold;"
+									headerText="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}">
+									<h:outputText
+										value="#{tbCOMPETENCIASCARGOS.poNTUACAOCOMPETENCIA}">
+										<f:convertNumber />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+
+
+							<p:dataTable id="tbCOMPETENCIASCARGOSTablePara"
+								value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCO(tbCARGOSBean.cargoPara)}"
+								var="tbCOMPETENCIASCARGOS" resizableColumns="true"
+								widgetVar="tbCOMPETENCIASCARGOSTable"
+								emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+
+								<f:facet name="header">
+									<h:outputText style="font-size:16px;font-weight:bold"
+										value="Cargo Para" />
+								</f:facet>
+
+
+
+								<p:column
+									style="width:60%;text-align:center;font-size:12px;color:white;font-weight:bold;"
+									headerText="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}">
+									<h:outputText
+										value="#{tbCOMPETENCIASCARGOS.poNTUACAOCOMPETENCIA}">
+										<f:convertNumber />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+
+							<p:dataTable id="tbCOMPETENCIASCARGOSTableGap"
+								value="#{tbCARGOSBean.listGap}" var="tbCOMPETENCIASCARGOS"
+								resizableColumns="true" widgetVar="tbCOMPETENCIASCARGOSTable"
+								emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+
+								<f:facet name="header">
+									<h:outputText style="font-size:16px;font-weight:bold"
+										value="Aderência parcial: " />
+
+									<h:outputLabel style="font-size:16px;font-weight:bold" value="#{tbCARGOSBean.aderencia * 100} %" />
+
+
+								</f:facet>
+
+								<p:column
+									style="width:60%;text-align:center;font-size:12px;color:white;font-weight:bold;"
+									headerText="Diferença absoluta: ">
+
+									<h:outputText
+										value="#{tbCOMPETENCIASCARGOS.poNTUACAOCOMPETENCIA}" />
+								</p:column>
+							</p:dataTable>
+						</h:panelGrid>
+					</h:form>
+				</h:panelGrid>
+			</p:panel>
+		</p:panel>
+
+
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
