@@ -119,3 +119,11 @@ PrimeFaces.locales ['pt_BR'] = {
 	        'javax.validation.constraints.Size.message': 'o tamanho deve estar entre {0} e {1}'
 	    }
 	};
+
+
+
+$(window).load(function(){  // should be  $(window).load to load widget
+    $('#slder').slider({
+           step: 0.1
+          });
+});

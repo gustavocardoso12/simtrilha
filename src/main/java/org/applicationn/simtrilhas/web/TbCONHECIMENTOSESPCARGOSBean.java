@@ -21,7 +21,8 @@ import org.applicationn.simtrilhas.service.TbCONHECIMENTOSESPCARGOSService;
 import org.applicationn.simtrilhas.service.TbCONHECIMENTOSESPECIFICOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
+import org.primefaces.context.PrimeFacesContext;
 
 @Named("tbCONHECIMENTOSESPCARGOSBean")
 @ViewScoped
@@ -109,7 +110,9 @@ public class TbCONHECIMENTOSESPCARGOSBean extends TbCARGOSBean implements Serial
 			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage message = MessageFactory.getMessage("label_listaCultvazia");
 			message.setDetail(MessageFactory.getMessageString("label_listaCEvazia_message" ));
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			
+			
+			PrimeFaces.current().dialog().showMessageDynamic(message);
 			return;
 		
 		}

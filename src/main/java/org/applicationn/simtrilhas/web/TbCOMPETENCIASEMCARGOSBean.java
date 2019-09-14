@@ -21,7 +21,7 @@ import org.applicationn.simtrilhas.service.TbCOMPETENCIASEMCARGOSService;
 import org.applicationn.simtrilhas.service.TbCOMPETENCIASEMOCIONAISService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
-import org.primefaces.context.RequestContext;
+import org.primefaces.context.PrimeRequestContext;
 
 @Named("tbCOMPETENCIASEMCARGOSBean")
 @ViewScoped
@@ -107,7 +107,7 @@ public class TbCOMPETENCIASEMCARGOSBean extends TbCARGOSBean implements Serializ
 			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage message = MessageFactory.getMessage("label_listaCultvazia");
 			message.setDetail(MessageFactory.getMessageString("label_listaELIvazia_message" ));
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+		
 			return;
 		
 		}

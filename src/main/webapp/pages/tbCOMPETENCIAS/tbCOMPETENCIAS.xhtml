@@ -27,17 +27,7 @@
 					<h:outputText value="#{tbCOMPETENCIAS.deSCCOMPETENCIA}" />
 				</p:column>
 
-				<!--  <p:column
-					headerText="#{messages.field_label_tbCOMPETENCIAS_tbCOMPETENCIASCARGOS_plural}"
-					styleClass="action-column" exportable="false">
-
-					<p:commandButton icon="ui-icon-transfer-e-w"
-						title="#{messages.field_label_tbCOMPETENCIAS_tbCOMPETENCIASCARGOS_plural}"
-						action="#{tbCOMPETENCIASBean.onTbCOMPETENCIASCARGOSsDialog(tbCOMPETENCIAS)}"
-						oncomplete="PF('tbCOMPETENCIASTbCOMPETENCIASCARGOSsDialogWidget').show()"
-						update=":tbCOMPETENCIASTbCOMPETENCIASCARGOSsDialog" />
-
-				</p:column>-->
+				
 
 			<p:column headerText="Ações" style="background:#410D34;width:100%;font-size:14px;font-weight:bold;"
 					exportable="false">
@@ -131,45 +121,7 @@
 			</h:form>
 		</p:dialog>
 
-		<!--  <p:dialog dynamic="true" id="tbCOMPETENCIASTbCOMPETENCIASCARGOSsDialog" header="#{messages.dialog_header_tbCOMPETENCIAS_tbCOMPETENCIASCARGOS_plural}" modal="true" widgetVar="tbCOMPETENCIASTbCOMPETENCIASCARGOSsDialogWidget" maximizable="true">
-        <p:ajax event="close" listener="#{tbCOMPETENCIASBean.reset}" />
-        <p:outputPanel id="tbCOMPETENCIASTbCOMPETENCIASCARGOSsPanel">
-            <h:form id="tbCOMPETENCIASTbCOMPETENCIASCARGOSsForm">
-                <ui:include src="/pages/tbCOMPETENCIAS/tbCOMPETENCIASTbCOMPETENCIASCARGOSInclude.xhtml" />
-                <div style="text-align: center; margin:10px">
-                    <p:commandButton value="#{messages.label_save}"
-                        icon="ui-icon-disk"
-                        action="#{tbCOMPETENCIASBean.onTbCOMPETENCIASCARGOSsSubmit}"
-                        update=":growlForm:growl"
-                        oncomplete="if(!args.validationFailed) PF('tbCOMPETENCIASTbCOMPETENCIASCARGOSsDialogWidget').hide()"
-                        rendered="#{tbCOMPETENCIASBean.isPermitted(tbCOMPETENCIASBean.tbCOMPETENCIAS, 'tbCOMPETENCIAS:update')}"
-                        partialSubmit="true" process="@this" />
-                    <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('tbCOMPETENCIASTbCOMPETENCIASCARGOSsDialogWidget').hide()" type="button" />
-                </div>
-            </h:form>
-        </p:outputPanel>
-    </p:dialog>-->
-    
-   <!--  <p:dialog dynamic="true" id="createTbCOMPETENCIASCARGOSDialog"
-        header="#{messages.dialog_tbCOMPETENCIAS_create_tbCOMPETENCIASCARGOS}" modal="true"
-        widgetVar="createTbCOMPETENCIASCARGOSDialogWidget" maximizable="false">
-        <p:ajax event="close" listener="#{tbCOMPETENCIASCARGOSBean.reset}" />
-        <p:outputPanel id="createTbCOMPETENCIASCARGOSPanel">
-                <h:form id="createTbCOMPETENCIASCARGOSForm">
-                    <ui:include src="/pages/tbCOMPETENCIASCARGOS/tbCOMPETENCIASCARGOSEditInclude.xhtml">
-                        <ui:param name="hideIdCOMPETENCIASSelectInput" value="true" />
-                    </ui:include>
-                    <div style="text-align: center; margin: 10px">
-                        <p:commandButton
-                            action="#{tbCOMPETENCIASBean.updateTbCOMPETENCIASCARGOS(tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS)}"
-                            value="#{messages.label_save}" 
-                            actionListener="#{tbCOMPETENCIASCARGOSBean.persist}"
-                            update=":tbCOMPETENCIASTbCOMPETENCIASCARGOSsPanel :createTbCOMPETENCIASCARGOSPanel :growlForm:growl"
-                            oncomplete="if(!args.validationFailed) PF('createTbCOMPETENCIASCARGOSDialogWidget').hide()" />
-                    </div>
-                </h:form>
-            </p:outputPanel>
-    </p:dialog> -->
+	
     
   </ui:define>
 </ui:composition>

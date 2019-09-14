@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+ 
+
+              <p:panelGrid columns="3" styleClass="dialog"  columnClasses="col1,col2,col3"  >
+            
+                <h:outputLabel value="#{messages.field_label_tbDEPTO_deSCDEPTO}:" for="deSCDEPTOEditInput" />
+                <p:inputText value="#{tbDEPTOBean.tbDEPTO.deSCDEPTO}" id="deSCDEPTOEditInput"  />
+                <p:message for="deSCDEPTOEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_tbDEPTO_idAREA}:" for="idVPSelectInput" rendered="#{not hideIdVPSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdVPSelectInput}">
+                    <p:selectOneMenu style="font-size:12px" value="#{tbDEPTOBean.tbDEPTO.idAREA}"
+                                    id="idVPSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="Escolha uma Área Macro" />
+                        <f:selectItems value="#{tbDEPTOBean.idAREAs}" 
+                                    var="tbAREA" 
+                                    itemLabel="#{tbAREA.deSCAREA}"
+                                    itemValue="#{tbAREA}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbDEPTOBean.idAREAs}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideIdVPSelectInput}">
+                
+                    <p:commandButton  value="#{messages.label_create} Nova Área"
+                              action="#{tbAREABean.prepareNewTbAREA()}"
+                              update=":createIdVPFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createIdVPFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createIdVPFromEditDialog') and tbDEPTOBean.isPermitted('tbAREA:create')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="idVPSelectInput" display="icon" rendered="#{not hideIdVPSelectInput}"/>
+                </h:panelGroup>
+                
+            </p:panelGrid>
+
+
+</html>

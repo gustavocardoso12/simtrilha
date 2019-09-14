@@ -17,27 +17,27 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Size(max = 100)
-    @Column(length = 100, name="\"deSCCARGO\"")
+    @Column(length = 100, name="DESC_CARGO")
     @NotNull
     private String deSCCARGO;
 
     @Size(max = 300)
-    @Column(length = 300, name="\"miSSAO\"")
+    @Column(length = 300, name="MISSAO")
     @NotNull
     private String miSSAO;
 
-    @Size(max =900)
-    @Column(length = 500, name="\"reSPONSABILIDADES\"")
+    @Size(max = 500)
+    @Column(length = 500, name="RESPONSABILIDADES")
     @NotNull
     private String reSPONSABILIDADES;
 
     @ManyToOne(optional=true)
-    @JoinColumn(name = "IDEST_ID", referencedColumnName = "ID")
-    private TbESTATUARIOEntity idEST;
-
+    @JoinColumn(name = "IDDEPTO_ID", referencedColumnName = "ID")
+    private TbDEPTOEntity idDEPTO;
+    
     @ManyToOne(optional=true)
-    @JoinColumn(name = "IDCURSOS_ID", referencedColumnName = "ID")
-    private TbCURSOSEntity idCURSOS;
+    @JoinColumn(name = "IDNO_ID", referencedColumnName = "ID")
+    private TbNOEntity idNO;
 
     public String getDeSCCARGO() {
         return this.deSCCARGO;
@@ -56,11 +56,6 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
     }
 
     public String getReSPONSABILIDADES() {
-    	if(this.reSPONSABILIDADES ==null) {
-    		
-    	}else {
-    	this.reSPONSABILIDADES = reSPONSABILIDADES.replace(";", " <br>").replace(":", "<br>");
-    	}
         return this.reSPONSABILIDADES;
     }
 
@@ -68,20 +63,20 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
         this.reSPONSABILIDADES = reSPONSABILIDADES;
     }
 
-    public TbESTATUARIOEntity getIdEST() {
-        return this.idEST;
+    public TbDEPTOEntity getIdDEPTO() {
+        return this.idDEPTO;
     }
 
-    public void setIdEST(TbESTATUARIOEntity tbESTATUARIO) {
-        this.idEST = tbESTATUARIO;
+    public void setIdDEPTO(TbDEPTOEntity tbDEPTO) {
+        this.idDEPTO = tbDEPTO;
     }
 
-    public TbCURSOSEntity getIdCURSOS() {
-        return this.idCURSOS;
-    }
+	public TbNOEntity getIdNO() {
+		return idNO;
+	}
 
-    public void setIdCURSOS(TbCURSOSEntity tbCURSOS) {
-        this.idCURSOS = tbCURSOS;
-    }
+	public void setIdNO(TbNOEntity idNO) {
+		this.idNO = idNO;
+	}
 
 }

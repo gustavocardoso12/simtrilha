@@ -16,12 +16,13 @@
     </properties>
 
     <repositories>
-        <repository>
-            <id>prime-repo</id>
-            <url>http://repository.primefaces.org</url>
-            <name>PrimeFaces Maven Repository</name>
-        </repository>
-    </repositories>
+    <repository>
+        <id>prime-repo</id>
+        <name>PrimeFaces Maven Repository</name>
+        <url>http://repository.primefaces.org</url>
+        <layout>default</layout>
+    </repository>
+</repositories>
 
     <dependencies>
         <dependency>
@@ -31,11 +32,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>6.0</version>
-        </dependency>
         
         <dependency>
 			<groupId>org.primefaces.themes</groupId>
@@ -79,7 +75,12 @@
             <artifactId>shiro-web</artifactId>
             <version>1.2.5</version>
         </dependency>
-        
+
+       <dependency>
+    <groupId>org.primefaces</groupId>
+    <artifactId>primefaces</artifactId>
+    <version>7.0</version>
+</dependency>
     </dependencies>
     
     <build>

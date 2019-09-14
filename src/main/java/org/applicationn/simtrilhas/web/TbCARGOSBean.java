@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,30 +27,43 @@ import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCURSOSEntity;
+import org.applicationn.simtrilhas.domain.TbDEPTOEntity;
+import org.applicationn.simtrilhas.domain.TbNOEntity;
 import org.applicationn.simtrilhas.domain.TbDIRETORIAEntity;
 import org.applicationn.simtrilhas.domain.TbESTATUARIOEntity;
 import org.applicationn.simtrilhas.domain.TbESTILOLIDERANCACARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbESTILOLIDERANCAEntity;
 import org.applicationn.simtrilhas.domain.TbESTILOPENSAMENTOCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbGRADECARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbGRADEEntity;
 import org.applicationn.simtrilhas.domain.TbHABILIDADESCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbHABILIDADESCULTCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbHABILIDADESCULTURAISEntity;
+import org.applicationn.simtrilhas.domain.TbMOTIVADORESCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbPERFILCARGOSEntity;
 import org.applicationn.simtrilhas.service.TbCARGOSService;
 import org.applicationn.simtrilhas.service.TbCOMPETENCIASCARGOSService;
 import org.applicationn.simtrilhas.service.TbCOMPETENCIASEMCARGOSService;
 import org.applicationn.simtrilhas.service.TbCONHECIMENTOSBASCARGOSService;
 import org.applicationn.simtrilhas.service.TbCONHECIMENTOSESPCARGOSService;
 import org.applicationn.simtrilhas.service.TbCURSOSService;
+import org.applicationn.simtrilhas.service.TbDEPTOService;
+import org.applicationn.simtrilhas.service.TbNOService;
 import org.applicationn.simtrilhas.service.TbDIRETORIAService;
 import org.applicationn.simtrilhas.service.TbESTATUARIOService;
 import org.applicationn.simtrilhas.service.TbESTILOLIDERANCACARGOSService;
 import org.applicationn.simtrilhas.service.TbESTILOLIDERANCAService;
 import org.applicationn.simtrilhas.service.TbESTILOPENSAMENTOCARGOSService;
+import org.applicationn.simtrilhas.service.TbGRADECARGOSService;
+import org.applicationn.simtrilhas.service.TbGRADEService;
 import org.applicationn.simtrilhas.service.TbHABILIDADESCARGOSService;
 import org.applicationn.simtrilhas.service.TbHABILIDADESCULTCARGOSService;
 import org.applicationn.simtrilhas.service.TbHABILIDADESCULTURAISService;
+import org.applicationn.simtrilhas.service.TbMOTIVADORESCARGOSService;
+import org.applicationn.simtrilhas.service.TbPERFILCARGOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
+import org.primefaces.event.SlideEndEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
@@ -103,6 +119,21 @@ public class TbCARGOSBean implements Serializable {
 
 	@Inject
 	private TbHABILIDADESCULTCARGOSService tbHABILIDADESCULTCARGOSService;
+	
+	@Inject
+	private TbDEPTOService tbDEPTOSerivce;
+	
+	@Inject 
+	private TbNOService tbNOService;
+	
+	@Inject
+	private TbGRADECARGOSService tbGRADESCARGOSService;
+	
+	@Inject
+	private TbPERFILCARGOSService tbPERFILCARGOSService;
+	
+	@Inject 
+	private TbMOTIVADORESCARGOSService tbMOTIVADORESCARGOSService;
 
 
 	protected List<TbHABILIDADESCARGOSEntity> tbHABILIDADESCARGOSs;
@@ -120,8 +151,18 @@ public class TbCARGOSBean implements Serializable {
 	protected List<TbCONHECIMENTOSBASCARGOSEntity> tbCONHECIMENTOSBASICOSCARGOSs;
 
 	protected List<TbCONHECIMENTOSESPCARGOSEntity>  tbCONHECIMENTOSESPCARGOSs;
+	
+	protected List<TbGRADECARGOSEntity> tbGRADESCARGOSs;
+	
+	protected List<TbPERFILCARGOSEntity> tbPERFILCARGOSs;
+	
+	protected List<TbMOTIVADORESCARGOSEntity> tbMOTIVADORESCARGOSs;
 
 	private List<TbESTATUARIOEntity> allIdESTsList;
+	
+	private List<TbDEPTOEntity> allIdDEPTOsList;
+	
+	private List<TbNOEntity> allIdNOsList;
 
 	private List<TbCURSOSEntity> allIdCURSOSsList;
 
@@ -143,11 +184,60 @@ public class TbCARGOSBean implements Serializable {
 
 	private BigDecimal gapDePara;
 
-	private Double gapVar;
+	private Double gapVar=7.5;
 
 	private Double aderencia;
 
 	List<TbCOMPETENCIASCARGOSEntity> listGap = new ArrayList<TbCOMPETENCIASCARGOSEntity>();
+
+	private BigDecimal gapDeParaGR;
+
+	private Double gapVarGR = 25.0; 
+
+	private Double aderenciaGR;
+
+	List<TbGRADECARGOSEntity> listGapGR = new ArrayList<TbGRADECARGOSEntity>();
+	
+	private BigDecimal gapDeParaMO;
+	
+	private Double gapVarMO;
+	
+	private Double aderenciaMO;
+	
+	List<TbMOTIVADORESCARGOSEntity> listGapMO = new ArrayList<TbMOTIVADORESCARGOSEntity>();
+	
+	private BigDecimal gapDeParaPE;
+	
+	private Double gapVarPE = 10.0;
+	
+	private Double aderenciaPE;
+	
+	List<TbPERFILCARGOSEntity> listGapPE = new ArrayList<TbPERFILCARGOSEntity>();
+	
+	private BigDecimal gapDeParaCB;
+	
+	private Double gapVarCB = 2.0;
+	
+	private Double aderenciaCB;
+	
+	List<TbCONHECIMENTOSBASCARGOSEntity> listGapCB = new ArrayList<TbCONHECIMENTOSBASCARGOSEntity>();
+	
+	private BigDecimal gapDeParaCE;
+	
+	private Double gapVarCE = 5.0;
+	
+	private Double aderenciaCE;
+	
+	List<TbCONHECIMENTOSESPCARGOSEntity> listGapCE = new ArrayList<TbCONHECIMENTOSESPCARGOSEntity>();
+	
+	
+	
+	
+	private Double aderenciaFinal;
+	
+
+	private String avisoMovimentacao;
+	
 
 	public String getDetalhesComportamento() {
 		return detalhesComportamento;
@@ -213,6 +303,9 @@ public class TbCARGOSBean implements Serializable {
 		return tbHABILIDADESCARGOSs;
 	}
 
+	
+
+
 	public List<TbESTILOLIDERANCACARGOSEntity> InicializaTabelasAuxiliaresEST(TbCARGOSEntity tbCARGOS){
 		this.tbCARGOS = tbCARGOS;
 		tbESTILOLIDERANCAs = tbESTILOLIDERANCACARGOSService.findTbESTILOLIDERANCACARGOSsByIdCARGOS(this.tbCARGOS);
@@ -237,20 +330,241 @@ public class TbCARGOSBean implements Serializable {
 	public List<TbCOMPETENCIASCARGOSEntity> InicializaTabelasAuxiliaresCO(TbCARGOSEntity tbCARGOS){
 		this.tbCARGOS = tbCARGOS;
 		tbCOMPETENCIASCARGOSs= tbCOMPETENCIASCARGOSService.findTbCOMPETENCIASCARGOSsByIdCARGOS(this.tbCARGOS);
-
+		tbCOMPETENCIASCARGOSs = ordenaListas(tbCOMPETENCIASCARGOSs);
 		return tbCOMPETENCIASCARGOSs;
 	}
 
+	public List<TbGRADECARGOSEntity> InicializaTabelasAuxiliaresGR(TbCARGOSEntity tbCARGOS){
+		this.tbCARGOS = tbCARGOS;
+		tbGRADESCARGOSs= tbGRADESCARGOSService.findTbGRADECARGOSsByIdCARGOS(this.tbCARGOS);
 
+		return tbGRADESCARGOSs;
+	}
 
+	public List<TbPERFILCARGOSEntity> InicializaTabelasAuxiliaresPE(TbCARGOSEntity tbCARGOS){
+		this.tbCARGOS = tbCARGOS;
+		tbPERFILCARGOSs= tbPERFILCARGOSService.findTbPERFILCARGOSsByIdCARGOS(this.tbCARGOS);
 
+		return tbPERFILCARGOSs;
+	}
+	
+	public List<TbMOTIVADORESCARGOSEntity> InicializaTabelasAuxiliaresMO(TbCARGOSEntity tbCARGOS){
+		this.tbCARGOS = tbCARGOS;
+		tbMOTIVADORESCARGOSs= tbMOTIVADORESCARGOSService.findTbMOTIVADORESCARGOSsByIdCARGOS(this.tbCARGOS);
 
-	//=SE(SOMA(E4:E301)*-G3+1>1;1;SE(SOMA(E4:E301)*-G3+1<0;0;SOMA(E4:E301)*-G3+1))
+		return tbMOTIVADORESCARGOSs;
+	}
+
+	public List<TbCONHECIMENTOSBASCARGOSEntity> InicializaTabelasAuxiliaresCB(TbCARGOSEntity tbCARGOS){
+		this.tbCARGOS = tbCARGOS;
+		tbCONHECIMENTOSBASICOSCARGOSs= tbCONHECIMENTOSBASCARGOSService.findTbCONHECIMENTOSBASCARGOSsByIdCARGOS(this.tbCARGOS);
+
+		return tbCONHECIMENTOSBASICOSCARGOSs;
+	}
+	
+
+	public List<TbCONHECIMENTOSESPCARGOSEntity> InicializaTabelasAuxiliaresCE(TbCARGOSEntity tbCARGOS){
+		this.tbCARGOS = tbCARGOS;
+		tbCONHECIMENTOSESPCARGOSs= tbCONHECIMENTOSESPCARGOSService.findTbCONHECIMENTOSESPCARGOSsByIdCARGOS(this.tbCARGOS);
+
+		return tbCONHECIMENTOSESPCARGOSs;
+	}
+
+	
+	public List<TbCOMPETENCIASCARGOSEntity> ordenaListas(List<TbCOMPETENCIASCARGOSEntity> list){
+		Collections.sort(list, new Comparator<TbCOMPETENCIASCARGOSEntity>() {
+		    @Override
+		    public int compare(TbCOMPETENCIASCARGOSEntity b1, TbCOMPETENCIASCARGOSEntity b2) {
+		       int x =  b1.getIdCOMPETENCIAS().getDeSCCOMPETENCIA().compareTo(b2.getIdCOMPETENCIAS().getDeSCCOMPETENCIA());
+		       return x;
+		    }
+		});
+		return list;
+	}
+	
+	public List<TbGRADECARGOSEntity> ordenaListasGR(List<TbGRADECARGOSEntity> list){
+		Collections.sort(list, new Comparator<TbGRADECARGOSEntity>() {
+		    @Override
+		    public int compare(TbGRADECARGOSEntity b1, TbGRADECARGOSEntity b2) {
+		       int x =  b1.getIdGRADE().getDeSCGRADE().compareTo(b2.getIdGRADE().getDeSCGRADE());
+		       return x;
+		    }
+		});
+		return list;
+	}
+	
+
+	public List<TbMOTIVADORESCARGOSEntity> ordenaListasMO(List<TbMOTIVADORESCARGOSEntity> list){
+		Collections.sort(list, new Comparator<TbMOTIVADORESCARGOSEntity>() {
+		    @Override
+		    public int compare(TbMOTIVADORESCARGOSEntity b1, TbMOTIVADORESCARGOSEntity b2) {
+		       int x =  b1.getIdMOTIVADORES().getDeSCMOTIVADORES().compareTo(b2.getIdMOTIVADORES().getDeSCMOTIVADORES());
+		       return x;
+		    }
+		});
+		return list;
+	}
+	
+	public List<TbPERFILCARGOSEntity> ordenaListasPE(List<TbPERFILCARGOSEntity> list){
+		Collections.sort(list, new Comparator<TbPERFILCARGOSEntity>() {
+		    @Override
+		    public int compare(TbPERFILCARGOSEntity b1, TbPERFILCARGOSEntity b2) {
+		       int x =  b1.getIdPERFIL().getDeSCPERFIL().compareTo(b2.getIdPERFIL().getDeSCPERFIL());
+		       return x;
+		    }
+		});
+		return list;
+	}
+	
+	public List<TbCONHECIMENTOSBASCARGOSEntity> ordenaListasCB(List<TbCONHECIMENTOSBASCARGOSEntity> list){
+		Collections.sort(list, new Comparator<TbCONHECIMENTOSBASCARGOSEntity>() {
+		    @Override
+		    public int compare(TbCONHECIMENTOSBASCARGOSEntity b1, TbCONHECIMENTOSBASCARGOSEntity b2) {
+		       int x =  b1.getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS().compareTo(
+		    		    b2.getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS());
+		       return x;
+		    }
+		});
+		return list;
+	}
+	
+	public List<TbCONHECIMENTOSESPCARGOSEntity> ordenaListasCE(List<TbCONHECIMENTOSESPCARGOSEntity> list){
+		Collections.sort(list, new Comparator<TbCONHECIMENTOSESPCARGOSEntity>() {
+		    @Override
+		    public int compare(TbCONHECIMENTOSESPCARGOSEntity b1, TbCONHECIMENTOSESPCARGOSEntity b2) {
+		       int x =  b1.getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().compareTo(
+		    		    b2.getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS());
+		       return x;
+		    }
+		});
+		return list;
+	}
+	
+	
+	//100%  - ((Cargo Para - Cargo De) * Variação no GAP)
+			public void calculaConhecimentosEspecificosDEPARA(TbCARGOSEntity tbCARGOSDe,
+					TbCARGOSEntity tbCARGOSPara, double gapVar) {
+				gapVar = gapVar/100;
+				List<TbCONHECIMENTOSESPCARGOSEntity> listCARGOSDe = InicializaTabelasAuxiliaresCE(tbCARGOSDe);
+				List<TbCONHECIMENTOSESPCARGOSEntity> listCARGOSPara = InicializaTabelasAuxiliaresCE(tbCARGOSPara);
+				listCARGOSDe = ordenaListasCE(listCARGOSDe);
+				listCARGOSPara = ordenaListasCE(listCARGOSPara);
+				
+				
+				listGapCE.clear();
+				Double somaListaGap =0.0;
+				flagCultura = 1;
+				try {
+					for(int i=0; i<listCARGOSDe.size();i++) {
+						TbCONHECIMENTOSESPCARGOSEntity gap = new TbCONHECIMENTOSESPCARGOSEntity();
+						//Calcula a subtração entre cada pontuação de cada competência
+						if(listCARGOSDe.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().equals(
+								listCARGOSPara.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS())) {
+							gapDeParaCE= listCARGOSPara.get(i).getPoNTUACAOCONESP().
+									subtract(listCARGOSDe.get(i).getPoNTUACAOCONESP());
+
+							
+							//Se "(Cargo Para - Cargo De)" < 0 então  "(Cargo Para - Cargo De)" = 0
+							if(gapDeParaCE.compareTo(BigDecimal.ZERO)<0) {
+								gapDeParaCE = BigDecimal.ZERO;
+							}
+							
+							gap.setPoNTUACAOCONESP(gapDeParaCE);
+							//Adiciona cada valor à lista
+							listGapCE.add(gap);
+						}
+					}
+					//Soma todos os gaps
+					for(int i2=0;i2<listGapCE.size();i2++) {
+						somaListaGap += listGapCE.get(i2).getPoNTUACAOCONESP().doubleValue();
+					}
+					//calculo de aderência
+					aderenciaCE =  1 -((somaListaGap*gapVar));
+					aderenciaCE = round(aderenciaCE,2);
+					
+					//Se aderencia maior que 100%, força o valor
+					if(aderenciaCE > 1) {
+						aderenciaCE =1.0;
+					}
+					//Se aderência menor que 0%, força o valor 
+					else if (aderenciaCE <0) {
+						aderenciaCE =0.0;
+					}
+				}catch(IndexOutOfBoundsException ex) {
+
+				}
+			}
+	
+	
+
+	//100%  - ((Cargo Para - Cargo De) * Variação no GAP)
+		public void calculaConhecimentosBasicosDEPARA(TbCARGOSEntity tbCARGOSDe,
+				TbCARGOSEntity tbCARGOSPara, double gapVar) {
+			gapVar = gapVar/100;
+			List<TbCONHECIMENTOSBASCARGOSEntity> listCARGOSDe = InicializaTabelasAuxiliaresCB(tbCARGOSDe);
+			List<TbCONHECIMENTOSBASCARGOSEntity> listCARGOSPara = InicializaTabelasAuxiliaresCB(tbCARGOSPara);
+			listCARGOSDe = ordenaListasCB(listCARGOSDe);
+			listCARGOSPara = ordenaListasCB(listCARGOSPara);
+			
+			
+			listGapCB.clear();
+			Double somaListaGap =0.0;
+			flagCultura = 1;
+			try {
+				for(int i=0; i<listCARGOSDe.size();i++) {
+					TbCONHECIMENTOSBASCARGOSEntity gap = new TbCONHECIMENTOSBASCARGOSEntity();
+					//Calcula a subtração entre cada pontuação de cada competência
+					if(listCARGOSDe.get(i).getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS().equals(
+							listCARGOSPara.get(i).getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS())) {
+						gapDeParaCB= listCARGOSPara.get(i).getPoNTUACAOCONBAS().
+								subtract(listCARGOSDe.get(i).getPoNTUACAOCONBAS());
+
+						
+						//Se "(Cargo Para - Cargo De)" < 0 então  "(Cargo Para - Cargo De)" = 0
+						if(gapDeParaCB.compareTo(BigDecimal.ZERO)<0) {
+							gapDeParaCB = BigDecimal.ZERO;
+						}
+						
+						gap.setPoNTUACAOCONBAS(gapDeParaCB);
+						//Adiciona cada valor à lista
+						listGapCB.add(gap);
+					}
+				}
+				//Soma todos os gaps
+				for(int i2=0;i2<listGapCB.size();i2++) {
+					somaListaGap += listGapCB.get(i2).getPoNTUACAOCONBAS().doubleValue();
+				}
+				//calculo de aderência
+				aderenciaCB =  1 -((somaListaGap*gapVar));
+				aderenciaCB = round(aderenciaCB,2);
+				
+				//Se aderencia maior que 100%, força o valor
+				if(aderenciaCB > 1) {
+					aderenciaCB =1.0;
+				}
+				//Se aderência menor que 0%, força o valor 
+				else if (aderenciaCB <0) {
+					aderenciaCB =0.0;
+				}
+			}catch(IndexOutOfBoundsException ex) {
+
+			}
+		}
+	
+	
+	
+	
+	
+	//100%  - ((Cargo Para - Cargo De) * Variação no GAP)
 	public void calculaCompetenciasDEPARA(TbCARGOSEntity tbCARGOSDe,
 			TbCARGOSEntity tbCARGOSPara, double gapVar) {
 		gapVar = gapVar/100;
 		List<TbCOMPETENCIASCARGOSEntity> listCARGOSDe = InicializaTabelasAuxiliaresCO(tbCARGOSDe);
 		List<TbCOMPETENCIASCARGOSEntity> listCARGOSPara = InicializaTabelasAuxiliaresCO(tbCARGOSPara);
+		listCARGOSDe = ordenaListas(listCARGOSDe);
+		listCARGOSPara = ordenaListas(listCARGOSPara);
+		
+		
 		listGap.clear();
 		Double somaListaGap =0.0;
 		flagCultura = 1;
@@ -258,11 +572,16 @@ public class TbCARGOSBean implements Serializable {
 			for(int i=0; i<listCARGOSDe.size();i++) {
 				TbCOMPETENCIASCARGOSEntity gap = new TbCOMPETENCIASCARGOSEntity();
 				//Calcula a subtração entre cada pontuação de cada competência
-				if(listCARGOSDe.get(i).getIdCOMPETENCIAS().equals(listCARGOSPara.get(i).getIdCOMPETENCIAS())) {
-					gapDePara= listCARGOSDe.get(i).getPoNTUACAOCOMPETENCIA().
-							subtract(listCARGOSPara.get(i).getPoNTUACAOCOMPETENCIA());
-					//Diferença absoluta (Modular)
-					gapDePara = gapDePara.abs();
+				if(listCARGOSDe.get(i).getIdCOMPETENCIAS().getDeSCCOMPETENCIA().equals(listCARGOSPara.get(i).getIdCOMPETENCIAS().getDeSCCOMPETENCIA())) {
+					gapDePara= listCARGOSPara.get(i).getPoNTUACAOCOMPETENCIA().
+							subtract(listCARGOSDe.get(i).getPoNTUACAOCOMPETENCIA());
+
+					
+					//Se "(Cargo Para - Cargo De)" < 0 então  "(Cargo Para - Cargo De)" = "(Cargo Para - Cargo De) / 2"
+					if(gapDePara.compareTo(BigDecimal.ZERO)<0) {
+						gapDePara = gapDePara.divide(BigDecimal.valueOf(2));
+					}
+					
 					gap.setPoNTUACAOCOMPETENCIA(gapDePara);
 					//Adiciona cada valor à lista
 					listGap.add(gap);
@@ -273,7 +592,7 @@ public class TbCARGOSBean implements Serializable {
 				somaListaGap += listGap.get(i2).getPoNTUACAOCOMPETENCIA().doubleValue();
 			}
 			//calculo de aderência
-			aderencia =  ((somaListaGap*(gapVar*-1))+1);
+			aderencia =  1 -((somaListaGap*gapVar));
 			aderencia = round(aderencia,2);
 			
 			//Se aderencia maior que 100%, força o valor
@@ -289,7 +608,248 @@ public class TbCARGOSBean implements Serializable {
 		}
 	}
 
+	 public void onSlideEnd(SlideEndEvent event) {
+	    gapVar =  event.getValue();
+	    //System.out.println(gapVar);
+	    
+	    calculaCompetenciasDEPARA(cargoDe,cargoPara,gapVar);
+	       
+	    } 
+	 
+	 
+	 public void onSlideEndGR(SlideEndEvent event) {
+		    gapVarGR =  event.getValue();
+		    System.out.println(gapVarGR);
+		    
+		    calculaGRADESDEPARA(cargoDe,cargoPara,gapVarGR);
+		       
+		    } 
+	 
+	 public void onSlideEndCB(SlideEndEvent event) {
+		    gapVarCB =  event.getValue();
+		    System.out.println(gapVarCB);
+		    
+		    calculaConhecimentosBasicosDEPARA(cargoDe,cargoPara, gapVarCB);
+		       
+		    } 
 
+	 public void onSlideEndPE(SlideEndEvent event) {
+		    gapVarPE =  event.getValue();
+		    System.out.println(gapVarPE);
+		    
+		    calculaPerfilDEPARA(cargoDe,cargoPara, gapVarPE);
+		       
+		    } 
+	 
+	 public void onSlideEndCE(SlideEndEvent event) {
+		    gapVarCE =  event.getValue();
+		    System.out.println(gapVarCE);
+		    
+		    calculaConhecimentosEspecificosDEPARA(cargoDe,cargoPara, gapVarCE);
+		       
+		    } 
+	
+	
+	/*100%  - (((módulo(Cargo Para - Cargo De)) -4) * Variação no GAP)
+		public void calculaMotivadoresDEPARA(TbCARGOSEntity tbCARGOSDe,
+				TbCARGOSEntity tbCARGOSPara, double gapVar) {
+			gapVar = gapVar/100;
+			List<TbMOTIVADORESCARGOSEntity> listCARGOSDe = InicializaTabelasAuxiliaresMO(tbCARGOSDe);
+			List<TbMOTIVADORESCARGOSEntity> listCARGOSPara = InicializaTabelasAuxiliaresMO(tbCARGOSPara);
+			listCARGOSDe = ordenaListasMO(listCARGOSDe);
+			listCARGOSPara = ordenaListasMO(listCARGOSPara);
+			
+			
+			listGapMO.clear();
+			Double somaListaGapMO =0.0;
+			flagCultura = 1;
+			try {
+				for(int i=0; i<listCARGOSDe.size();i++) {
+					TbMOTIVADORESCARGOSEntity gap = new TbMOTIVADORESCARGOSEntity();
+					//Calcula a subtração entre cada pontuação de cada motivador
+					if(listCARGOSDe.get(i).getIdMOTIVADORES().getDeSCMOTIVADORES().equals(listCARGOSPara.get(i).getIdMOTIVADORES().getDeSCMOTIVADORES())) {
+						gapDeParaMO= listCARGOSPara.get(i).getPoNTUACAOMOTIVADORES().
+								subtract(listCARGOSDe.get(i).getPoNTUACAOMOTIVADORES());
+
+						gapDeParaMO = gapDeParaMO.abs().subtract(BigDecimal.valueOf(4));
+						//Se "(módulo(Cargo Para - Cargo De)) -4)" < 0 então "(módulo(Cargo Para - Cargo De)) -4)" = 0
+						if(gapDeParaMO.compareTo(BigDecimal.ZERO)<0) {
+							gapDeParaMO = BigDecimal.ZERO;
+						}
+						
+						gap.setPoNTUACAOMOTIVADORES(gapDeParaMO);
+						//Adiciona cada valor à lista
+						listGapMO.add(gap);
+					}
+				}
+				//Soma todos os gaps
+				for(int i2=0;i2<listGapMO.size();i2++) {
+					somaListaGapMO += listGapMO.get(i2).getPoNTUACAOMOTIVADORES().doubleValue();
+				}
+				//calculo de aderência
+				aderenciaMO =  1 -((somaListaGapMO*gapVar));
+				aderenciaMO = round(aderenciaMO,2);
+				
+				//Se aderencia maior que 100%, força o valor
+				if(aderenciaMO > 1) {
+					aderenciaMO =1.0;
+				}
+				//Se aderência menor que 0%, força o valor 
+				else if (aderenciaMO <0) {
+					aderenciaMO =0.0;
+				}
+			}catch(IndexOutOfBoundsException ex) {
+
+			}
+		}*/
+	
+		//100%  - (((módulo(Cargo Para - Cargo De)) -4) * Variação no GAP)
+				public void calculaPerfilDEPARA(TbCARGOSEntity tbCARGOSDe,
+						TbCARGOSEntity tbCARGOSPara, double gapVar) {
+					gapVar = gapVar/100;
+					List<TbPERFILCARGOSEntity> listCARGOSDe = InicializaTabelasAuxiliaresPE(tbCARGOSDe);
+					List<TbPERFILCARGOSEntity> listCARGOSPara = InicializaTabelasAuxiliaresPE(tbCARGOSPara);
+					listCARGOSDe = ordenaListasPE(listCARGOSDe);
+					listCARGOSPara = ordenaListasPE(listCARGOSPara);
+					
+					
+					listGapPE.clear();
+					Double somaListaGapPE =0.0;
+					flagCultura = 1;
+					try {
+						for(int i=0; i<listCARGOSDe.size();i++) {
+							TbPERFILCARGOSEntity gap = new TbPERFILCARGOSEntity();
+							//Calcula a subtração entre cada pontuação de cada perfil
+							if(listCARGOSDe.get(i).getIdPERFIL().getDeSCPERFIL().equals(listCARGOSPara.get(i).getIdPERFIL().getDeSCPERFIL())) {
+								gapDeParaPE= listCARGOSPara.get(i).getPoNTUACAOPERFIL().
+										subtract(listCARGOSDe.get(i).getPoNTUACAOPERFIL());
+
+								
+								gap.setPoNTUACAOPERFIL(gapDeParaPE);
+								//Adiciona cada valor à lista
+								listGapPE.add(gap);
+							}
+						}
+						//Soma todos os gaps
+						for(int i2=0;i2<listGapPE.size();i2++) {
+							somaListaGapPE += listGapPE.get(i2).getPoNTUACAOPERFIL().doubleValue();
+							
+
+						}
+						somaListaGapPE = Math.abs(somaListaGapPE) - 4;
+						//Se "(módulo(Cargo Para - Cargo De)) -4)" < 0 então "(módulo(Cargo Para - Cargo De)) -4)" = 0
+						if(somaListaGapPE <0) {
+							somaListaGapPE = 0.0;
+						}
+						//calculo de aderência
+						aderenciaPE =  1 -((somaListaGapPE*gapVar));
+						aderenciaPE = round(aderenciaPE,2);
+						
+						//Se aderencia maior que 100%, força o valor
+						if(aderenciaPE > 1) {
+							aderenciaPE =1.0;
+						}
+						//Se aderência menor que 0%, força o valor 
+						else if (aderenciaPE <0) {
+							aderenciaPE =0.0;
+						}
+					}catch(IndexOutOfBoundsException ex) {
+
+					}
+				}
+			
+	
+	
+	public void calculaGRADESDEPARA(TbCARGOSEntity tbCARGOSDe,
+			TbCARGOSEntity tbCARGOSPara, double gapVar) {
+		gapVar = gapVar/100;
+		aderenciaGR = 0.0;
+		List<TbGRADECARGOSEntity> listCARGOSDe = InicializaTabelasAuxiliaresGR(tbCARGOSDe);
+		List<TbGRADECARGOSEntity> listCARGOSPara = InicializaTabelasAuxiliaresGR(tbCARGOSPara);
+		listCARGOSDe = ordenaListasGR(listCARGOSDe);
+		listCARGOSPara = ordenaListasGR(listCARGOSPara);
+		
+		
+		listGapGR.clear();
+		Double somaListaGapGR =0.0;
+		flagCultura = 1;
+		try {
+			for(int i=0; i<listCARGOSDe.size();i++) {
+				TbGRADECARGOSEntity gap = new TbGRADECARGOSEntity();
+				//Calcula a subtração entre cada pontuação de cada competência
+				if(listCARGOSDe.get(i).getIdGRADE().getDeSCGRADE().equals(listCARGOSPara.get(i).getIdGRADE().getDeSCGRADE())) {
+					gapDeParaGR= listCARGOSPara.get(i).getPoNTUACAOGRADE().
+							subtract(listCARGOSDe.get(i).getPoNTUACAOGRADE());
+					
+					
+					
+					
+					gap.setPoNTUACAOGRADE(gapDeParaGR);
+					//Adiciona cada valor à lista
+					listGapGR.add(gap);
+				}
+			}
+			//Soma todos os gaps
+			for(int i2=0;i2<listGapGR.size();i2++) {
+				somaListaGapGR += listGapGR.get(i2).getPoNTUACAOGRADE().doubleValue();
+			}
+			//calculo de aderência
+			aderenciaGR =  1 -((somaListaGapGR*gapVar));
+			aderenciaGR = round(aderenciaGR,2);
+			
+			//Se aderencia maior que 100%, força o valor
+			if(aderenciaGR > 1) {
+				aderenciaGR =1.0;
+			}
+			//Se aderência menor que 0%, força o valor 
+			else if (aderenciaGR <0) {
+				aderenciaGR =0.0;
+				
+				
+				
+			}
+		}catch(IndexOutOfBoundsException ex) {
+
+		}
+	}
+	
+	
+	public void calculaAderenciasParciais(TbCARGOSEntity tbCARGOSDe,
+			TbCARGOSEntity tbCARGOSPara, double gapVarCO, double gapVarNH, double gapVarPE,
+										double gapVarCB, double gapVarCE) {
+		
+		calculaGRADESDEPARA(tbCARGOSDe, tbCARGOSPara, gapVarNH);
+		calculaCompetenciasDEPARA(tbCARGOSDe, tbCARGOSPara, gapVarCO);
+		calculaPerfilDEPARA(tbCARGOSDe, tbCARGOSPara, gapVarPE);
+		calculaConhecimentosBasicosDEPARA(tbCARGOSDe, tbCARGOSPara, gapVarCB);
+		calculaConhecimentosEspecificosDEPARA(tbCARGOSDe, tbCARGOSPara, gapVarCE);
+		
+		
+		calculaAderenciaFinal(tbCARGOSDe, tbCARGOSPara);
+		
+	}
+
+	
+	
+	public void calculaAderenciaFinal(TbCARGOSEntity tbCARGOSDe,
+			TbCARGOSEntity tbCARGOSPara) {
+		double pesoCO = 0.3;
+		double pesoNH = 0.2;
+		double pesoPE = 0.3;
+		double pesoCB = 0.0;
+		double pesoCE = 0.0;
+		
+		aderenciaFinal = (pesoCO * aderencia) + (pesoNH * aderenciaGR) + (pesoPE * aderenciaPE) + 
+						(pesoCB * aderenciaCB) + (pesoCE *aderenciaCE);
+		
+		if(aderenciaGR ==0.0) {
+		
+			avisoMovimentacao = "Movimentação entre cargos impossível!";
+		}
+	}
+	
+	
+	
 	public static double round(double value, int places) {
 		if (places < 0) throw new IllegalArgumentException();
 
@@ -298,20 +858,7 @@ public class TbCARGOSBean implements Serializable {
 		return bd.doubleValue();
 	}
 
-	public List<TbCONHECIMENTOSBASCARGOSEntity> InicializaTabelasAuxiliaresCB(TbCARGOSEntity tbCARGOS){
-		this.tbCARGOS = tbCARGOS;
-		tbCONHECIMENTOSBASICOSCARGOSs= tbCONHECIMENTOSBASCARGOSService.findTbCONHECIMENTOSBASCARGOSsByIdCARGOS(this.tbCARGOS);
-
-		return tbCONHECIMENTOSBASICOSCARGOSs;
-	}
-
-	public List<TbCONHECIMENTOSESPCARGOSEntity> InicializaTabelasAuxiliaresCE(TbCARGOSEntity tbCARGOS){
-		this.tbCARGOS = tbCARGOS;
-		tbCONHECIMENTOSESPCARGOSs= tbCONHECIMENTOSESPCARGOSService.findTbCONHECIMENTOSESPCARGOSsByIdCARGOS(this.tbCARGOS);
-
-		return tbCONHECIMENTOSESPCARGOSs;
-	}
-
+	
 
 
 
@@ -397,6 +944,8 @@ public class TbCARGOSBean implements Serializable {
 		tbHABILIDADESCULTCARGOSs = null;
 		allIdESTsList = null;
 		allIdCURSOSsList = null;
+		allIdDEPTOsList = null;
+		allIdNOsList = null;
 
 	}
 
@@ -409,6 +958,23 @@ public class TbCARGOSBean implements Serializable {
 		return this.allIdESTsList;
 	}
 
+	// Get a List of all idDEPTO
+		public List<TbDEPTOEntity> getIdDEPTOs() {
+			if (this.allIdDEPTOsList == null) {
+				this.allIdDEPTOsList = tbDEPTOSerivce.findAllTbDEPTOEntities();
+
+			}
+			return this.allIdDEPTOsList;
+		}
+		
+	// Get a List of all idNO
+		public List<TbNOEntity> getIdNOs() {
+			if (this.allIdNOsList == null) {
+					this.allIdNOsList = tbNOService.findAllTbNOEntities();
+					}
+			return this.allIdNOsList;
+		}		
+
 
 	// Get a List of all idDIRETORIAs
 	public List<TbDIRETORIAEntity> getIdDiretoria() {
@@ -420,11 +986,14 @@ public class TbCARGOSBean implements Serializable {
 
 
 
-	// Update idEST of the current tbCARGOS
-	public void updateIdEST(TbESTATUARIOEntity tbESTATUARIO) {
-		this.tbCARGOS.setIdEST(tbESTATUARIO);
-		// Maybe we just created and assigned a new tbESTATUARIO. So reset the allIdESTList.
+
+	public void updateIdDEPTO(TbDEPTOEntity tbDEPTO) {
+		this.tbCARGOS.setIdDEPTO(tbDEPTO);
 		allIdESTsList = null;
+	}
+	
+	public void updateIdNO(TbNOEntity tbNO) {
+		this.tbCARGOS.setIdNO(tbNO);
 	}
 
 	// Get a List of all idCURSOS
@@ -633,6 +1202,210 @@ public class TbCARGOSBean implements Serializable {
 	}
 
 
+
+	
+	public List<TbGRADECARGOSEntity> getTbGRADESCARGOSs() {
+		return tbGRADESCARGOSs;
+	}
+
+	public void setTbGRADESCARGOSs(List<TbGRADECARGOSEntity> tbGRADESCARGOSs) {
+		this.tbGRADESCARGOSs = tbGRADESCARGOSs;
+	}
+
+	public List<TbPERFILCARGOSEntity> getTbPERFILCARGOSs() {
+		return tbPERFILCARGOSs;
+	}
+
+	public void setTbPERFILCARGOSs(List<TbPERFILCARGOSEntity> tbPERFILCARGOSs) {
+		this.tbPERFILCARGOSs = tbPERFILCARGOSs;
+	}
+
+	public List<TbMOTIVADORESCARGOSEntity> getTbMOTIVADORESCARGOSs() {
+		return tbMOTIVADORESCARGOSs;
+	}
+
+	public void setTbMOTIVADORESCARGOSs(List<TbMOTIVADORESCARGOSEntity> tbMOTIVADORESCARGOSs) {
+		this.tbMOTIVADORESCARGOSs = tbMOTIVADORESCARGOSs;
+	}
+
+	public BigDecimal getGapDeParaGR() {
+		return gapDeParaGR;
+	}
+
+	public void setGapDeParaGR(BigDecimal gapDeParaGR) {
+		this.gapDeParaGR = gapDeParaGR;
+	}
+
+	public Double getGapVarGR() {
+		return gapVarGR;
+	}
+
+	public void setGapVarGR(Double gapVarGR) {
+		this.gapVarGR = gapVarGR;
+	}
+
+	public Double getAderenciaGR() {
+		return aderenciaGR;
+	}
+
+	public void setAderenciaGR(Double aderenciaGR) {
+		this.aderenciaGR = aderenciaGR;
+	}
+
+	public List<TbGRADECARGOSEntity> getListGapGR() {
+		return listGapGR;
+	}
+
+	public void setListGapGR(List<TbGRADECARGOSEntity> listGapGR) {
+		this.listGapGR = listGapGR;
+	}
+
+	public String getAvisoMovimentacao() {
+		return avisoMovimentacao;
+	}
+
+	public void setAvisoMovimentacao(String avisoMovimentacao) {
+		this.avisoMovimentacao = avisoMovimentacao;
+	}
+
+	public BigDecimal getGapDeParaMO() {
+		return gapDeParaMO;
+	}
+
+	public void setGapDeParaMO(BigDecimal gapDeParaMO) {
+		this.gapDeParaMO = gapDeParaMO;
+	}
+
+	public Double getGapVarMO() {
+		return gapVarMO;
+	}
+
+	public void setGapVarMO(Double gapVarMO) {
+		this.gapVarMO = gapVarMO;
+	}
+
+	public Double getAderenciaMO() {
+		return aderenciaMO;
+	}
+
+	public void setAderenciaMO(Double aderenciaMO) {
+		this.aderenciaMO = aderenciaMO;
+	}
+
+	public List<TbMOTIVADORESCARGOSEntity> getListGapMO() {
+		return listGapMO;
+	}
+
+	public void setListGapMO(List<TbMOTIVADORESCARGOSEntity> listGapMO) {
+		this.listGapMO = listGapMO;
+	}
+
+	public BigDecimal getGapDeParaPE() {
+		return gapDeParaPE;
+	}
+
+	public void setGapDeParaPE(BigDecimal gapDeParaPE) {
+		this.gapDeParaPE = gapDeParaPE;
+	}
+
+	public Double getGapVarPE() {
+		return gapVarPE;
+	}
+
+	public void setGapVarPE(Double gapVarPE) {
+		this.gapVarPE = gapVarPE;
+	}
+
+	public Double getAderenciaPE() {
+		return aderenciaPE;
+	}
+
+	public void setAderenciaPE(Double aderenciaPE) {
+		this.aderenciaPE = aderenciaPE;
+	}
+
+	public List<TbPERFILCARGOSEntity> getListGapPE() {
+		return listGapPE;
+	}
+
+	public void setListGapPE(List<TbPERFILCARGOSEntity> listGapPE) {
+		this.listGapPE = listGapPE;
+	}
+
+	public Double getAderenciaFinal() {
+		return aderenciaFinal;
+	}
+
+	public void setAderenciaFinal(Double aderenciaFinal) {
+		this.aderenciaFinal = aderenciaFinal;
+	}
+
+	public BigDecimal getGapDeParaCB() {
+		return gapDeParaCB;
+	}
+
+	public void setGapDeParaCB(BigDecimal gapDeParaCB) {
+		this.gapDeParaCB = gapDeParaCB;
+	}
+
+	public Double getGapVarCB() {
+		return gapVarCB;
+	}
+
+	public void setGapVarCB(Double gapVarCB) {
+		this.gapVarCB = gapVarCB;
+	}
+
+	public Double getAderenciaCB() {
+		return aderenciaCB;
+	}
+
+	public void setAderenciaCB(Double aderenciaCB) {
+		this.aderenciaCB = aderenciaCB;
+	}
+
+	public List<TbCONHECIMENTOSBASCARGOSEntity> getListGapCB() {
+		return listGapCB;
+	}
+
+	public void setListGapCB(List<TbCONHECIMENTOSBASCARGOSEntity> listGapCB) {
+		this.listGapCB = listGapCB;
+	}
+
+	public BigDecimal getGapDeParaCE() {
+		return gapDeParaCE;
+	}
+
+	public void setGapDeParaCE(BigDecimal gapDeParaCE) {
+		this.gapDeParaCE = gapDeParaCE;
+	}
+
+	public Double getGapVarCE() {
+		return gapVarCE;
+	}
+
+	public void setGapVarCE(Double gapVarCE) {
+		this.gapVarCE = gapVarCE;
+	}
+
+	public Double getAderenciaCE() {
+		return aderenciaCE;
+	}
+
+	public void setAderenciaCE(Double aderenciaCE) {
+		this.aderenciaCE = aderenciaCE;
+	}
+
+	public List<TbCONHECIMENTOSESPCARGOSEntity> getListGapCE() {
+		return listGapCE;
+	}
+
+	public void setListGapCE(List<TbCONHECIMENTOSESPCARGOSEntity> listGapCE) {
+		this.listGapCE = listGapCE;
+	}
+
+
+	
 
 
 

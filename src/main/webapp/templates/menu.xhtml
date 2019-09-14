@@ -7,48 +7,81 @@
 <ui:composition>
   <h:form>
   
-   <p:panel id="toggleable" header="Customização" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="true" style="background:#9d4110;">
-  <p:menu toggleable="true">
-     		<p:submenu label ="Acadêmico" expanded="false">	         
-     			<p:menuitem value="#{messages.menu_Formacao}" url="/pages/tbFORMACAO/tbFORMACAO.xhtml"  ajax="false" async="false" />
-      			<p:menuitem value="#{messages.menu_Cursos}" url="/pages/tbCURSOS/tbCURSOS.xhtml"  ajax="false" async="false" />
-      		</p:submenu>
-      		<p:submenu label ="Setores">
-      			<p:menuitem value="#{messages.menu_tbVICEPRESIDENCIAs}" url="/pages/tbVICEPRESIDENCIA/tbVICEPRESIDENCIA.xhtml" ajax="false" async="false" />
-      			<p:menuitem value="#{messages.menu_tbDIRETORIAs}" url="/pages/tbDIRETORIA/tbDIRETORIA.xhtml" ajax="false" async="false" />
-      			<p:menuitem value="#{messages.menu_tbESTATUARIOs}" url="/pages/tbESTATUARIO/tbESTATUARIO.xhtml"  ajax="false" async="false" />
-      		</p:submenu>
-       		<p:submenu label ="Aprendizado">
-      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/pages/tbCOMPETENCIAS/tbCOMPETENCIAS.xhtml" ajax="false" async="false" />
-      			<p:menuitem value="#{messages.menu_tbHABILIDADESs}" url="/pages/tbHABILIDADES/tbHABILIDADES.xhtml" ajax="false" async="false" />
-       		</p:submenu>
-       		<p:submenu label ="Estilo de liderança">
-      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASEMOCIONAISs}" url="/pages/tbCOMPETENCIASEMOCIONAIS/tbCOMPETENCIASEMOCIONAIS.xhtml" ajax="false" async="false" />
-	  			<p:menuitem value="#{messages.menu_tbESTILOLIDERANCAs}" url="/pages/tbESTILOLIDERANCA/tbESTILOLIDERANCA.xhtml" ajax="false" async="false" />
-	  			<p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOs}" url="/pages/tbESTILOPENSAMENTO/tbESTILOPENSAMENTO.xhtml" ajax="false" async="false" />      
-	  		    <p:menuitem value="#{messages.menu_tbHABILIDADESCULTURAISs}" url="/pages/tbHABILIDADESCULTURAIS/tbHABILIDADESCULTURAIS.xhtml"  ajax="false" async="false" />      
-     		</p:submenu>
-     		<p:submenu label ="Conhecimentos">
-       			<p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOS.xhtml" ajax="false" async="false" />
-				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOS.xhtml" ajax="false" async="false" />     
-    		</p:submenu> 
+   
+ 		
+	<p:panel id="toggleableAderencia" header="Aderência entre Cargos" collapsed="true"
+			toggleable="true" toggleSpeed="500" closeSpeed="500"
+			widgetVar="panel4" style="background:#9d4110;">
+				<p:menu toggleable="true">
+				<p:menuitem value="Aderência"
+					url="/pages/HABILIDADESCARGOSCALC2/Comparacao.xhtml"
+					ajax="false" async="false" />
+				
+			</p:menu>
 	
-   </p:menu>
-
-   </p:panel>
-
-
-		<p:panel id="toggleableCargos" header="Classificação" collapsed="true"
+		</p:panel>
+ 	
+ 	
+ 	
+ 	<p:panel id="toggleableCargos" header="Cadastro de cargos" collapsed="true"
 			toggleable="true" toggleSpeed="500" closeSpeed="500"
 			widgetVar="panel3" style="background:#9d4110;">
 			<p:menu toggleable="true">
-				<p:menuitem value="#{messages.menu_tbCARGOSs}"
-					url="/pages/tbCARGOS/tbCARGOS.xhtml"
+				<p:menuitem value="Cadastro de cargos"
+					url="/pages/tbCARGOS_Modulo/tbCARGOS.xhtml"
 					ajax="false" async="false" />
 				
 			</p:menu>
 		</p:panel>
+ 
+ 
+        
 
+  
+
+		<p:panel id="toggleable" header="Customização" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="true" style="background:#9d4110;">
+ 				 <p:menu toggleable="true">
+     		
+      		<p:submenu label ="Setores">
+      		
+      			<p:menuitem value="#{messages.menu_TbDiretoria}" url="/pages/tbAREA/tbAREA.xhtml" ajax="false" async="false" />
+      			<p:menuitem value="#{messages.menu_tbESTATUARIOs}" url="/pages/tbDEPTO/tbDEPTO.xhtml"  ajax="false" async="false" />
+      		</p:submenu>
+       		<p:submenu label ="Aprendizado">
+      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/pages/tbCOMPETENCIAS/tbCOMPETENCIAS.xhtml" ajax="false" async="false" />
+      			
+       		</p:submenu>
+       		
+       		<!--  <p:submenu label ="Motivadores">
+       		<p:menuitem value="#{messages.menu_Motivadores}" url="/pages/tbMOTIVADORES/tbMOTIVADORES.xhtml" ajax="false" async="false" />
+     		</p:submenu>-->
+     		
+     		<p:submenu label ="Grades">
+     		
+     		<p:menuitem value="#{messages.menu_GRADES}" url="/pages/tbGRADE/tbGRADE.xhtml" ajax="false" async="false" />
+     			
+     		</p:submenu>
+     		
+     		<p:submenu label ="Perfil">
+     		
+     		<p:menuitem value="#{messages.menu_Perfil}" url="/pages/tbPERFIL/tbPERFIL.xhtml" ajax="false" async="false" />
+     			
+     		</p:submenu>
+     		
+     		<p:submenu label ="Nível Organizacional">
+     		
+     		<p:menuitem value="#{messages.menu_NO}" url="/pages/tbNO/tbNO.xhtml" ajax="false" async="false" />
+     			
+     		</p:submenu>
+     		
+     		 <p:submenu label ="Conhecimentos">
+       			<p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOS.xhtml" ajax="false" async="false" />
+				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOS.xhtml" ajax="false" async="false" />     
+    		</p:submenu> 
+    		
+	
+   </p:menu>
+ 	 </p:panel>
 
 
 

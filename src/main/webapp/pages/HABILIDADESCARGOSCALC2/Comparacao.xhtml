@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+	<ui:define name="content">
+		<h:panelGrid id="paneCargos" styleClass="dialog"
+			columnClasses="col1,col2,col3" columns="3">
+			<h:form>
+				<h:outputLabel value="Cargo De:" for="idDEPTOSelectInput" />
+				<p:selectOneMenu value="#{tbCARGOSBean.cargoDe}"
+					id="idDEPTOSelectInput">
+					<f:selectItem noSelectionOption="true" itemLabel="" />
+					<f:selectItems value="#{tbCARGOSBean.tbCARGOSList}" var="tbCARGO"
+						itemLabel="Cargo: #{tbCARGO.deSCCARGO} Área: #{tbCARGO.idDEPTO.idAREA.deSCAREA}"
+						itemValue="#{tbCARGO}" />
+					<p:ajax event="change"
+						update="paneCO DSCO toggleable8 cargoParaForm tbCOMPETENCIASCARGOSDataForm
+								paneGR DSGR	toggleable9 tbGRADESCARGOSDataForm
+								" />
+					<o:converter converterId="omnifaces.SelectItemsConverter"
+						list="#{tbCARGOSBean.tbCARGOSList}" />
+				</p:selectOneMenu>
+			</h:form>
+			<h:form id="cargoParaForm">
+				<h:outputLabel rendered="#{not empty tbCARGOSBean.cargoDe}"
+					value="Cargo Para:" for="idDEPTOPARASelectInput" />
+				<p:selectOneMenu rendered="#{not empty tbCARGOSBean.cargoDe}"
+					value="#{tbCARGOSBean.cargoPara}" id="idDEPTOPARASelectInput">
+					<f:selectItem noSelectionOption="true" itemLabel="" />
+					<f:selectItems value="#{tbCARGOSBean.tbCARGOSList}" var="tbCARGO"
+						itemLabel="Cargo: #{tbCARGO.deSCCARGO} Área: #{tbCARGO.idDEPTO.idAREA.deSCAREA}"
+						itemValue="#{tbCARGO}" />
+					<p:ajax event="change"
+						listener="#{tbCARGOSBean.calculaAderenciasParciais(tbCARGOSBean.cargoDe,
+                    								   tbCARGOSBean.cargoPara,tbCARGOSBean.gapVar, tbCARGOSBean.gapVarGR, 
+                    								   tbCARGOSBean.gapVarPE, tbCARGOSBean.gapVarCB, tbCARGOSBean.gapVarCE)}"
+						update="paneCO DSCO toggleable8
+								paneGR DSGR	toggleable9
+								panePE DSPE toggleable10
+								paneCB DSCB toggleable11
+								paneCE DSCE toggleable12
+								paneAderenciaFinal DSAF
+								" />
+					<o:converter converterId="omnifaces.SelectItemsConverter"
+						list="#{tbCARGOSBean.tbCARGOSList}" />
+				</p:selectOneMenu>
+			</h:form>
+
+		</h:panelGrid>
+
+
+		<p:spacer></p:spacer>
+		
+		<p:panel style="color:black" id="DSAF">
+		
+		<h:panelGrid id="paneAderenciaFinal">
+			<h:panelGrid 
+				rendered="#{not empty tbCARGOSBean.cargoPara}" styleClass="dialog"
+				style="width: 200px; 
+																					height: 50px;
+																				    "
+				columnClasses="col1,col2,col3" columns="3">
+
+
+
+				<f:facet name="header">
+					<h:outputText style="font-size:16px;font-weight:bold;color:white"
+						value="Aderência Final: " />
+
+					<h:outputLabel style="font-size:16px;font-weight:bold;color:white"
+						value="#{tbCARGOSBean.aderenciaFinal}">
+						<f:convertNumber type="percent" />
+					</h:outputLabel>
+				</f:facet>
+
+			</h:panelGrid>
+			
+			
+		</h:panelGrid>
+	</p:panel>
+
+	
+
+
+
+
+		<!-- Competências -->
+
+
+
+		<p:panel style="color:black" id="DSCO">
+			<p:panel id="toggleable8"
+				rendered="#{not empty tbCARGOSBean.cargoPara}"
+				header="Competências Gerais" toggleable="true" toggleSpeed="500"
+				closeSpeed="500" widgetVar="panel8" collapsed="false"
+				style="width:auto;background:black;">
+				<h:panelGrid id="paneCO">
+
+
+
+
+
+					<h:form prependId="false" id="tbCOMPETENCIASCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<h:panelGrid id="paneCargos2" styleClass="dialog"
+							columnClasses="col1,col2,col3" columns="3">
+
+
+
+							<p:dataTable id="tbCOMPETENCIASCARGOSTableGap"
+								value="#{tbCARGOSBean.listGap}" var="tbCOMPETENCIASCARGOS"
+								resizableColumns="true" widgetVar="tbCOMPETENCIASCARGOSTable"
+								emptyMessage=" " reflow="true">
+
+
+								<f:facet name="header">
+									<h:outputText style="font-size:16px;font-weight:bold"
+										value="Aderência parcial: " />
+
+									<h:outputLabel style="font-size:16px;font-weight:bold"
+										value="#{tbCARGOSBean.aderencia}">
+										<f:convertNumber type="percent" />
+									</h:outputLabel>
+
+
+								</f:facet>
+
+
+							</p:dataTable>
+
+
+						</h:panelGrid>
+
+
+					</h:form>
+				</h:panelGrid>
+			</p:panel>
+
+
+			<h:form rendered="#{not empty tbCARGOSBean.cargoPara}">
+				<h:panelGrid columns="1" style="margin-bottom: 10px">
+					<h:outputText id="output"
+						value=" Variação do Gap: %#{tbCARGOSBean.gapVar}" />
+					<h:inputHidden id="txt2" value="#{tbCARGOSBean.gapVar}" />
+					<p:slider for="txt2" display="output" minValue="0" maxValue="100"
+						step="0.5" style="width: 300px"
+						displayTemplate="Variação do gap: %{value}">
+						<p:ajax event="slideEnd" listener="#{tbCARGOSBean.onSlideEnd}"
+							update="tbCOMPETENCIASCARGOSTableGap" />
+					</p:slider>
+				</h:panelGrid>
+
+			</h:form>
+
+		</p:panel>
+
+
+
+
+		<!-- Grades -->
+		<p:panel style="color:black" styleClass="Grade" id="DSGR">
+			<p:panel id="toggleable9"
+				rendered="#{not empty tbCARGOSBean.cargoPara}" header="Grade"
+				toggleable="true" toggleSpeed="500" closeSpeed="500"
+				styleClass="Grade" widgetVar="panel9" collapsed="false">
+				<h:panelGrid id="paneGR" styleClass="Grade">
+
+
+
+
+
+					<h:form prependId="false" id="tbGRADESCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<h:panelGrid id="paneCargos3" styleClass="dialog"
+							columnClasses="col1,col2,col3" columns="3">
+
+
+
+							<p:dataTable id="tbGRADESCARGOSTableGap" styleClass="GradeAux"
+								value="#{tbCARGOSBean.listGapGR}" var="tbGRADESCARGOS"
+								resizableColumns="true" widgetVar="tbGRADESCARGOSTable"
+								emptyMessage=" " reflow="true">
+
+
+								<f:facet name="header">
+									<h:outputText style="font-size:16px;font-weight:bold"
+										value="Aderência parcial: " />
+
+									<h:outputLabel style="font-size:16px;font-weight:bold"
+										value="#{tbCARGOSBean.aderenciaGR}">
+										<f:convertNumber type="percent" />
+									</h:outputLabel>
+
+
+								</f:facet>
+
+
+							</p:dataTable>
+
+
+						</h:panelGrid>
+
+
+					</h:form>
+				</h:panelGrid>
+			</p:panel>
+
+
+			<h:form>
+				<h:panelGrid columns="1" style="margin-bottom: 10px">
+					<h:outputText id="output"
+						value=" Variação do Gap: %#{tbCARGOSBean.gapVarGR}" />
+					<h:inputHidden id="txt3" value="#{tbCARGOSBean.gapVarGR}" />
+					<p:slider for="txt3" display="output" minValue="0" maxValue="100"
+						step="0.5" style="width: 300px"
+						displayTemplate="Variação do gap: %{value}">
+						<p:ajax event="slideEnd" listener="#{tbCARGOSBean.onSlideEndGR}"
+							update="tbGRADESCARGOSTableGap" />
+					</p:slider>
+				</h:panelGrid>
+
+			</h:form>
+
+		</p:panel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!-- Perfil -->
+		<p:panel style="color:black" styleClass="Perfil" id="DSPE">
+			<p:panel id="toggleable10"
+				rendered="#{not empty tbCARGOSBean.cargoPara}" header="Perfil"
+				toggleable="true" toggleSpeed="500" closeSpeed="500"
+				styleClass="Perfil" widgetVar="panel10" collapsed="false">
+				<h:panelGrid id="panePE" styleClass="Perfil">
+
+
+
+
+
+					<h:form prependId="false" id="tbPERFILSCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<h:panelGrid id="paneCargos4" styleClass="dialog"
+							columnClasses="col1,col2,col3" columns="3">
+
+
+
+							<p:dataTable id="tbPERFILSCARGOSTableGap" styleClass="PerfilAux"
+								value="#{tbCARGOSBean.listGapPE}" var="tbPERFILSCARGOS"
+								resizableColumns="true" widgetVar="tbPERFILSCARGOSTable"
+								emptyMessage=" " reflow="true">
+
+
+								<f:facet name="header">
+									<h:outputText style="font-size:16px;font-weight:bold"
+										value="Aderência parcial: " />
+
+									<h:outputLabel style="font-size:16px;font-weight:bold"
+										value="#{tbCARGOSBean.aderenciaPE}">
+										<f:convertNumber type="percent" />
+									</h:outputLabel>
+
+
+								</f:facet>
+
+
+							</p:dataTable>
+
+
+						</h:panelGrid>
+
+
+					</h:form>
+				</h:panelGrid>
+			</p:panel>
+
+
+			<h:form>
+				<h:panelGrid columns="1" style="margin-bottom: 10px">
+					<h:outputText id="output"
+						value=" Variação do Gap: %#{tbCARGOSBean.gapVarPE}" />
+					<h:inputHidden id="txt3" value="#{tbCARGOSBean.gapVarPE}" />
+					<p:slider for="txt3" display="output" minValue="0" maxValue="100"
+						step="0.5" style="width: 300px"
+						displayTemplate="Variação do gap: %{value}">
+						<p:ajax event="slideEnd" listener="#{tbCARGOSBean.onSlideEndPE}"
+							update="tbPERFILSCARGOSTableGap" />
+					</p:slider>
+				</h:panelGrid>
+
+			</h:form>
+
+		</p:panel>
+
+
+
+		<!--  Conhecimentos Básicos -->
+		<p:panel style="color:black" styleClass="Basicos" id="DSCB">
+			<p:panel id="toggleable11"
+				rendered="#{not empty tbCARGOSBean.cargoPara}"
+				header="Experiências Básicas" toggleable="true" toggleSpeed="500"
+				closeSpeed="500" styleClass="Basicos" widgetVar="panel11"
+				collapsed="false">
+				<h:panelGrid id="paneCB" styleClass="Basicos">
+
+
+
+
+
+					<h:form prependId="false" id="tbCONHECIMENTOSBASCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<h:panelGrid id="paneCargos5" styleClass="dialog"
+							columnClasses="col1,col2,col3" columns="3">
+
+
+
+							<p:dataTable id="tbCONHECIMENTOSBASCARGOSTableGap"
+								styleClass="BasicosAux" value="#{tbCARGOSBean.listGapCB}"
+								var="tbCONHECIMENTOSBASCARGOS" resizableColumns="true"
+								widgetVar="tbCONHECIMENTOSBASCARGOSTable" emptyMessage=" "
+								reflow="true">
+
+
+								<f:facet name="header">
+									<h:outputText style="font-size:16px;font-weight:bold"
+										value="Aderência parcial: " />
+
+									<h:outputLabel style="font-size:16px;font-weight:bold"
+										value="#{tbCARGOSBean.aderenciaCB}">
+										<f:convertNumber type="percent" />
+									</h:outputLabel>
+
+
+								</f:facet>
+
+
+							</p:dataTable>
+
+
+						</h:panelGrid>
+
+
+					</h:form>
+				</h:panelGrid>
+			</p:panel>
+
+
+			<h:form>
+				<h:panelGrid columns="1" style="margin-bottom: 10px">
+					<h:outputText id="output"
+						value=" Variação do Gap: %#{tbCARGOSBean.gapVarCB}" />
+					<h:inputHidden id="txt4" value="#{tbCARGOSBean.gapVarCB}" />
+					<p:slider for="txt4" display="output" minValue="0" maxValue="100"
+						step="0.5" style="width: 300px"
+						displayTemplate="Variação do gap: %{value}">
+						<p:ajax event="slideEnd" listener="#{tbCARGOSBean.onSlideEndCB}"
+							update="tbCONHECIMENTOSBASCARGOSTableGap" />
+					</p:slider>
+				</h:panelGrid>
+
+			</h:form>
+
+		</p:panel>
+
+
+
+		<!--  Conhecimentos Específicos -->
+		<p:panel style="color:black" styleClass="Basicos" id="DSCE">
+			<p:panel id="toggleable12"
+				rendered="#{not empty tbCARGOSBean.cargoPara}"
+				header="Conhecimentos Técnicos" toggleable="true" toggleSpeed="500"
+				closeSpeed="500" styleClass="Especificos" widgetVar="panel12"
+				collapsed="false">
+				<h:panelGrid id="paneCE" styleClass="Basicos">
+
+
+
+
+
+					<h:form prependId="false" id="tbCONHECIMENTOSESPCARGOSDataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<h:panelGrid id="paneCargos6" styleClass="dialog"
+							columnClasses="col1,col2,col3" columns="3">
+
+
+
+							<p:dataTable id="tbCONHECIMENTOSESPCARGOSTableGap"
+								styleClass="EspecificosAux" value="#{tbCARGOSBean.listGapCE}"
+								var="tbCONHECIMENTOSESPCARGOS" resizableColumns="true"
+								widgetVar="tbCONHECIMENTOSESPCARGOSTable" emptyMessage=" "
+								reflow="true">
+
+
+								<f:facet name="header">
+									<h:outputText style="font-size:16px;font-weight:bold"
+										value="Aderência parcial: " />
+
+									<h:outputLabel style="font-size:16px;font-weight:bold"
+										value="#{tbCARGOSBean.aderenciaCE}">
+										<f:convertNumber type="percent" />
+									</h:outputLabel>
+
+
+								</f:facet>
+
+
+							</p:dataTable>
+
+
+						</h:panelGrid>
+
+
+					</h:form>
+				</h:panelGrid>
+			</p:panel>
+
+
+			<h:form>
+				<h:panelGrid columns="1" style="margin-bottom: 10px">
+					<h:outputText id="output"
+						value=" Variação do Gap: %#{tbCARGOSBean.gapVarCE}" />
+					<h:inputHidden id="txt5" value="#{tbCARGOSBean.gapVarCE}" />
+					<p:slider for="txt5" display="output" minValue="0" maxValue="100"
+						step="0.5" style="width: 300px"
+						displayTemplate="Variação do gap: %{value}">
+						<p:ajax event="slideEnd" listener="#{tbCARGOSBean.onSlideEndCE}"
+							update="tbCONHECIMENTOSESPCARGOSTableGap" />
+					</p:slider>
+				</h:panelGrid>
+
+			</h:form>
+
+		</p:panel>
+
+
+
+
+
+
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

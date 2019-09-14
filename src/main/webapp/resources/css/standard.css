@@ -75,11 +75,7 @@ a, img {
     background-color: green;
 }
 
-.MenuLinguagem.ui-selectonemenu .ui-selectonemenu-label   {
-	background: white !important;
-	font-weight:bold;
-	color:black;
-}
+
 
 .ui-selectonemenu-trigger{
 	background: #ED6707 !important;
@@ -131,6 +127,9 @@ th {
     background: #5C2C5E !important;
 }
 
+
+
+
 .ui-button .ui-button-text {
     display: block;
     line-height: normal;
@@ -143,7 +142,7 @@ th {
     width: 100%;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    background: #9d4110;
+    background: #f2f2f2;
     -moz-box-sizing: border-box;
     text-align: center;
 }
@@ -156,17 +155,61 @@ th {
     border-style: solid;
     border-color: inherit;
     padding: 1px 1px;
-    background: #9d4110;
+    background: #f2f2f2;
 }
 
 .ui-panelgrid .ui-grid-responsive .ui-panelgrid-cell {
     border: 0 none;
     padding: 0px;
+
 }
 
 .ui-panel .ui-panel-titlebar {
     padding: .5em 1em .3em;
     background: #5C2C5E;
+}
+
+.Grade.ui-panel .ui-panel-titlebar {
+	background: #00AF50 !important;
+}
+
+
+.GradeAux.ui-datatable .ui-datatable-header{
+	background: #00AF50 !important;
+}
+
+
+.Perfil.ui-panel .ui-panel-titlebar {
+	background: #14A1DD !important;
+}
+
+.PerfilAux.ui-datatable .ui-datatable-header{
+	background: #14A1DD !important;
+}
+
+
+.Basicos.ui-panel .ui-panel-titlebar {
+	background:#C42A22 !important;
+}
+
+.BasicosAux.ui-datatable .ui-datatable-header{
+	background: #C42A22 !important;
+}
+
+
+.Especificos.ui-panel .ui-panel-titlebar {
+	background:#920A7A !important;
+}
+
+.EspecificosAux.ui-datatable .ui-datatable-header{
+	background: #920A7A !important;
+}
+
+
+.MenuLinguagem.ui-selectonemenu .ui-selectonemenu-label   {
+	background: white !important;
+	font-weight:bold;
+	color:black;
 }
 
 .ui-fluid .ui-menu {
