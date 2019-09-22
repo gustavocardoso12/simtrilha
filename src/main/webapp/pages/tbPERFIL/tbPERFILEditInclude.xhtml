@@ -9,14 +9,33 @@
 
  
 
-              <p:panelGrid columns="3" styleClass="dialog"  columnClasses="col1,col2,col3"  >
+              <p:panelGrid columns="3" id="penalidadePane" styleClass="dialog"  columnClasses="col1,col2,col3"  >
             
                 <h:outputLabel value="#{messages.field_label_tbPERFIL_deSCPERFIL}:" for="deSCPERFILEditInput" />
                 <p:inputText value="#{tbPERFILBean.tbPERFIL.deSCPERFIL}" id="deSCPERFILEditInput"  />
                 <p:message for="deSCPERFILEditInput" display="icon" />
 
-                
-            </p:panelGrid>
 
+                <h:outputLabel value="#{messages.field_label_tbPERFIL_bloqueia}:" for="deSCPERFILBLOQUEIAEditInput" />
+                <p:selectBooleanCheckbox value="#{tbPERFILBean.flagBloqueio}"  id="deSCPERFILBLOQUEIAEditInput"/>
+                <p:message for="deSCPERFILBLOQUEIAEditInput" display="icon" />
+				
+				    
+                 <h:outputLabel value="#{messages.field_label_tbPERFIL_penalidade}:" for="deSCPERFILPENALIDADEEditInput" />
+       			 <p:selectOneMenu id="deSCPERFILPENALIDADEEditInput" value="#{tbPERFILBean.flagCustom}" style="width:125px">
+            		<f:selectItem itemLabel="Personalizável" itemValue="true" />
+           			 <f:selectItem itemLabel="Padrão" itemValue="false" />
+           		<p:ajax event="change" update="penalidadePane"></p:ajax>	 
+        		</p:selectOneMenu>
+                <p:message for="deSCPERFILPENALIDADEEditInput" display="icon" />
+				
+				
+				 <h:outputLabel rendered="#{tbPERFILBean.flagCustom==true}" value="Gap Penalidade:" id="PenalidadeLabel" for="PenalidadeIn" />
+                <p:inputNumber rendered="#{tbPERFILBean.flagCustom==true}" id="PenalidadeIn" 
+          		 decimalPlaces="0" value="#{tbPERFILBean.tbPERFIL.penalidadeConhecPerfil}"/>
+				<p:message for="PenalidadeIn"  rendered="#{tbPERFILBean.flagCustom==true}" display="icon"/>
+				
+           	 </p:panelGrid>
+					
 
 </html>

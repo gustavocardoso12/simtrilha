@@ -9,12 +9,31 @@
 
         <p:outputPanel styleClass="ui-fluid">
 
-          <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
+           <p:panelGrid columns="3" id="penalidadePane" styleClass="dialog"  columnClasses="col1,col2,col3"  >
+            
             
                 <h:outputLabel value="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}:" for="deSCCOMPETENCIAEditInput" />
                 <p:inputText value="#{tbCOMPETENCIASBean.tbCOMPETENCIAS.deSCCOMPETENCIA}" id="deSCCOMPETENCIAEditInput" 
                     label="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}" />
                 <p:message for="deSCCOMPETENCIAEditInput" display="icon" />
+                
+                <h:outputLabel value="#{messages.field_label_tbPERFIL_bloqueia}:" for="deSCCOMPETENCIASBLOQUEIAEditInput" />
+                <p:selectBooleanCheckbox value="#{tbCOMPETENCIASBean.flagBloqueio}"  id="deSCCOMPETENCIASBLOQUEIAEditInput"/>
+                <p:message for="deSCCOMPETENCIASBLOQUEIAEditInput" display="icon" />
+                
+                 <h:outputLabel value="#{messages.field_label_tbPERFIL_penalidade}:" for="deSCCOMPETENCIASPENALIDADEEditInput" />
+       			 <p:selectOneMenu id="deSCCOMPETENCIASPENALIDADEEditInput" value="#{tbCOMPETENCIASBean.flagCustom}" style="width:125px">
+            		 <f:selectItem itemLabel="Personalizável" itemValue="true" />
+           			 <f:selectItem itemLabel="Padrão" itemValue="false" />
+           		<p:ajax event="change" update="penalidadePane"></p:ajax>	 
+        		</p:selectOneMenu>
+                <p:message for="deSCCOMPETENCIASPENALIDADEEditInput" display="icon" />
+                
+                
+                 <h:outputLabel rendered="#{tbCOMPETENCIASBean.flagCustom==true}" value="Gap Penalidade:" id="PenalidadeLabel" for="PenalidadeIn" />
+                <p:inputNumber rendered="#{tbCOMPETENCIASBean.flagCustom==true}" id="PenalidadeIn" 
+          		 decimalPlaces="0" value="#{tbCOMPETENCIASBean.tbCOMPETENCIAS.penalidadeCompetencias}"/>
+				<p:message for="PenalidadeIn"  rendered="#{tbCOMPETENCIASBean.flagCustom==true}" display="icon"/>
 
             </p:panelGrid>
 

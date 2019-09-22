@@ -11,10 +11,21 @@
         <h:outputText value="#{messages.access_denied}" />
     </p:outputPanel>
     
-    <h:panelGrid columns="2" styleClass="dialog" columnClasses="col1,col2" rendered="#{tbPERFILBean.isPermitted(tbPERFILBean.tbPERFIL, 'tbPERFIL:read')}">
+    <h:panelGrid columns="2" styleClass="dialog" style="font-size:16px" columnClasses="col1,col2" rendered="#{tbPERFILBean.isPermitted(tbPERFILBean.tbPERFIL, 'tbPERFIL:read')}">
         
         <h:outputText value="#{messages.field_label_tbPERFIL_deSCPERFIL}:" />
         <h:outputText value="#{tbPERFILBean.tbPERFIL.deSCPERFIL}" />
+        
+         <h:outputText value="#{messages.field_label_tbPERFIL_penalidade}:" />
+        <h:outputText value="#{tbPERFILBean.tbPERFIL.penalidadeConhecPerfil.intValue()}%" />
+        
+         <h:outputText value="#{messages.field_label_tbPERFIL_bloqueia}:" />
+        <h:outputText value="#{tbPERFILBean.tbPERFIL.bloqueiaMovConhecPerfil}" />
+        
+          <h:outputText value="#{messages.field_label_tbPERFIL_custom}:" />
+        <h:outputText value="#{tbPERFILBean.tbPERFIL.conhecPerfilCustom}" />
+        
+        
 
 
         <h:outputText value="#{messages.audit_created}:" />

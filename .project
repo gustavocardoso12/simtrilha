@@ -76,6 +76,11 @@
 			<location>C:/Users/Gustavo Peixinho/Desktop/It3oBN3BLnEK-master/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOSViewInclude.xhtml</location>
 		</link>
 		<link>
+			<name>src/main/webapp/resources/images/can.png</name>
+			<type>1</type>
+			<location>C:/Users/Gustavo Peixinho/Pictures/can (2).png</location>
+		</link>
+		<link>
 			<name>src/main/webapp/resources/images/logoAPTA.PNG</name>
 			<type>1</type>
 			<location>C:/Users/Gustavo Peixinho/Desktop/Gráficos/Capturar.PNG</location>

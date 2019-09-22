@@ -14,12 +14,16 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
+import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASICOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPECIFICOSEntity;
+import org.applicationn.simtrilhas.domain.TbPONTCARGOSEntity;
 import org.applicationn.simtrilhas.service.TbCONHECIMENTOSESPCARGOSService;
 import org.applicationn.simtrilhas.service.TbCONHECIMENTOSESPECIFICOSService;
+import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
+import org.primefaces.event.SlideEndEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
@@ -41,11 +45,39 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
     @Inject
     private TbCONHECIMENTOSESPCARGOSService tbCONHECIMENTOSESPCARGOSService;
     
+    private TbPONTCARGOSEntity tbPONTCARGOSEntity;
+
+	@Inject
+	private TbPONTCARGOSService tbPONTCARGOSService;
+    
     private DualListModel<TbCONHECIMENTOSESPCARGOSEntity> tbCONHECIMENTOSESPCARGOSs;
     private List<String> transferedTbCONHECIMENTOSESPCARGOSIDs;
     private List<String> removedTbCONHECIMENTOSESPCARGOSIDs;
     
     private String dialogHeader;
+    
+    private double pontuacaoOriginal;
+
+	private double gapVarCE;
+
+	private boolean flagBloqueio;
+
+	private boolean flagCustom;
+
+	private boolean flagEdit;
+	
+	public void onSlideEndCE(SlideEndEvent event) {
+		gapVarCE =  event.getValue();
+		flagEdit = false;
+		for (TbCONHECIMENTOSESPECIFICOSEntity tbCONHECIMENTOSESPECIFICOSEntity : tbCONHECIMENTOSESPECIFICOSList) {
+
+			if(tbCONHECIMENTOSESPECIFICOSEntity.getConhecEspCustom()==null) {
+				tbCONHECIMENTOSESPECIFICOSEntity.setPenalidadeConhecBas(gapVarCE);
+				persist(tbCONHECIMENTOSESPECIFICOSEntity);
+			}
+		}
+
+	} 
 
     public void setDialogHeader(final String dialogHeader) { 
         this.dialogHeader = dialogHeader;
@@ -68,11 +100,10 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
         reset();
         changeHeaderCadastrar();
         this.tbCONHECIMENTOSESPECIFICOS = new TbCONHECIMENTOSESPECIFICOSEntity();
-        // set any default values now, if you need
-        // Example: this.tbCONHECIMENTOSESPECIFICOS.setAnything("test");
+
     }
 
-    public String persist() {
+    public String persist(TbCONHECIMENTOSESPECIFICOSEntity tbCONHECIMENTOSESPECIFICOS) {
 
         if (tbCONHECIMENTOSESPECIFICOS.getId() == null && !isPermitted("tbCONHECIMENTOSESPECIFICOS:create")) {
             return "accessDenied";
@@ -85,7 +116,26 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
         try {
             
             if (tbCONHECIMENTOSESPECIFICOS.getId() != null) {
+            	
+            	if(tbCONHECIMENTOSESPECIFICOS.getPenalidadeConhecBas()==null) {
+
+				}else {
+
+					if(flagEdit==false){
+						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbCONHECIMENTOSESPECIFICOS.getPenalidadeConhecBas().intValue());
+						tbCONHECIMENTOSESPECIFICOS.setConhecEspCustom(null);
+
+					}else {
+						if(tbCONHECIMENTOSESPECIFICOS.getPenalidadeConhecBas().equals(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue())) {
+							tbCONHECIMENTOSESPECIFICOS.setConhecEspCustom(null);
+						}else {
+							tbCONHECIMENTOSESPECIFICOS.setConhecEspCustom("S");
+						}
+					}
+				}					
+
                 tbCONHECIMENTOSESPECIFICOS = tbCONHECIMENTOSESPECIFICOSService.update(tbCONHECIMENTOSESPECIFICOS);
+                tbPONTCARGOSEntity = tbPONTCARGOSService.update(tbPONTCARGOSEntity);
                 message = "message_successfully_updated";
             } else {
                 tbCONHECIMENTOSESPECIFICOS = tbCONHECIMENTOSESPECIFICOSService.save(tbCONHECIMENTOSESPECIFICOS);
@@ -110,6 +160,10 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
         
         return null;
     }
+    
+	public void persist() {
+		persist(tbCONHECIMENTOSESPECIFICOS);
+	}
     
     public String delete() {
         
@@ -138,15 +192,19 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
         reset();
         changeHeaderEditar();
         this.tbCONHECIMENTOSESPECIFICOS = tbCONHECIMENTOSESPECIFICOS;
+        pontuacaoOriginal = tbCONHECIMENTOSESPECIFICOS .getPenalidadeConhecBas();
+		this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("CONHECESP");
+		flagEdit = true;
+		if(pontuacaoOriginal == tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
+			flagCustom = false;
+
+		}else {
+			flagCustom = true;
+		}
     }
     
     public void reset() {
-        tbCONHECIMENTOSESPECIFICOS = null;
-        tbCONHECIMENTOSESPECIFICOSList = null;
-        
-        tbCONHECIMENTOSESPCARGOSs = null;
-        transferedTbCONHECIMENTOSESPCARGOSIDs = null;
-        removedTbCONHECIMENTOSESPCARGOSIDs = null;
+
         
     }
 
@@ -277,5 +335,68 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
         return SecurityWrapper.isPermitted(permission);
         
     }
+
+	public double getPontuacaoOriginal() {
+		return pontuacaoOriginal;
+	}
+
+	public void setPontuacaoOriginal(double pontuacaoOriginal) {
+		this.pontuacaoOriginal = pontuacaoOriginal;
+	}
+
+	public double getGapVarCE() {
+		this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("CONHECESP");
+		gapVarCE = tbPONTCARGOSEntity.getPoNTUACAOORIGINAL();
+		return gapVarCE;
+	}
+
+	public void setGapVarCE(double gapVarCE) {
+		this.gapVarCE = gapVarCE;
+	}
+
+	public boolean isFlagBloqueio() {
+		if(tbCONHECIMENTOSESPECIFICOS==null) {
+
+		}else {
+			if(tbCONHECIMENTOSESPECIFICOS.getBloqueiaMovConhecEsp()==null) {
+
+			}else {
+				if(tbCONHECIMENTOSESPECIFICOS.getBloqueiaMovConhecEsp().equals("SIM")) {
+					flagBloqueio = true;
+				}else {
+					flagBloqueio = false;
+				}
+			}
+		}
+		return flagBloqueio;
+	}
+
+	public void setFlagBloqueio(boolean flagBloqueio) {
+		this.flagBloqueio = flagBloqueio;
+		if(flagBloqueio==true) {
+			tbCONHECIMENTOSESPECIFICOS.setBloqueiaMovConhecEsp("SIM");
+		} else {
+			tbCONHECIMENTOSESPECIFICOS.setBloqueiaMovConhecEsp("");
+		}
+	}
+
+	public boolean isFlagCustom() {
+		return flagCustom;
+	}
+
+	public void setFlagCustom(boolean flagCustom) {
+		this.flagCustom = flagCustom;
+		if(flagCustom==false) {
+			tbCONHECIMENTOSESPECIFICOS.setPenalidadeConhecBas(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue());
+		}
+	}
+
+	public boolean isFlagEdit() {
+		return flagEdit;
+	}
+
+	public void setFlagEdit(boolean flagEdit) {
+		this.flagEdit = flagEdit;
+	}
     
 }

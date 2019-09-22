@@ -230,8 +230,9 @@ public class TbCARGOSBean implements Serializable {
 	
 	List<TbCONHECIMENTOSESPCARGOSEntity> listGapCE = new ArrayList<TbCONHECIMENTOSESPCARGOSEntity>();
 	
+	private boolean flagDowngrade = false;
 	
-	
+	private String msgDowngrade;
 	
 	private Double aderenciaFinal;
 	
@@ -337,6 +338,7 @@ public class TbCARGOSBean implements Serializable {
 	public List<TbGRADECARGOSEntity> InicializaTabelasAuxiliaresGR(TbCARGOSEntity tbCARGOS){
 		this.tbCARGOS = tbCARGOS;
 		tbGRADESCARGOSs= tbGRADESCARGOSService.findTbGRADECARGOSsByIdCARGOS(this.tbCARGOS);
+		tbGRADESCARGOSs = ordenaListasGR(tbGRADESCARGOSs);
 
 		return tbGRADESCARGOSs;
 	}
@@ -344,21 +346,21 @@ public class TbCARGOSBean implements Serializable {
 	public List<TbPERFILCARGOSEntity> InicializaTabelasAuxiliaresPE(TbCARGOSEntity tbCARGOS){
 		this.tbCARGOS = tbCARGOS;
 		tbPERFILCARGOSs= tbPERFILCARGOSService.findTbPERFILCARGOSsByIdCARGOS(this.tbCARGOS);
-
+		tbPERFILCARGOSs = ordenaListasPE(tbPERFILCARGOSs);
 		return tbPERFILCARGOSs;
 	}
 	
 	public List<TbMOTIVADORESCARGOSEntity> InicializaTabelasAuxiliaresMO(TbCARGOSEntity tbCARGOS){
 		this.tbCARGOS = tbCARGOS;
 		tbMOTIVADORESCARGOSs= tbMOTIVADORESCARGOSService.findTbMOTIVADORESCARGOSsByIdCARGOS(this.tbCARGOS);
-
+		tbMOTIVADORESCARGOSs = ordenaListasMO(tbMOTIVADORESCARGOSs);
 		return tbMOTIVADORESCARGOSs;
 	}
 
 	public List<TbCONHECIMENTOSBASCARGOSEntity> InicializaTabelasAuxiliaresCB(TbCARGOSEntity tbCARGOS){
 		this.tbCARGOS = tbCARGOS;
 		tbCONHECIMENTOSBASICOSCARGOSs= tbCONHECIMENTOSBASCARGOSService.findTbCONHECIMENTOSBASCARGOSsByIdCARGOS(this.tbCARGOS);
-
+		tbCONHECIMENTOSBASICOSCARGOSs = ordenaListasCB(tbCONHECIMENTOSBASICOSCARGOSs);
 		return tbCONHECIMENTOSBASICOSCARGOSs;
 	}
 	
@@ -366,7 +368,7 @@ public class TbCARGOSBean implements Serializable {
 	public List<TbCONHECIMENTOSESPCARGOSEntity> InicializaTabelasAuxiliaresCE(TbCARGOSEntity tbCARGOS){
 		this.tbCARGOS = tbCARGOS;
 		tbCONHECIMENTOSESPCARGOSs= tbCONHECIMENTOSESPCARGOSService.findTbCONHECIMENTOSESPCARGOSsByIdCARGOS(this.tbCARGOS);
-
+		tbCONHECIMENTOSESPCARGOSs = ordenaListasCE(tbCONHECIMENTOSESPCARGOSs);
 		return tbCONHECIMENTOSESPCARGOSs;
 	}
 
@@ -409,7 +411,7 @@ public class TbCARGOSBean implements Serializable {
 		Collections.sort(list, new Comparator<TbPERFILCARGOSEntity>() {
 		    @Override
 		    public int compare(TbPERFILCARGOSEntity b1, TbPERFILCARGOSEntity b2) {
-		       int x =  b1.getIdPERFIL().getDeSCPERFIL().compareTo(b2.getIdPERFIL().getDeSCPERFIL());
+		       int x =  b1.getIdPERFIL().getId().compareTo(b2.getIdPERFIL().getId());
 		       return x;
 		    }
 		});
@@ -772,6 +774,7 @@ public class TbCARGOSBean implements Serializable {
 		
 		listGapGR.clear();
 		Double somaListaGapGR =0.0;
+		flagDowngrade = false;
 		flagCultura = 1;
 		try {
 			for(int i=0; i<listCARGOSDe.size();i++) {
@@ -782,7 +785,9 @@ public class TbCARGOSBean implements Serializable {
 							subtract(listCARGOSDe.get(i).getPoNTUACAOGRADE());
 					
 					
-					
+					if(gapDeParaGR.compareTo(BigDecimal.ZERO)<0) {
+						flagDowngrade = true;
+					}
 					
 					gap.setPoNTUACAOGRADE(gapDeParaGR);
 					//Adiciona cada valor à lista
@@ -796,6 +801,10 @@ public class TbCARGOSBean implements Serializable {
 			//calculo de aderência
 			aderenciaGR =  1 -((somaListaGapGR*gapVar));
 			aderenciaGR = round(aderenciaGR,2);
+			
+				msgDowngrade = ""+(aderenciaGR * 100)+ "%";
+			
+			
 			
 			//Se aderencia maior que 100%, força o valor
 			if(aderenciaGR > 1) {
@@ -833,18 +842,22 @@ public class TbCARGOSBean implements Serializable {
 	
 	public void calculaAderenciaFinal(TbCARGOSEntity tbCARGOSDe,
 			TbCARGOSEntity tbCARGOSPara) {
-		double pesoCO = 0.3;
+		double pesoCO = 0.2;
 		double pesoNH = 0.2;
-		double pesoPE = 0.3;
-		double pesoCB = 0.0;
-		double pesoCE = 0.0;
+		double pesoPE = 0.2;
+		double pesoCB = 0.2;
+		double pesoCE = 0.2;
 		
 		aderenciaFinal = (pesoCO * aderencia) + (pesoNH * aderenciaGR) + (pesoPE * aderenciaPE) + 
 						(pesoCB * aderenciaCB) + (pesoCE *aderenciaCE);
 		
-		if(aderenciaGR ==0.0) {
+		aderenciaFinal = round(aderenciaFinal,2);
 		
-			avisoMovimentacao = "Movimentação entre cargos impossível!";
+		if(flagDowngrade == true) {
+		
+			avisoMovimentacao = "Downgrade";
+		} else {
+			avisoMovimentacao = ""+aderenciaFinal * 100+"%";
 		}
 	}
 	
@@ -1402,6 +1415,22 @@ public class TbCARGOSBean implements Serializable {
 
 	public void setListGapCE(List<TbCONHECIMENTOSESPCARGOSEntity> listGapCE) {
 		this.listGapCE = listGapCE;
+	}
+
+	public boolean isFlagDowngrade() {
+		return flagDowngrade;
+	}
+
+	public void setFlagDowngrade(boolean flagDowngrade) {
+		this.flagDowngrade = flagDowngrade;
+	}
+
+	public String getMsgDowngrade() {
+		return msgDowngrade;
+	}
+
+	public void setMsgDowngrade(String msgDowngrade) {
+		this.msgDowngrade = msgDowngrade;
 	}
 
 

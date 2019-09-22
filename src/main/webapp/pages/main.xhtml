@@ -7,7 +7,46 @@
 <ui:composition template="/templates/layout.xhtml">
 
 	<ui:define name="content">
-		<p:panel  style="background:white;height:100%" id="mainPanel">
+	
+	<h:form id="loginForm" prependId="false">
+        <div>
+            <p:panel>
+                <h3><h:outputText value="Bem-vindo ao Simulador de Trilhas de Carreira" /></h3>
+                
+             
+                
+                <p:panelGrid columns="2" rendered="#{loginBean.logged == false}">
+                    <h:outputLabel for="username" value="Nome de Usuário:" />
+                    <p:inputText id="username" required="true"
+                        value="#{loginBean.username}">
+                    </p:inputText>
+    
+                    <h:outputLabel for="password" value="Senha:" />
+                    <p:password id="password" required="true"
+                        value="#{loginBean.password}">
+                    </p:password>
+                    
+                    <h:outputLabel for="rememberMe" value="Manter-me Conectado:" />
+                    <h:selectBooleanCheckbox id="rememberMe" value="#{loginBean.remember}" />
+                    <h:panelGroup />
+    
+                    <f:facet name="footer">
+                        <p:commandButton type="submit" id="login" ajax="false"
+                            action="#{loginBean.login}" value="#{messages.login_login}" style="float:right"/>
+                    </f:facet>
+                </p:panelGrid>
+                
+                <f:facet name="footer" rendered="#{loginBean.logged == false}">
+                    <h:link outcome="/pages/userManagement/resetPassword"><h:outputText value="Esqueceu a senha?" /></h:link>
+                    <br/>
+                    <h:link outcome="/pages/user/register"><h:outputText value="Criar conta" /></h:link>
+                </f:facet>
+                
+            </p:panel>
+        </div>
+    </h:form>
+	
+		<!--  <p:panel  style="background:white;height:100%" id="mainPanel">
 			<div  align="center">
 				<p:carousel   rows="1" effect="easeInStrong"
 					circular="true" style="background:white;border:none" itemStyle="background:white;height:400px;width:600px;">
@@ -18,7 +57,10 @@
 
 					</p:carousel>
 			</div>
-		</p:panel>
+			
+			
+			
+		</p:panel>-->
 	</ui:define>
 </ui:composition>
 </html>

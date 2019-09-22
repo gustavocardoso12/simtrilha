@@ -37,17 +37,20 @@ a, img {
 .dialog {
     width: auto;
     font-family: Calibri;
+    
 }
 
 .col1 {
     font-weight: bold;
     font-family: Calibri;
     font-size:12px;
+    padding-bottom: 10px !important;
 }
 
 .col2 {
     vertical-align: top;
     font-family: Calibri;
+    padding-bottom: 10px !important
 }
 
 .col3 {
@@ -94,6 +97,9 @@ th {
   background: #5C2C5E !important;
    border:none !important;
 }
+
+
+
 
 
 .ui-dialog {
@@ -167,6 +173,7 @@ th {
 .ui-panel .ui-panel-titlebar {
     padding: .5em 1em .3em;
     background: #5C2C5E;
+    font-size:14px;
 }
 
 .Grade.ui-panel .ui-panel-titlebar {
@@ -206,11 +213,45 @@ th {
 }
 
 
+.EspecificosAuxTH.th{
+	background: #C42A22  !important;
+}
+
+.ui-chkbox-icon {
+	background: white;
+}
+
+.ui-icon-check{
+	color: #C42A22  !important;
+}
+
+.customPenStyle{
+	font-size: 20px !important;
+	
+}
+
+.customPenHidden{
+	visibility: collapse;
+}
+
+.customPenShow{
+	visibility: visible;
+}
+
+.ui-inputfield { 
+	box-shadow: none !important; 
+	}
+
 .MenuLinguagem.ui-selectonemenu .ui-selectonemenu-label   {
 	background: white !important;
 	font-weight:bold;
 	color:black;
 }
+
+.img-button-delete { 
+	background-image: url('/javax.faces.resource/images/can.png.xhtml') !important; 
+	
+	}
 
 .ui-fluid .ui-menu {
     width: 100%;
@@ -298,8 +339,8 @@ th {
     text-align: left;
     background-image: none;
     background:no-repeat;
-    margin: .5em 0 0 0;
-    padding: .3em 1em .5em .4em;
+    margin: .20em 0 0 0;
+    padding: .5em 5em .5em .5em;
 }
 
 

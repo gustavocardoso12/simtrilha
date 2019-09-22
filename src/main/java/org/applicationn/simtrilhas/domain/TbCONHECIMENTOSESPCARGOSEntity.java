@@ -25,8 +25,8 @@ public class TbCONHECIMENTOSESPCARGOSEntity extends BaseEntity implements Serial
     @JoinColumn(name = "IDCONHECESP_ID", referencedColumnName = "ID")
     private TbCONHECIMENTOSESPECIFICOSEntity idCONHECESP;
 
-    @Digits(integer = 5,  fraction = 2)
-    @Column(precision = 7, scale = 2, name="\"poNTUACAOCONESP\"")
+  
+    @Column(precision = 7, name="\"poNTUACAOCONESP\"")
     @NotNull
     private BigDecimal poNTUACAOCONESP;
 

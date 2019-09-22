@@ -36,11 +36,44 @@ public class TbGRADEEntity extends BaseEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedAt;
     
+    @Column(name="PENALIDADE_GRADE")
+    private Double penalidadeConhecGrade;
+    
+    @Column(name="BLOQUEIA_MOV_GRADE")
+    private String bloqueiaMovConhecGrade;
+    
+    @Column(name="GRADE_CUSTOM")
+    private String conhecGradeCustom;
+    
     public String getDeSCGRADE() {
         return this.deSCGRADE;
     }
 
-    public void setDeSCGRADE(String deSCGRADE) {
+    public Double getPenalidadeConhecGrade() {
+		return penalidadeConhecGrade;
+	}
+
+	public void setPenalidadeConhecGrade(Double penalidadeConhecGrade) {
+		this.penalidadeConhecGrade = penalidadeConhecGrade;
+	}
+
+	public String getBloqueiaMovConhecGrade() {
+		return bloqueiaMovConhecGrade;
+	}
+
+	public void setBloqueiaMovConhecGrade(String bloqueiaMovConhecGrade) {
+		this.bloqueiaMovConhecGrade = bloqueiaMovConhecGrade;
+	}
+
+	public String getConhecGradeCustom() {
+		return conhecGradeCustom;
+	}
+
+	public void setConhecGradeCustom(String conhecGradeCustom) {
+		this.conhecGradeCustom = conhecGradeCustom;
+	}
+
+	public void setDeSCGRADE(String deSCGRADE) {
         this.deSCGRADE = deSCGRADE;
     }
 

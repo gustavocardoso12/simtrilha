@@ -9,13 +9,31 @@
 
         <p:outputPanel styleClass="ui-fluid">
 
-            <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
+              <p:panelGrid columns="3" id="penalidadePane" styleClass="dialog"  columnClasses="col1,col2,col3"  >
             
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSBASICOS_deSCCONHECIMENTOSBASICOS}:" for="deSCCONHECIMENTOSBASICOSEditInput" />
                 <p:inputText value="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS.deSCCONHECIMENTOSBASICOS}" id="deSCCONHECIMENTOSBASICOSEditInput" 
                     label="#{messages.field_label_tbCONHECIMENTOSBASICOS_deSCCONHECIMENTOSBASICOS}" />
                 <p:message for="deSCCONHECIMENTOSBASICOSEditInput" display="icon" />
-
+                
+                
+                <h:outputLabel value="#{messages.field_label_tbPERFIL_bloqueia}:" for="deSCCONHECIMENTOSBASICOSBLOQUEIAEditInput" />
+                <p:selectBooleanCheckbox value="#{tbCONHECIMENTOSBASICOSBean.flagBloqueio}"  id="deSCCONHECIMENTOSBASICOSBLOQUEIAEditInput"/>
+                <p:message for="deSCCONHECIMENTOSBASICOSBLOQUEIAEditInput" display="icon" />
+					
+				  <h:outputLabel value="#{messages.field_label_tbPERFIL_penalidade}:" for="deSCCONHECIMENTOSBASICOSPENALIDADEEditInput" />
+       			 <p:selectOneMenu id="deSCCONHECIMENTOSBASICOSPENALIDADEEditInput" value="#{tbCONHECIMENTOSBASICOSBean.flagCustom}" style="width:125px">
+            		 <f:selectItem itemLabel="Personalizável" itemValue="true" />
+           			 <f:selectItem itemLabel="Padrão" itemValue="false" />
+           		<p:ajax event="change" update="penalidadePane"></p:ajax>	 
+        		</p:selectOneMenu>
+                <p:message for="deSCCONHECIMENTOSBASICOSPENALIDADEEditInput" display="icon" />
+                	
+				<h:outputLabel rendered="#{tbCONHECIMENTOSBASICOSBean.flagCustom==true}" value="Gap Penalidade:" id="PenalidadeLabel" for="PenalidadeIn" />
+                <p:inputNumber rendered="#{tbCONHECIMENTOSBASICOSBean.flagCustom==true}" id="PenalidadeIn" 
+          		 decimalPlaces="0" value="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS.penalidadeConhecBas}"/>
+				<p:message for="PenalidadeIn"  rendered="#{tbCONHECIMENTOSBASICOSBean.flagCustom==true}" display="icon"/>	
+					
             </p:panelGrid>
 
         </p:outputPanel>

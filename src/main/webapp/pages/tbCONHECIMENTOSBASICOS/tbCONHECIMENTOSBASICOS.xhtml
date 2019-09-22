@@ -9,6 +9,23 @@
 <ui:composition template="/templates/layout.xhtml">
 	<ui:define name="content">
 
+
+		<h:form>
+			<h:panelGrid columns="1" style="margin-bottom: 10px">
+				<h:outputText id="output"
+					value=" Variação do Gap: #{tbCONHECIMENTOSBASICOSBean.gapVarCB}%" />
+				<h:inputHidden id="gapvar" value="#{tbCONHECIMENTOSBASICOSBean.gapVarCB}" />
+				<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
+					step="1" style="width: 300px"
+					displayTemplate="Variação do gap: %{value}">
+					<p:ajax event="slideEnd"
+						listener="#{tbCONHECIMENTOSBASICOSBean.onSlideEndCB}"
+						update="tbCONHECIMENTOSBASICOSTable" />
+				</p:slider>
+			</h:panelGrid>
+		</h:form>
+
+
 		<h:form prependId="false" id="tbCONHECIMENTOSBASICOSDataForm"
 			onkeypress="if (event.keyCode == 13) {return false; }">
 
@@ -19,32 +36,37 @@
 				emptyMessage="#{messages.label_no_records_found}" reflow="true">
 
 
-				<p:column
-					style="width:45%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+				 <p:column style="width:50%;text-align:center;font-size:14px;color:white;font-weight:bold;" 
 					headerText="#{messages.field_label_tbCONHECIMENTOSBASICOS_deSCCONHECIMENTOSBASICOS}">
 					<h:outputText
 						value="#{tbCONHECIMENTOSBASICOS.deSCCONHECIMENTOSBASICOS}" />
 				</p:column>
 
-				<!--  <p:column
-					headerText="#{messages.field_label_tbCONHECIMENTOSBASICOS_tbCONHECIMENTOSBASCARGOS_plural}"
-					styleClass="action-column" exportable="false">
-
-					<p:commandButton icon="ui-icon-transfer-e-w"
-						title="#{messages.field_label_tbCONHECIMENTOSBASICOS_tbCONHECIMENTOSBASCARGOS_plural}"
-						action="#{tbCONHECIMENTOSBASICOSBean.onTbCONHECIMENTOSBASCARGOSsDialog(tbCONHECIMENTOSBASICOS)}"
-						oncomplete="PF('tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialogWidget').show()"
-						update=":tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialog" />
-
-				</p:column>-->
+				<p:column
+					style="width:15%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					
+					headerText="#{messages.field_label_tbPERFIL_penalidade}"
+					styleClass="#{(tbCONHECIMENTOSBASICOS.conhecBasCustom=='S') ? 'customPenStyle': ''}">
+					<h:outputText 
+					value="#{tbCONHECIMENTOSBASICOS.penalidadeConhecBas.intValue()}%">
+					<f:convertNumber minFractionDigits="0" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column
+					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					headerText="#{messages.field_label_tbPERFIL_bloqueia}">
+					<h:outputText value="#{tbCONHECIMENTOSBASICOS.bloqueiaMovConhecBas}" />
+				</p:column>
+				
 
 				<p:column headerText="Ações"
-					style="background:#410D34;width:100%;font-size:14px;font-weight:bold;"
+					style="background:#410D34;width:60%;font-size:14px;font-weight:bold;"
 					exportable="false">
 
 					<p:commandButton 
 						update=":viewTbCONHECIMENTOSBASICOSDialog"
-						style="background:#ED6D09;width:33%"
+							style="background:#ED6D09;width:50%"
 						oncomplete="PF('viewTbCONHECIMENTOSBASICOSDialogWidget').show()"
 						value="#{messages.AuditoriaDescricao}">
 						<f:setPropertyActionListener value="#{tbCONHECIMENTOSBASICOS}"
@@ -53,7 +75,7 @@
 
 					<p:commandButton 
 						update=":editTbCONHECIMENTOSBASICOSDialog" resetValues="true"
-						style="background:#ED6D09;width:33%"
+						style="background:#ED6D09;width:45%;"
 						rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:update')}"
 						action="#{tbCONHECIMENTOSBASICOSBean.onDialogOpen(tbCONHECIMENTOSBASICOS)}"
 						oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSBASICOSDialogWidget').show()"
@@ -62,9 +84,10 @@
 
 					<p:commandButton 
 						rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:delete')}"
-						style="background:#ED6D09;width:33%"
+						style="background:#ED6D09;width:25%"
 						oncomplete="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').show()"
-						value="#{messages.ExcluirConhecimentosBasicos}">
+						value="E"
+						icon="img-button-delete">
 						<f:setPropertyActionListener value="#{tbCONHECIMENTOSBASICOS}"
 							target="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS}" />
 					</p:commandButton>
@@ -148,63 +171,8 @@
 			</h:form>
 		</p:dialog>
 
-		<p:dialog dynamic="true"
-			id="tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialog"
-			header="#{messages.dialog_header_tbCONHECIMENTOSBASICOS_tbCONHECIMENTOSBASCARGOS_plural}"
-			modal="true"
-			widgetVar="tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialogWidget"
-			maximizable="true">
-			<p:ajax event="close" listener="#{tbCONHECIMENTOSBASICOSBean.reset}" />
-			<p:outputPanel
-				id="tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsPanel">
-				<h:form id="tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsForm">
-					<ui:include
-						src="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSInclude.xhtml" />
-					<div style="text-align: center; margin: 10px">
-						<p:commandButton value="#{messages.label_save}"
-							icon="ui-icon-disk"
-							action="#{tbCONHECIMENTOSBASICOSBean.onTbCONHECIMENTOSBASCARGOSsSubmit}"
-							update=":growlForm:growl"
-							oncomplete="if(!args.validationFailed) PF('tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialogWidget').hide()"
-							rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:update')}"
-							partialSubmit="true" process="@this" />
-						<p:commandButton value="#{messages.label_close}"
-							icon="ui-icon-close"
-							onclick="PF('tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsDialogWidget').hide()"
-							type="button" />
-					</div>
-				</h:form>
-			</p:outputPanel>
-		</p:dialog>
-
-		<p:dialog dynamic="true" id="createTbCONHECIMENTOSBASCARGOSDialog"
-			header="#{messages.dialog_tbCONHECIMENTOSBASICOS_create_tbCONHECIMENTOSBASCARGOS}"
-			modal="true" widgetVar="createTbCONHECIMENTOSBASCARGOSDialogWidget"
-			maximizable="true">
-			<p:ajax event="close"
-				listener="#{tbCONHECIMENTOSBASCARGOSBean.reset}" />
-			<p:outputPanel id="createTbCONHECIMENTOSBASCARGOSPanel">
-				<h:form id="createTbCONHECIMENTOSBASCARGOSForm">
-					<ui:include
-						src="/pages/tbCONHECIMENTOSBASCARGOS/tbCONHECIMENTOSBASCARGOSEditInclude.xhtml">
-						<ui:param name="hideIdCONHECBASSelectInput" value="true" />
-					</ui:include>
-					<div style="text-align: center; margin: 10px">
-						<p:commandButton
-							action="#{tbCONHECIMENTOSBASICOSBean.updateTbCONHECIMENTOSBASCARGOS(tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOS)}"
-							value="#{messages.label_save}" icon="ui-icon-disk"
-							actionListener="#{tbCONHECIMENTOSBASCARGOSBean.persist}"
-							update=":tbCONHECIMENTOSBASICOSTbCONHECIMENTOSBASCARGOSsPanel :createTbCONHECIMENTOSBASCARGOSPanel :growlForm:growl"
-							oncomplete="if(!args.validationFailed) PF('createTbCONHECIMENTOSBASCARGOSDialogWidget').hide()" />
-						<p:commandButton value="#{messages.label_close}"
-							icon="ui-icon-close"
-							onclick="PF('createTbCONHECIMENTOSBASCARGOSDialogWidget').hide()"
-							type="button" />
-					</div>
-				</h:form>
-			</p:outputPanel>
-		</p:dialog>
-
+		
+	
 	</ui:define>
 </ui:composition>
 </html>

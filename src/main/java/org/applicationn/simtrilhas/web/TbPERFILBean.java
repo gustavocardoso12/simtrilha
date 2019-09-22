@@ -1,6 +1,7 @@
 package org.applicationn.simtrilhas.web;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -11,17 +12,24 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.mail.Flags.Flag;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
+import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILEntity;
+import org.applicationn.simtrilhas.domain.TbPONTCARGOSEntity;
 import org.applicationn.simtrilhas.service.TbPERFILCARGOSService;
 import org.applicationn.simtrilhas.service.TbPERFILService;
+import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
+import org.primefaces.event.SlideEndEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
+
+import com.lowagie.text.html.simpleparser.FactoryProperties;
 
 @Named("tbPERFILBean")
 @ViewScoped
@@ -35,8 +43,13 @@ public class TbPERFILBean implements Serializable {
 
     private TbPERFILEntity tbPERFIL;
     
+    private TbPONTCARGOSEntity tbPONTCARGOSEntity;
+    
     @Inject
     private TbPERFILService tbPERFILService;
+    
+    @Inject
+    private TbPONTCARGOSService tbPONTCARGOSService;
     
     @Inject
     private TbPERFILCARGOSService tbPERFILCARGOSService;
@@ -46,6 +59,34 @@ public class TbPERFILBean implements Serializable {
     private List<String> removedTbPERFILCARGOSIDs;
     
     private String dialogHeader;
+    
+    private double pontuacaoOriginal;
+    
+    private double gapVarPE;
+    
+    private boolean flagBloqueio;
+	
+    private boolean flagCustom;
+	
+	private boolean flagEdit;
+	
+	
+	
+	public void onSlideEndPE(SlideEndEvent event) {
+		gapVarPE =  event.getValue();
+		flagEdit = false;
+		for (TbPERFILEntity tbPERFILEntity : tbPERFILList) {
+
+			if(tbPERFILEntity.getConhecPerfilCustom()==null) {
+				tbPERFILEntity.setPenalidadeConhecPerfil(gapVarPE);
+				persist(tbPERFILEntity);
+
+			}
+
+		}
+
+
+	} 
 
     public void setDialogHeader(final String dialogHeader) { 
         this.dialogHeader = dialogHeader;
@@ -65,13 +106,16 @@ public class TbPERFILBean implements Serializable {
     
     
     public void prepareNewTbPERFIL() {
-        reset();
+        changeHeaderCadastrar();
         this.tbPERFIL = new TbPERFILEntity();
-        // set any default values now, if you need
-        // Example: this.tbPERFIL.setAnything("test");
+
+    }
+    
+    public void reset() {
+    	
     }
 
-    public String persist() {
+    public String persist(TbPERFILEntity tbPERFIL) {
 
         if (tbPERFIL.getId() == null && !isPermitted("tbPERFIL:create")) {
             return "accessDenied";
@@ -83,8 +127,29 @@ public class TbPERFILBean implements Serializable {
         
         try {
             
+        	
+        	
             if (tbPERFIL.getId() != null) {
+            	
+            	if(tbPERFIL.getPenalidadeConhecPerfil()==null) {
+
+            	}else {
+            		
+            		if(flagEdit==false){
+            			tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbPERFIL.getPenalidadeConhecPerfil().intValue());
+            			tbPERFIL.setConhecPerfilCustom(null);
+            			
+            		}else {
+            			if(tbPERFIL.getPenalidadeConhecPerfil().equals(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue())) {
+            				tbPERFIL.setConhecPerfilCustom(null);
+            			}else {
+            				tbPERFIL.setConhecPerfilCustom("S");
+            			}
+            		}
+            	}
+            	
                 tbPERFIL = tbPERFILService.update(tbPERFIL);
+                tbPONTCARGOSEntity = tbPONTCARGOSService.update(tbPONTCARGOSEntity);
                 message = "message_successfully_updated";
             } else {
                 tbPERFIL = tbPERFILService.save(tbPERFIL);
@@ -110,6 +175,12 @@ public class TbPERFILBean implements Serializable {
         return null;
     }
     
+    
+
+    public void persist() {
+    	persist(tbPERFIL);
+    }
+    
     public String delete() {
         
         if (!isPermitted(tbPERFIL, "tbPERFIL:delete")) {
@@ -121,7 +192,6 @@ public class TbPERFILBean implements Serializable {
         try {
             tbPERFILService.delete(tbPERFIL);
             message = "message_successfully_deleted";
-            reset();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error occured", e);
             message = "message_delete_exception";
@@ -134,19 +204,20 @@ public class TbPERFILBean implements Serializable {
     }
     
     public void onDialogOpen(TbPERFILEntity tbPERFIL) {
-        reset();
+        changeHeaderEditar();
         this.tbPERFIL = tbPERFIL;
+        pontuacaoOriginal = tbPERFIL.getPenalidadeConhecPerfil();
+        this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("PERFIL");
+        flagEdit = true;
+        if(pontuacaoOriginal == tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
+        	flagCustom = false;
+        	
+        }else {
+        	flagCustom = true;
+        }
     }
     
-    public void reset() {
-        tbPERFIL = null;
-        tbPERFILList = null;
-        
-        tbPERFILCARGOSs = null;
-        transferedTbPERFILCARGOSIDs = null;
-        removedTbPERFILCARGOSIDs = null;
-        
-    }
+
 
     public DualListModel<TbPERFILCARGOSEntity> getTbPERFILCARGOSs() {
         return tbPERFILCARGOSs;
@@ -225,7 +296,6 @@ public class TbPERFILBean implements Serializable {
                     "message_changes_saved");
             FacesContext.getCurrentInstance().addMessage(null, facesMessage);
             
-            reset();
 
         } catch (OptimisticLockException e) {
             logger.log(Level.SEVERE, "Error occured", e);
@@ -275,5 +345,71 @@ public class TbPERFILBean implements Serializable {
         return SecurityWrapper.isPermitted(permission);
         
     }
+
+	public double getPontuacaoOriginal() {
+		return pontuacaoOriginal;
+	}
+
+	public void setPontuacaoOriginal(double pontuacaoOriginal) {
+		this.pontuacaoOriginal = pontuacaoOriginal;
+	}
+
+	public double getGapVarPE() {
+		
+			this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("PERFIL");
+			gapVarPE = tbPONTCARGOSEntity.getPoNTUACAOORIGINAL();
+		
+		return gapVarPE;
+	}
+
+	public void setGapVarPE(double gapVarPE) {
+		this.gapVarPE = gapVarPE;
+	}
+
+	public boolean isFlagBloqueio() {
+		if(tbPERFIL==null) {
+
+		}else {
+			if(tbPERFIL.getBloqueiaMovConhecPerfil()==null) {
+
+			}else {
+
+				if(tbPERFIL.getBloqueiaMovConhecPerfil().equals("SIM")) {
+					flagBloqueio = true;
+				}else {
+					flagBloqueio = false;
+				}
+			}
+		}
+		return flagBloqueio;
+	}
+
+	public void setFlagBloqueio(boolean flagBloqueio) {
+		this.flagBloqueio = flagBloqueio;
+		if(flagBloqueio==true) {
+			tbPERFIL.setBloqueiaMovConhecPerfil("SIM");
+		} else {
+			tbPERFIL.setBloqueiaMovConhecPerfil("");
+		}
+	}
+
+	public boolean isFlagCustom() {
+		return flagCustom;
+	}
+
+	public void setFlagCustom(boolean flagCustom) {
+		this.flagCustom = flagCustom;
+		if(flagCustom==false) {
+			tbPERFIL.setPenalidadeConhecPerfil(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue());
+		}
+	}
+
+	public boolean isFlagEdit() {
+		return flagEdit;
+	}
+
+	public void setFlagEdit(boolean flagEdit) {
+		this.flagEdit = flagEdit;
+	}
     
 }

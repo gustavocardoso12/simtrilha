@@ -36,7 +36,42 @@ public class TbPERFILEntity extends BaseEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedAt;
     
-    public String getDeSCPERFIL() {
+    @Column(name="PENALIDADE_PERFIL")
+    private Double penalidadeConhecPerfil;
+    
+    @Column(name="BLOQUEIA_MOV_PERFIL")
+    private String bloqueiaMovConhecPerfil;
+    
+    @Column(name="PERFIL_CUSTOM")
+    private String conhecPerfilCustom;
+    
+    
+    
+    public Double getPenalidadeConhecPerfil() {
+		return penalidadeConhecPerfil;
+	}
+
+	public void setPenalidadeConhecPerfil(Double penalidadeConhecPerfil) {
+		this.penalidadeConhecPerfil = penalidadeConhecPerfil;
+	}
+
+	public String getBloqueiaMovConhecPerfil() {
+		return bloqueiaMovConhecPerfil;
+	}
+
+	public void setBloqueiaMovConhecPerfil(String bloqueiaMovConhecPerfil) {
+		this.bloqueiaMovConhecPerfil = bloqueiaMovConhecPerfil;
+	}
+
+	public String getConhecPerfilCustom() {
+		return conhecPerfilCustom;
+	}
+
+	public void setConhecPerfilCustom(String conhecPerfilCustom) {
+		this.conhecPerfilCustom = conhecPerfilCustom;
+	}
+
+	public String getDeSCPERFIL() {
         return this.deSCPERFIL;
     }
 

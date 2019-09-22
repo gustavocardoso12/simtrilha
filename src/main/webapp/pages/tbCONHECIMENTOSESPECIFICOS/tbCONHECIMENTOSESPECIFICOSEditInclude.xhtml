@@ -9,13 +9,32 @@
 
         <p:outputPanel styleClass="ui-fluid">
 
-           <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
+             <p:panelGrid columns="3" id="penalidadePane" styleClass="dialog"  columnClasses="col1,col2,col3"  >
             
             
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSESPECIFICOS_deSCCONHECIMENTOSESPECIFICOS}:" for="deSCCONHECIMENTOSESPECIFICOSEditInput" />
                 <p:inputText value="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS.deSCCONHECIMENTOSESPECIFICOS}" id="deSCCONHECIMENTOSESPECIFICOSEditInput" 
                     label="#{messages.field_label_tbCONHECIMENTOSESPECIFICOS_deSCCONHECIMENTOSESPECIFICOS}" />
                 <p:message for="deSCCONHECIMENTOSESPECIFICOSEditInput" display="icon" />
+                
+                
+                  <h:outputLabel value="#{messages.field_label_tbPERFIL_bloqueia}:" for="deSCCONHECIMENTOSESPECIFICOSBLOQUEIAEditInput" />
+                <p:selectBooleanCheckbox value="#{tbCONHECIMENTOSESPECIFICOSBean.flagBloqueio}"  id="deSCCONHECIMENTOSESPECIFICOSBLOQUEIAEditInput"/>
+                <p:message for="deSCCONHECIMENTOSESPECIFICOSBLOQUEIAEditInput" display="icon" />
+					
+				  <h:outputLabel value="#{messages.field_label_tbPERFIL_penalidade}:" for="deSCCONHECIMENTOSESPECIFICOSPENALIDADEEditInput" />
+       			 <p:selectOneMenu id="deSCCONHECIMENTOSESPECIFICOSPENALIDADEEditInput" value="#{tbCONHECIMENTOSESPECIFICOSBean.flagCustom}" style="width:125px">
+            		 <f:selectItem itemLabel="Personalizável" itemValue="true" />
+           			 <f:selectItem itemLabel="Padrão" itemValue="false" />
+           		<p:ajax event="change" update="penalidadePane"></p:ajax>	 
+        		</p:selectOneMenu>
+                <p:message for="deSCCONHECIMENTOSESPECIFICOSPENALIDADEEditInput" display="icon" />
+                	
+				<h:outputLabel rendered="#{tbCONHECIMENTOSESPECIFICOSBean.flagCustom==true}" value="Gap Penalidade:" id="PenalidadeLabel" for="PenalidadeIn" />
+                <p:inputNumber rendered="#{tbCONHECIMENTOSESPECIFICOSBean.flagCustom==true}" id="PenalidadeIn" 
+          		 decimalPlaces="0" value="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS.penalidadeConhecBas}"/>
+				<p:message for="PenalidadeIn"  rendered="#{tbCONHECIMENTOSESPECIFICOSBean.flagCustom==true}" display="icon"/>	
+					
 
             </p:panelGrid>
 

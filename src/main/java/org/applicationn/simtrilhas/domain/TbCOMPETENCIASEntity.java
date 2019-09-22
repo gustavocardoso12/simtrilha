@@ -36,6 +36,15 @@ public class TbCOMPETENCIASEntity extends BaseEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedAt;
     
+    @Column(name="PENALIDADE_COMPETENCIAS")
+    private Double penalidadeCompetencias;
+    
+    @Column(name="BLOQUEIA_MOV_COMPETENCIAS")
+    private String bloqueiaMovCompetencias;
+    
+    @Column(name="COMPETENCIAS_CUSTOM")
+    private String competenciasCustom;
+    
     public String getDeSCCOMPETENCIA() {
         return this.deSCCOMPETENCIA;
     }
@@ -71,5 +80,29 @@ public class TbCOMPETENCIASEntity extends BaseEntity implements Serializable {
             modifiedBy = createdBy;
         }
     }
+
+	public Double getPenalidadeCompetencias() {
+		return penalidadeCompetencias;
+	}
+
+	public void setPenalidadeCompetencias(Double penalidadeCompetencias) {
+		this.penalidadeCompetencias = penalidadeCompetencias;
+	}
+
+	public String getBloqueiaMovCompetencias() {
+		return bloqueiaMovCompetencias;
+	}
+
+	public void setBloqueiaMovCompetencias(String bloqueiaMovCompetencias) {
+		this.bloqueiaMovCompetencias = bloqueiaMovCompetencias;
+	}
+
+	public String getCompetenciasCustom() {
+		return competenciasCustom;
+	}
+
+	public void setCompetenciasCustom(String competenciasCustom) {
+		this.competenciasCustom = competenciasCustom;
+	}
     
 }

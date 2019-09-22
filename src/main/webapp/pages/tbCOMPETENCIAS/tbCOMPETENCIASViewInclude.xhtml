@@ -16,6 +16,21 @@
         <h:outputText value="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}:" />
         <h:outputText value="#{tbCOMPETENCIASBean.tbCOMPETENCIAS.deSCCOMPETENCIA}" />
 
+
+		
+         <h:outputText value="#{messages.field_label_tbPERFIL_penalidade}:" />
+        <h:outputText value="#{tbCOMPETENCIASBean.tbCOMPETENCIAS.penalidadeCompetencias.intValue()}%" />
+        
+         <h:outputText value="#{messages.field_label_tbPERFIL_bloqueia}:" />
+        <h:outputText value="#{tbCOMPETENCIASBean.tbCOMPETENCIAS.bloqueiaMovCompetencias}" />
+        
+          <h:outputText value="#{messages.field_label_tbPERFIL_custom}:" />
+        <h:outputText value="#{tbCOMPETENCIASBean.tbCOMPETENCIAS.competenciasCustom}" />
+
+
+
+
+
         <h:outputText value="#{messages.audit_created}:" />
         <h:panelGroup>
             <h:outputText value="#{tbCOMPETENCIASBean.tbCOMPETENCIAS.createdAt}"><f:convertDateTime type="both" /></h:outputText>

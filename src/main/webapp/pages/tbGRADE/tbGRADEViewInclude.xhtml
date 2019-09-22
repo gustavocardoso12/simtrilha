@@ -17,6 +17,15 @@
         <h:outputText value="#{tbGRADEBean.tbGRADE.deSCGRADE}" />
 
 
+		<h:outputText value="#{messages.field_label_tbPERFIL_penalidade}:" />
+        <h:outputText value="#{tbGRADEBean.tbGRADE.penalidadeConhecGrade.intValue()}%" />
+        
+        <h:outputText value="#{messages.field_label_tbPERFIL_bloqueia}:" />
+        <h:outputText value="#{tbGRADEBean.tbGRADE.bloqueiaMovConhecGrade}" />
+        
+        <h:outputText value="#{messages.field_label_tbPERFIL_custom}:" />
+        <h:outputText value="#{tbGRADEBean.tbGRADE.conhecGradeCustom}" />
+		
         <h:outputText value="#{messages.audit_created}:" />
         <h:panelGroup>
             <h:outputText value="#{tbGRADEBean.tbGRADE.createdAt}"><f:convertDateTime type="both" /></h:outputText>

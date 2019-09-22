@@ -22,6 +22,7 @@ public class LoginBean implements Serializable {
     private String username;
     private String password;
     private boolean remember;
+    private boolean logged = false;
 
     public String login() throws IOException {
         
@@ -42,11 +43,13 @@ public class LoginBean implements Serializable {
                     .redirect(savedRequest.getRequestUrl());
             return null;
         } else {
-            return "/pages/main?faces-redirect=true";
+        	logged = true;
+            return "/pages/HABILIDADESCARGOSCALC2/Comparacao?faces-redirect=true";
         }
     }
 
     public void logout() throws IOException {
+    	logged=false;
         SecurityWrapper.logout();
         String path = FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath() + "/pages/main.xhtml";
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
@@ -76,4 +79,12 @@ public class LoginBean implements Serializable {
     public void setRemember(boolean remember) {
         this.remember = remember;
     }
+
+	public boolean isLogged() {
+		return logged;
+	}
+
+	public void setLogged(boolean logged) {
+		this.logged = logged;
+	}
 }

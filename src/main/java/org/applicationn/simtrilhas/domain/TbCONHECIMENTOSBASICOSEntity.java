@@ -36,6 +36,15 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedAt;
     
+    @Column(name="PENALIDADE_CONHECBAS")
+    private Double penalidadeConhecBas;
+    
+    @Column(name="BLOQUEIA_MOV_CONHECBAS")
+    private String bloqueiaMovConhecBas;
+    
+    @Column(name="CONHECBAS_CUSTOM")
+    private String conhecBasCustom;
+    
     public String getDeSCCONHECIMENTOSBASICOS() {
         return this.deSCCONHECIMENTOSBASICOS;
     }
@@ -71,5 +80,29 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
             modifiedBy = createdBy;
         }
     }
+
+	public Double getPenalidadeConhecBas() {
+		return penalidadeConhecBas;
+	}
+
+	public void setPenalidadeConhecBas(Double penalidadeConhecBas) {
+		this.penalidadeConhecBas = penalidadeConhecBas;
+	}
+
+	public String getBloqueiaMovConhecBas() {
+		return bloqueiaMovConhecBas;
+	}
+
+	public void setBloqueiaMovConhecBas(String bloqueiaMovConhecBas) {
+		this.bloqueiaMovConhecBas = bloqueiaMovConhecBas;
+	}
+
+	public String getConhecBasCustom() {
+		return conhecBasCustom;
+	}
+
+	public void setConhecBasCustom(String conhecBasCustom) {
+		this.conhecBasCustom = conhecBasCustom;
+	}
     
 }

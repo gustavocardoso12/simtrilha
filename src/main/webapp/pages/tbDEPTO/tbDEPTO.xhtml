@@ -23,12 +23,12 @@
 
 
 				<p:column
-					style="width:50%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					style="width:44%;text-align:center;font-size:14px;color:white;font-weight:bold;"
 					headerText="#{messages.field_label_tbDEPTO_deSCDEPTO}">
 					<h:outputText value="#{tbDEPTO.deSCDEPTO}" />
 				</p:column>
 				<p:column
-					style="width:50%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					style="width:44%;text-align:center;font-size:14px;color:white;font-weight:bold;"
 					headerText="#{messages.field_label_tbDEPTO_idAREAID}">
 					<h:outputText value="#{tbDEPTO.idAREA.deSCAREA}" />
 				</p:column>
@@ -38,7 +38,7 @@
 
 					<p:commandButton 
 						update=":viewTbDEPTODialog"
-						style="background:#ED6D09;width:33%"
+						style="background:#ED6D09;width:51%"
 						oncomplete="PF('viewTbDEPTODialogWidget').show()"
 						value="#{messages.VisualizarRegistro}">
 						<f:setPropertyActionListener value="#{tbDEPTO}"
@@ -47,18 +47,20 @@
 
 					<p:commandButton 
 						update=":editTbDEPTODialog" resetValues="true"
-						style="background:#ED6D09;width:33%"
+							style="background:#ED6D09;width:45%;"
 						rendered="#{tbDEPTOBean.isPermitted(tbDEPTO, 'tbDEPTO:update')}"
 						action="#{tbDEPTOBean.onDialogOpen(tbDEPTO)}"
 						oncomplete="PF('editTbDEPTODialogWidget').show()"
-						value="#{messages.EditarDEPTO}">
+						value="#{messages.Editar}">
 					</p:commandButton>
 
 					<p:commandButton
-					style="background:#ED6D09;width:33%"
-						rendered="#{tbDEPTOBean.isPermitted(tbDEPTO, 'tbDEPTO:delete')}"
+					
+							rendered="#{tbDEPTOBean.isPermitted(tbDEPTO, 'tbDEPTO:delete')}"
 						oncomplete="PF('deleteTbDEPTODialogWidget').show()"
-						value="#{messages.ExcluirDEPTO}">
+						style="background:#ED6D09;width:1%"
+						value="E"
+						icon="img-button-delete">
 						<f:setPropertyActionListener value="#{tbDEPTO}"
 							target="#{tbDEPTOBean.tbDEPTO}" />
 					</p:commandButton>

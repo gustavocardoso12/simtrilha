@@ -23,7 +23,7 @@
 
 
 				<p:column
-					style="width:50%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					style="width:83%;text-align:center;font-size:14px;color:white;font-weight:bold;"
 					headerText="#{messages.field_label_tbAREA_deSCAREA}">
 					<h:outputText value="#{tbAREA.deSCAREA}" />
 				</p:column>
@@ -34,7 +34,7 @@
 
 					<p:commandButton 
 						update=":viewTbAREADialog"
-						style="background:#ED6D09;width:33%"
+						style="background:#ED6D09;width:51%"
 						oncomplete="PF('viewTbAREADialogWidget').show()"
 						value="#{messages.VisualizarRegistro}">
 						<f:setPropertyActionListener value="#{tbAREA}"
@@ -43,18 +43,19 @@
 
 					<p:commandButton 
 						update=":editTbAREADialog" resetValues="true"
-						style="background:#ED6D09;width:33%"
+						style="background:#ED6D09;width:45%;"
 						rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:update')}"
 						action="#{tbAREABean.onDialogOpen(tbAREA)}"
 						oncomplete="PF('editTbAREADialogWidget').show()"
-						value="#{messages.EditarAREA}">
+						value="#{messages.Editar}">
 					</p:commandButton>
 
 					<p:commandButton
-					style="background:#ED6D09;width:33%"
 						rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:delete')}"
 						oncomplete="PF('deleteTbAREADialogWidget').show()"
-						value="Excluir área">
+						style="background:#ED6D09;width:1%"
+						value="E"
+						icon="img-button-delete">
 						<f:setPropertyActionListener value="#{tbAREA}"
 							target="#{tbAREABean.tbAREA}" />
 					</p:commandButton>
@@ -62,7 +63,7 @@
 				</p:column>
 				
 			<f:facet name="footer">
-				<p:commandButton value="Cadastrar Área"
+				<p:commandButton value="Cadastrar Nova Área"
 						action="#{tbAREABean.prepareNewTbAREA()}"
 						resetValues="true" update=":editTbAREADialog"
 						oncomplete="PF('editTbAREADialogWidget').show()"

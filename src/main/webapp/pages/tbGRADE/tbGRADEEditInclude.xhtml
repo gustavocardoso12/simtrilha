@@ -9,12 +9,32 @@
 
  
 
-              <p:panelGrid columns="3" styleClass="dialog"  columnClasses="col1,col2,col3"  >
+              <p:panelGrid columns="3" styleClass="dialog" id="penalidadeGrade"  columnClasses="col1,col2,col3"  >
             
                 <h:outputLabel value="#{messages.field_label_tbGRADE_deSCGRADE}:" for="deSCGRADEEditInput" />
                 <p:inputText value="#{tbGRADEBean.tbGRADE.deSCGRADE}" id="deSCGRADEEditInput"  />
                 <p:message for="deSCGRADEEditInput" display="icon" />
-
+				
+				
+				 <h:outputLabel value="#{messages.field_label_tbPERFIL_bloqueia}:" for="deSCGRADEBLOQUEIAEditInput" />
+                <p:selectBooleanCheckbox value="#{tbGRADEBean.flagBloqueio}"  id="deSCGRADEBLOQUEIAEditInput"/>
+                <p:message for="deSCGRADEBLOQUEIAEditInput" display="icon" />
+				
+				
+				    
+                 <h:outputLabel value="#{messages.field_label_tbPERFIL_penalidade}:" for="deSCGRADEPENALIDADEEditInput" />
+       			 <p:selectOneMenu id="deSCGRADEPENALIDADEEditInput" value="#{tbGRADEBean.flagCustom}" style="width:125px">
+            		<f:selectItem itemLabel="Personalizável" itemValue="true" />
+           			 <f:selectItem itemLabel="Padrão" itemValue="false" />
+           		<p:ajax event="change" update="penalidadeGrade"></p:ajax>	 
+        		</p:selectOneMenu>
+                <p:message for="deSCGRADEPENALIDADEEditInput" display="icon" />
+                
+                
+                <h:outputLabel rendered="#{tbGRADEBean.flagCustom==true}" value="Gap Penalidade:" id="PenalidadeLabel" for="PenalidadeIn" />
+                <p:inputNumber rendered="#{tbGRADEBean.flagCustom==true}" id="PenalidadeIn" 
+          		 decimalPlaces="0" value="#{tbGRADEBean.tbGRADE.penalidadeConhecGrade}"/>
+				<p:message for="PenalidadeIn"  rendered="#{tbGRADEBean.flagCustom==true}" display="icon"/>
                 
             </p:panelGrid>
 

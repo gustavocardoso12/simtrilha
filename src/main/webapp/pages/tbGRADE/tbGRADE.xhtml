@@ -10,7 +10,27 @@
 <ui:composition template="/templates/layout.xhtml">
   <ui:define name="content">
 
-    <h:form prependId="false" id="tbGRADEDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+
+		<h:form>
+			<h:panelGrid columns="1" style="margin-bottom: 10px">
+				<h:outputText id="output"
+					value=" Variação do Gap: #{tbGRADEBean.gapVarGR}%" />
+				<h:inputHidden id="gapvar" value="#{tbGRADEBean.gapVarGR}" />
+				<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
+					step="1" style="width: 300px"
+					displayTemplate="Variação do gap: %{value}">
+					<p:ajax event="slideEnd" listener="#{tbGRADEBean.onSlideEndGR}"
+						update="tbGRADETable" />
+				</p:slider>
+			</h:panelGrid>
+		</h:form>
+
+		<h:form prependId="false" id="tbGRADEDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+		
+
+
 
 			<p:dataTable id="tbGRADETable"
 				style="width:100%"
@@ -27,6 +47,26 @@
 					headerText="#{messages.field_label_tbGRADE_deSCGRADE}">
 					<h:outputText value="#{tbGRADE.deSCGRADE}" />
 				</p:column>
+				
+				
+				
+				<p:column
+					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					
+					headerText="#{messages.field_label_tbPERFIL_penalidade}"
+					styleClass="#{(tbGRADE.conhecGradeCustom=='S') ? 'customPenStyle': ''}">
+					<h:outputText 
+					value="#{tbGRADE.penalidadeConhecGrade.intValue()}%">
+					<f:convertNumber minFractionDigits="0" />
+					</h:outputText>
+				</p:column>
+				
+				
+				<p:column
+					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					headerText="#{messages.field_label_tbPERFIL_bloqueia}">
+					<h:outputText value="#{tbGRADE.bloqueiaMovConhecGrade}" />
+				</p:column>
 
 
 				<p:column headerText="Ações" style="background:#410D34;width:100%;font-size:14px;font-weight:bold;" 
@@ -34,7 +74,7 @@
 
 					<p:commandButton 
 						update=":viewTbGRADEDialog"
-						style="background:#ED6D09;width:33%"
+						style="background:#ED6D09;width:50%"
 						oncomplete="PF('viewTbGRADEDialogWidget').show()"
 						value="#{messages.VisualizarRegistro}">
 						<f:setPropertyActionListener value="#{tbGRADE}"
@@ -43,7 +83,7 @@
 
 					<p:commandButton 
 						update=":editTbGRADEDialog" resetValues="true"
-						style="background:#ED6D09;width:33%"
+						style="background:#ED6D09;width:45%;"
 						rendered="#{tbGRADEBean.isPermitted(tbGRADE, 'tbGRADE:update')}"
 						action="#{tbGRADEBean.onDialogOpen(tbGRADE)}"
 						oncomplete="PF('editTbGRADEDialogWidget').show()"
@@ -51,10 +91,11 @@
 					</p:commandButton>
 
 					<p:commandButton
-					style="background:#ED6D09;width:33%"
+					style="background:#ED6D09;width:25%"
+						value="E"
+						icon="img-button-delete"
 						rendered="#{tbGRADEBean.isPermitted(tbGRADE, 'tbGRADE:delete')}"
-						oncomplete="PF('deleteTbGRADEDialogWidget').show()"
-						value="Excluir área">
+						oncomplete="PF('deleteTbGRADEDialogWidget').show()">
 						<f:setPropertyActionListener value="#{tbGRADE}"
 							target="#{tbGRADEBean.tbGRADE}" />
 					</p:commandButton>

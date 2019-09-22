@@ -36,6 +36,16 @@ public class TbCONHECIMENTOSESPECIFICOSEntity extends BaseEntity implements Seri
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedAt;
     
+    @Column(name="PENALIDADE_CONHECESP")
+    private Double penalidadeConhecBas;
+    
+    @Column(name="BLOQUEIA_MOV_CONHECESP")
+    private String bloqueiaMovConhecEsp;
+    
+    @Column(name="CONHECESP_CUSTOM")
+    private String conhecEspCustom;
+    
+    
     public String getDeSCCONHECIMENTOSESPECIFICOS() {
         return this.deSCCONHECIMENTOSESPECIFICOS;
     }
@@ -71,5 +81,29 @@ public class TbCONHECIMENTOSESPECIFICOSEntity extends BaseEntity implements Seri
             modifiedBy = createdBy;
         }
     }
+
+	public Double getPenalidadeConhecBas() {
+		return penalidadeConhecBas;
+	}
+
+	public void setPenalidadeConhecBas(Double penalidadeConhecBas) {
+		this.penalidadeConhecBas = penalidadeConhecBas;
+	}
+
+	public String getBloqueiaMovConhecEsp() {
+		return bloqueiaMovConhecEsp;
+	}
+
+	public void setBloqueiaMovConhecEsp(String bloqueiaMovConhecEsp) {
+		this.bloqueiaMovConhecEsp = bloqueiaMovConhecEsp;
+	}
+
+	public String getConhecEspCustom() {
+		return conhecEspCustom;
+	}
+
+	public void setConhecEspCustom(String conhecEspCustom) {
+		this.conhecEspCustom = conhecEspCustom;
+	}
     
 }
