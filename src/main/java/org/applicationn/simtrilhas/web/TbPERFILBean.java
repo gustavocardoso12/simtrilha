@@ -78,7 +78,7 @@ public class TbPERFILBean implements Serializable {
 		for (TbPERFILEntity tbPERFILEntity : tbPERFILList) {
 
 			if(tbPERFILEntity.getConhecPerfilCustom()==null) {
-				tbPERFILEntity.setPenalidadeConhecPerfil(gapVarPE);
+				tbPERFILEntity.setPenalidadeConhecPerfil((int) gapVarPE);
 				persist(tbPERFILEntity);
 
 			}
@@ -131,16 +131,16 @@ public class TbPERFILBean implements Serializable {
         	
             if (tbPERFIL.getId() != null) {
             	
-            	if(tbPERFIL.getPenalidadeConhecPerfil()==null) {
+            	if(tbPERFIL.getPenalidadeConhecPerfil()==0) {
 
             	}else {
             		
             		if(flagEdit==false){
-            			tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbPERFIL.getPenalidadeConhecPerfil().intValue());
+            			tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbPERFIL.getPenalidadeConhecPerfil());
             			tbPERFIL.setConhecPerfilCustom(null);
             			
             		}else {
-            			if(tbPERFIL.getPenalidadeConhecPerfil().equals(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue())) {
+            			if(tbPERFIL.getPenalidadeConhecPerfil()==tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
             				tbPERFIL.setConhecPerfilCustom(null);
             			}else {
             				tbPERFIL.setConhecPerfilCustom("S");
@@ -400,7 +400,7 @@ public class TbPERFILBean implements Serializable {
 	public void setFlagCustom(boolean flagCustom) {
 		this.flagCustom = flagCustom;
 		if(flagCustom==false) {
-			tbPERFIL.setPenalidadeConhecPerfil(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue());
+			tbPERFIL.setPenalidadeConhecPerfil(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL());
 		}
 	}
 

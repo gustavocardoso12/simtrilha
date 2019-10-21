@@ -22,7 +22,7 @@ public class TbCOMPETENCIASCARGOSService extends BaseService<TbCOMPETENCIASCARGO
     @Transactional
     public List<TbCOMPETENCIASCARGOSEntity> findAllTbCOMPETENCIASCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASCARGOS o ", TbCOMPETENCIASCARGOSEntity.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASCARGOS o ORDER BY o.idCARGOS, o.idCOMPETENCIAS ", TbCOMPETENCIASCARGOSEntity.class).getResultList();
     }
     
     @Override
@@ -56,7 +56,7 @@ public class TbCOMPETENCIASCARGOSService extends BaseService<TbCOMPETENCIASCARGO
 
     @Transactional
     public List<TbCOMPETENCIASCARGOSEntity> findTbCOMPETENCIASCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASCARGOS o WHERE o.idCARGOS = :tbCARGOS", TbCOMPETENCIASCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASCARGOS o WHERE o.idCARGOS = :tbCARGOS order by o.id", TbCOMPETENCIASCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
 }

@@ -22,7 +22,7 @@ public class TbPERFILCARGOSService extends BaseService<TbPERFILCARGOSEntity> imp
     @Transactional
     public List<TbPERFILCARGOSEntity> findAllTbPERFILCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbPERFILCARGOS o ", TbPERFILCARGOSEntity.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbPERFILCARGOS o ORDER BY o.idCARGOS, o.idPERFIL ", TbPERFILCARGOSEntity.class).getResultList();
     }
     
     @Override
@@ -46,7 +46,7 @@ public class TbPERFILCARGOSService extends BaseService<TbPERFILCARGOSEntity> imp
 
     @Transactional
     public List<TbPERFILCARGOSEntity> findTbPERFILCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbPERFILCARGOS o WHERE o.idCARGOS = :tbCARGOS", TbPERFILCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbPERFILCARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.id", TbPERFILCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional

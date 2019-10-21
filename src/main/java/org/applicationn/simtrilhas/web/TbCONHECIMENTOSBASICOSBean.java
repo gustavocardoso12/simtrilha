@@ -73,7 +73,7 @@ public class TbCONHECIMENTOSBASICOSBean implements Serializable {
 		for (TbCONHECIMENTOSBASICOSEntity tbCONHECIMENTOSBASICOSEntity : tbCONHECIMENTOSBASICOSList) {
 
 			if(tbCONHECIMENTOSBASICOSEntity.getConhecBasCustom()==null) {
-				tbCONHECIMENTOSBASICOSEntity.setPenalidadeConhecBas(gapVarCB);
+				tbCONHECIMENTOSBASICOSEntity.setPenalidadeConhecBas((int) gapVarCB);
 				persist(tbCONHECIMENTOSBASICOSEntity);
 			}
 		}
@@ -119,16 +119,16 @@ public class TbCONHECIMENTOSBASICOSBean implements Serializable {
 
 			if (tbCONHECIMENTOSBASICOS.getId() != null) {
 
-				if(tbCONHECIMENTOSBASICOS.getPenalidadeConhecBas()==null) {
+				if(tbCONHECIMENTOSBASICOS.getPenalidadeConhecBas()==0) {
 
 				}else {
 
 					if(flagEdit==false){
-						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbCONHECIMENTOSBASICOS.getPenalidadeConhecBas().intValue());
+						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbCONHECIMENTOSBASICOS.getPenalidadeConhecBas());
 						tbCONHECIMENTOSBASICOS.setConhecBasCustom(null);
 
 					}else {
-						if(tbCONHECIMENTOSBASICOS.getPenalidadeConhecBas().equals(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue())) {
+						if(tbCONHECIMENTOSBASICOS.getPenalidadeConhecBas()==tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
 							tbCONHECIMENTOSBASICOS.setConhecBasCustom(null);
 						}else {
 							tbCONHECIMENTOSBASICOS.setConhecBasCustom("S");
@@ -392,7 +392,7 @@ public class TbCONHECIMENTOSBASICOSBean implements Serializable {
 	public void setFlagCustom(boolean flagCustom) {
 		this.flagCustom = flagCustom;
 		if(flagCustom==false) {
-			tbCONHECIMENTOSBASICOS.setPenalidadeConhecBas(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue());
+			tbCONHECIMENTOSBASICOS.setPenalidadeConhecBas(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL());
 		}
 	}
 

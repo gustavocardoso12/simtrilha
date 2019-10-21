@@ -22,7 +22,7 @@ public class TbGRADECARGOSService extends BaseService<TbGRADECARGOSEntity> imple
     @Transactional
     public List<TbGRADECARGOSEntity> findAllTbGRADECARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbGRADECARGOS o ", TbGRADECARGOSEntity.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbGRADECARGOS o  ORDER BY o.idCARGOS,o.idGRADE ", TbGRADECARGOSEntity.class).getResultList();
     }
     
     @Override
@@ -46,7 +46,7 @@ public class TbGRADECARGOSService extends BaseService<TbGRADECARGOSEntity> imple
 
     @Transactional
     public List<TbGRADECARGOSEntity> findTbGRADECARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbGRADECARGOS o WHERE o.idCARGOS = :tbCARGOS", TbGRADECARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbGRADECARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.id", TbGRADECARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional

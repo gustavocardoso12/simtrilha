@@ -18,7 +18,7 @@ public class TbCONHECIMENTOSESPECIFICOSEntity extends BaseEntity implements Seri
     private static final long serialVersionUID = 1L;
 
     @Size(max = 300)
-    @Column(length = 300, name="\"deSCCONHECIMENTOSESPECIFICOS\"")
+    @Column(length = 300, name="DESC_CONHECIMENTOS_ESPECIFICOS")
     @NotNull
     private String deSCCONHECIMENTOSESPECIFICOS;
 
@@ -37,7 +37,7 @@ public class TbCONHECIMENTOSESPECIFICOSEntity extends BaseEntity implements Seri
     private Date modifiedAt;
     
     @Column(name="PENALIDADE_CONHECESP")
-    private Double penalidadeConhecBas;
+    private int penalidadeConhecBas;
     
     @Column(name="BLOQUEIA_MOV_CONHECESP")
     private String bloqueiaMovConhecEsp;
@@ -82,11 +82,11 @@ public class TbCONHECIMENTOSESPECIFICOSEntity extends BaseEntity implements Seri
         }
     }
 
-	public Double getPenalidadeConhecBas() {
+	public int getPenalidadeConhecBas() {
 		return penalidadeConhecBas;
 	}
 
-	public void setPenalidadeConhecBas(Double penalidadeConhecBas) {
+	public void setPenalidadeConhecBas(int penalidadeConhecBas) {
 		this.penalidadeConhecBas = penalidadeConhecBas;
 	}
 

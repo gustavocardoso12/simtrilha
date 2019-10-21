@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbDEPTOEntity;
+import org.applicationn.simtrilhas.domain.TbMATRIZCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbNOEntity;
 
 @Named
@@ -22,7 +23,28 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     @Transactional
     public List<TbCARGOSEntity> findAllTbCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCARGOS o ", TbCARGOSEntity.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
+    }
+    
+    
+    
+    
+    
+    @Transactional
+    public List<TbCARGOSEntity> findTbCARGOSEntities(Long idCargos) {
+        
+        return entityManager.createQuery("SELECT o FROM TbCARGOS o where o.id = :idCargos ORDER BY o.id", TbCARGOSEntity.class)
+        		.setParameter("idCargos", idCargos)
+        		.getResultList();
+    }
+    
+    
+    
+    @Transactional
+    public List<TbCARGOSEntity> findFiveTbCARGOSEntities() {
+        
+    	return entityManager.createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id ", TbCARGOSEntity.class)
+    			.getResultList();
     }
     
     @Override

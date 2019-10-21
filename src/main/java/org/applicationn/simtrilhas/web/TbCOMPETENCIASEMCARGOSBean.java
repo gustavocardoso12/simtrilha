@@ -73,7 +73,7 @@ public class TbCOMPETENCIASEMCARGOSBean extends TbCARGOSBean implements Serializ
         reset();
         changeHeaderCadastrar();
         this.tbCOMPETENCIASEMCARGOS = new TbCOMPETENCIASEMCARGOSEntity();
-        filtraListas(tbCARGOS);
+        //filtraListas(tbCARGOS);
     }
     
     public void onDialogOpen(TbCOMPETENCIASEMCARGOSEntity tbCOMPETENCIASEMCARGOS) {
@@ -82,7 +82,7 @@ public class TbCOMPETENCIASEMCARGOSBean extends TbCARGOSBean implements Serializ
         this.tbCOMPETENCIASEMCARGOS = tbCOMPETENCIASEMCARGOS;
     }
     
-    public void filtraListas(TbCARGOSEntity tbCARGOS) {
+   /* public void filtraListas(TbCARGOSEntity tbCARGOS) {
 
     	tbCOMPETENCIASEMs = InicializaTabelasAuxiliaresEM(tbCARGOS);
 		allIdCOMPEMsList= tbCOMPETENCIASEMOCIONAISService.findAllTbCOMPETENCIASEMOCIONAISEntities();
@@ -111,7 +111,7 @@ public class TbCOMPETENCIASEMCARGOSBean extends TbCARGOSBean implements Serializ
 			return;
 		
 		}
-	}
+	}*/
 
     public String persist() {
 

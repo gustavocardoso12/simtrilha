@@ -25,10 +25,9 @@ public class TbCONHECIMENTOSBASCARGOSEntity extends BaseEntity implements Serial
     @JoinColumn(name = "IDCONHECBAS_ID", referencedColumnName = "ID")
     private TbCONHECIMENTOSBASICOSEntity idCONHECBAS;
 
-    @Digits(integer = 5,  fraction = 2)
-    @Column(precision = 7, scale = 2, name="\"poNTUACAOCONBAS\"")
-    @NotNull
-    private BigDecimal poNTUACAOCONBAS;
+
+    @Column(name="PONTUACAOCONBAS")
+    private int poNTUACAOCONBAS;
 
     public TbCARGOSEntity getIdCARGOS() {
         return this.idCARGOS;
@@ -46,11 +45,11 @@ public class TbCONHECIMENTOSBASCARGOSEntity extends BaseEntity implements Serial
         this.idCONHECBAS = tbCONHECIMENTOSBASICOS;
     }
 
-    public BigDecimal getPoNTUACAOCONBAS() {
+    public int getPoNTUACAOCONBAS() {
         return this.poNTUACAOCONBAS;
     }
 
-    public void setPoNTUACAOCONBAS(BigDecimal poNTUACAOCONBAS) {
+    public void setPoNTUACAOCONBAS(int poNTUACAOCONBAS) {
         this.poNTUACAOCONBAS = poNTUACAOCONBAS;
     }
 

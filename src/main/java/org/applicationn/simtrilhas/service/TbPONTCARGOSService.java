@@ -22,7 +22,7 @@ public class TbPONTCARGOSService extends BaseService<TbPONTCARGOSEntity> impleme
     @Transactional
     public List<TbPONTCARGOSEntity> findAllTbPONTCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbPONTCARGOS o ", TbPONTCARGOSEntity.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbPONTCARGOS o order by o.id", TbPONTCARGOSEntity.class).getResultList();
     }
     
     

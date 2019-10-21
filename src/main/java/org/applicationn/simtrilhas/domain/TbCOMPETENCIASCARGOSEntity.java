@@ -1,7 +1,6 @@
 package org.applicationn.simtrilhas.domain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,10 +24,10 @@ public class TbCOMPETENCIASCARGOSEntity extends BaseEntity implements Serializab
     @JoinColumn(name = "IDCARGOS_ID", referencedColumnName = "ID")
     private TbCARGOSEntity idCARGOS;
 
-    @Digits(integer = 5,  fraction = 2)
-    @Column(precision = 7, scale = 2, name="\"poNTUACAOCOMPETENCIA\"")
+
+    @Column(name="PONTUACAO_COMPETENCIA")
     @NotNull
-    private BigDecimal poNTUACAOCOMPETENCIA;
+    private int poNTUACAOCOMPETENCIA;
 
     public TbCOMPETENCIASEntity getIdCOMPETENCIAS() {
         return this.idCOMPETENCIAS;
@@ -46,11 +45,11 @@ public class TbCOMPETENCIASCARGOSEntity extends BaseEntity implements Serializab
         this.idCARGOS = tbCARGOS;
     }
 
-    public BigDecimal getPoNTUACAOCOMPETENCIA() {
+    public int getPoNTUACAOCOMPETENCIA() {
         return this.poNTUACAOCOMPETENCIA;
     }
 
-    public void setPoNTUACAOCOMPETENCIA(BigDecimal poNTUACAOCOMPETENCIA) {
+    public void setPoNTUACAOCOMPETENCIA(int poNTUACAOCOMPETENCIA) {
         this.poNTUACAOCOMPETENCIA = poNTUACAOCOMPETENCIA;
     }
 

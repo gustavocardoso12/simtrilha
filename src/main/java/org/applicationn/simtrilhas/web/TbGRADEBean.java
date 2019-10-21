@@ -75,12 +75,12 @@ public class TbGRADEBean implements Serializable {
 		flagEdit = false;
 		for (TbGRADEEntity tbGRADEEntity : tbGRADEList) {
 			if(tbGRADEList.size()==1) {
-				tbGRADEEntity.setPenalidadeConhecGrade(gapVarGR);
+				tbGRADEEntity.setPenalidadeConhecGrade((int) gapVarGR);
 				persist(tbGRADEEntity);
 
 			}else {
 				if(tbGRADEEntity.getConhecGradeCustom()==null) {
-					tbGRADEEntity.setPenalidadeConhecGrade(gapVarGR);
+					tbGRADEEntity.setPenalidadeConhecGrade((int) gapVarGR);
 					persist(tbGRADEEntity);
 
 				}
@@ -131,16 +131,16 @@ public class TbGRADEBean implements Serializable {
 
 			if (tbGRADE.getId() != null) {
 
-				if(tbGRADE.getPenalidadeConhecGrade()==null) {
+				if(tbGRADE.getPenalidadeConhecGrade()==0) {
 
 				}else {
 
 					if(flagEdit==false){
-						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbGRADE.getPenalidadeConhecGrade().intValue());
+						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbGRADE.getPenalidadeConhecGrade());
 						tbGRADE.setConhecGradeCustom(null);
 
 					}else {
-						if(tbGRADE.getPenalidadeConhecGrade().equals(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue())) {
+						if(tbGRADE.getPenalidadeConhecGrade()==tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
 							tbGRADE.setConhecGradeCustom(null);
 						}else {
 							tbGRADE.setConhecGradeCustom("S");
@@ -403,7 +403,7 @@ public class TbGRADEBean implements Serializable {
 	public void setFlagCustom(boolean flagCustom) {
 		this.flagCustom = flagCustom;
 		if(flagCustom==false) {
-			tbGRADE.setPenalidadeConhecGrade(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue());
+			tbGRADE.setPenalidadeConhecGrade(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL());
 		}
 	}
 

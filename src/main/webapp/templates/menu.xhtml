@@ -7,80 +7,91 @@
 <ui:composition>
   <h:form>
   
-   
+  
  		
 	<p:panel id="toggleableAderencia" header="Aderência entre Cargos" collapsed="true"
 			toggleable="true" toggleSpeed="500" closeSpeed="500"
-			widgetVar="panel4" style="background:#9d4110;">
+			widgetVar="panel4"  style="background:white;background-repeat:no-repeat;">
 				<p:menu toggleable="true">
 				<p:menuitem value="Aderência"
 					url="/pages/HABILIDADESCARGOSCALC2/Comparacao.xhtml"
 					ajax="false" async="false" />
+					
+				<p:menuitem value="Matriz de cargos"
+					url="/pages/Matriz/Matriz.xhtml"
+					 />	 	
+					 
+					<p:menuitem value="Auto-Trilhas"
+					url="/pages/AutoTrilhas/AutoTrilhas.xhtml"
+					 />	 	 
 				
 			</p:menu>
-	
+			
+			
+			
+			
 		</p:panel>
  	
  	
  	
- 	<p:panel id="toggleableCargos" header="Cadastro de cargos" collapsed="true"
-			toggleable="true" toggleSpeed="500" closeSpeed="500"
-			widgetVar="panel3" style="background:#9d4110;">
-			<p:menu toggleable="true">
-				<p:menuitem value="Cadastro de cargos"
-					url="/pages/tbCARGOS_Modulo/tbCARGOS.xhtml"
-					ajax="false" async="false" />
-				
-			</p:menu>
-		</p:panel>
+
  
  
         
 
   
 
-		<p:panel id="toggleable" header="Customização" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="true" style="background:#9d4110;">
+		<p:panel id="toggleable" header="Configuração" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="true"  style="background:white;background-repeat:no-repeat">
  				 <p:menu toggleable="true">
+ 				 
+ 			<p:menuitem value="Cadastro de cargos"
+					url="/pages/tbCARGOS_Modulo/tbCARGOS.xhtml"
+					ajax="false" async="false" />	 
+					
+					
+					
      		
-     		<p:menuitem value="Aderência Final" url="/pages/AderenciaFinal/AderenciaFinal.xhtml" ajax="false" async="false" />
+     		<p:menuitem value="Aderência Final" url="/pages/AderenciaFinal/AderenciaFinal.xhtml" style="margin-bottom:10px" ajax="false" async="false" />
      		
-      		<p:submenu label ="Setores">
+     		
+     		
       		
-      			<p:menuitem value="#{messages.menu_TbDiretoria}" url="/pages/tbAREA/tbAREA.xhtml" ajax="false" async="false" />
-      			<p:menuitem value="#{messages.menu_tbESTATUARIOs}" url="/pages/tbDEPTO/tbDEPTO.xhtml"  ajax="false" async="false" />
-      		</p:submenu>
-       		<p:submenu label ="Aprendizado">
-      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/pages/tbCOMPETENCIAS/tbCOMPETENCIAS.xhtml" ajax="false" async="false" />
+      		
       			
-       		</p:submenu>
+      		
+       		
+      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/pages/tbCOMPETENCIAS/tbCOMPETENCIAS.xhtml"  ajax="false" async="false" />
+      			
+       		
        		
        		<!--  <p:submenu label ="Motivadores">
        		<p:menuitem value="#{messages.menu_Motivadores}" url="/pages/tbMOTIVADORES/tbMOTIVADORES.xhtml" ajax="false" async="false" />
      		</p:submenu>-->
      		
-     		<p:submenu label ="Grades">
+     		
      		
      		<p:menuitem value="#{messages.menu_GRADES}" url="/pages/tbGRADE/tbGRADE.xhtml" ajax="false" async="false" />
      			
-     		</p:submenu>
      		
-     		<p:submenu label ="Perfil">
+     		
+     		
      		
      		<p:menuitem value="#{messages.menu_Perfil}" url="/pages/tbPERFIL/tbPERFIL.xhtml" ajax="false" async="false" />
+     		
+     		
+     		
+     		
+     	
      			
-     		</p:submenu>
      		
-     		<p:submenu label ="Nível Organizacional">
      		
-     		<p:menuitem value="#{messages.menu_NO}" url="/pages/tbNO/tbNO.xhtml" ajax="false" async="false" />
-     			
-     		</p:submenu>
      		
-     		 <p:submenu label ="Conhecimentos">
        			<p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOS.xhtml" ajax="false" async="false" />
-				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOS.xhtml" ajax="false" async="false" />     
-    		</p:submenu> 
-    		
+				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOS.xhtml" style="margin-bottom:10px" ajax="false" async="false" />     
+    	
+    			<p:menuitem value="#{messages.menu_TbDiretoria}" url="/pages/tbAREA/tbAREA.xhtml" ajax="false" async="false" />
+      			<p:menuitem value="#{messages.menu_tbESTATUARIOs}" url="/pages/tbDEPTO/tbDEPTO.xhtml"  ajax="false" async="false" />
+      				<p:menuitem value="#{messages.menu_NO}" url="/pages/tbNO/tbNO.xhtml" ajax="false"  async="false" />
 	
    </p:menu>
  	 </p:panel>

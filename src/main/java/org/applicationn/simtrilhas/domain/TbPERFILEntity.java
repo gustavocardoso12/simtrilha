@@ -37,7 +37,7 @@ public class TbPERFILEntity extends BaseEntity implements Serializable {
     private Date modifiedAt;
     
     @Column(name="PENALIDADE_PERFIL")
-    private Double penalidadeConhecPerfil;
+    private int penalidadeConhecPerfil;
     
     @Column(name="BLOQUEIA_MOV_PERFIL")
     private String bloqueiaMovConhecPerfil;
@@ -47,11 +47,11 @@ public class TbPERFILEntity extends BaseEntity implements Serializable {
     
     
     
-    public Double getPenalidadeConhecPerfil() {
+    public int getPenalidadeConhecPerfil() {
 		return penalidadeConhecPerfil;
 	}
 
-	public void setPenalidadeConhecPerfil(Double penalidadeConhecPerfil) {
+	public void setPenalidadeConhecPerfil(int penalidadeConhecPerfil) {
 		this.penalidadeConhecPerfil = penalidadeConhecPerfil;
 	}
 

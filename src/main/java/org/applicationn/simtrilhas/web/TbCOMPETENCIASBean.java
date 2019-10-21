@@ -73,7 +73,7 @@ public class TbCOMPETENCIASBean implements Serializable {
 		for (TbCOMPETENCIASEntity tbCOMPETENCIASEntity : tbCOMPETENCIASList) {
 
 			if(tbCOMPETENCIASEntity.getCompetenciasCustom()==null) {
-				tbCOMPETENCIASEntity.setPenalidadeCompetencias(gapVarCO);
+				tbCOMPETENCIASEntity.setPenalidadeCompetencias((int) gapVarCO);
 				persist(tbCOMPETENCIASEntity);
 
 			}
@@ -118,16 +118,16 @@ public class TbCOMPETENCIASBean implements Serializable {
 
 			if (tbCOMPETENCIAS.getId() != null) {
 
-				if(tbCOMPETENCIAS.getPenalidadeCompetencias()==null) {
+				if(tbCOMPETENCIAS.getPenalidadeCompetencias()==0) {
 
 				}else {
 
 					if(flagEdit==false){
-						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbCOMPETENCIAS.getPenalidadeCompetencias().intValue());
+						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbCOMPETENCIAS.getPenalidadeCompetencias());
 						tbCOMPETENCIAS.setCompetenciasCustom(null);
 
 					}else {
-						if(tbCOMPETENCIAS.getPenalidadeCompetencias().equals(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue())) {
+						if(tbCOMPETENCIAS.getPenalidadeCompetencias()==tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
 							tbCOMPETENCIAS.setCompetenciasCustom(null);
 						}else {
 							tbCOMPETENCIAS.setCompetenciasCustom("S");
@@ -389,7 +389,7 @@ public class TbCOMPETENCIASBean implements Serializable {
 	public void setFlagCustom(boolean flagCustom) {
 		this.flagCustom = flagCustom;
 		if(flagCustom==false) {
-			tbCOMPETENCIAS.setPenalidadeCompetencias(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue());
+			tbCOMPETENCIAS.setPenalidadeCompetencias(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL());
 		}
 	}
 

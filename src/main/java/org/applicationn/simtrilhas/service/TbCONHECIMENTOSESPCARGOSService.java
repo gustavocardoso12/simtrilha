@@ -22,7 +22,7 @@ public class TbCONHECIMENTOSESPCARGOSService extends BaseService<TbCONHECIMENTOS
     @Transactional
     public List<TbCONHECIMENTOSESPCARGOSEntity> findAllTbCONHECIMENTOSESPCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSESPCARGOS o ", TbCONHECIMENTOSESPCARGOSEntity.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSESPCARGOS o ORDER BY o.idCARGOS , o.idCONHECESP ", TbCONHECIMENTOSESPCARGOSEntity.class).getResultList();
     }
     
     @Override
@@ -46,7 +46,7 @@ public class TbCONHECIMENTOSESPCARGOSService extends BaseService<TbCONHECIMENTOS
 
     @Transactional
     public List<TbCONHECIMENTOSESPCARGOSEntity> findTbCONHECIMENTOSESPCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSESPCARGOS o WHERE o.idCARGOS = :tbCARGOS", TbCONHECIMENTOSESPCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSESPCARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.id", TbCONHECIMENTOSESPCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional

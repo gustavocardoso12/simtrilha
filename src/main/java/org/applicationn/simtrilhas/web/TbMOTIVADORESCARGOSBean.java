@@ -71,10 +71,10 @@ public class TbMOTIVADORESCARGOSBean extends TbCARGOSBean implements Serializabl
         reset();
         changeHeaderCadastrar();
         this.tbMOTIVADORESCARGOS = new TbMOTIVADORESCARGOSEntity();
-        filtraListas(tbCARGOS); 
+       // filtraListas(tbCARGOS); 
     }
 
-    public void filtraListas(TbCARGOSEntity tbCARGOS) {
+    /*public void filtraListas(TbCARGOSEntity tbCARGOS) {
 
     	tbMOTIVADORESCARGOSs = InicializaTabelasAuxiliaresMO(tbCARGOS);
 		allIdMOTIVADORESsList= tbMOTIVADORESService.findAllTbMOTIVADORESEntities();
@@ -103,7 +103,7 @@ public class TbMOTIVADORESCARGOSBean extends TbCARGOSBean implements Serializabl
 			return;
 		
 		}
-	}
+	}*/
     
     
     

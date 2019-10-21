@@ -47,10 +47,40 @@ a, img {
     padding-bottom: 10px !important;
 }
 
+.col1DT{
+	 font-weight: bold;
+    font-family: Calibri;
+    font-size:12px;
+    padding-bottom: 10px !important;
+    width:50%
+}
+
 .col2 {
     vertical-align: top;
     font-family: Calibri;
     padding-bottom: 10px !important
+}
+
+
+.colParaDetalhe {
+    vertical-align: top;
+    font-family: Calibri;
+    padding-bottom: 10px !important;
+    width:10% !important;
+}
+
+.colParaValores{
+	 vertical-align: top;
+    font-family: Calibri;
+    padding-bottom: 10px !important;
+    width:80% !important;
+}
+
+.colPanelAderencia {
+    vertical-align: top;
+    font-family: Calibri;
+    padding-bottom: 10px !important;
+    font-weight: bold;
 }
 
 .col3 {
@@ -93,7 +123,7 @@ td {
 }
 
 th {
-  color:#f2f2f2 !importnt;
+  color:#f2f2f2 !important;
   background: #5C2C5E !important;
    border:none !important;
 }
@@ -249,9 +279,31 @@ th {
 }
 
 .img-button-delete { 
+	width:16px;
+	height:16px;
 	background-image: url('/javax.faces.resource/images/can.png.xhtml') !important; 
 	
 	}
+	
+.ui-widget-header .ui-icon{
+	background-image: url("/javax.faces.resource/images/ui-icons_ffffff_256x240.png.xhtml?ln=primefaces-ui-darkness") !important;
+}
+
+:host .ui-menuitem li:not(:first-child) {
+  margin-top: 20px;
+}
+
+    .fa { 
+        color: white;
+    }
+
+.ui-panel{
+	padding:.0em !important;
+	background: none !important;
+}
+
+
+
 
 .ui-fluid .ui-menu {
     width: 100%;
@@ -315,8 +367,94 @@ th {
 
 .ui-panel .ui-panel-content {
     border: 0;
-    background: white !important;
+    background: none !important;
     padding: .5em 1em;
+}
+
+.ui-progressbar-label{
+	margin-top:5%;
+	font-size: 20px;
+}
+.ui-progressbar-value .ui-widget-header .ui-corner-all{
+	display:block;
+	width:74%;
+}
+
+.ui-progressbar .ui-widget .ui-widget-content .ui-corner-all .ui-progressbar-determinate{
+	height:50px !important;
+	background:#f2f2f2 !important
+}
+
+.ui-progressbar-label{
+	color:white !important;
+}
+
+.ui-progressbar{
+	height:50px !important;
+}
+
+
+.barraProgressoVerde2 .ui-panel{
+	background: #16600A !important;
+}
+
+.barraProgressoVermelha2.ui-panel {
+	background: #CC0D00 !important;
+}
+
+.barraProgressoAmarelaVerde2.ui-panel {
+	background: #869E00 !important;
+}		
+		
+
+.dataTableAderencia .ui-widget-header{
+	border:none !important;
+	height: 15px !important;
+}
+
+.barraProgressoVermelha .ui-widget-header{
+	background: #CC0D00 !important;
+}
+
+.barraProgressoAmarelaVerde .ui-widget-header{
+	background: #869E00 !important;
+}		
+
+
+.barraProgressoVermelha2.ui-panel {
+	background: #CC0D00 !important;
+}
+
+.barraProgressoAmarelaVerde2.ui-panel {
+	background: #869E00 !important;
+}			
+
+.barraProgressoCinza2.ui-panel {
+	background: #F2F2F2 !important;
+	color: #F2F2F2 !important;
+}
+
+
+
+
+.barraProgressoAmarela2.ui-panel{
+	background: #DD8C00 !important;
+}
+.dataTableAderencia .ui-widget-header{
+	border:none !important;
+	height: 15px !important;
+}
+		
+.barraProgressoAmarelaVermelha .ui-widget-header{
+	background: #D83C11 !important;
+}		
+		
+.barraProgressoAmarela .ui-widget-header{
+	background: #DD8C00 !important;
+}
+
+.barraProgressoVerde .ui-widget-header{
+	background: #16600A !important;
 }
 
 .panel.ui-selectonemenu-list .ui-selectonemenu-trigger
@@ -325,7 +463,14 @@ th {
 }
 
 
+.ui-datatable-tablewrapper{
+	overflow:hidden !important;
+}
 
+
+.loginForm.ui-panel-content .ui-widget-content{
+	background:white !important;
+}
 
 .DataTableFormacao.ui-datatable .ui-datatable-header .ui-datatable .ui-datatable-footer {
     text-align: center;
@@ -343,7 +488,31 @@ th {
     padding: .5em 5em .5em .5em;
 }
 
+.ui-paginator {
+text-align: left ! important;
+}
 
+
+.ui-diagram-element {
+        border:0.1em dotted #d4e06b;    
+        width:14em; 
+        height:4em;     
+        line-height:4em;
+        text-align: center;
+    }
+
+.ui-sticky {
+        top: 70px !important;
+    }
+    @media (max-width: 960px) {
+    .ui-sticky {
+            top: 110px !important;
+    }
+}
+
+td.foo {
+    background-color: red;
+}
 .ui-confirm-dialog-message {
  	font-weight:bold;
     font-size:14px;

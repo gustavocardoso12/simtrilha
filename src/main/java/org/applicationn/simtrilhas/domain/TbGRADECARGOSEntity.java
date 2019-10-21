@@ -28,7 +28,7 @@ public class TbGRADECARGOSEntity extends BaseEntity implements Serializable {
     @Digits(integer = 5,  fraction = 2)
     @Column(precision = 7, scale = 2, name="PONTUACAO_GRADE")
     @NotNull
-    private BigDecimal poNTUACAOGRADE;
+    private int poNTUACAOGRADE;
 
     public TbCARGOSEntity getIdCARGOS() {
         return this.idCARGOS;
@@ -46,11 +46,11 @@ public class TbGRADECARGOSEntity extends BaseEntity implements Serializable {
         this.idGRADE = tbGRADE;
     }
 
-    public BigDecimal getPoNTUACAOGRADE() {
+    public int getPoNTUACAOGRADE() {
         return this.poNTUACAOGRADE;
     }
 
-    public void setPoNTUACAOGRADE(BigDecimal poNTUACAOGRADE) {
+    public void setPoNTUACAOGRADE(int poNTUACAOGRADE) {
         this.poNTUACAOGRADE = poNTUACAOGRADE;
     }
 

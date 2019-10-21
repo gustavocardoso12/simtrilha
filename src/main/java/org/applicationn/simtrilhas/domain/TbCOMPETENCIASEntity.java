@@ -18,7 +18,7 @@ public class TbCOMPETENCIASEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Size(max = 300)
-    @Column(length = 300, name="\"deSCCOMPETENCIA\"")
+    @Column(length = 300, name="DESC_COMPETENCIA")
     @NotNull
     private String deSCCOMPETENCIA;
 
@@ -37,7 +37,7 @@ public class TbCOMPETENCIASEntity extends BaseEntity implements Serializable {
     private Date modifiedAt;
     
     @Column(name="PENALIDADE_COMPETENCIAS")
-    private Double penalidadeCompetencias;
+    private int penalidadeCompetencias;
     
     @Column(name="BLOQUEIA_MOV_COMPETENCIAS")
     private String bloqueiaMovCompetencias;
@@ -81,11 +81,11 @@ public class TbCOMPETENCIASEntity extends BaseEntity implements Serializable {
         }
     }
 
-	public Double getPenalidadeCompetencias() {
+	public int getPenalidadeCompetencias() {
 		return penalidadeCompetencias;
 	}
 
-	public void setPenalidadeCompetencias(Double penalidadeCompetencias) {
+	public void setPenalidadeCompetencias(int penalidadeCompetencias) {
 		this.penalidadeCompetencias = penalidadeCompetencias;
 	}
 

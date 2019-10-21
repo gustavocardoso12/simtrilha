@@ -72,7 +72,7 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
 		for (TbCONHECIMENTOSESPECIFICOSEntity tbCONHECIMENTOSESPECIFICOSEntity : tbCONHECIMENTOSESPECIFICOSList) {
 
 			if(tbCONHECIMENTOSESPECIFICOSEntity.getConhecEspCustom()==null) {
-				tbCONHECIMENTOSESPECIFICOSEntity.setPenalidadeConhecBas(gapVarCE);
+				tbCONHECIMENTOSESPECIFICOSEntity.setPenalidadeConhecBas((int) gapVarCE);
 				persist(tbCONHECIMENTOSESPECIFICOSEntity);
 			}
 		}
@@ -117,16 +117,16 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
             
             if (tbCONHECIMENTOSESPECIFICOS.getId() != null) {
             	
-            	if(tbCONHECIMENTOSESPECIFICOS.getPenalidadeConhecBas()==null) {
+            	if(tbCONHECIMENTOSESPECIFICOS.getPenalidadeConhecBas()==0) {
 
 				}else {
 
 					if(flagEdit==false){
-						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbCONHECIMENTOSESPECIFICOS.getPenalidadeConhecBas().intValue());
+						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbCONHECIMENTOSESPECIFICOS.getPenalidadeConhecBas());
 						tbCONHECIMENTOSESPECIFICOS.setConhecEspCustom(null);
 
 					}else {
-						if(tbCONHECIMENTOSESPECIFICOS.getPenalidadeConhecBas().equals(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue())) {
+						if(tbCONHECIMENTOSESPECIFICOS.getPenalidadeConhecBas()==tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
 							tbCONHECIMENTOSESPECIFICOS.setConhecEspCustom(null);
 						}else {
 							tbCONHECIMENTOSESPECIFICOS.setConhecEspCustom("S");
@@ -387,7 +387,7 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
 	public void setFlagCustom(boolean flagCustom) {
 		this.flagCustom = flagCustom;
 		if(flagCustom==false) {
-			tbCONHECIMENTOSESPECIFICOS.setPenalidadeConhecBas(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL().doubleValue());
+			tbCONHECIMENTOSESPECIFICOS.setPenalidadeConhecBas(tbPONTCARGOSEntity.getPoNTUACAOORIGINAL());
 		}
 	}
 

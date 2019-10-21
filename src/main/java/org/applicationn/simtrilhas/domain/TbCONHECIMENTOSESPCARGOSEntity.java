@@ -26,9 +26,8 @@ public class TbCONHECIMENTOSESPCARGOSEntity extends BaseEntity implements Serial
     private TbCONHECIMENTOSESPECIFICOSEntity idCONHECESP;
 
   
-    @Column(precision = 7, name="\"poNTUACAOCONESP\"")
-    @NotNull
-    private BigDecimal poNTUACAOCONESP;
+    @Column(name="PONTUACAO_CON_ESP")
+    private int poNTUACAOCONESP;
 
     public TbCARGOSEntity getIdCARGOS() {
         return this.idCARGOS;
@@ -46,11 +45,11 @@ public class TbCONHECIMENTOSESPCARGOSEntity extends BaseEntity implements Serial
         this.idCONHECESP = tbCONHECIMENTOSESPECIFICOS;
     }
 
-    public BigDecimal getPoNTUACAOCONESP() {
+    public int getPoNTUACAOCONESP() {
         return this.poNTUACAOCONESP;
     }
 
-    public void setPoNTUACAOCONESP(BigDecimal poNTUACAOCONESP) {
+    public void setPoNTUACAOCONESP(int poNTUACAOCONESP) {
         this.poNTUACAOCONESP = poNTUACAOCONESP;
     }
 

@@ -20,7 +20,7 @@
     
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>dot-luv</param-value>
+        <param-value>ui-darkness</param-value>
     </context-param>
     <context-param>
         <param-name>primefaces.FONT_AWESOME</param-name>
@@ -28,7 +28,7 @@
     </context-param>
 
     <session-config>
-        <session-timeout>1000</session-timeout>
+        <session-timeout>1000000</session-timeout>
     </session-config>
     
     <context-param>

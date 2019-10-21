@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Named;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 
 import org.applicationn.simtrilhas.domain.TbAREAEntity;
+import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 
 @Named
@@ -29,6 +31,33 @@ public class TbAREAService extends BaseService<TbAREAEntity> implements Serializ
     public long countAllEntries() {
         return entityManager.createQuery("SELECT COUNT(o) FROM TbAREA o", Long.class).getSingleResult();
     }
+    
+    @Transactional
+    public List<String> findDistinctTbAREAEntities() {
+    	
+
+        return entityManager.createQuery("SELECT DISTINCT(o.deSCAREA) FROM TbAREA o ", String.class).getResultList();
+    }
+    
+    @Transactional
+    public List<String> findDistinctTbDEPTOEntities(String Area) {
+    	
+
+        return entityManager.createQuery("SELECT DISTINCT(o.deSCDEPTO) FROM TbDEPTO o WHERE o.idAREA.deSCAREA =:deSCAREA ", String.class).setParameter("deSCAREA",Area).getResultList();
+    }
+    
+    @Transactional
+    public List<TbCARGOSEntity> findDistinctTbCARGOSEntities(String Depto, String Area) {
+    	
+
+        return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.idDEPTO.deSCDEPTO =:deSCDEPTO and o.idDEPTO.idAREA.deSCAREA =:deSCAREA", TbCARGOSEntity.class)
+        		.setParameter("deSCDEPTO",Depto).setParameter("deSCAREA", Area)
+        		.getResultList();
+    }
+    
+    
+    
+
     
     @Override
     @Transactional

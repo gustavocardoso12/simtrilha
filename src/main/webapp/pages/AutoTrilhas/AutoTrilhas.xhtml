@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+	<ui:define name="content">
+
+		<p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
+
+
+		</p:ajaxStatus>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<h:panelGrid columns="2">
+				<h:outputLabel style="font-size:14px;font-weight:bold"
+					value="Carregando Auto Trilhaas..." />
+				<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+		</p:dialog>
+
+
+
+
+		<h:panelGrid id="paneCargos" styleClass="dialog"
+			columnClasses="col2,col2" columns="2">
+			<h:form>
+
+				<h:panelGrid id="paneCargoDe">
+					<h:outputLabel value="Família De:" for="idAREASelectInput" />
+					<p:selectOneMenu autoWidth="false" style="width:300px"
+						value="#{tbCARGOSBean.areaEscolhida}" id="idAREASelectInput">
+						<f:selectItem noSelectionOption="true" itemLabel="" />
+						<f:selectItems value="#{tbCARGOSBean.distinctArea}" var="tbCARGO"
+							itemLabel="#{tbCARGO}" itemValue="#{tbCARGO}" />
+						<p:ajax event="change" global="false"
+							update="paneCargoDe
+								" />
+					</p:selectOneMenu>
+
+					<h:outputLabel rendered="#{tbCARGOSBean.areaEscolhida!=null}"
+						value="SubFamília De:" for="idDEPTOSelectInput" />
+					<p:selectOneMenu style="width:300px"
+						rendered="#{tbCARGOSBean.areaEscolhida!=null}"
+						value="#{tbCARGOSBean.departamentoEscolhido}"
+						id="idDEPTOSelectInput">
+						<f:selectItem noSelectionOption="true" itemLabel="" />
+						<f:selectItems value="#{tbCARGOSBean.distinctDepto}" var="tbCARGO"
+							itemLabel="#{tbCARGO}" itemValue="#{tbCARGO}" />
+						<p:ajax event="change" global="false"
+							update="paneCargoDe
+								" />
+
+					</p:selectOneMenu>
+					<h:outputLabel
+						rendered="#{tbCARGOSBean.departamentoEscolhido!=null}"
+						value="Cargo De:" for="idCARGOSSelectInput" />
+					<p:selectOneMenu style="width:300px"
+						rendered="#{tbCARGOSBean.departamentoEscolhido!=null}"
+						value="#{tbCARGOSBean.cargoDe}" id="idCARGOSSelectInput">
+						<f:selectItem noSelectionOption="true" itemLabel="" />
+						<f:selectItems value="#{tbCARGOSBean.distinctCargos}"
+							var="tbCARGO" itemLabel="Cargo De: #{tbCARGO.deSCCARGO}"
+							itemValue="#{tbCARGO}" />
+
+						<p:ajax event="change"
+							listener="#{tbCARGOSBean.autoTrilhas(tbCARGOSBean.cargoDe)}"
+							update="tbCargoPrincipal tbCARGOS" />
+						<o:converter converterId="omnifaces.SelectItemsConverter"
+							list="#{tbCARGOSBean.distinctCargos}" />
+					</p:selectOneMenu>
+
+
+
+
+				</h:panelGrid>
+
+
+
+			</h:form>
+
+
+			<h:form style="margin-left:250px">
+				<h:outputText style="font-size:14px;font-weight:bold;color:black"
+					value="Aderência Mínima: " />
+
+				<p:inputNumber id="AderenciaMinima"
+					value="#{tbCARGOSBean.aderenciaMinima}" symbol="%"
+					symbolPosition="s" emptyValue="sign">
+					<p:ajax event="change"
+						listener="#{tbCARGOSBean.InicializaCargos(tbCARGOSBean.cargoDe)}"
+						update="tbCargoPrincipal tbCARGOS" />
+				</p:inputNumber>
+			</h:form>
+
+		</h:panelGrid>
+
+
+		<h:form prependId="false" id="tbCARGOSDataForm"
+			onkeypress="if (event.keyCode == 13) {return false; }">
+			<h:panelGrid id="tbCargoPrincipal">
+
+				<!--  <p:diagram value="#{tbCARGOSBean.model}"  style="height:400px;background:none !important" styleClass="ui-widget-content" />-->
+
+
+				<p:dataTable id="dtCargoPrincipal"
+					rendered="#{not empty tbCARGOSBean.cargoDe}"
+					value="#{tbCARGOSBean.tbCARGOSListFiltrada}" var="tbCARGOS"
+					style="width:20%" widgetVar="tbCARGOSTable"
+					emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+
+					<f:facet name="header">
+						<h:outputText style="font-size:16px;font-weight:bold"
+							value="Cargo Principal:" />
+					</f:facet>
+
+
+					<p:column
+						style="width:50%;text-align:center;font-size:14px;color:white;font-weight:bold;background:white !important">
+
+						<h:outputText value=" #{tbCARGOS.deSCCARGO}" />
+					</p:column>
+
+				</p:dataTable>
+
+
+
+
+
+
+
+			</h:panelGrid>
+			
+			
+
+			<p:spacer></p:spacer>
+			<p:spacer></p:spacer>
+
+			<h:panelGrid columns="1" style="width:600px" id="tbCARGOS"
+				 >
+
+				 <p:tree value="#{tbCARGOSBean.root}" var="node" orientation="horizontal">
+        <p:treeNode>
+            <h:outputText value="#{node}" />
+        </p:treeNode>
+    </p:tree>
+				<!--<p:dataTable rendered="#{not empty tbCARGOSBean.cargoDe}"
+					id="tbCARGOSTable" value="#{tbCARGOSBean.listaTrilhas}"
+					selection="#{tbCARGOSBean.selectedTrilha}" rowKey="#{tbCARGOS.id}"
+					selectionMode="single"
+					var="tbCARGOS" resizableColumns="true" draggableColumns="true"
+					widgetVar="tbCARGOSTable"
+					emptyMessage="#{messages.label_no_records_found}" >
+					
+					
+					<p:ajax event="rowSelect"
+					listener="#{tbCARGOSBean.selecionaTrilha(tbCARGOSBean.selectedTrilha)}"
+					update=""></p:ajax>
+						
+						
+						 <p:column
+					style="width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					>
+					<h:outputLabel value="#{tbCARGOS.idCARGOPARA.deSCCARGO}" />
+							<h:outputText value=" #{tbCARGOS.adERENCIAFINAL.intValue()}%">
+								<f:convertNumber maxFractionDigits="0" />
+							</h:outputText>
+				</p:column>
+							
+							
+							
+							
+						
+							
+
+					
+					
+
+
+				</p:dataTable>  -->
+				
+			</h:panelGrid>
+					</h:form>
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

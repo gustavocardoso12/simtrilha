@@ -17,18 +17,18 @@
        <!--   <p:button styleClass="button" style="background:#9C1E02;" outcome="/pages/main" value="#{messages.toolbar_home}" />-->
       </f:facet>
       <f:facet name="right">
-        <p:selectOneMenu panelStyleClass="panel" styleClass="MenuLinguagem" value="#{localeBean.selectedLocale}" style="vertical-align:bottom;margin-right:10px">
+     <!--  <p:selectOneMenu panelStyleClass="panel" styleClass="MenuLinguagem" value="#{localeBean.selectedLocale}" style="vertical-align:bottom;margin-right:10px">
           <p:ajax update="@all" />
           <f:selectItems value="#{localeBean.locales}" ></f:selectItems>
-        </p:selectOneMenu>
+        </p:selectOneMenu> --> 
         
-        <p:button style="background:#9C1E02;" outcome="/login" value="#{messages.toolbar_login}"
+        <p:button style="background:#9C1E02;" outcome="/pages/main.xhtml" value="#{messages.toolbar_login}"
                   rendered="#{empty request.remoteUser}"/>
-        <h:outputText value=" #{messages.toolbar_user}: #{request.remoteUser}" rendered="#{not empty request.remoteUser}"
-                  style="margin-right:10px"/>
-        <p:button outcome="/pages/user/profile" value="#{messages.toolbar_profile}" icon="ui-icon-person"
+        <!--  <h:outputText value=" #{messages.toolbar_user}: #{request.remoteUser}" rendered="#{not empty request.remoteUser}"
+                  style="margin-right:10px"/>-->
+        <p:button outcome="/pages/user/profile" style="font-size:14px" value="#{request.remoteUser}" icon="fa fa-user"
                            rendered="#{not empty request.remoteUser}" />
-        <p:commandButton action="#{loginBean.logout}" value="#{messages.toolbar_logout}" icon="ui-icon-key"
+        <p:commandButton action="#{loginBean.logout}" style="font-size:14px"  value="#{messages.toolbar_logout}" icon="fa fa-key"
                       rendered="#{not empty request.remoteUser}" ajax="false"/>
         
       </f:facet>

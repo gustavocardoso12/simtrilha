@@ -17,8 +17,7 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
 
     private static final long serialVersionUID = 1L;
 
-    @Size(max = 50)
-    @Column(length = 50, name="\"deSCCONHECIMENTOSBASICOS\"")
+    @Column(name="DESC_CONHECIMENTOS_BASICOS")
     @NotNull
     private String deSCCONHECIMENTOSBASICOS;
 
@@ -37,7 +36,7 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
     private Date modifiedAt;
     
     @Column(name="PENALIDADE_CONHECBAS")
-    private Double penalidadeConhecBas;
+    private int penalidadeConhecBas;
     
     @Column(name="BLOQUEIA_MOV_CONHECBAS")
     private String bloqueiaMovConhecBas;
@@ -81,11 +80,11 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
         }
     }
 
-	public Double getPenalidadeConhecBas() {
+	public int getPenalidadeConhecBas() {
 		return penalidadeConhecBas;
 	}
 
-	public void setPenalidadeConhecBas(Double penalidadeConhecBas) {
+	public void setPenalidadeConhecBas(int penalidadeConhecBas) {
 		this.penalidadeConhecBas = penalidadeConhecBas;
 	}
 

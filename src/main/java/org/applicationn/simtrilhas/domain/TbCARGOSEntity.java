@@ -21,8 +21,7 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
     @NotNull
     private String deSCCARGO;
 
-    @Size(max = 300)
-    @Column(length = 300, name="MISSAO")
+    @Column(name="MISSAO")
     @NotNull
     private String miSSAO;
 

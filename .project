@@ -81,9 +81,24 @@
 			<location>C:/Users/Gustavo Peixinho/Pictures/can (2).png</location>
 		</link>
 		<link>
+			<name>src/main/webapp/resources/images/icon-user-4.jpg.png</name>
+			<type>1</type>
+			<location>C:/Users/Gustavo Peixinho/Pictures/ArtigoML/icon-user-4.jpg.png</location>
+		</link>
+		<link>
 			<name>src/main/webapp/resources/images/logoAPTA.PNG</name>
 			<type>1</type>
 			<location>C:/Users/Gustavo Peixinho/Desktop/Gráficos/Capturar.PNG</location>
+		</link>
+		<link>
+			<name>src/main/webapp/resources/images/untitled.png</name>
+			<type>1</type>
+			<location>C:/Users/Gustavo Peixinho/Pictures/ArtigoML/untitled.png</location>
+		</link>
+		<link>
+			<name>src/main/webapp/resources/images/user.png</name>
+			<type>1</type>
+			<location>C:/Users/Gustavo Peixinho/Pictures/ArtigoML/user.png</location>
 		</link>
 	</linkedResources>
 </projectDescription>
