@@ -55,11 +55,11 @@ public class TbMATRIZCARGOSEntityTrilhas extends BaseEntity implements Serializa
 
 
 
-    public double getAdERENCIAFINAL() {
+    public Double getAdERENCIAFINAL() {
         return this.adERENCIAFINAL;
     }
 
-    public void setAdERENCIAFINAL(double aderenciafinal2) {
+    public void setAdERENCIAFINAL(Double aderenciafinal2) {
         this.adERENCIAFINAL = aderenciafinal2;
     }
 

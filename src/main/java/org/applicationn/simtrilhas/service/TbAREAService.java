@@ -1,6 +1,7 @@
 package org.applicationn.simtrilhas.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
@@ -33,10 +34,30 @@ public class TbAREAService extends BaseService<TbAREAEntity> implements Serializ
     }
     
     @Transactional
-    public List<String> findDistinctTbAREAEntities() {
+    public List<String> findDistinctTbAREAEntitiesPara() {
     	
 
-        return entityManager.createQuery("SELECT DISTINCT(o.deSCAREA) FROM TbAREA o ", String.class).getResultList();
+        return entityManager.createQuery(""
+        		+ "SELECT o.deSCAREA FROM TbAREA o "
+        		+ "		WHERE o.deSCAREA <> 'PESSOAS' "
+        		+ "		ORDER BY o.id", String.class).getResultList();
+    }
+    
+    @Transactional
+    public List<String> findDistinctTbAREAEntitiesDe(String flag_pessoa) {
+
+    	List<String> result = new ArrayList<>();
+    	if(flag_pessoa== null) {
+
+    	}else {
+    		if (flag_pessoa.equals("NAO")) {
+    			result = entityManager.createQuery("SELECT o.deSCAREA FROM TbAREA o WHERE o.deSCAREA <> 'PESSOAS' ORDER BY o.id", String.class).getResultList();
+    		}else {
+    			result = entityManager.createQuery("SELECT o.deSCAREA FROM TbAREA o ORDER BY o.id", String.class).getResultList();
+    		}
+    	}
+		return result;
+
     }
     
     @Transactional

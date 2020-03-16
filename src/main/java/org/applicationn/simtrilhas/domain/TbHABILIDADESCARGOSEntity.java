@@ -17,12 +17,13 @@ public class TbHABILIDADESCARGOSEntity extends BaseEntity implements Serializabl
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "IDCARGOS_ID", referencedColumnName = "ID")
+    //@ManyToOne(optional=true)
+    
+    //@JoinColumn(name = "IDCARGOS_ID", referencedColumnName = "ID")
     private TbCARGOSEntity idCARGOS;
 
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "IDHABCARGOS_ID", referencedColumnName = "ID")
+    //@ManyToOne(optional=true)
+    //@JoinColumn(name = "IDHABCARGOS_ID", referencedColumnName = "ID")
     private TbHABILIDADESEntity idHABCARGOS;
 
     @Digits(integer = 5,  fraction = 2)

@@ -44,14 +44,14 @@ public class LoginBean implements Serializable {
             return null;
         } else {
         	logged = true;
-            return "/pages/HABILIDADESCARGOSCALC2/Comparacao?faces-redirect=true";
+            return "/trilhas/Aderencias/Comparacao?faces-redirect=true";
         }
     }
 
     public void logout() throws IOException {
     	logged=false;
         SecurityWrapper.logout();
-        String path = FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath() + "/pages/main.xhtml";
+        String path = FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath() + "/trilhas/main.xhtml";
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         FacesContext.getCurrentInstance().getExternalContext().redirect(path);
     }

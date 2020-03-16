@@ -14,6 +14,8 @@ import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCOMPETENCIASCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASICOSEntity;
 import org.applicationn.simtrilhas.service.TbCARGOSService;
@@ -72,10 +74,50 @@ public class TbCONHECIMENTOSBASCARGOSBean extends TbCARGOSBean implements Serial
         reset();
         changeHeaderCadastrar();
         this.tbCONHECIMENTOSBASCARGOS = new TbCONHECIMENTOSBASCARGOSEntity();
+        this.tbCONHECIMENTOSBASCARGOS.setIdCARGOS(tbCARGOS);
         filtraListas(tbCARGOS); 
     }
     
- 
+    public String preencherCBZeros(TbCARGOSEntity tbCARGOS) {
+    	String message ="";
+    	filtraListas(tbCARGOS);
+    	
+    	for(TbCONHECIMENTOSBASICOSEntity listaComp: allIdCONHECBASsList ) {
+    		
+    		TbCONHECIMENTOSBASCARGOSEntity cargos = new TbCONHECIMENTOSBASCARGOSEntity();
+    		
+    		cargos.setIdCARGOS(tbCARGOS);
+    		cargos.setIdCONHECBAS(listaComp);
+    		cargos.setPoNTUACAOCONBAS(0);
+    		
+    		tbCONHECIMENTOSBASCARGOSService.save(cargos);
+    	
+    		
+    		
+    	}
+    	message = "message_successfully_created";
+    	 FacesMessage facesMessage = MessageFactory.getMessage(message);
+         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    	return null;
+        
+    }
+    
+    
+    public String DeletarCB(TbCARGOSEntity tbCARGOS) {
+    	String message ="";
+    	tbCONHECIMENTOSBASICOSCARGOSs = InicializaTabelasAuxiliaresCB(tbCARGOS);
+    	
+    	for(TbCONHECIMENTOSBASCARGOSEntity cargos: tbCONHECIMENTOSBASICOSCARGOSs ) {
+    		
+    		tbCONHECIMENTOSBASCARGOSService.delete(cargos);
+    		
+    	}
+    	message = "message_successfully_deleted";
+    	 FacesMessage facesMessage = MessageFactory.getMessage(message);
+         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    	return null;
+        
+    }
     
     public void onDialogOpen(TbCONHECIMENTOSBASCARGOSEntity tbCONHECIMENTOSBASCARGOS) {
         reset();

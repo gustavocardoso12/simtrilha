@@ -22,12 +22,10 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
     private String deSCCARGO;
 
     @Column(name="MISSAO")
-    @NotNull
     private String miSSAO;
 
-    @Size(max = 500)
-    @Column(length = 500, name="RESPONSABILIDADES")
-    @NotNull
+    @Size(max = 1000)
+    @Column(length = 1000, name="RESPONSABILIDADES")
     private String reSPONSABILIDADES;
 
     @ManyToOne(optional=true)
@@ -37,6 +35,10 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
     @ManyToOne(optional=true)
     @JoinColumn(name = "IDNO_ID", referencedColumnName = "ID")
     private TbNOEntity idNO;
+    
+    @Column(name="FLAG_PESSOA")
+    private String flagPessoa;
+
 
     public String getDeSCCARGO() {
         return this.deSCCARGO;
@@ -76,6 +78,14 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
 
 	public void setIdNO(TbNOEntity idNO) {
 		this.idNO = idNO;
+	}
+
+	public String getFlagPessoa() {
+		return flagPessoa;
+	}
+
+	public void setFlagPessoa(String flagPessoa) {
+		this.flagPessoa = flagPessoa;
 	}
 
 }

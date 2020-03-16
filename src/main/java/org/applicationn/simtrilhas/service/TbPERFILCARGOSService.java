@@ -7,6 +7,8 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILEntity;
 
@@ -46,7 +48,40 @@ public class TbPERFILCARGOSService extends BaseService<TbPERFILCARGOSEntity> imp
 
     @Transactional
     public List<TbPERFILCARGOSEntity> findTbPERFILCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbPERFILCARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.id", TbPERFILCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbPERFILCARGOS o WHERE o.idCARGOS = :tbCARGOS AND o.poNTUACAOPERFIL > 0 ORDER BY o.id", TbPERFILCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<TbPERFILCARGOSEntity> findTbPERFILCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS, TbCARGOSEntity tbCARGOSPARA) {
+    	return entityManager.createNativeQuery(  "SELECT o.id, o.version, cb.PONTUACAO_PERFIL, o.IDCARGOS_ID, o.IDPERFIL_ID FROM TB_PERFIL_CARGOS o " + 
+    			"             full outer join " + 
+    			"        	 TB_PERFIL_CARGOS cb " + 
+    			"        		ON ( cb.IDCARGOS_ID = :tbCARGOS  and  o.IDPERFIL_ID = cb.IDPERFIL_ID) " + 
+    			"                where (o.IDCARGOS_ID = :tbCARGOSPARA) ORDER BY cb.IDPERFIL_ID", TbPERFILCARGOSEntity.class)
+        		.setParameter("tbCARGOS", tbCARGOS)
+        		.setParameter("tbCARGOSPARA", tbCARGOSPARA).getResultList();
+    }
+    
+  
+    
+    
+    @SuppressWarnings("unchecked")
+   	public List<TbPERFILCARGOSEntity> findTbPERFILCARGOSsByIdCARGOSPARA(TbCARGOSEntity tbCARGOS, TbCARGOSEntity tbCARGOSPARA) {
+           return entityManager.createNativeQuery("SELECT o.* FROM TB_PERFIL_CARGOS o " + 
+        			"             full outer join " + 
+        			"        	 TB_PERFIL_CARGOS cb " + 
+        			"        		ON ( cb.IDCARGOS_ID = :tbCARGOS  and  o.IDPERFIL_ID = cb.IDPERFIL_ID) " + 
+        			"                where (o.IDCARGOS_ID = :tbCARGOSPARA) ORDER BY cb.IDPERFIL_ID", TbPERFILCARGOSEntity.class)
+           		.setParameter("tbCARGOS", tbCARGOS)
+           		.setParameter("tbCARGOSPARA", tbCARGOSPARA).getResultList();
+       }
+       
+    
+   
+    
+    @Transactional
+    public List<TbPERFILCARGOSEntity> findTbPERFILCARGOSsByIdCARGOSOrder(TbCARGOSEntity tbCARGOS) {
+        return entityManager.createQuery("SELECT o FROM TbPERFILCARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.id,o.poNTUACAOPERFIL DESC", TbPERFILCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional

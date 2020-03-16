@@ -17,11 +17,9 @@ public class TbMATRIZCARGOSEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name="ID_CARGODE")
-    @Digits(integer = 4, fraction = 0)
     private Long idCARGODE;
 
     @Column(name="ID_CARGOPARA")
-    @Digits(integer = 4, fraction = 0)
     private Long idCARGOPARA;
 
     @Column(name="ADERENCIA_FINAL")
@@ -47,6 +45,9 @@ public class TbMATRIZCARGOSEntity extends BaseEntity implements Serializable {
     
     @Column(name="ESTAGNADO")
     private String estaganado; 
+    
+    @Column(name="FLAG_PESSOA")
+    private String flagPessoa; 
     
     public Long getIdCARGODE() {
         return this.idCARGODE;
@@ -114,6 +115,14 @@ public class TbMATRIZCARGOSEntity extends BaseEntity implements Serializable {
 
 	public void setEstaganado(String estaganado) {
 		this.estaganado = estaganado;
+	}
+
+	public String getFlagPessoa() {
+		return flagPessoa;
+	}
+
+	public void setFlagPessoa(String flagPessoa) {
+		this.flagPessoa = flagPessoa;
 	}
     
 }

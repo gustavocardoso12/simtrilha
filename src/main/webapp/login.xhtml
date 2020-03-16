@@ -33,18 +33,20 @@
                     <h:outputLabel for="rememberMe" value="Manter-me Conectado:" />
                     <h:selectBooleanCheckbox id="rememberMe" value="#{loginBean.remember}" />
                     <h:panelGroup />
-    
-                    <f:facet name="footer">
+   
+                <f:facet name="footer">
                         <p:commandButton type="submit" id="login" ajax="false"
                             action="#{loginBean.login}" value="#{messages.login_login}" style="float:right"/>
                     </f:facet>
-                </p:panelGrid>
+                    
+                      </p:panelGrid>
+                   <!-- 
                 
                 <f:facet name="footer">
-                    <h:link outcome="/pages/userManagement/resetPassword"><h:outputText value="Esqueceu a senha?" /></h:link>
+                    <h:link outcome="/trilhas/userManagement/resetPassword"><h:outputText value="Esqueceu a senha?" /></h:link>
                     <br/>
-                    <h:link outcome="/pages/user/register"><h:outputText value="Criar conta" /></h:link>
-                </f:facet>
+                    <h:link outcome="/trilhas/user/register"><h:outputText value="Criar conta" /></h:link>
+                </f:facet>--> 
                 
             </p:panel>
         </div>

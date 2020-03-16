@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.applicationn.simtrilhas.domain.BaseEntity;
 
 @Entity
-@Table(name="\"ROLE_PERMISSIONS\"")
+@Table(name="ROLE_PERMISSIONS")
 public class RolePermission extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

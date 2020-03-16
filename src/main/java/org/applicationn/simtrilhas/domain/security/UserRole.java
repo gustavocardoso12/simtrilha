@@ -5,5 +5,5 @@ package org.applicationn.simtrilhas.domain.security;
  * */
 public enum UserRole {
 
-    Administrator, Registered;
+    Administrator, Colaborador;
 }

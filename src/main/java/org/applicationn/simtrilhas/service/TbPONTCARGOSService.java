@@ -1,6 +1,7 @@
 package org.applicationn.simtrilhas.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
@@ -20,9 +21,20 @@ public class TbPONTCARGOSService extends BaseService<TbPONTCARGOSEntity> impleme
     }
     
     @Transactional
-    public List<TbPONTCARGOSEntity> findAllTbPONTCARGOSEntities() {
-        
-        return entityManager.createQuery("SELECT o FROM TbPONTCARGOS o order by o.id", TbPONTCARGOSEntity.class).getResultList();
+    public List<TbPONTCARGOSEntity> findAllTbPONTCARGOSEntities(String BancoDados) {
+    	List<TbPONTCARGOSEntity>  result = new ArrayList<>();
+    	
+    	
+    	switch (BancoDados) {
+    		case "Moura": 
+    			result = entityManager.createQuery("SELECT o FROM TbPONTCARGOS o order by o.id", TbPONTCARGOSEntity.class).getResultList();
+    			break;
+    		case "Cocamar":
+    			result = entityManagerCocamar.createQuery("SELECT o FROM TbPONTCARGOS o order by o.id", TbPONTCARGOSEntity.class).getResultList();
+    			break;
+    	}
+   
+        return result;
     }
     
     

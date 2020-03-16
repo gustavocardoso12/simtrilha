@@ -27,7 +27,7 @@ public class TbCONHECIMENTOSBASCARGOSEntity extends BaseEntity implements Serial
 
 
     @Column(name="PONTUACAOCONBAS")
-    private int poNTUACAOCONBAS;
+    private Integer poNTUACAOCONBAS;
 
     public TbCARGOSEntity getIdCARGOS() {
         return this.idCARGOS;
@@ -45,12 +45,14 @@ public class TbCONHECIMENTOSBASCARGOSEntity extends BaseEntity implements Serial
         this.idCONHECBAS = tbCONHECIMENTOSBASICOS;
     }
 
-    public int getPoNTUACAOCONBAS() {
-        return this.poNTUACAOCONBAS;
-    }
+	public Integer getPoNTUACAOCONBAS() {
+		return poNTUACAOCONBAS;
+	}
 
-    public void setPoNTUACAOCONBAS(int poNTUACAOCONBAS) {
-        this.poNTUACAOCONBAS = poNTUACAOCONBAS;
-    }
+	public void setPoNTUACAOCONBAS(Integer poNTUACAOCONBAS) {
+		this.poNTUACAOCONBAS = poNTUACAOCONBAS;
+	}
+
+
 
 }

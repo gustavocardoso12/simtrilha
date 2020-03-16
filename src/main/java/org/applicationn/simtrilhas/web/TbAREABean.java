@@ -44,11 +44,11 @@ public class TbAREABean implements Serializable {
     }
 
     public void changeHeaderCadastrar() {
-        setDialogHeader("Cadastrar Área");
+        setDialogHeader("Cadastrar Família");
     }
     
     public void changeHeaderEditar() {
-        setDialogHeader("Editar Área");
+        setDialogHeader("Editar Família");
     }
     
     

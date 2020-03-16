@@ -5,14 +5,26 @@ xsi:schemaLocation="
 http://xmlns.jcp.org/xml/ns/persistence
 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
-    <persistence-unit name="persistenceUnit" transaction-type="JTA">
-      
-        
-      <!--  <jta-data-source>java:/MSSQLDS</jta-data-source>-->
-           <jta-data-source>java:/SimTrilhasProdDS</jta-data-source>
+    <persistence-unit name="Moura" transaction-type="JTA">
+        <jta-data-source>java:/SimTrilhasProdDS</jta-data-source>
+          <!--  <jta-data-source>java:/OracleDS</jta-data-source> -->
+         
 	    <properties>
-	   <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2008Dialect"/>
-	     <!-- <property name="hibernate.hbm2ddl.auto" value="create"/> -->
+	  <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2012Dialect"/> 
+	   <property name="hibernate.jdbc.batch_size" value="10000"/>
+		<property name="hibernate.default_schema" value="dbo"/>
+	    </properties>
+    </persistence-unit>
+    
+    
+    
+     <persistence-unit name="Cocamar" transaction-type="JTA">
+       <!-- <jta-data-source>java:/OracleDS</jta-data-source> -->
+       <jta-data-source>java:/SimTrilhasProdDS</jta-data-source>
+	    <properties>
+	 <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2012Dialect"/>
+	 <property name="hibernate.jdbc.batch_size" value="10000"/>
+	<property name="hibernate.default_schema" value="dbo"/>
 
 	    </properties>
     </persistence-unit>

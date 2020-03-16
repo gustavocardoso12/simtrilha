@@ -12,12 +12,18 @@ import org.primefaces.model.SortOrder;
 
 public class BaseService<T extends BaseEntity> {
 
-    @PersistenceContext
+	@PersistenceContext(unitName = "Moura")
     protected EntityManager entityManager;
 
+	@PersistenceContext(unitName = "Cocamar")
+    protected EntityManager entityManagerCocamar;
+	
     public BaseService() {
+    	
+    	
     }
     
+       
     private Class<T> type;
 
     public BaseService(Class<T> type) {

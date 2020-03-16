@@ -48,6 +48,8 @@ public class TbCOMPETENCIASCARGOSBean extends TbCARGOSBean  implements Serializa
     
     private List<TbCARGOSEntity> allIdCARGOSsList;
     
+    private List<TbCARGOSEntity> ListaCargos;
+    
     private String dialogHeader;
 
     public void setDialogHeader(final String dialogHeader) { 
@@ -70,9 +72,56 @@ public class TbCOMPETENCIASCARGOSBean extends TbCARGOSBean  implements Serializa
     public void prepareNewTbCOMPETENCIASCARGOS(TbCARGOSEntity tbCARGOS) {
         reset();
         changeHeaderCadastrar();
+        
         this.tbCOMPETENCIASCARGOS = new TbCOMPETENCIASCARGOSEntity();
+        this.tbCOMPETENCIASCARGOS.setIdCARGOS(tbCARGOS);
         filtraListas(tbCARGOS); 
     }
+    
+    
+    
+    
+    public String preencherCompetenciasZeros(TbCARGOSEntity tbCARGOS) {
+    	String message ="";
+    	filtraListas(tbCARGOS);
+    	
+    	for(TbCOMPETENCIASEntity listaComp: allIdCOMPETENCIASsList ) {
+    		
+    		TbCOMPETENCIASCARGOSEntity cargos = new TbCOMPETENCIASCARGOSEntity();
+    		
+    		cargos.setIdCARGOS(tbCARGOS);
+    		cargos.setIdCOMPETENCIAS(listaComp);
+    		cargos.setPoNTUACAOCOMPETENCIA(0);
+    		
+    		tbCOMPETENCIASCARGOSService.save(cargos);
+    	
+    		
+    		
+    	}
+    	message = "message_successfully_created";
+    	 FacesMessage facesMessage = MessageFactory.getMessage(message);
+         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    	return null;
+        
+    }
+    
+    
+    public String DeletarCompetencias(TbCARGOSEntity tbCARGOS) {
+    	String message ="";
+    	tbCOMPETENCIASCARGOSs = InicializaTabelasAuxiliaresCO(tbCARGOS);
+    	
+    	for(TbCOMPETENCIASCARGOSEntity cargos: tbCOMPETENCIASCARGOSs ) {
+    		
+    		tbCOMPETENCIASCARGOSService.delete(cargos);
+    		
+    	}
+    	message = "message_successfully_deleted";
+    	 FacesMessage facesMessage = MessageFactory.getMessage(message);
+         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    	return null;
+        
+    }
+    
     
     public void filtraListas(TbCARGOSEntity tbCARGOS) {
 
@@ -105,7 +154,38 @@ public class TbCOMPETENCIASCARGOSBean extends TbCARGOSBean  implements Serializa
 		}
 	}
     
-    
+    public String persist(TbCOMPETENCIASCARGOSEntity tbCOMPETENCIASCARGOS) {
+
+        String message;
+        
+        try {
+            
+            if (tbCOMPETENCIASCARGOS.getId() != null) {
+                tbCOMPETENCIASCARGOS = tbCOMPETENCIASCARGOSService.update(tbCOMPETENCIASCARGOS);
+                message = "message_successfully_updated";
+            } else {
+                tbCOMPETENCIASCARGOS = tbCOMPETENCIASCARGOSService.save(tbCOMPETENCIASCARGOS);
+                message = "message_successfully_created";
+            }
+        } catch (OptimisticLockException e) {
+            logger.log(Level.SEVERE, "Error occured", e);
+            message = "message_optimistic_locking_exception";
+            // Set validationFailed to keep the dialog open
+            FacesContext.getCurrentInstance().validationFailed();
+        } catch (PersistenceException e) {
+            logger.log(Level.SEVERE, "Error occured", e);
+            message = "message_save_exception";
+            // Set validationFailed to keep the dialog open
+            FacesContext.getCurrentInstance().validationFailed();
+        }
+        
+        tbCOMPETENCIASCARGOSList = null;
+
+        FacesMessage facesMessage = MessageFactory.getMessage(message);
+        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+        
+        return null;
+    }
     
 
     public String persist() {
@@ -234,5 +314,13 @@ public class TbCOMPETENCIASCARGOSBean extends TbCARGOSBean  implements Serializa
         return SecurityWrapper.isPermitted(permission);
         
     }
+
+	public List<TbCARGOSEntity> getListaCargos() {
+		return ListaCargos;
+	}
+
+	public void setListaCargos(List<TbCARGOSEntity> listaCargos) {
+		ListaCargos = listaCargos;
+	}
     
 }

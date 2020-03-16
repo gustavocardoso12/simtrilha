@@ -6,15 +6,21 @@
       xmlns:p="http://primefaces.org/ui">
 <ui:composition>
   <h:form>
-    <h:link outcome="/pages/main" style="float:left">
+    <h:link rendered="#{userBean.user.theme=='MOURA'}" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/moura.PNG" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
+    
+    <h:link rendered="#{userBean.user.theme=='APTA' or userBean.user.theme==null}" outcome="/trilhas/main" style="float:left">
       <h:graphicImage name="images/logoAPTA.PNG" alt="logo" height="48px" style="margin-right:10px"/>
     </h:link>
-    <span style="font-size:2em;color:#5C2C5E;height:48px;vertical-align:middle;display:table-cell;font-weight:bold">
+    
+    
+    <span style="font-size:2em;color:#12367A;height:48px;vertical-align:middle;display:table-cell;font-weight:bold">
       <h:outputText value="#{messages.application_name}" />
     </span>
-    <p:toolbar style="margin-top:5px;background:#410D34;width:100%">
+    <p:toolbar styleClass="toolbar">
       <f:facet name="left">
-       <!--   <p:button styleClass="button" style="background:#9C1E02;" outcome="/pages/main" value="#{messages.toolbar_home}" />-->
+       <!--   <p:button styleClass="button" style="background:#9C1E02;" outcome="/trilhas/main" value="#{messages.toolbar_home}" />-->
       </f:facet>
       <f:facet name="right">
      <!--  <p:selectOneMenu panelStyleClass="panel" styleClass="MenuLinguagem" value="#{localeBean.selectedLocale}" style="vertical-align:bottom;margin-right:10px">
@@ -22,11 +28,16 @@
           <f:selectItems value="#{localeBean.locales}" ></f:selectItems>
         </p:selectOneMenu> --> 
         
-        <p:button style="background:#9C1E02;" outcome="/pages/main.xhtml" value="#{messages.toolbar_login}"
+        <p:button style="background:#9C1E02;" outcome="/trilhas/main.xhtml" value="#{messages.toolbar_login}"
                   rendered="#{empty request.remoteUser}"/>
         <!--  <h:outputText value=" #{messages.toolbar_user}: #{request.remoteUser}" rendered="#{not empty request.remoteUser}"
                   style="margin-right:10px"/>-->
-        <p:button outcome="/pages/user/profile" style="font-size:14px" value="#{request.remoteUser}" icon="fa fa-user"
+                  
+                  
+        <p:button  style="font-size:14px" value="#{userBean.user.theme}"
+                           rendered="#{not empty request.remoteUser}" /> 
+                  
+        <p:button outcome="/trilhas/user/profile" style="font-size:14px" value="#{request.remoteUser}" icon="fa fa-user"
                            rendered="#{not empty request.remoteUser}" />
         <p:commandButton action="#{loginBean.logout}" style="font-size:14px"  value="#{messages.toolbar_logout}" icon="fa fa-key"
                       rendered="#{not empty request.remoteUser}" ajax="false"/>

@@ -16,8 +16,11 @@ import javax.persistence.PersistenceException;
 
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPECIFICOSEntity;
 import org.applicationn.simtrilhas.domain.TbPONTCARGOSEntity;
+import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
+import org.applicationn.simtrilhas.service.security.UserService;
+import org.applicationn.simtrilhas.web.security.UserBean;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 
 @Named("tbPONTCARGOSBean")
@@ -25,6 +28,8 @@ import org.applicationn.simtrilhas.web.util.MessageFactory;
 public class TbPONTCARGOSBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    private UserEntity user;
 
     private static final Logger logger = Logger.getLogger(TbPONTCARGOSBean.class.getName());
     
@@ -38,6 +43,9 @@ public class TbPONTCARGOSBean implements Serializable {
     
     @Inject
     private TbPONTCARGOSService tbPONTCARGOSService;
+    
+    @Inject
+    private UserService userService;
     
     public void prepareNewTbPONTCARGOS() {
         reset();
@@ -183,7 +191,10 @@ public class TbPONTCARGOSBean implements Serializable {
     
     public List<TbPONTCARGOSEntity> getTbPONTCARGOSList() {
         if (tbPONTCARGOSList == null) {
-            tbPONTCARGOSList = tbPONTCARGOSService.findAllTbPONTCARGOSEntities();
+        	
+        	user = userService.getCurrentUser();
+        	
+            tbPONTCARGOSList = tbPONTCARGOSService.findAllTbPONTCARGOSEntities(user.getBanco_dados());
             
             somaPeso = 0;
             

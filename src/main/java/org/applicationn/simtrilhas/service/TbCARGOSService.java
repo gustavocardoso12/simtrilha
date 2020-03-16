@@ -1,6 +1,7 @@
 package org.applicationn.simtrilhas.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
@@ -23,9 +24,24 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     @Transactional
     public List<TbCARGOSEntity> findAllTbCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
     }
     
+    @Transactional
+    public List<TbCARGOSEntity> findAllTbCARGOSEntitiesMatriz(String flag_pessoa) {
+        
+    	List<TbCARGOSEntity> result = new ArrayList<>();
+    	if(flag_pessoa== null) {
+
+    	}else {
+    		if (flag_pessoa.equals("NAO")) {
+    			result = entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
+    		}else {
+    			result = entityManager.createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
+    		}
+    	}
+		return result;
+    }
     
     
     
@@ -47,10 +63,29 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     			.getResultList();
     }
     
+    @Transactional
+    public List<TbCARGOSEntity> findTbCARGOSSPessoasEntities() {
+        
+    	return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class)
+    			.getResultList();
+    }
+    
+    @Transactional
+    public List<TbCARGOSEntity> AllTbCARGOSEntities() {
+        
+    	return entityManager.createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id DESC ", TbCARGOSEntity.class)
+    			.getResultList();
+    }
+    
     @Override
     @Transactional
     public long countAllEntries() {
         return entityManager.createQuery("SELECT COUNT(o) FROM TbCARGOS o", Long.class).getSingleResult();
+    }
+    
+    @Transactional
+    public long UltimoID() {
+        return entityManager.createQuery("SELECT MAX(o.id) FROM TbCARGOS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -67,6 +102,27 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
         
         this.cutAllIdCARGOSTbMOTIVADORESCARGOSsAssignments(tbCARGOS);
         
+      this.cutAllIdCARGOSTbONHECESPCARGOSsAssignments(tbCARGOS);
+      
+      this.cutAllIdCARGOSTbONHECBASCARGOSsAssignments(tbCARGOS);
+        
+        
+    }
+    
+ // Remove all assignments from all tbCOMPETENCIASCARGOS a tbCARGOS. Called before delete a tbCARGOS.
+    @Transactional
+    private void cutAllIdCARGOSTbONHECBASCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
+        entityManager
+                .createQuery("UPDATE TbCONHECIMENTOSBASCARGOS c SET c.idCARGOS = NULL WHERE c.idCARGOS = :p")
+                .setParameter("p", tbCARGOS).executeUpdate();
+    }
+    
+    // Remove all assignments from all tbCOMPETENCIASCARGOS a tbCARGOS. Called before delete a tbCARGOS.
+    @Transactional
+    private void cutAllIdCARGOSTbONHECESPCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
+        entityManager
+                .createQuery("UPDATE TbCONHECIMENTOSESPCARGOS c SET c.idCARGOS = NULL WHERE c.idCARGOS = :p")
+                .setParameter("p", tbCARGOS).executeUpdate();
     }
 
     // Remove all assignments from all tbCOMPETENCIASCARGOS a tbCARGOS. Called before delete a tbCARGOS.
@@ -96,9 +152,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     // Remove all assignments from all tbMOTIVADORESCARGOS a tbCARGOS. Called before delete a tbCARGOS.
     @Transactional
     private void cutAllIdCARGOSTbMOTIVADORESCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
-        entityManager
-                .createQuery("UPDATE TbMOTIVADORESCARGOS c SET c.idCARGOS = NULL WHERE c.idCARGOS = :p")
-                .setParameter("p", tbCARGOS).executeUpdate();
+ 
     }
     
     @Transactional

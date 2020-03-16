@@ -51,17 +51,18 @@ public class TbDEPTOBean implements Serializable {
     }
 
     public void changeHeaderCadastrar() {
-        setDialogHeader("Cadastrar Departamento");
+        setDialogHeader("Cadastrar Sub-Família");
     }
     
     public void changeHeaderEditar() {
-        setDialogHeader("Editar Departamento");
+        setDialogHeader("Editar Sub-família");
     }
     
     
     public void prepareNewTbDEPTO() {
         reset();
         this.tbDEPTO = new TbDEPTOEntity();
+        changeHeaderCadastrar();
         // set any default values now, if you need
         // Example: this.tbDEPTO.setAnything("test");
     }
@@ -131,6 +132,7 @@ public class TbDEPTOBean implements Serializable {
     public void onDialogOpen(TbDEPTOEntity tbDEPTO) {
         reset();
         this.tbDEPTO = tbDEPTO;
+        changeHeaderEditar();
     }
     
     public void reset() {

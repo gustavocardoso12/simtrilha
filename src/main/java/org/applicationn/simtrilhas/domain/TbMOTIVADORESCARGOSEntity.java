@@ -17,12 +17,12 @@ public class TbMOTIVADORESCARGOSEntity extends BaseEntity implements Serializabl
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "IDCARGOS_ID", referencedColumnName = "ID")
+    //@ManyToOne(optional=true)
+    //@JoinColumn(name = "IDCARGOS_ID", referencedColumnName = "ID")
     private TbCARGOSEntity idCARGOS;
 
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "IDMOTIVADORES_ID", referencedColumnName = "ID")
+    //@ManyToOne(optional=true)
+    //@JoinColumn(name = "IDMOTIVADORES_ID", referencedColumnName = "ID")
     private TbMOTIVADORESEntity idMOTIVADORES;
 
     @Digits(integer = 5,  fraction = 2)

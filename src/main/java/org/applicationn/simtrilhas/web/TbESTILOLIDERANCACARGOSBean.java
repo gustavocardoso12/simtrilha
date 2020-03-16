@@ -79,7 +79,7 @@ public class TbESTILOLIDERANCACARGOSBean extends TbCARGOSBean implements Seriali
     
     public void filtraListas(TbCARGOSEntity tbCARGOS) {
 
-    	tbESTILOLIDERANCAs = InicializaTabelasAuxiliaresEST(tbCARGOS);
+    	
 		allIdESTLIDERsList= tbESTILOLIDERANCAService.findAllTbESTILOLIDERANCAEntities();
 		for(int i=0;i<this.getTbESTILOLIDERANCAs().size();i++) {
 			for(int j=0;j<allIdESTLIDERsList.size();j++) {

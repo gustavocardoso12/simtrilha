@@ -14,6 +14,8 @@ import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASICOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPECIFICOSEntity;
 import org.applicationn.simtrilhas.service.TbCARGOSService;
@@ -75,14 +77,57 @@ public class TbCONHECIMENTOSESPCARGOSBean extends TbCARGOSBean implements Serial
         reset();
         changeHeaderCadastrar();
         this.tbCONHECIMENTOSESPCARGOS = new TbCONHECIMENTOSESPCARGOSEntity();
+        this.tbCONHECIMENTOSESPCARGOS.setIdCARGOS(tbCARGOS);
         filtraListas(tbCARGOS);
     }
-
+    
+    
+    public String preencherCBZeros(TbCARGOSEntity tbCARGOS) {
+    	String message ="";
+    	filtraListas(tbCARGOS);
+    	
+    	for(TbCONHECIMENTOSESPECIFICOSEntity listaComp: allIdCONHECESPsList ) {
+    		
+    		TbCONHECIMENTOSESPCARGOSEntity cargos = new TbCONHECIMENTOSESPCARGOSEntity();
+    		
+    		cargos.setIdCARGOS(tbCARGOS);
+    		cargos.setIdCONHECESP(listaComp);
+    		cargos.setPoNTUACAOCONESP(0);
+    		
+    		tbCONHECIMENTOSESPCARGOSService.save(cargos);
+    	
+    		
+    		
+    	}
+    	message = "message_successfully_created";
+    	 FacesMessage facesMessage = MessageFactory.getMessage(message);
+         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    	return null;
+        
+    }
+    
+    
+    public String DeletarCB(TbCARGOSEntity tbCARGOS) {
+    	String message ="";
+    	tbCONHECIMENTOSESPCARGOSs = InicializaTabelasAuxiliaresCE(tbCARGOS);
+    	
+    	for(TbCONHECIMENTOSESPCARGOSEntity cargos: tbCONHECIMENTOSESPCARGOSs ) {
+    		
+    		tbCONHECIMENTOSESPCARGOSService.delete(cargos);
+    		
+    	}
+    	message = "message_successfully_deleted";
+    	 FacesMessage facesMessage = MessageFactory.getMessage(message);
+         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    	return null;
+        
+    }
     
     public void onDialogOpen(TbCONHECIMENTOSESPCARGOSEntity tbCONHECIMENTOSESPCARGOS) {
         reset();
         changeHeaderEditar();
         this.tbCONHECIMENTOSESPCARGOS = tbCONHECIMENTOSESPCARGOS;
+        
     }
     
     public void filtraListas(TbCARGOSEntity tbCARGOS) {

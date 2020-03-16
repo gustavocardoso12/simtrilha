@@ -36,31 +36,17 @@
                     </f:facet>
                 </p:panelGrid>
                 
-                <f:facet name="footer" rendered="#{loginBean.logged == false}">
-                    <h:link outcome="/pages/userManagement/resetPassword"><h:outputText value="Esqueceu a senha?" /></h:link>
+               <!-- <f:facet name="footer" rendered="#{loginBean.logged == false}">
+                    <h:link outcome="/trilhas/userManagement/resetPassword"><h:outputText value="Esqueceu a senha?" /></h:link>
                     <br/>
-                    <h:link outcome="/pages/user/register"><h:outputText value="Criar conta" /></h:link>
-                </f:facet>
+                    <h:link outcome="/trilhas/user/register"><h:outputText value="Criar conta" /></h:link>
+                </f:facet>-->
                 
             </p:panel>
         </div>
     </h:form>
 	
-		<!--  <p:panel  style="background:white;height:100%" id="mainPanel">
-			<div  align="center">
-				<p:carousel   rows="1" effect="easeInStrong"
-					circular="true" style="background:white;border:none" itemStyle="background:white;height:400px;width:600px;">
-
-					<h:form style="border-style: none;">
-					</h:form>
-					
-
-					</p:carousel>
-			</div>
-			
-			
-			
-		</p:panel>-->
+	
 	</ui:define>
 </ui:composition>
 </html>

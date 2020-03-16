@@ -26,8 +26,7 @@ public class TbCOMPETENCIASCARGOSEntity extends BaseEntity implements Serializab
 
 
     @Column(name="PONTUACAO_COMPETENCIA")
-    @NotNull
-    private int poNTUACAOCOMPETENCIA;
+    private Integer poNTUACAOCOMPETENCIA;
 
     public TbCOMPETENCIASEntity getIdCOMPETENCIAS() {
         return this.idCOMPETENCIAS;
@@ -45,11 +44,11 @@ public class TbCOMPETENCIASCARGOSEntity extends BaseEntity implements Serializab
         this.idCARGOS = tbCARGOS;
     }
 
-    public int getPoNTUACAOCOMPETENCIA() {
+    public Integer getPoNTUACAOCOMPETENCIA() {
         return this.poNTUACAOCOMPETENCIA;
     }
 
-    public void setPoNTUACAOCOMPETENCIA(int poNTUACAOCOMPETENCIA) {
+    public void setPoNTUACAOCOMPETENCIA(Integer poNTUACAOCOMPETENCIA) {
         this.poNTUACAOCOMPETENCIA = poNTUACAOCOMPETENCIA;
     }
 

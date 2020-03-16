@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPECIFICOSEntity;
 
@@ -43,10 +44,43 @@ public class TbCONHECIMENTOSESPCARGOSService extends BaseService<TbCONHECIMENTOS
     public List<TbCONHECIMENTOSESPCARGOSEntity> findAvailableTbCONHECIMENTOSESPCARGOSs(TbCARGOSEntity tbCARGOS) {
         return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSESPCARGOS o WHERE o.idCARGOS IS NULL", TbCONHECIMENTOSESPCARGOSEntity.class).getResultList();
     }
-
+    
+    
     @Transactional
     public List<TbCONHECIMENTOSESPCARGOSEntity> findTbCONHECIMENTOSESPCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSESPCARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.id", TbCONHECIMENTOSESPCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSESPCARGOS o WHERE o.idCARGOS = :tbCARGOS AND o.poNTUACAOCONESP >0 order by o.id", TbCONHECIMENTOSESPCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<TbCONHECIMENTOSESPCARGOSEntity> findTbCONHECIMENTOSESPCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS, TbCARGOSEntity tbCARGOSPARA) {
+    	return entityManager.createNativeQuery( "SELECT o.id, o.version, cb.PONTUACAO_CON_ESP, o.IDCARGOS_ID, o.IDCONHECESP_ID FROM TBCONHECIMENTOSESPCARGOS o " + 
+    			"             full outer join " + 
+    			"        	 TBCONHECIMENTOSESPCARGOS cb " + 
+    			"        		ON ( cb.IDCARGOS_ID = :tbCARGOS  and  o.IDCONHECESP_ID = cb.IDCONHECESP_ID) " + 
+    			"                where (o.IDCARGOS_ID = :tbCARGOSPARA) ORDER BY cb.IDCONHECESP_ID", TbCONHECIMENTOSESPCARGOSEntity.class)
+        		.setParameter("tbCARGOS", tbCARGOS)
+        		.setParameter("tbCARGOSPARA", tbCARGOSPARA).getResultList();
+    }
+    
+   
+    
+    @SuppressWarnings("unchecked")
+    public List<TbCONHECIMENTOSESPCARGOSEntity> findTbCONHECIMENTOSESPCARGOSsByIdCARGOSPARA(TbCARGOSEntity tbCARGOS, TbCARGOSEntity tbCARGOSPARA) {
+    	return entityManager.createNativeQuery( " SELECT o.* FROM TBCONHECIMENTOSESPCARGOS o " + 
+    			"             full outer join " + 
+    			"        	 TBCONHECIMENTOSESPCARGOS cb " + 
+    			"        		ON ( cb.IDCARGOS_ID = :tbCARGOS  and  o.IDCONHECESP_ID = cb.IDCONHECESP_ID) " + 
+    			"                where (o.IDCARGOS_ID = :tbCARGOSPARA) ORDER BY cb.IDCONHECESP_ID"
+    		    , TbCONHECIMENTOSESPCARGOSEntity.class)
+        		.setParameter("tbCARGOS", tbCARGOS)
+        		.setParameter("tbCARGOSPARA", tbCARGOSPARA).getResultList();
+    }
+    
+    
+   
+    @Transactional
+    public List<TbCONHECIMENTOSESPCARGOSEntity> findTbCONHECIMENTOSESPCARGOSsByIdCARGOSOrder(TbCARGOSEntity tbCARGOS) {
+        return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSESPCARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.id, o.poNTUACAOCONESP DESC", TbCONHECIMENTOSESPCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional

@@ -71,6 +71,7 @@ public class TbPERFILCARGOSBean extends TbCARGOSBean implements Serializable {
         reset();
         changeHeaderCadastrar();
         this.tbPERFILCARGOS = new TbPERFILCARGOSEntity();
+        this.tbPERFILCARGOS.setIdCARGOS(tbCARGOS);
         filtraListas(tbCARGOS); 
     }
     
@@ -86,6 +87,7 @@ public class TbPERFILCARGOSBean extends TbCARGOSBean implements Serializable {
 					allIdPERFILsList.remove(allIdPERFILsList.get(j));
 				}
 			}
+			
 		}
 		
 		allIdCARGOSsList = tbCARGOSService.findAllTbCARGOSEntities();
@@ -181,10 +183,10 @@ public class TbPERFILCARGOSBean extends TbCARGOSBean implements Serializable {
 
     // Get a List of all idCARGOS
     public List<TbCARGOSEntity> getIdCARGOSs() {
-        if (this.allIdCARGOSsList == null) {
-            this.allIdCARGOSsList = tbCARGOSService.findAllTbCARGOSEntities();
+        if (allIdCARGOSsList == null) {
+            allIdCARGOSsList = tbCARGOSService.findAllTbCARGOSEntities();
         }
-        return this.allIdCARGOSsList;
+        return allIdCARGOSsList;
     }
     
     // Update idCARGOS of the current tbPERFILCARGOS

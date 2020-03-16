@@ -27,8 +27,9 @@ public class RegistrationMailSender implements Serializable {
 
     private static final Logger logger = Logger.getLogger(RegistrationMailSender.class.getName());
 
-    private static final String REGISTRATION_SUBJECT = "registration subject";
-    private static final String REGISTRATION_MESSAGE = "registration message\nLink:";
+    private static final String REGISTRATION_SUBJECT = "Link de Ativação da conta do Simulador de Trilhas de carreira";
+    private static final String REGISTRATION_MESSAGE = "Seja bem-vindo ao simulador de trilhas de carreira, "
+    		+ "caso o link não funcione, cole-o na barra de navegação do seu broser\nLink:";
     private static final String PW_RESET_SUBJECT = "password reset subject";
     private static final String PW_RESET_MESSAGE = "password reset message\nLink:";
     

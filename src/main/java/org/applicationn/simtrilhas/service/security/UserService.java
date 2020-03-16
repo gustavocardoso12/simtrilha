@@ -37,6 +37,16 @@ public class UserService extends BaseService<UserEntity> implements Serializable
     public List<UserEntity> findAllUserEntities() {
         return entityManager.createQuery("SELECT o FROM User o", UserEntity.class).getResultList();
     }
+    
+    @Transactional
+    public UserEntity getCurrentUser() {
+        String username = SecurityWrapper.getUsername();
+        if (username != null) {
+        	return this.findUserByUsername(username);
+        } else {
+            throw new RuntimeException("Can not get authorized user name");
+        }
+    }
 
     @Transactional
     public UserEntity findUserByUsername(String username) {

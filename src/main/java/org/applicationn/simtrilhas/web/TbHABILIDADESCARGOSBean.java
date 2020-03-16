@@ -85,7 +85,7 @@ public class TbHABILIDADESCARGOSBean extends TbCARGOSBean implements Serializabl
     
     public void filtraListas(TbCARGOSEntity tbCARGOS) {
 
-    	tbHABILIDADESCARGOSs = InicializaTabelasAuxiliaresHABAPR(tbCARGOS);
+    	
 		allIdHABCARGOSsList = tbHABILIDADESService.findAllTbHABILIDADESEntities();
 		for(int i=0;i<this.getTbHABILIDADESCARGOSs().size();i++) {
 			for(int j=0;j<allIdHABCARGOSsList.size();j++) {

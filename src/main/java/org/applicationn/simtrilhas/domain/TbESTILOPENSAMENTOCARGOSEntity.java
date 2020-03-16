@@ -17,12 +17,12 @@ public class TbESTILOPENSAMENTOCARGOSEntity extends BaseEntity implements Serial
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "IDCARGOS_ID", referencedColumnName = "ID")
+   // @ManyToOne(optional=true)
+   // @JoinColumn(name = "IDCARGOS_ID", referencedColumnName = "ID")
     private TbCARGOSEntity idCARGOS;
 
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "IDESTPENSAMENTO_ID", referencedColumnName = "ID")
+    //@ManyToOne(optional=true)
+   // @JoinColumn(name = "IDESTPENSAMENTO_ID", referencedColumnName = "ID")
     private TbESTILOPENSAMENTOEntity idESTPENSAMENTO;
 
     @Digits(integer = 5,  fraction = 2)

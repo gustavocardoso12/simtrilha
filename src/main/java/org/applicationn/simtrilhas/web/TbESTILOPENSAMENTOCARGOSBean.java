@@ -84,7 +84,7 @@ public class TbESTILOPENSAMENTOCARGOSBean extends TbCARGOSBean implements Serial
     
     public void filtraListas(TbCARGOSEntity tbCARGOS) {
 
-    	tbESTILOPENSAMENTOs = InicializaTabelasAuxiliaresELI(tbCARGOS);
+    	
 		allIdESTPENSAMENTOsList= tbESTILOPENSAMENTOService.findAllTbESTILOPENSAMENTOEntities();
 		for(int i=0;i<this.getTbESTILOPENSAMENTOs().size();i++) {
 			for(int j=0;j<allIdESTPENSAMENTOsList.size();j++) {

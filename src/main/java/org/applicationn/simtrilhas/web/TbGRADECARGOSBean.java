@@ -72,6 +72,7 @@ public class TbGRADECARGOSBean extends TbCARGOSBean  implements Serializable {
         reset();
         changeHeaderCadastrar();
         this.tbGRADECARGOS = new TbGRADECARGOSEntity();
+        this.tbGRADECARGOS.setIdCARGOS(tbCARGOS);
         filtraListas(tbCARGOS); 
     }
     

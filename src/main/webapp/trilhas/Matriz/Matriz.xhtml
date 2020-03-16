@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions" 
+	xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+	<ui:define  name="content">
+
+
+		<p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
+
+		<f:facet name="start">
+        <h:panelGrid id="diag" columns="2">
+			
+			
+			<h:outputLabel id="label2" style="font-size:14px;font-weight:bold" value="Calculando Matriz...">
+			  <p:autoUpdate />
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+   		 </f:facet>
+
+		</p:ajaxStatus>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			oncomplete="PF('statusDialog').hide()" />
+
+		<p:dialog id="dialog" widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false"  showHeader="false">
+			<h:panelGrid id="panel" columns="2">
+			
+			
+			<h:outputLabel id="label3" style="font-size:14px;font-weight:bold" value="Calculando Matriz...">
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+		</p:dialog>
+		
+		<h:panelGrid id="paneCargos" styleClass="dialog"  columnClasses="col2"
+			columns="1">
+
+			<h:form>
+			
+				<p:commandButton  ajax="false" value="Exportar Matriz para o Excel">
+						  <pe:exporter cellFontSize="12"  skipComponents="org.primefaces.component.panel.Panel"  type="xlsx" target="dataForm2"  fileName="MatrizCarreiras"/>
+					</p:commandButton>
+				
+			
+			
+				<p:commandButton rendered="#{p:ifAnyGranted('Administrator')}" style="background:#ED6D09;width:100%;"
+					 update=" dataForm dataForm2" value="Calcular Matriz"
+					action="#{tbMATRIZCARGOSBean.calcularMatriz}">
+
+
+
+				</p:commandButton>
+			</h:form>
+
+
+
+
+
+		</h:panelGrid>
+
+<p:dataTable id="dataForm2" 
+
+			rendered="#{not empty tbMATRIZCARGOSBean.listaDe}"
+
+
+ rows="5"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,30"
+			style="text-align:center;width:7500%;display:none"   var="rowName"
+
+				rowIndexVar="rowIdx" 
+
+				value="#{tbMATRIZCARGOSBean.listaCargos}">
+
+
+
+
+
+				<p:columnGroup type="header" >
+
+
+
+
+
+
+
+
+
+					<p:row>
+
+
+
+						<p:column   style="background:none !important" colspan="1">
+
+							<f:facet name="header">
+
+								<h:outputLabel value="" />
+
+							</f:facet>
+
+						</p:column>
+
+
+
+						<p:column headerText="Cargo Para:"  style="background:none !important" colspan="1">
+
+							<f:facet name="header">
+
+								<h:outputLabel style="color:black" value="" />
+
+							</f:facet>
+
+						</p:column>
+
+
+
+						<p:column headerText="Família"  colspan="1">
+
+							<f:facet name="header">
+
+								<h:outputLabel value="" />
+
+							</f:facet>
+
+						</p:column>
+
+
+
+
+
+						<c:forEach var="data" items="#{tbMATRIZCARGOSBean.listaCargos}">
+
+						
+
+						
+
+							<p:column id="teste"
+
+							
+
+							headerText="#{data.idDEPTO.idAREA.deSCAREA}"
+
+							 exportHeaderValue="true" colspan="1">
+
+								<f:facet name="header">
+
+									<h:outputLabel value="#{data.idDEPTO.idAREA.deSCAREA}" />
+
+								</f:facet>
+
+							</p:column>
+
+							
+
+							
+
+						
+
+						</c:forEach>
+
+					</p:row>
+
+
+
+
+
+					<p:row>
+
+
+
+						<p:column headerText="Cargo De:"  style="background:none !important" colspan="1">
+
+							<f:facet name="header">
+
+								<h:outputLabel style="color:black" value="" />
+
+							</f:facet>
+
+						</p:column>
+
+
+
+
+
+						<p:column   style="background:none !important" colspan="1">
+
+							<f:facet name="header">
+
+								<h:outputLabel value="" />
+
+							</f:facet>
+
+						</p:column>
+
+
+
+						<p:column headerText="SubFamília" colspan="1">
+
+							<f:facet name="header">
+
+								<h:outputLabel value="" />
+
+							</f:facet>
+
+						</p:column>
+
+
+
+
+
+						<c:forEach var="data" items="#{tbMATRIZCARGOSBean.listaCargos}">
+
+							<p:column headerText="#{data.idDEPTO.deSCDEPTO}" colspan="1">
+
+								<f:facet name="header">
+
+									<h:outputLabel value="" />
+
+								</f:facet>
+
+							</p:column>
+
+						</c:forEach>
+
+					</p:row>
+
+
+
+
+
+					<p:row>
+
+
+
+						<p:column headerText="Família"  colspan="1">
+
+							<f:facet name="header">
+
+								<h:outputLabel value="Família" />
+
+							</f:facet>
+
+						</p:column>
+
+
+
+						<p:column headerText="Subfamília"  colspan="1">
+
+							<f:facet name="header">
+
+								<h:outputLabel value="Subfamília" />
+
+							</f:facet>
+
+						</p:column>
+
+
+
+						<p:column headerText="Cargo"  colspan="1">
+
+							<f:facet name="header">
+
+								<h:outputLabel value="Cargo" />
+
+							</f:facet>
+
+						</p:column>
+
+
+
+						<c:forEach var="data" items="#{tbMATRIZCARGOSBean.listaCargos}">
+
+							<p:column headerText="#{data.deSCCARGO}"  colspan="1">
+
+								<f:facet name="header">
+
+									<h:outputLabel value="#{data.deSCCARGO}" />
+
+								</f:facet>
+
+							</p:column>
+
+
+
+						</c:forEach>
+
+
+
+
+
+
+
+					</p:row>
+
+
+
+
+
+
+
+
+
+				</p:columnGroup>
+
+				
+
+				<p:column colspan="1">
+
+
+
+
+
+
+
+					<h:outputLabel value="#{rowName.idDEPTO.idAREA.deSCAREA}" />
+
+				</p:column>
+
+
+
+
+
+				<p:column colspan="1">
+
+
+
+
+
+
+
+					<h:outputLabel value="#{rowName.idDEPTO.deSCDEPTO}" />
+
+				</p:column>
+
+
+
+
+
+
+
+				<p:column colspan="1">
+
+
+
+
+
+
+
+					<h:outputLabel value="#{rowName.deSCCARGO}" />
+
+				</p:column>
+
+
+
+
+
+				<p:columns 
+
+				
+
+				
+
+				columnIndexVar="colIdx" var="columnName"
+
+					value="#{tbMATRIZCARGOSBean.listaCargos}"
+
+					headerText="#{columnName}">
+
+
+
+				
+
+
+
+				<c:forEach  rendered="#{not empty tbMATRIZCARGOSBean.data3D}" var="data"  items="#{tbMATRIZCARGOSBean.data3D.get(rowIdx).get(colIdx)}">
+
+							<h:outputText style="font-size:12px;text-align:center" value="#{data.adERENCIAFINAL}%">
+
+					
+
+							</h:outputText>	
+
+                </c:forEach>
+
+
+
+
+
+				</p:columns>
+
+			</p:dataTable>
+
+
+	
+
+
+
+			<p:dataTable id="dataForm" 
+			rendered="#{not empty tbMATRIZCARGOSBean.listaDe}"
+			 rows="5"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,30"
+			style="text-align:center;width:7500%"   var="rowName"
+				rowIndexVar="rowIdx" 
+				value="#{tbMATRIZCARGOSBean.listaCargos}">
+
+
+				<p:columnGroup type="header">
+
+
+
+
+					<p:row>
+
+						<p:column   style="background:none !important" colspan="1">
+							<f:facet name="header">
+								<h:outputLabel value="" />
+							</f:facet>
+						</p:column>
+
+						<p:column   style="background:none !important" colspan="1">
+							<f:facet name="header">
+								<h:outputLabel style="color:black" value="Cargo Para:" />
+							</f:facet>
+						</p:column>
+
+						<p:column  colspan="1">
+							<f:facet name="header">
+								<h:outputLabel value="Família" />
+							</f:facet>
+						</p:column>
+
+
+						<c:forEach var="data" items="#{tbMATRIZCARGOSBean.listaCargosPara}">
+						
+						
+							<p:column colspan="1">
+								<f:facet name="header">
+									<h:outputLabel value="#{data.idDEPTO.idAREA.deSCAREA}" />
+								</f:facet>
+							</p:column>
+						
+						</c:forEach>
+					</p:row>
+
+
+					<p:row>
+
+						<p:column   style="background:none !important" colspan="1">
+							<f:facet name="header">
+								<h:outputLabel style="color:black" value="Cargo De:" />
+							</f:facet>
+						</p:column>
+
+
+						<p:column   style="background:none !important" colspan="1">
+							<f:facet name="header">
+								<h:outputLabel value="" />
+							</f:facet>
+						</p:column>
+
+						<p:column  colspan="1">
+							<f:facet name="header">
+								<h:outputLabel value="SubFamília" />
+							</f:facet>
+						</p:column>
+
+
+						<c:forEach var="data" items="#{tbMATRIZCARGOSBean.listaCargosPara}">
+							<p:column colspan="1">
+								<f:facet name="header">
+									<h:outputLabel value="#{data.idDEPTO.deSCDEPTO}" />
+								</f:facet>
+							</p:column>
+						</c:forEach>
+					</p:row>
+
+
+					<p:row>
+
+						<p:column   colspan="1">
+							<f:facet name="header">
+								<h:outputLabel value="Família" />
+							</f:facet>
+						</p:column>
+
+						<p:column   colspan="1">
+							<f:facet name="header">
+								<h:outputLabel value="Subfamília" />
+							</f:facet>
+						</p:column>
+
+						<p:column  colspan="1">
+							<f:facet name="header">
+								<h:outputLabel value="Cargo" />
+							</f:facet>
+						</p:column>
+
+						<c:forEach var="data" items="#{tbMATRIZCARGOSBean.listaCargosPara}">
+							<p:column   colspan="1">
+								<f:facet name="header">
+									<h:outputLabel value="#{data.deSCCARGO}" />
+								</f:facet>
+							</p:column>
+
+						</c:forEach>
+
+
+
+					</p:row>
+
+
+
+
+				</p:columnGroup>
+				
+				<p:column colspan="1">
+
+
+
+					<h:outputLabel value="#{rowName.idDEPTO.idAREA.deSCAREA}" />
+				</p:column>
+
+
+				<p:column colspan="1">
+
+
+
+					<h:outputLabel value="#{rowName.idDEPTO.deSCDEPTO}" />
+				</p:column>
+
+
+
+				<p:column colspan="1">
+
+
+
+					<h:outputLabel value="#{rowName.deSCCARGO}" />
+				</p:column>
+
+
+				<p:columns columnIndexVar="colIdx" var="columnName"
+					value="#{tbMATRIZCARGOSBean.listaCargos}"
+					headerText="#{columnName}">
+
+				
+
+				<c:forEach  var="data" items="#{tbMATRIZCARGOSBean.data3D.get(rowIdx).get(colIdx)}">
+
+					
+						<p:panel style="background:#{data.corAderencia} !important">
+							<h:outputText style="font-size:12px;color:#F2F2F2" value="#{data.adERENCIAFINAL}%">
+					
+							</h:outputText>
+								
+							
+								
+							
+						</p:panel>
+				
+                </c:forEach>
+
+
+				</p:columns>
+			</p:dataTable>
+
+
+		
+
+
+
+	</ui:define>
+</ui:composition>
+</html>

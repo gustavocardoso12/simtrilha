@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+        <p:outputPanel styleClass="ui-fluid">
+
+            <p:panelGrid id="panelFormacao" styleClass="dialog"  columns="2" columnClasses="col1,col2" >
+            
+            
+              <h:outputLabel value="Descrição do Cargo:" for="cargoInput" />
+                <p:outputLabel value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.idCARGOS.deSCCARGO}" id="cargoInput" >
+                </p:outputLabel>
+            
+                <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASCARGOS_idCOMPETENCIAS}:" for="idCOMPETENCIASSelectInput" rendered="#{not hideIdCOMPETENCIASSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdCOMPETENCIASSelectInput}">
+                    <p:selectOneMenu value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.idCOMPETENCIAS}"
+                                    id="idCOMPETENCIASSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{tbCOMPETENCIASCARGOSBean.idCOMPETENCIASs}" 
+                                    var="tbCOMPETENCIAS" 
+                                    itemLabel="#{tbCOMPETENCIAS.deSCCOMPETENCIA}"
+                                    itemValue="#{tbCOMPETENCIAS}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCOMPETENCIASCARGOSBean.idCOMPETENCIASs}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+               
+                
+              
+              
+                
+                <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}:" for="poNTUACAOCOMPETENCIAEditInput" />
+                <p:inputText value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.poNTUACAOCOMPETENCIA}" id="poNTUACAOCOMPETENCIAEditInput" label="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}" >
+                    <f:convertNumber />
+                </p:inputText>
+                <p:message for="poNTUACAOCOMPETENCIAEditInput" display="icon" />
+
+            </p:panelGrid>
+
+        </p:outputPanel>
+</html>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+	<ui:define name="content">
+
+		<h:form prependId="false" id="tbCARGOSDataForm"
+			onkeypress="if (event.keyCode == 13) {return false; }">
+
+			<p:dataTable id="tbCARGOSTable" value="#{tbCARGOSBean.tbCARGOSList}"
+				var="tbCARGOS" resizableColumns="true" draggableColumns="true"
+				widgetVar="tbCARGOSTable" rowKey="#{tbCARGOS.id}"
+				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+				<p:column
+					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					headerText="#{messages.field_label_tbCARGOS_deSCCARGO}">
+					<h:outputText value="#{tbCARGOS.deSCCARGO} " />
+				</p:column>
+
+				<p:column
+					style="width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;white-space:pre-line"
+					headerText="#{messages.field_label_tbCARGOS_miSSAO}">
+					<h:outputText value="#{tbCARGOS.miSSAO}" />
+				</p:column>
+
+
+				<p:column headerText="Ações"
+					style="background:#f2f2f2;width:20%;font-size:14px;font-weight:bold;"
+					exportable="false">
+					
+					
+					<p:commandButton value="Editar Cargo" 
+					style="width:93%"
+					action="#{tbCARGOSBean.submit(tbCARGOS)}" />
+
+
+					<p:commandButton
+						oncomplete="PF('deleteTbCARGOSDialogWidget').show()"
+						style="background:none;width:14,5%;font-size:12px"
+						value="E"
+						icon="img-button-delete" >
+						<f:setPropertyActionListener value="#{tbCARGOS}"
+							target="#{tbCARGOSBean.tbCARGOS}" />
+					</p:commandButton>
+
+				</p:column>
+
+				<f:facet name="footer">
+
+					<p:commandButton value="#{messages.AdicionarCargo}"
+						action="#{tbCARGOSBean.AdicionarCargos()}"
+						style="width:25.0%" />
+
+				</f:facet>
+
+
+			</p:dataTable>
+			<h:panelGrid id="paneCargos" styleClass="dialog"
+				columnClasses="col1,col2" columns="2">
+				<p:dataTable id="tbCARGOSTable2"
+					rendered="#{tbCARGOSBean.flagCultura==1}"
+					value="#{tbCARGOSBean.tbCARGOSListFiltrada}" var="tbCARGOS"
+					resizableColumns="true" draggableColumns="true"
+					widgetVar="tbCARGOSTable2"
+					emptyMessage="#{messages.label_no_records_found}" reflow="true">
+					<p:column
+						style="white-space:normal;width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;"
+						headerText="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}">
+						<h:outputText escape="false" value="#{tbCARGOS.reSPONSABILIDADES}" />
+					</p:column>
+
+
+
+				</p:dataTable>
+
+				<h:panelGroup>
+					
+					<p:dataTable id="tbCARGOSTable4"
+						rendered="#{tbCARGOSBean.flagCultura==1}"
+						value="#{tbCARGOSBean.tbCARGOSListFiltrada}" var="tbCARGOS"
+						resizableColumns="true" draggableColumns="true"
+						widgetVar="tbCARGOSTable4"
+						emptyMessage="#{messages.label_no_records_found}" reflow="true">
+						<f:facet name="header">
+							<h:outputText
+								style="width:auto;text-align:center;font-size:16px;color:white;font-weight:bold;"
+								escape="false" value="Organizacional" />
+						</f:facet>
+						<p:column
+							style="width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;"
+							headerText="#{messages.field_label_tbCARGOS_idEST}">
+							<h:outputText style="width:auto;font-size:13px"
+								value="#{tbCARGOS.idDEPTO.deSCDEPTO}" />
+						</p:column>
+
+						<p:column
+							style="width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;"
+							headerText="Área:">
+							<h:outputText style="width:auto;font-size:13px"
+								value="#{tbCARGOS.idDEPTO.idAREA.deSCAREA}" />
+						</p:column>
+
+					</p:dataTable>
+
+
+				</h:panelGroup>
+
+			</h:panelGrid>
+		</h:form>
+
+
+		<p:confirmDialog id="deleteTbCARGOSDialog"
+			widgetVar="deleteTbCARGOSDialogWidget" showEffect="explode"
+			hideEffect="fade" header="#{messages.label_confirm_deletion}"
+			severity="alarm">
+			<f:facet name="message">
+				<h:outputText value="#{messages.label_delete_record}" escape="false" />
+			</f:facet>
+			<p:outputPanel>
+				<h:form>
+					<p:panelGrid columns="2" style="margin:auto">
+						<p:commandButton value="#{messages.label_yes}"
+							action="#{tbCARGOSBean.delete}"
+							update=":tbCARGOSDataForm :growlForm:growl"
+							oncomplete="PF('deleteTbCARGOSDialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_no}"
+							onclick="PF('deleteTbCARGOSDialogWidget').hide()" type="button" />
+					</p:panelGrid>
+				</h:form>
+			</p:outputPanel>
+		</p:confirmDialog>
+
+	
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

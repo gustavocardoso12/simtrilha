@@ -91,11 +91,11 @@ public class TbCONHECIMENTOSBASICOSBean implements Serializable {
 	}
 
 	public void changeHeaderCadastrar() {
-		setDialogHeader("Cadastrar Conhecimentos Básicos");
+		setDialogHeader("Cadastrar Formação e Experiências");
 	}
 
 	public void changeHeaderEditar() {
-		setDialogHeader("Editar Conhecimentos Básicos");
+		setDialogHeader("Editar Formação e Experiências");
 	}
 
 	public void prepareNewTbCONHECIMENTOSBASICOS() {

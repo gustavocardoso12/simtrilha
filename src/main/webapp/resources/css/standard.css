@@ -52,7 +52,7 @@ a, img {
     font-family: Calibri;
     font-size:12px;
     padding-bottom: 10px !important;
-    width:50%
+    width:60%
 }
 
 .col2 {
@@ -111,7 +111,7 @@ a, img {
 
 
 .ui-selectonemenu-trigger{
-	background: #ED6707 !important;
+	background:  !important;
 }
 
 /* Colunas das data tables */
@@ -124,12 +124,16 @@ td {
 
 th {
   color:#f2f2f2 !important;
-  background: #5C2C5E !important;
+  background: #12367A !important;
    border:none !important;
 }
 
 
-
+.toolbar{
+	margin-top:5px;
+	background:#FACF00;
+	width:100%;
+}
 
 
 .ui-dialog {
@@ -148,7 +152,7 @@ th {
 /*Barra de título do dialog primefaces*/
 .ui-draggable .ui-dialog-titlebar  {
     cursor: move;
-	background:#5C2C5E;
+	background:#12367A;
     text-align:left !important;
 }
 
@@ -156,11 +160,11 @@ th {
 .ui-datatable .ui-datatable-footer {
     border-top: 0 none;
     text-align:left !important;
-    background: #5C2C5E !important;
+    background: #12367A !important;
 }
 
 .ui-datatable .ui-datatable-header {
-    background: #5C2C5E !important;
+    background: #12367A !important;
 }
 
 
@@ -169,7 +173,7 @@ th {
 .ui-button .ui-button-text {
     display: block;
     line-height: normal;
-    background:#ED6707;
+    background:#000000;
 }
 
 
@@ -202,7 +206,7 @@ th {
 
 .ui-panel .ui-panel-titlebar {
     padding: .5em 1em .3em;
-    background: #5C2C5E;
+    background: #12367A;
     font-size:14px;
 }
 
@@ -333,7 +337,7 @@ th {
     padding: 3px 5px;
     text-align: left;
     color: white !important;
-    white-space: nowrap;
+     white-space: pre-line !important;
 }
 
 
@@ -462,6 +466,28 @@ th {
     background:white !important;
 }
 
+.ui-tree.ui-tree-horizontal .ui-treenode{
+	background-color:#f2f2f2 !important;
+}
+
+.autoTrilhas.ui-widget-content{
+	background:#f2f2f2 !important;
+
+}
+
+.autoTrilhasNo.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+	background:#12367A !important;
+
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield{
+	background:#FFFFFF !important;
+}
+
+
+.ui-paginator, .ui-paginator-top .ui-widget-header, .ui-corner-top{
+	background:#FACF00 !important;
+}
 
 .ui-datatable-tablewrapper{
 	overflow:hidden !important;
@@ -522,5 +548,5 @@ td.foo {
     padding: .4em .4em .4em 1em;
     position: relative;
     border: 0;
-    background:#5C2C5E;
+    background:#12367A;
 }

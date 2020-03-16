@@ -26,8 +26,7 @@ public class TbPERFILCARGOSEntity extends BaseEntity implements Serializable {
 
 
     @Column(name="PONTUACAO_PERFIL")
-    @NotNull
-    private int poNTUACAOPERFIL;
+    private Integer poNTUACAOPERFIL;
 
     public TbCARGOSEntity getIdCARGOS() {
         return this.idCARGOS;
@@ -45,11 +44,11 @@ public class TbPERFILCARGOSEntity extends BaseEntity implements Serializable {
         this.idPERFIL = tbPERFIL;
     }
 
-    public int getPoNTUACAOPERFIL() {
+    public Integer getPoNTUACAOPERFIL() {
         return this.poNTUACAOPERFIL;
     }
 
-    public void setPoNTUACAOPERFIL(int poNTUACAOPERFIL) {
+    public void setPoNTUACAOPERFIL(Integer poNTUACAOPERFIL) {
         this.poNTUACAOPERFIL = poNTUACAOPERFIL;
     }
 

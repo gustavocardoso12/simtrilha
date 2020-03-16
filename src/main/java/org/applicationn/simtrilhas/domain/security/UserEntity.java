@@ -69,6 +69,20 @@ public class UserEntity extends BaseEntity implements Serializable {
     @NotNull
     private UserStatus status;
     
+    
+    
+    
+    @Size(max = 50)
+    @NotNull
+    private String theme;
+    
+    @Size(max = 50)
+    private String banco_dados;
+    
+    @Size(max = 50)
+    private String flag_pessoa;
+    
+    
     public String getUsername() {
         return this.username;
     }
@@ -148,5 +162,29 @@ public class UserEntity extends BaseEntity implements Serializable {
     public void setRoles(List<UserRole> roles) {
         this.roles = roles;
     }
+
+	public String getTheme() {
+		return theme;
+	}
+
+	public void setTheme(String theme) {
+		this.theme = theme;
+	}
+
+	public String getBanco_dados() {
+		return banco_dados;
+	}
+
+	public void setBanco_dados(String banco_dados) {
+		this.banco_dados = banco_dados;
+	}
+
+	public String getFlag_pessoa() {
+		return flag_pessoa;
+	}
+
+	public void setFlag_pessoa(String flag_pessoa) {
+		this.flag_pessoa = flag_pessoa;
+	}
 
 }

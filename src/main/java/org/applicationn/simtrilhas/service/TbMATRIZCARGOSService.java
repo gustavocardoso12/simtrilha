@@ -72,19 +72,31 @@ public class TbMATRIZCARGOSService extends BaseService<TbMATRIZCARGOSEntity> imp
     }
     
     @Transactional
-    public List<Object[]> findTbMATRIZCARGOSEntities() {
+    public List<Object[]> findTbMATRIZCARGOSEntities(String flag_pessoa) {
     	List<Object[]> result = new ArrayList<Object[]>();
-
-    	result = entityManager.createQuery("SELECT o.corAderencia, o.adERENCIAFINAL,"
-    			+ "									o.idCARGODE, idCARGOPARA "
-        		+ " FROM TbMATRIZCARGOS AS o "
-        		+ "	ORDER BY o.idCARGODE, o.idCARGOPARA"
-        		+ "", Object[].class)
-        		.getResultList();
+    	
+    	
+    	if(!flag_pessoa.equals("SIM")) {
+    		result = entityManager.createQuery("SELECT o.corAderencia, o.adERENCIAFINAL,"
+        			+ "									o.idCARGODE, idCARGOPARA "
+            		+ " FROM TbMATRIZCARGOS AS o"
+            		+ "  WHERE o.flagPessoa <> 'SIM'"
+        			
+            		+ "	ORDER BY o.idCARGODE, o.idCARGOPARA"
+            		+ "", Object[].class)
+            		.getResultList();
+    	}else {
+    		result = entityManager.createQuery("SELECT o.corAderencia, o.adERENCIAFINAL,"
+        			+ "									o.idCARGODE, idCARGOPARA "
+            		+ " FROM TbMATRIZCARGOS AS o"
+            		+ "	ORDER BY o.idCARGODE, o.idCARGOPARA"
+            		+ "", Object[].class)
+            		.getResultList();
+    	}
+    	
     	
         return result;
     }
-    
   
     
     @Transactional
@@ -110,11 +122,31 @@ public class TbMATRIZCARGOSService extends BaseService<TbMATRIZCARGOSEntity> imp
     @Override
     @Transactional
     public TbMATRIZCARGOSEntity save(TbMATRIZCARGOSEntity tbMATRIZCARGOS) {
-        String username = SecurityWrapper.getUsername();
+        //String username = SecurityWrapper.getUsername();
         
-        tbMATRIZCARGOS.updateAuditInformation(username);
+        //tbMATRIZCARGOS.updateAuditInformation(username);
         
         return super.save(tbMATRIZCARGOS);
+    }
+    
+    
+    
+    @Transactional
+    public void insertWithEntityManager(TbMATRIZCARGOSEntity tbMATRIZCARGOS, int i) {
+    
+    
+    	 
+    	
+
+        this.entityManager.persist(tbMATRIZCARGOS);
+        
+        if(i % 1000 == 0) {
+        	System.out.println("Flushing in batches");
+   	   this.entityManager.flush();
+   	   this.entityManager.clear();
+   	   System.out.println(i);
+        }
+        
     }
     
     @Override

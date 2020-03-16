@@ -14,7 +14,7 @@ import org.applicationn.simtrilhas.domain.security.UserStatus;
 import org.applicationn.simtrilhas.service.security.UserService;
 
 /**
- * Managed bean for pages/user/activation.xhtml
+ * Managed bean for trilhas/user/activation.xhtml
  * */
 @ManagedBean
 @RequestScoped

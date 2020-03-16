@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+  
+  <h:form>
+    <h:panelGrid columns="1" style="margin-bottom: 10px">
+					<h:outputText id="output"
+						value=" Variação do Gap: #{tbCOMPETENCIASBean.gapVarCO}%" />
+					<h:inputHidden id="gapvar" value="#{tbCOMPETENCIASBean.gapVarCO}" />
+					<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
+						step="1" style="width: 300px"
+						displayTemplate="Variação do gap: %{value}">
+						<p:ajax event="slideEnd" listener="#{tbCOMPETENCIASBean.onSlideEndCO}"
+							update="tbCOMPETENCIASTable" />
+					</p:slider>
+				</h:panelGrid>
+    </h:form>
+
+    <h:form  prependId="false" id="tbCOMPETENCIASDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+			<p:dataTable id="tbCOMPETENCIASTable"
+				value="#{tbCOMPETENCIASBean.tbCOMPETENCIASList}"
+				var="tbCOMPETENCIAS" resizableColumns="true"
+				draggableColumns="true" widgetVar="tbCOMPETENCIASTable"
+				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+				
+
+				
+
+			 <p:column style="width:30%;text-align:center;font-size:14px;color:white;font-weight:bold;" 
+					headerText="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}">
+					<h:outputText value="#{tbCOMPETENCIAS.deSCCOMPETENCIA}" />
+				</p:column>
+				
+				<p:column
+					style="width:25%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					
+					headerText="#{messages.field_label_tbPERFIL_penalidade}"
+					styleClass="#{(tbCOMPETENCIAS.competenciasCustom=='S') ? 'customPenStyle': ''}">
+					<h:outputText 
+					value="#{tbCOMPETENCIAS.penalidadeCompetencias.intValue()}%">
+					<f:convertNumber minFractionDigits="0" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column
+					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					headerText="#{messages.field_label_tbPERFIL_bloqueia}">
+					<h:outputText value="#{tbCOMPETENCIAS.bloqueiaMovCompetencias}" />
+				</p:column>
+				
+
+			<p:column headerText="Ações" style="width:50%;font-size:14px;font-weight:bold;"
+					exportable="false">
+
+				
+
+					<p:commandButton 
+						update=":editTbCOMPETENCIASDialog" resetValues="true"
+						style="background:#ED6D09;width:96%;"
+						rendered="#{tbCOMPETENCIASBean.isPermitted(tbCOMPETENCIAS, 'tbCOMPETENCIAS:update')}"
+						action="#{tbCOMPETENCIASBean.onDialogOpen(tbCOMPETENCIAS)}"
+						oncomplete="PF('editTbCOMPETENCIASDialogWidget').show()"
+						value="#{messages.Editar}">
+					</p:commandButton>
+
+					<p:commandButton 
+						rendered="#{tbCOMPETENCIASBean.isPermitted(tbCOMPETENCIAS, 'tbCOMPETENCIAS:delete')}"
+						style="background:#ED6D09;width:4%"
+						oncomplete="PF('deleteTbCOMPETENCIASDialogWidget').show()"
+						value="E"
+						icon="img-button-delete">
+						<f:setPropertyActionListener value="#{tbCOMPETENCIAS}"
+							target="#{tbCOMPETENCIASBean.tbCOMPETENCIAS}" />
+					</p:commandButton>
+
+				</p:column>
+				
+				<f:facet name="footer">
+					<p:commandButton value="#{messages.CadastrarCompetencias}"
+					 	style="width:29.5%"
+						action="#{tbCOMPETENCIASBean.prepareNewTbCOMPETENCIAS()}"
+						resetValues="true" update=":editTbCOMPETENCIASDialog"
+						oncomplete="PF('editTbCOMPETENCIASDialogWidget').show()"
+						rendered="#{tbCOMPETENCIASBean.isPermitted('tbCOMPETENCIAS:create')}" />
+				</f:facet>
+
+			</p:dataTable>
+
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbCOMPETENCIASDialog" widgetVar="deleteTbCOMPETENCIASDialogWidget"
+        rendered="#{tbCOMPETENCIASBean.isPermitted(tbCOMPETENCIASBean.tbCOMPETENCIAS, 'tbCOMPETENCIAS:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+             <p:panelGrid  columns="2" style="margin:auto"  >
+              <p:commandButton value="#{messages.label_yes}" action="#{tbCOMPETENCIASBean.delete}" update=":tbCOMPETENCIASDataForm :growlForm:growl" oncomplete="PF('deleteTbCOMPETENCIASDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbCOMPETENCIASDialogWidget').hide()" type="button" />
+            </p:panelGrid>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+
+		<p:dialog dynamic="true" id="editTbCOMPETENCIASDialog"
+			header="#{tbCOMPETENCIASBean.dialogHeader}"
+			showEffect="explode" hideEffect="bounce" responsive="true"
+			resizable="false" modal="true"
+			widgetVar="editTbCOMPETENCIASDialogWidget" maximizable="false">
+			<p:ajax event="close" listener="#{tbCOMPETENCIASBean.reset}" />
+			<h:form id="editTbCOMPETENCIASForm">
+				<p:outputPanel id="tbCOMPETENCIASEditPanel">
+					<ui:include
+						src="/trilhas/Competencias/EditarCompetencias.xhtml" />
+					<div style="text-align: center; margin: 10px">
+						<p:commandButton value="#{messages.label_save}"
+							action="#{tbCOMPETENCIASBean.persist}"
+							update=":editTbCOMPETENCIASForm:tbCOMPETENCIASEditPanel :tbCOMPETENCIASDataForm :growlForm:growl"
+							oncomplete="if(!args.validationFailed) PF('editTbCOMPETENCIASDialogWidget').hide()" />
+
+					</div>
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+	
+		
+		
+	
+    
+  </ui:define>
+</ui:composition>
+</html>

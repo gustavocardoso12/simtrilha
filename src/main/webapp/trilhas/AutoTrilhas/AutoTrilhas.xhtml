@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+	<ui:define name="content">
+
+		<p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
+
+
+		</p:ajaxStatus>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<h:panelGrid columns="2">
+				<h:outputLabel style="font-size:14px;font-weight:bold"
+					value="Carregando Auto Trilhas..." />
+				<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+		</p:dialog>
+
+
+
+
+		<h:panelGrid id="paneCargos" styleClass="dialog"
+			columnClasses="col2,col2" columns="2">
+			<h:form>
+
+				<h:panelGrid id="paneCargoDe">
+					<h:outputLabel value="Família De:" for="idAREASelectInput" />
+					<p:selectOneMenu autoWidth="false" style="width:300px"
+						value="#{tbCARGOSBean.areaEscolhida}" id="idAREASelectInput">
+						<f:selectItem noSelectionOption="true" itemLabel="" />
+						<f:selectItems value="#{tbCARGOSBean.distinctArea}" var="tbCARGO"
+							itemLabel="#{tbCARGO}" itemValue="#{tbCARGO}" />
+						<p:ajax event="change" global="false"
+							update="paneCargoDe
+								" />
+					</p:selectOneMenu>
+
+					<h:outputLabel rendered="#{tbCARGOSBean.areaEscolhida!=null}"
+						value="SubFamília De:" for="idDEPTOSelectInput" />
+					<p:selectOneMenu style="width:300px"
+						rendered="#{tbCARGOSBean.areaEscolhida!=null}"
+						value="#{tbCARGOSBean.departamentoEscolhido}"
+						id="idDEPTOSelectInput">
+						<f:selectItem noSelectionOption="true" itemLabel="" />
+						<f:selectItems value="#{tbCARGOSBean.distinctDepto}" var="tbCARGO"
+							itemLabel="#{tbCARGO}" itemValue="#{tbCARGO}" />
+						<p:ajax event="change" global="false"
+							update="paneCargoDe
+								" />
+
+					</p:selectOneMenu>
+					<h:outputLabel
+						rendered="#{tbCARGOSBean.departamentoEscolhido!=null}"
+						value="Cargo De:" for="idCARGOSSelectInput" />
+					<p:selectOneMenu style="width:300px"
+						rendered="#{tbCARGOSBean.departamentoEscolhido!=null}"
+						value="#{tbCARGOSBean.cargoDe}" id="idCARGOSSelectInput">
+						<f:selectItem noSelectionOption="true" itemLabel="" />
+						<f:selectItems value="#{tbCARGOSBean.distinctCargos}"
+							var="tbCARGO" itemLabel="Cargo De: #{tbCARGO.deSCCARGO}"
+							itemValue="#{tbCARGO}" />
+
+						<p:ajax event="change"
+							listener="#{tbCARGOSBean.autoTrilhas(tbCARGOSBean.cargoDe)}"
+							update="tbCARGOS" />
+						<o:converter converterId="omnifaces.SelectItemsConverter"
+							list="#{tbCARGOSBean.distinctCargos}" />
+					</p:selectOneMenu>
+
+
+
+
+				</h:panelGrid>
+
+
+
+			</h:form>
+
+
+			<h:form  style="margin-left:250px">
+				<h:outputText style="font-size:14px;font-weight:bold;color:black"
+					value="Aderência Mínima: " />
+
+				<p:inputNumber id="AderenciaMinima"
+				 onkeypress="if (event.keyCode == 13) {event.target.blur();event.stopPropagation();return false;} else {return true;};"
+					value="#{tbCARGOSBean.aderenciaMinima}" symbol="%"
+					symbolPosition="s" emptyValue="sign">
+				
+					<p:ajax event="change"
+					render="tbCARGOS" execute="AderenciaMinima"
+							listener="#{tbCARGOSBean.autoTrilhas(tbCARGOSBean.cargoDe)}"
+							update="tbCARGOS" />		
+				</p:inputNumber>
+			</h:form>
+
+		</h:panelGrid>
+
+
+		
+			
+			
+
+			<p:spacer></p:spacer>
+			<p:spacer></p:spacer>
+
+			<h:panelGrid columns="1" style="width:600px" id="tbCARGOS"
+				 >
+
+				 <p:tree styleClass="autoTrilhas" id ="autotrilhas" value="#{tbCARGOSBean.root}" var="node" orientation="horizontal">
+        <p:treeNode styleClass="autoTrilhasNo">
+            <h:outputText style="font-size:16px;font-weight:bold;b" value="#{node}" />
+        </p:treeNode>
+    </p:tree>
+				</h:panelGrid>
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

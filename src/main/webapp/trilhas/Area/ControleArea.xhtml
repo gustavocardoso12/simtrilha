@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="tbAREADataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+			<p:dataTable id="tbAREATable"
+				style="width:100%"
+				value="#{tbAREABean.tbAREAList}" var="tbAREA"
+				resizableColumns="true"  draggableColumns="true" widgetVar="tbAREATable"
+				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+
+
+
+
+
+				<p:column
+					style="width:100%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					headerText="#{messages.field_label_tbAREA_deSCAREA}">
+					<h:outputText value="#{tbAREA.deSCAREA}" />
+				</p:column>
+
+
+				<p:column headerText="Ações" style="width:100%;font-size:14px;font-weight:bold;" 
+					exportable="false">
+
+					
+
+					<p:commandButton 
+						update=":editTbAREADialog" resetValues="true"
+						style="background:#ED6D09;width:97%;"
+						rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:update')}"
+						action="#{tbAREABean.onDialogOpen(tbAREA)}"
+						oncomplete="PF('editTbAREADialogWidget').show()"
+						value="#{messages.Editar}">
+					</p:commandButton>
+
+					<p:commandButton
+						rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:delete')}"
+						oncomplete="PF('deleteTbAREADialogWidget').show()"
+						style="background:#ED6D09;width:3%"
+						value="E"
+						icon="img-button-delete">
+						<f:setPropertyActionListener value="#{tbAREA}"
+							target="#{tbAREABean.tbAREA}" />
+					</p:commandButton>
+
+				</p:column>
+				
+			<f:facet name="footer">
+				<p:commandButton value="Cadastrar Nova Família"
+						action="#{tbAREABean.prepareNewTbAREA()}"
+						resetValues="true" update=":editTbAREADialog"
+						oncomplete="PF('editTbAREADialogWidget').show()"
+						rendered="#{tbAREABean.isPermitted('tbAREA:create')}"
+						style="background:#ED6D09;width:25.0%"
+						 />
+		 
+			</f:facet>	
+				
+			</p:dataTable>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteTbAREADialog" showEffect="explode" hideEffect="fade" widgetVar="deleteTbAREADialogWidget"
+        rendered="#{tbAREABean.isPermitted(tbAREABean.tbAREA, 'tbAREA:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+           <p:panelGrid   columns="2" style="margin:auto"  >
+              <p:commandButton value="#{messages.label_yes}" action="#{tbAREABean.delete}" update=":tbAREADataForm :growlForm:growl" oncomplete="PF('deleteTbAREADialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbAREADialogWidget').hide()" type="button" />
+            </p:panelGrid>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="editTbAREADialog" header="#{tbAREABean.dialogHeader}"
+     showEffect="explode" hideEffect="bounce" responsive="true" resizable="false"
+            modal="false" widgetVar="editTbAREADialogWidget" maximizable="false">
+        <p:ajax event="close" listener="#{tbAREABean.reset}"/>
+        <h:form id="editTbAREAForm" >
+            <p:outputPanel id="tbAREAEditPanel">
+                <ui:include src="/trilhas/Area/EditarArea.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            action="#{tbAREABean.persist}"
+                            update=":editTbAREAForm:tbAREAEditPanel :tbAREADataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('editTbAREADialogWidget').hide()" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+	
+    
+  </ui:define>
+</ui:composition>
+</html>

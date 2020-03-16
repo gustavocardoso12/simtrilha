@@ -61,21 +61,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src/main/webapp/pages/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOS.xhtml</name>
-			<type>1</type>
-			<location>C:/Users/Gustavo Peixinho/Desktop/It3oBN3BLnEK-master/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOS.xhtml</location>
-		</link>
-		<link>
-			<name>src/main/webapp/pages/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOSEditInclude.xhtml</name>
-			<type>1</type>
-			<location>C:/Users/Gustavo Peixinho/Desktop/It3oBN3BLnEK-master/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOSEditInclude.xhtml</location>
-		</link>
-		<link>
-			<name>src/main/webapp/pages/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOSViewInclude.xhtml</name>
-			<type>1</type>
-			<location>C:/Users/Gustavo Peixinho/Desktop/It3oBN3BLnEK-master/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOSViewInclude.xhtml</location>
-		</link>
-		<link>
 			<name>src/main/webapp/resources/images/can.png</name>
 			<type>1</type>
 			<location>C:/Users/Gustavo Peixinho/Pictures/can (2).png</location>
@@ -89,6 +74,11 @@
 			<name>src/main/webapp/resources/images/logoAPTA.PNG</name>
 			<type>1</type>
 			<location>C:/Users/Gustavo Peixinho/Desktop/Gráficos/Capturar.PNG</location>
+		</link>
+		<link>
+			<name>src/main/webapp/resources/images/moura.PNG</name>
+			<type>1</type>
+			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/moura.PNG</location>
 		</link>
 		<link>
 			<name>src/main/webapp/resources/images/untitled.png</name>

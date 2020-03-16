@@ -14,10 +14,12 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
+import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCOMPETENCIASCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILEntity;
 import org.applicationn.simtrilhas.domain.TbPONTCARGOSEntity;
+import org.applicationn.simtrilhas.service.TbCARGOSService;
 import org.applicationn.simtrilhas.service.TbCOMPETENCIASCARGOSService;
 import org.applicationn.simtrilhas.service.TbCOMPETENCIASService;
 import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
@@ -38,9 +40,14 @@ public class TbCOMPETENCIASBean implements Serializable {
 	private List<TbCOMPETENCIASEntity> tbCOMPETENCIASList;
 
 	private TbCOMPETENCIASEntity tbCOMPETENCIAS;
+	
+	private List<TbCARGOSEntity> listaCargos = new ArrayList<TbCARGOSEntity>();
 
 	@Inject
 	private TbCOMPETENCIASService tbCOMPETENCIASService;
+	
+	@Inject
+	private TbCARGOSService tbCARGOSService;
 
 	@Inject
 	private TbCOMPETENCIASCARGOSService tbCOMPETENCIASCARGOSService;
@@ -142,6 +149,23 @@ public class TbCOMPETENCIASBean implements Serializable {
 				tbCOMPETENCIAS = tbCOMPETENCIASService.save(tbCOMPETENCIAS);
 				message = "message_successfully_created";
 			}
+			
+			listaCargos = tbCARGOSService.AllTbCARGOSEntities();
+			
+			for(int i=0; i<listaCargos.size();i++) {
+				
+				TbCOMPETENCIASCARGOSEntity cargo = new TbCOMPETENCIASCARGOSEntity();
+				
+				cargo.setIdCARGOS(listaCargos.get(i));
+				cargo.setIdCOMPETENCIAS(tbCOMPETENCIAS);
+				cargo.setPoNTUACAOCOMPETENCIA(0);
+				
+				tbCOMPETENCIASCARGOSService.save(cargo);
+				
+			}
+			
+			
+			
 		} catch (OptimisticLockException e) {
 			logger.log(Level.SEVERE, "Error occured", e);
 			message = "message_optimistic_locking_exception";
@@ -399,6 +423,14 @@ public class TbCOMPETENCIASBean implements Serializable {
 
 	public void setFlagEdit(boolean flagEdit) {
 		this.flagEdit = flagEdit;
+	}
+
+	public List<TbCARGOSEntity> getListaCargos() {
+		return listaCargos;
+	}
+
+	public void setListaCargos(List<TbCARGOSEntity> listaCargos) {
+		this.listaCargos = listaCargos;
 	}
 
 }

@@ -9,20 +9,20 @@
   
   
  		
-	<p:panel id="toggleableAderencia" header="Aderência entre Cargos" collapsed="true"
+	<p:panel rendered="#{p:ifAnyGranted('Administrator,Colaborador')}" id="toggleableAderencia" header="Aderência entre Cargos" collapsed="true"
 			toggleable="true" toggleSpeed="500" closeSpeed="500"
 			widgetVar="panel4"  style="background:white;background-repeat:no-repeat;">
 				<p:menu toggleable="true">
 				<p:menuitem value="Aderência"
-					url="/pages/HABILIDADESCARGOSCALC2/Comparacao.xhtml"
+					url="/trilhas/Aderencias/Comparacao.xhtml"
 					ajax="false" async="false" />
 					
 				<p:menuitem value="Matriz de cargos"
-					url="/pages/Matriz/Matriz.xhtml"
+					url="/trilhas/Matriz/Matriz.xhtml"
 					 />	 	
 					 
 					<p:menuitem value="Auto-Trilhas"
-					url="/pages/AutoTrilhas/AutoTrilhas.xhtml"
+					url="/trilhas/AutoTrilhas/AutoTrilhas.xhtml"
 					 />	 	 
 				
 			</p:menu>
@@ -41,57 +41,31 @@
 
   
 
-		<p:panel id="toggleable" header="Configuração" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="true"  style="background:white;background-repeat:no-repeat">
+		<p:panel rendered="#{p:ifAnyGranted('Administrator')}" id="toggleable" header="Configuração" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="true"  style="background:white;background-repeat:no-repeat">
  				 <p:menu toggleable="true">
  				 
  			<p:menuitem value="Cadastro de cargos"
-					url="/pages/tbCARGOS_Modulo/tbCARGOS.xhtml"
+					url="/trilhas/Cargos/Controle_cargos.xhtml"
 					ajax="false" async="false" />	 
 					
 					
 					
      		
-     		<p:menuitem value="Aderência Final" url="/pages/AderenciaFinal/AderenciaFinal.xhtml" style="margin-bottom:10px" ajax="false" async="false" />
+     		<p:menuitem value="Aderência Final" url="/trilhas/AderenciaFinal/AderenciaFinal.xhtml" style="margin-bottom:10px" ajax="false" async="false" />
+
+      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/trilhas/Competencias/ControleCompetencias.xhtml"  ajax="false" async="false" />
      		
-     		
-     		
-      		
-      		
-      			
-      		
-       		
-      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/pages/tbCOMPETENCIAS/tbCOMPETENCIAS.xhtml"  ajax="false" async="false" />
-      			
-       		
-       		
-       		<!--  <p:submenu label ="Motivadores">
-       		<p:menuitem value="#{messages.menu_Motivadores}" url="/pages/tbMOTIVADORES/tbMOTIVADORES.xhtml" ajax="false" async="false" />
-     		</p:submenu>-->
-     		
-     		
-     		
-     		<p:menuitem value="#{messages.menu_GRADES}" url="/pages/tbGRADE/tbGRADE.xhtml" ajax="false" async="false" />
+     		<p:menuitem value="#{messages.menu_GRADES}" url="/trilhas/AvaliacaoCargo/tbGRADE.xhtml" ajax="false" async="false" />
      			
-     		
-     		
-     		
-     		
-     		<p:menuitem value="#{messages.menu_Perfil}" url="/pages/tbPERFIL/tbPERFIL.xhtml" ajax="false" async="false" />
-     		
-     		
-     		
+     		<p:menuitem value="#{messages.menu_Perfil}" url="/trilhas/Perfil/tbPERFIL.xhtml" ajax="false" async="false" />
      		
      	
-     			
-     		
-     		
-     		
-       			<p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="/pages/tbCONHECIMENTOSBASICOS/tbCONHECIMENTOSBASICOS.xhtml" ajax="false" async="false" />
-				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOS.xhtml" style="margin-bottom:10px" ajax="false" async="false" />     
+       			<p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="/trilhas/ConhecimentosBasicos/tbCONHECIMENTOSBASICOS.xhtml" ajax="false" async="false" />
+				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/trilhas/ConhecimentosEspecificos/tbCONHECIMENTOSESPECIFICOS.xhtml" style="margin-bottom:10px" ajax="false" async="false" />     
     	
-    			<p:menuitem value="#{messages.menu_TbDiretoria}" url="/pages/tbAREA/tbAREA.xhtml" ajax="false" async="false" />
-      			<p:menuitem value="#{messages.menu_tbESTATUARIOs}" url="/pages/tbDEPTO/tbDEPTO.xhtml"  ajax="false" async="false" />
-      				<p:menuitem value="#{messages.menu_NO}" url="/pages/tbNO/tbNO.xhtml" ajax="false"  async="false" />
+    			<p:menuitem value="Área" url="/trilhas/Area/ControleArea.xhtml" ajax="false" async="false" />
+      			<p:menuitem value="Departamento" url="/trilhas/Departamento/tbDEPTO.xhtml"  ajax="false" async="false" />
+      				<p:menuitem value="#{messages.menu_NO}" url="/trilhas/NivelOrganizacional/tbNO.xhtml" ajax="false"  async="false" />
 	
    </p:menu>
  	 </p:panel>
@@ -107,43 +81,43 @@
       
      
       
-      <p:menuitem value="#{messages.menu_tbCARGOSs}" url="/pages/tbCARGOS/tbCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCARGOSs}" url="/trilhas/tbCARGOS/tbCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
   
       
-      <p:menuitem value="#{messages.menu_tbCOMPETENCIASCARGOSs}" url="/pages/tbCOMPETENCIASCARGOS/tbCOMPETENCIASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCOMPETENCIASCARGOSs}" url="/trilhas/tbCOMPETENCIASCARGOS/tbCOMPETENCIASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
      
       
-      <p:menuitem value="#{messages.menu_tbCOMPETENCIASEMCARGOSs}" url="/pages/tbCOMPETENCIASEMCARGOS/tbCOMPETENCIASEMCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCOMPETENCIASEMCARGOSs}" url="/trilhas/tbCOMPETENCIASEMCARGOS/tbCOMPETENCIASEMCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
      
       
-      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASCARGOSs}" url="/pages/tbCONHECIMENTOSBASCARGOS/tbCONHECIMENTOSBASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASCARGOSs}" url="/trilhas/tbCONHECIMENTOSBASCARGOS/tbCONHECIMENTOSBASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/pages/tbCONHECIMENTOSESPECIFICOS/tbCONHECIMENTOSESPECIFICOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/trilhas/ConhecimentosEspecificos/tbCONHECIMENTOSESPECIFICOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPCARGOSs}" url="/pages/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
-      
-     
-      
-      <p:menuitem value="#{messages.menu_tbESTILOLIDERANCACARGOSs}" url="/pages/tbESTILOLIDERANCACARGOS/tbESTILOLIDERANCACARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPCARGOSs}" url="/trilhas/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
      
       
-      <p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOCARGOSs}" url="/pages/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbESTILOLIDERANCACARGOSs}" url="/trilhas/tbESTILOLIDERANCACARGOS/tbESTILOLIDERANCACARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbHABILIDADESs}" url="/pages/tbHABILIDADES/tbHABILIDADES.xhtml" icon="icon-entity" ajax="false" async="false" />
+     
       
-      <p:menuitem value="#{messages.menu_tbHABILIDADESCARGOSs}" url="/pages/tbHABILIDADESCARGOS/tbHABILIDADESCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOCARGOSs}" url="/trilhas/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbHABILIDADESs}" url="/trilhas/tbHABILIDADES/tbHABILIDADES.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbHABILIDADESCARGOSs}" url="/trilhas/tbHABILIDADESCARGOS/tbHABILIDADESCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
       
       
-      <p:menuitem value="#{messages.menu_tbHABILIDADESCULTCARGOSs}" url="/pages/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbHABILIDADESCULTCARGOSs}" url="/trilhas/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
     
     <p:submenu label="#{messages.menu_admin}" rendered="#{p:ifGranted('Administrator')}">
-      <p:menuitem value="#{messages.menu_user_management}" url="/pages/admin/user.xhtml" icon="ui-icon-person" ajax="false" async="false"/>
+      <p:menuitem value="#{messages.menu_user_management}" url="/trilhas/admin/user.xhtml" icon="ui-icon-person" ajax="false" async="false"/>
     </p:submenu>
     --> 
  

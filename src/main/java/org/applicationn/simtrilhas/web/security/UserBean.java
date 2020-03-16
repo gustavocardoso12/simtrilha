@@ -40,6 +40,7 @@ public class UserBean implements Serializable {
     public UserEntity getUser() {
         if (user == null) {
             user = new UserEntity();
+            loadCurrentUser();
         }
         return user;
     }
@@ -152,7 +153,7 @@ public class UserBean implements Serializable {
         if (username != null) {
             this.user = this.userService.findUserByUsername(username);
         } else {
-            throw new RuntimeException("Can not get authorized user name");
+          
         }
     }
     
