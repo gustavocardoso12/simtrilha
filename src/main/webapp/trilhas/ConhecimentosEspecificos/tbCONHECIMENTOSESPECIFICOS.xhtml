@@ -13,11 +13,11 @@
 		<h:form>
 			<h:panelGrid columns="1" style="margin-bottom: 10px">
 				<h:outputText id="output"
-					value=" Variação do Gap: #{tbCONHECIMENTOSESPECIFICOSBean.gapVarCE}%" />
+					value=" Penalidade padrão: #{tbCONHECIMENTOSESPECIFICOSBean.gapVarCE}%" />
 				<h:inputHidden id="gapvar" value="#{tbCONHECIMENTOSESPECIFICOSBean.gapVarCE}" />
 				<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
 					step="1" style="width: 300px"
-					displayTemplate="Variação do gap: %{value}">
+					displayTemplate="Penalidade padrão: %{value}">
 					<p:ajax event="slideEnd"
 						listener="#{tbCONHECIMENTOSESPECIFICOSBean.onSlideEndCE}"
 						update="tbCONHECIMENTOSESPECIFICOSTable" />
@@ -31,10 +31,10 @@
 
 			<p:dataTable id="tbCONHECIMENTOSESPECIFICOSTable"
 				value="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOSList}"
-				var="tbCONHECIMENTOSESPECIFICOS" resizableColumns="true"
+				var="tbCONHECIMENTOSESPECIFICOS"
 				draggableColumns="true"
 				widgetVar="tbCONHECIMENTOSESPECIFICOSTable"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+				emptyMessage="#{messages.label_no_records_found}" >
 
 
 				 <p:column style="width:70%;text-align:center;font-size:14px;color:white;font-weight:bold;white-space:pre-line" 

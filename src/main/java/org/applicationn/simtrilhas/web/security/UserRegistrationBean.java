@@ -48,7 +48,7 @@ public class UserRegistrationBean implements Serializable {
                         "user_username_exists");
                 facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
                 FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-                return "/trilhas/user/register.xhtml";
+                return "${facesContext.externalContext.request.contextPath}/trilhas/user/register.xhtml";
             }
             // Check if a user with same email already exists            
             if (userService.findUserByEmail(user.getEmail()) != null) {
@@ -56,7 +56,7 @@ public class UserRegistrationBean implements Serializable {
                         "user_email_exists");
                 facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
                 FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-                return "/trilhas/user/register.xhtml";
+                return "${facesContext.externalContext.request.contextPath}/trilhas/user/register.xhtml";
             }
             
             user.setRoles(Arrays.asList(new UserRole[]{UserRole.Colaborador}));
@@ -66,7 +66,7 @@ public class UserRegistrationBean implements Serializable {
             user.setEmailConfirmationKey(emailConfirmationKey);
 
             String confirmationURL = "simuladorapta.brazilsouth.cloudapp.azure.com"
-                    + "/trilhas/user/activation.xhtml?key=" + emailConfirmationKey;
+                    + "${facesContext.externalContext.request.contextPath}/trilhas/user/activation.xhtml?key=" + emailConfirmationKey;
 
             RegistrationMailSender.sendRegistrationActivation(user.getEmail(), confirmationURL);
             
@@ -76,7 +76,7 @@ public class UserRegistrationBean implements Serializable {
                     "UserEntity");
             FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
-            return "/trilhas/userManagement/registerSuccess.xhtml?faces-redirect=true";
+            return "${facesContext.externalContext.request.contextPath}/trilhas/userManagement/registerSuccess.xhtml?faces-redirect=true";
         }
         catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Error registrando o usuário!", e);
@@ -91,7 +91,7 @@ public class UserRegistrationBean implements Serializable {
             }
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             FacesContext.getCurrentInstance().addMessage(null, message);
-            return "/trilhas/user/register.xhtml";
+            return "${facesContext.externalContext.request.contextPath}/trilhas/user/register.xhtml";
         }
     }
 

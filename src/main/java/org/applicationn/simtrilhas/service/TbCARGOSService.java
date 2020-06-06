@@ -7,10 +7,13 @@ import java.util.List;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 
+import org.applicationn.simtrilhas.domain.TbAREAEntity;
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
 import org.applicationn.simtrilhas.domain.TbDEPTOEntity;
 import org.applicationn.simtrilhas.domain.TbMATRIZCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbNOEntity;
+import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 
 @Named
 public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Serializable {
@@ -21,11 +24,41 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
         super(TbCARGOSEntity.class);
     }
     
+    
+    @Override
+    @Transactional
+    public TbCARGOSEntity save(TbCARGOSEntity tbCARGOS) {
+        String username = SecurityWrapper.getUsername();
+        
+        tbCARGOS.updateAuditInformation(username);
+        
+        return super.save(tbCARGOS);
+    }
+    
+    
+    @Override
+    @Transactional
+    public TbCARGOSEntity update(TbCARGOSEntity tbCARGOS) {
+        String username = SecurityWrapper.getUsername();
+        tbCARGOS.updateAuditInformation(username);
+        return super.update(tbCARGOS);
+    }
+    
+    
+    
     @Transactional
     public List<TbCARGOSEntity> findAllTbCARGOSEntities() {
         
         return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
     }
+    
+    
+    @Transactional
+    public List<TbCARGOSEntity> findAllTbPESSOASEntities() {
+        
+        return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'SIM' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
+    }
+    
     
     @Transactional
     public List<TbCARGOSEntity> findAllTbCARGOSEntitiesMatriz(String flag_pessoa) {
@@ -100,8 +133,6 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
         
         this.cutAllIdCARGOSTbPERFILCARGOSsAssignments(tbCARGOS);
         
-        this.cutAllIdCARGOSTbMOTIVADORESCARGOSsAssignments(tbCARGOS);
-        
       this.cutAllIdCARGOSTbONHECESPCARGOSsAssignments(tbCARGOS);
       
       this.cutAllIdCARGOSTbONHECBASCARGOSsAssignments(tbCARGOS);
@@ -113,7 +144,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     @Transactional
     private void cutAllIdCARGOSTbONHECBASCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
         entityManager
-                .createQuery("UPDATE TbCONHECIMENTOSBASCARGOS c SET c.idCARGOS = NULL WHERE c.idCARGOS = :p")
+                .createQuery("DELETE FROM TbCONHECIMENTOSBASCARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
     
@@ -121,7 +152,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     @Transactional
     private void cutAllIdCARGOSTbONHECESPCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
         entityManager
-                .createQuery("UPDATE TbCONHECIMENTOSESPCARGOS c SET c.idCARGOS = NULL WHERE c.idCARGOS = :p")
+                .createQuery("DELETE FROM TbCONHECIMENTOSESPCARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
 
@@ -129,7 +160,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     @Transactional
     private void cutAllIdCARGOSTbCOMPETENCIASCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
         entityManager
-                .createQuery("UPDATE TbCOMPETENCIASCARGOS c SET c.idCARGOS = NULL WHERE c.idCARGOS = :p")
+                .createQuery("DELETE FROM TbCOMPETENCIASCARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
     
@@ -137,7 +168,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     @Transactional
     private void cutAllIdCARGOSTbGRADECARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
         entityManager
-                .createQuery("UPDATE TbGRADECARGOS c SET c.idCARGOS = NULL WHERE c.idCARGOS = :p")
+                .createQuery("DELETE FROM TbGRADECARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
     
@@ -145,7 +176,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     @Transactional
     private void cutAllIdCARGOSTbPERFILCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
         entityManager
-                .createQuery("UPDATE TbPERFILCARGOS c SET c.idCARGOS = NULL WHERE c.idCARGOS = :p")
+                .createQuery("DELETE FROM TbPERFILCARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
     

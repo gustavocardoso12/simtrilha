@@ -16,7 +16,7 @@
 				style="width:100%"
 				value="#{tbAREABean.tbAREAList}" var="tbAREA"
 				resizableColumns="true"  draggableColumns="true" widgetVar="tbAREATable"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+				emptyMessage="#{messages.label_no_records_found}" >
 
 
 
@@ -85,7 +85,7 @@
     </p:confirmDialog>
     
     <p:dialog dynamic="true" id="editTbAREADialog" header="#{tbAREABean.dialogHeader}"
-     showEffect="explode" hideEffect="bounce" responsive="true" resizable="false"
+      responsive="true" resizable="false"
             modal="false" widgetVar="editTbAREADialogWidget" maximizable="false">
         <p:ajax event="close" listener="#{tbAREABean.reset}"/>
         <h:form id="editTbAREAForm" >

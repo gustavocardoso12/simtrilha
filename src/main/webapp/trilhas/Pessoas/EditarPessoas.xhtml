@@ -8,10 +8,11 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 <ui:composition template="/templates/layout.xhtml">
 	<ui:define name="content">
-	
-	
-	
-	<p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
+	    <f:metadata>
+        <f:viewParam name="id" value="#{tbCARGOSBean.id}" />
+    </f:metadata>
+    
+    <p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
 
 		<f:facet name="start">
         <h:panelGrid id="diag" columns="2">
@@ -41,8 +42,9 @@
 			<p:graphicImage name="/images/waiting.gif" />
 			</h:panelGrid>
 		</p:dialog>
-	
-	
+    
+    
+    
 		<h:form prependId="false" id="tbCARGOSDataForm"
 			onkeypress="if (event.keyCode == 13) {return false; }">
 	
@@ -57,21 +59,21 @@
 			
 		<h:outputLabel value="#{messages.field_label_tbCARGOS_deSCCARGO}:"
 			for="deSCCARGOEditInput" />
-		<p:inputText value="#{tbCARGOSBean.tbCARGOS.deSCCARGO}"
+		<p:inputText value="#{tbCARGOSBean.tbCARGOSEdicao.deSCCARGO}"
 			id="deSCCARGOEditInput"
 			label="#{messages.field_label_tbCARGOS_deSCCARGO}" />
 		<p:message for="deSCCARGOEditInput" display="icon" />
 
 		<h:outputLabel value="#{messages.field_label_tbCARGOS_miSSAO}:"
 			for="miSSAOEditInput" />
-		<p:inputText value="#{tbCARGOSBean.tbCARGOS.miSSAO}"
+		<p:inputText value="#{tbCARGOSBean.tbCARGOSEdicao.miSSAO}"
 			id="miSSAOEditInput" label="#{messages.field_label_tbCARGOS_miSSAO}" />
 		<p:message for="miSSAOEditInput" display="icon" />
 
 		<h:outputLabel
 			value="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}:"
 			for="reSPONSABILIDADESEditInput" />
-		<p:inputTextarea value="#{tbCARGOSBean.tbCARGOS.reSPONSABILIDADES}"
+		<p:inputTextarea value="#{tbCARGOSBean.tbCARGOSEdicao.reSPONSABILIDADES}"
 			id="reSPONSABILIDADESEditInput" rows="1" cols="33" />
 		<p:message for="reSPONSABILIDADESEditInput" display="icon" />
 
@@ -81,7 +83,7 @@
 		<h:outputLabel value="#{messages.field_label_tbCARGOS_idDEPTO}:"
 			for="idDEPTOSelectInput" />
 		
-			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.idDEPTO}"
+			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOSEdicao.idDEPTO}"
 				id="idDEPTOSelectInput">
 				<f:selectItem noSelectionOption="true" itemLabel="" />
 				<f:selectItems value="#{tbCARGOSBean.idDEPTOs}" var="tbDEPTO"
@@ -95,7 +97,7 @@
 		<h:outputLabel value="#{messages.field_label_tbCARGOS_idNO}:"
 			for="idNOSelectInput" />
 		
-			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.idNO}"
+			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOSEdicao.idNO}"
 				id="idNOSelectInput">
 				<f:selectItem noSelectionOption="true" itemLabel="" />
 				<f:selectItems value="#{tbCARGOSBean.idNOs}" var="tbNO"
@@ -110,7 +112,7 @@
 		<h:outputLabel value="Cargo ou pessoa?"
  			for="idpessoaSelectInput" />  
 		
-			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.flagPessoa}"
+			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOSEdicao.flagPessoa}"
 				id="idpessoaSelectInput">
 				<f:selectItem noSelectionOption="true" itemLabel="" />
             	<f:selectItem itemLabel="Pessoa" itemValue="SIM" />
@@ -121,11 +123,9 @@
 		<p:message for="idSaveSelectInput" display="icon" />
 		<h:outputLabel value=""
  			for="idSaveSelectInput" />  
-			<p:commandButton value="Salvar" resetValues="true" id="idSaveSelectInput"
-									actionListener="#{tbCARGOSBean.persist}"
-								 update="tbCARGOSDataForm 
-									 DSPE DSGR DSCO DSCB DSCE 
-									 " process="tbCARGOSDataForm DSPE DSGR DSCO DSCB DSCE"
+			<p:commandButton value="Salvar informações básicas do cargo" resetValues="true" id="idSaveSelectInput"
+									actionListener="#{tbCARGOSBean.persistEdicao(tbCARGOSBean.tbCARGOSEdicao)}"
+									 update="tbCARGOSDataForm :growlForm:growl" process="tbCARGOSDataForm"
 									style="width:29.5%" />
 		
 	
@@ -156,7 +156,7 @@
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
 						<p:dataTable id="tbPERFILCARGOSTable"
-							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresPE_ED(tbCARGOSBean.tbCARGOS)}"
+							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresPE_ED(tbCARGOSBean.tbCARGOSEdicao)}"
 							var="tbPERFILCARGOS"
 							widgetVar="tbPERFILCARGOSTable"
 							emptyMessage="#{messages.label_no_records_found}" >
@@ -164,13 +164,10 @@
 							<f:facet name="header">
 
 								<p:commandButton value="Cadastrar Perfil"
-									action="#{tbPERFILCARGOSBean.prepareNewTbPERFILCARGOS(tbCARGOSBean.tbCARGOS)}"
+									action="#{tbPERFILCARGOSBean.prepareNewTbPERFILCARGOS(tbCARGOSBean.tbCARGOSEdicao)}"
 									resetValues="true" update=":editTbPERFILCARGOSDialog"
 									oncomplete="if(!args.validationFailed) PF('editTbPERFILCARGOSDialogWidget').show()"
 									style="width:29.5%" />
-									
-									
-									
 
 							</f:facet>
 
@@ -326,7 +323,7 @@
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
 						<p:dataTable id="tbGRADECARGOSTable"
-							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresGR_ED(tbCARGOSBean.tbCARGOS)}"
+							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresGR_ED(tbCARGOSBean.tbCARGOSEdicao)}"
 							var="tbGRADECARGOS"
 							widgetVar="tbGRADECARGOSTable"
 							emptyMessage="#{messages.label_no_records_found}" >
@@ -334,7 +331,7 @@
 							<f:facet name="header">
 
 								<p:commandButton value="Cadastrar Avaliação do Cargo"
-									action="#{tbGRADECARGOSBean.prepareNewTbGRADESCARGOS(tbCARGOSBean.tbCARGOS)}"
+									action="#{tbGRADECARGOSBean.prepareNewTbGRADESCARGOS(tbCARGOSBean.tbCARGOSEdicao)}"
 									resetValues="true" update=":editTbGRADECARGOSDialog"
 									oncomplete="if(!args.validationFailed) PF('editTbGRADECARGOSDialogWidget').show()"
 									style="width:29.5%" />
@@ -486,27 +483,27 @@
 				toggleSpeed="500" closeSpeed="500" widgetVar="panel8"
 				collapsed="true" style="width:auto;background:black;">
 				<h:panelGrid id="paneCO" rendered="#{tbCARGOSBean.flagCultura==1}">
-					
-					<h:form>
+
+			<h:form>
 					
 					
 					<p:panelGrid columns="2" columnClasses="col1,col2">
+						
 					
 					
 						<p:commandButton value="Deletar todas as competências"
-							action="#{tbCOMPETENCIASCARGOSBean.DeletarCompetencias(tbCARGOSBean.tbCARGOS)}"
+							action="#{tbCOMPETENCIASCARGOSBean.DeletarCompetencias(tbCARGOSBean.tbCARGOSEdicao)}"
 							update=":editTbCOMPETENCIASCARGOSForm:tbCOMPETENCIASCARGOSEditPanel :tbCOMPETENCIASCARGOSDataForm :growlForm:growl" />
 					</p:panelGrid>
 					
 					</h:form>
 					
 					<p:spacer></p:spacer>
-
 					<h:form prependId="false" id="tbCOMPETENCIASCARGOSDataForm"
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
 						<p:dataTable id="tbCOMPETENCIASCARGOSTable"
-							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCO_ED(tbCARGOSBean.tbCARGOS)}"
+							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCO_ED(tbCARGOSBean.tbCARGOSEdicao)}"
 							var="tbCOMPETENCIASCARGOS"
 							widgetVar="tbCOMPETENCIASCARGOSTable"
 							emptyMessage="#{messages.label_no_records_found}" >
@@ -514,13 +511,10 @@
 							<f:facet name="header">
 
 								<p:commandButton value="#{messages.CadastrarCompetencias}"
-									action="#{tbCOMPETENCIASCARGOSBean.prepareNewTbCOMPETENCIASCARGOS(tbCARGOSBean.tbCARGOS)}"
+									action="#{tbCOMPETENCIASCARGOSBean.prepareNewTbCOMPETENCIASCARGOS(tbCARGOSBean.tbCARGOSEdicao)}"
 									resetValues="true" update=":editTbCOMPETENCIASCARGOSDialog"
 									oncomplete="if(!args.validationFailed) PF('editTbCOMPETENCIASCARGOSDialogWidget').show()"
 									style="width:29.5%" />
-									
-									
-									
 
 							</f:facet>
 
@@ -607,7 +601,7 @@
 		</p:confirmDialog>
 
 		<p:dialog dynamic="true" id="editTbCOMPETENCIASCARGOSDialog"
-			 responsive="true"
+			
 			resizable="false" modal="true" maximizable="false"
 			header="#{tbCOMPETENCIASCARGOSBean.dialogHeader}"
 			widgetVar="editTbCOMPETENCIASCARGOSDialogWidget">
@@ -621,7 +615,6 @@
 							action="#{tbCOMPETENCIASCARGOSBean.persist}"
 							update=":editTbCOMPETENCIASCARGOSForm:tbCOMPETENCIASCARGOSEditPanel :tbCOMPETENCIASCARGOSDataForm :growlForm:growl"
 							oncomplete="if(!args.validationFailed) PF('editTbCOMPETENCIASCARGOSDialogWidget').hide()" />
-							
 					</div>
 				</p:outputPanel>
 			</h:form>
@@ -670,16 +663,16 @@
 				toggleSpeed="500" closeSpeed="500" widgetVar="panel9"
 				collapsed="true" style="width:auto;background:black;">
 				<h:panelGrid id="paneCB" rendered="#{tbCARGOSBean.flagCultura==1}">
-					
-					<h:form>
+	
+	<h:form>
 					
 					
 					<p:panelGrid columns="2" columnClasses="col1,col2">
-						
+					
 					
 					
 						<p:commandButton value="Deletar todas as Formações e Experiências"
-							action="#{tbCONHECIMENTOSBASCARGOSBean.DeletarCB(tbCARGOSBean.tbCARGOS)}"
+							action="#{tbCONHECIMENTOSBASCARGOSBean.DeletarCB(tbCARGOSBean.tbCARGOSEdicao)}"
 							update=":editTbCONHECIMENTOSBASCARGOSForm:tbCONHECIMENTOSBASCARGOSEditPanel :tbCONHECIMENTOSBASCARGOSDataForm :growlForm:growl" />
 					</p:panelGrid>
 					
@@ -688,13 +681,11 @@
 					<p:spacer></p:spacer>
 	
 					
-					
-					
 					<h:form prependId="false" id="tbCONHECIMENTOSBASCARGOSDataForm"
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
 						<p:dataTable id="tbCONHECIMENTOSBASCARGOSTable"
-							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCB_ED(tbCARGOSBean.tbCARGOS)}"
+							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCB_ED(tbCARGOSBean.tbCARGOSEdicao)}"
 							var="tbCONHECIMENTOSBASCARGOS"
 							draggableColumns="true" widgetVar="tbCONHECIMENTOSBASCARGOSTable"
 							emptyMessage="#{messages.label_no_records_found}" >
@@ -702,7 +693,7 @@
 							<f:facet name="header">
 
 								<p:commandButton value="#{messages.CadastrarConhecimentoBasico}"
-									action="#{tbCONHECIMENTOSBASCARGOSBean.prepareNewTbCONHECIMENTOSBASCARGOS(tbCARGOSBean.tbCARGOS)}"
+									action="#{tbCONHECIMENTOSBASCARGOSBean.prepareNewTbCONHECIMENTOSBASCARGOS(tbCARGOSBean.tbCARGOSEdicao)}"
 									resetValues="true" update=":editTbCONHECIMENTOSBASCARGOSDialog"
 									oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSBASCARGOSDialogWidget').show()"
 									style="width:29.5%" />
@@ -788,7 +779,8 @@
 
 		<p:dialog dynamic="true" id="editTbCONHECIMENTOSBASCARGOSDialog"
 			header="#{tbCONHECIMENTOSBASCARGOSBean.dialogHeader}"
-			 width="500px"
+			 width="500px !important"
+			responsive="false"
 			resizable="false" modal="true" maximizable="false"
 			widgetVar="editTbCONHECIMENTOSBASCARGOSDialogWidget">
 			<p:ajax event="close"
@@ -856,9 +848,8 @@
 					<p:panelGrid columns="2" columnClasses="col1,col2">
 						
 					
-					
 						<p:commandButton value="Deletar todas os Conhecimentos Técnicos "
-							action="#{tbCONHECIMENTOSESPCARGOSBean.DeletarCB(tbCARGOSBean.tbCARGOS)}"
+							action="#{tbCONHECIMENTOSESPCARGOSBean.DeletarCB(tbCARGOSBean.tbCARGOSEdicao)}"
 							update=":editTbCONHECIMENTOSESPCARGOSForm:tbCONHECIMENTOSESPCARGOSEditPanel :tbCONHECIMENTOSESPCARGOSDataForm :growlForm:growl" />
 					</p:panelGrid>
 					
@@ -870,7 +861,7 @@
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
 						<p:dataTable id="tbCONHECIMENTOSESPCARGOSTable"
-							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCE_ED(tbCARGOSBean.tbCARGOS)}"
+							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCE_ED(tbCARGOSBean.tbCARGOSEdicao)}"
 							var="tbCONHECIMENTOSESPCARGOS"
 							draggableColumns="true" widgetVar="tbCONHECIMENTOSESPCARGOSTable"
 							emptyMessage="#{messages.label_no_records_found}" >
@@ -879,7 +870,7 @@
 
 								<p:commandButton
 									value="#{messages.CadastrarConhecimentosEspecificos}"
-									action="#{tbCONHECIMENTOSESPCARGOSBean.prepareNewTbCONHECIMENTOSESPCARGOS(tbCARGOSBean.tbCARGOS)}"
+									action="#{tbCONHECIMENTOSESPCARGOSBean.prepareNewTbCONHECIMENTOSESPCARGOS(tbCARGOSBean.tbCARGOSEdicao)}"
 									resetValues="true" update=":editTbCONHECIMENTOSESPCARGOSDialog"
 									oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSESPCARGOSDialogWidget').show()"
 									style="width:29.5%" />

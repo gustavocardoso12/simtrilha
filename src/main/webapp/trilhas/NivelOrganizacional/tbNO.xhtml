@@ -16,7 +16,7 @@
 				style="width:100%"
 				value="#{tbNOBean.tbNOList}" var="tbNO"
 				resizableColumns="true"  draggableColumns="true" widgetVar="tbNOTable"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+				emptyMessage="#{messages.label_no_records_found}" >
 
 
 
@@ -91,7 +91,7 @@
     </p:confirmDialog>
     
     <p:dialog dynamic="true" id="editTbNODialog" header="#{tbNOBean.dialogHeader}"
-     showEffect="explode" hideEffect="bounce" responsive="true" resizable="false"
+      responsive="true" resizable="false"
             modal="false" widgetVar="editTbNODialogWidget" maximizable="false">
         <p:ajax event="close" listener="#{tbNOBean.reset}"/>
         <h:form id="editTbNOForm" >
@@ -110,7 +110,7 @@
 		<p:dialog dynamic="true" id="viewTbNODialog"
 			header="#{messages.label_tbNO_caption}" modal="true"
 			maximizable="false"
-			showEffect="explode" hideEffect="bounce"
+			
 			resizable="false" responsive="true"
 			widgetVar="viewTbNODialogWidget">
 			<p:ajax event="close" listener="#{tbNOBean.reset}" />

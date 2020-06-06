@@ -1,6 +1,19 @@
 * {
-  font-family:Calibri;
+ /* font-family:Calibri;*/
 }
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYC3USBnSvpkopQaUR-2r7iU.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: bold;
+  font-weight: 700;
+  src: local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf) format('truetype');
+}
+
 
 
 body,div,td {
@@ -39,6 +52,11 @@ a, img {
     font-family: Calibri;
     
 }
+
+.ui-state-active .ui-icon{
+	
+}
+
 
 
 
@@ -174,7 +192,7 @@ th {
 .ui-button .ui-button-text {
     display: block;
     line-height: normal;
-    background:#ED6707;
+    background:#FAA82D;
 }
 
 
@@ -220,6 +238,14 @@ th {
 	background: #00AF50 !important;
 }
 
+.GradeAux.ui-datatable thead th, .ui-datatable tfoot th{
+	background: #00AF50  !important;
+}
+
+.GradeAux.ui-datatable thead th, .ui-datatable tfoot th{
+	background: #00AF50  !important;
+}
+
 
 .Perfil.ui-panel .ui-panel-titlebar {
 	background: #14A1DD !important;
@@ -227,6 +253,14 @@ th {
 
 .PerfilAux.ui-datatable .ui-datatable-header{
 	background: #14A1DD !important;
+}
+
+.PerfilAux.ui-datatable thead th, .ui-datatable tfoot th{
+	background: #14A1DD  !important;
+}
+
+.PerfilAux.ui-datatable thead th, .ui-datatable tfoot th{
+	background: #14A1DD  !important;
 }
 
 
@@ -246,8 +280,6 @@ th {
 	background: #C42A22 !important;
 }
 
-.BasicosAux.ui-datatable tbody td{
-}
 
 
 .ui-datatable-odd {
@@ -255,7 +287,7 @@ th {
 }
 
 .ui-datatable-even {
-    background: #F2F5F9 !important;
+    background: white !important;
 }
 
 .Especificos.ui-panel .ui-panel-titlebar {
@@ -265,6 +297,21 @@ th {
 .EspecificosAux.ui-datatable .ui-datatable-header{
 	background: #920A7A !important;
 }
+
+
+.ui-selectonemenu .ui-selectonemenu-label {
+	white-space:pre-line !important;
+}
+
+.EspecificosAux.ui-datatable thead th, .ui-datatable tfoot th{
+	background: #920A7A  !important;
+}
+
+.EspecificosAux.ui-datatable thead th, .ui-datatable tfoot th{
+	background: #920A7A  !important;
+}
+
+
 
 
 .EspecificosAuxTH.th{
@@ -302,12 +349,7 @@ th {
 	color:black;
 }
 
-.img-button-delete { 
-	width:16px;
-	height:16px;
-	background-image: url('/javax.faces.resource/images/can.png.xhtml') !important; 
-	
-	}
+
 	
 .ui-widget-header .ui-icon{
 	background-image: url("/javax.faces.resource/images/ui-icons_ffffff_256x240.png.xhtml?ln=primefaces-ui-darkness") !important;
@@ -340,7 +382,8 @@ th {
 
 .ui-widget-content {
     border: none;
-    color:black !important
+    color:black !important;
+    background:white;
 }
 
 .ui-menu .ui-menuitem-text {
@@ -351,12 +394,15 @@ th {
 }
 
 
+
+
+
+
 .ui-selectonemenu-panel .ui-selectonemenu-list-item {
     border: 0 none;
     margin: 1px 0;
     padding: 3px 5px;
     text-align: left;
-    color: white !important;
     white-space: pre-line !important;
 }
 
@@ -500,7 +546,7 @@ th {
 }
 
 .autoTrilhasNo.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
-	background:#5C2C5E !important;
+	background:#EEEEEE !important;
 
 }
 
@@ -574,3 +620,73 @@ td.foo {
     border: 0;
     background:#5C2C5E;
 }
+
+.Ret_ngulo_61 {
+		
+		overflow: visible;
+		width: 9px;
+		height: 100px;
+	
+	}
+
+.barraCargosPessoas .th {
+  /* color:#f2f2f2 !important; */
+  background:#EEEEEE 0% 0% no-repeat padding-box !important;
+  border:none !important;
+}
+
+.botaoPessoas.ui-button-text-icon-left .ui-button-text{
+	height:30px !important;
+}
+
+
+.botaoADDPessoas.ui-button-text .ui-c {
+	height:30px !important;
+}
+
+.botaoADDPessoas.ui-button-text-only .ui-button-text  {
+
+	padding: .9em 1em !important;
+}
+
+
+
+
+
+.botaoPessoas.ui-button-text-icon-left .ui-icon{
+	position: absolute;
+    top: 50%;
+   	margin-top: -13px;
+    margin-left: 0px;
+}
+
+
+.img-button-edit { 
+	width:40px;
+	height:40px;
+	background-image: url('#{request.contextPath}/javax.faces.resource/images/edit.png.xhtml') !important; 
+	
+	}
+
+.img-button-delete { 
+	width:40px;
+	height:40px;
+	background-image: url('#{request.contextPath}/javax.faces.resource/images/trash.png.xhtml') !important; 
+	
+	}
+
+	
+ .painelpessoas{
+ width:15px !important;
+ }	
+ 
+ 	
+ .painelpessoas2{
+ width:25px !important;
+ }	
+	
+	button {
+    font-family: Montserrat;
+    font-size: 1em;
+}
+	

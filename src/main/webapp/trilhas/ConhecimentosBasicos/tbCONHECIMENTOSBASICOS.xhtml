@@ -13,11 +13,11 @@
 		<h:form>
 			<h:panelGrid columns="1" style="margin-bottom: 10px">
 				<h:outputText id="output"
-					value=" Variação do Gap: #{tbCONHECIMENTOSBASICOSBean.gapVarCB}%" />
+					value=" Penalidade padrão: #{tbCONHECIMENTOSBASICOSBean.gapVarCB}%" />
 				<h:inputHidden id="gapvar" value="#{tbCONHECIMENTOSBASICOSBean.gapVarCB}" />
 				<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
 					step="1" style="width: 300px"
-					displayTemplate="Variação do gap: %{value}">
+					displayTemplate="Penalidade padrão: %{value}">
 					<p:ajax event="slideEnd"
 						listener="#{tbCONHECIMENTOSBASICOSBean.onSlideEndCB}"
 						update="tbCONHECIMENTOSBASICOSTable" />
@@ -30,43 +30,119 @@
 			onkeypress="if (event.keyCode == 13) {return false; }">
 
 			<p:dataTable id="tbCONHECIMENTOSBASICOSTable"
+				styleClass="barraCargosPessoas"
 				value="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOSList}"
-				var="tbCONHECIMENTOSBASICOS" resizableColumns="true"
-				draggableColumns="true" widgetVar="tbCONHECIMENTOSBASICOSTable"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
-
-
-				 <p:column style="width:50%;text-align:center;font-size:14px;color:white;font-weight:bold;white-space:pre-line" 
-					headerText="#{messages.field_label_tbCONHECIMENTOSBASICOS_deSCCONHECIMENTOSBASICOS}">
-					<h:outputText
-						value="#{tbCONHECIMENTOSBASICOS.deSCCONHECIMENTOSBASICOS}" />
-				</p:column>
-
-				<p:column
-					style="width:15%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+				var="tbCONHECIMENTOSBASICOS"
+				 widgetVar="tbCONHECIMENTOSBASICOSTable"
+				emptyMessage="#{messages.label_no_records_found}" >
 					
-					headerText="#{messages.field_label_tbPERFIL_penalidade}"
-					styleClass="#{(tbCONHECIMENTOSBASICOS.conhecBasCustom=='S') ? 'customPenStyle': ''}">
-					<h:outputText 
-					value="#{tbCONHECIMENTOSBASICOS.penalidadeConhecBas.intValue()}%">
-					<f:convertNumber minFractionDigits="0" />
-					</h:outputText>
-				</p:column>
-				
-				<p:column
-					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
-					headerText="#{messages.field_label_tbPERFIL_bloqueia}">
-					<h:outputText value="#{tbCONHECIMENTOSBASICOS.bloqueiaMovConhecBas}" />
-				</p:column>
-				
-
-				<p:column headerText="Ações"
-					style="background:#F2f2f2;width:60%;font-size:14px;font-weight:bold;"
-					exportable="false">
-
 					
+					
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+						headerText="#{messages.field_label_tbCONHECIMENTOSBASICOS_deSCCONHECIMENTOSBASICOS}">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCONHECIMENTOSBASICOS.deSCCONHECIMENTOSBASICOS}"  />
+					</p:column>	
 
-					<p:commandButton 
+				
+				<p:column 
+						styleClass="#{(tbCONHECIMENTOSBASICOS.conhecBasCustom=='S') ? 'customPenStyle': 'barraCargosPessoas'}"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+						headerText="#{messages.field_label_tbPERFIL_penalidade}" >
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCONHECIMENTOSBASICOS.penalidadeConhecBas.intValue()}%">
+							<f:convertNumber minFractionDigits="0" />
+							</h:outputText>
+					</p:column>
+
+			<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+						headerText="#{messages.field_label_tbPERFIL_bloqueia}">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCONHECIMENTOSBASICOS.bloqueiaMovConhecBas}"  >
+							<f:convertNumber minFractionDigits="0" />
+							</h:outputText>
+					</p:column>
+				
+			
+				
+
+				
+
+						<p:column styleClass="barraCargosPessoas"
+							style="
+					width:30%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;">
+
+
+
+							<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
+							
+							
+							
+							
+							<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+								icon="img-button-edit"
+									update=":editTbCONHECIMENTOSBASICOSDialog"
+								rerendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:update')}"
+						action="#{tbCONHECIMENTOSBASICOSBean.onDialogOpen(tbCONHECIMENTOSBASICOS)}"
+								ooncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSBASICOSDialogWidget').show()"/>
+
+							
+							<p:commandButton
+							rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:delete')}"
+								oncomplete="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').show()"
+								styleClass="botaoPessoas"
+								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								icon="img-button-delete">
+							<f:setPropertyActionListener value="#{tbCONHECIMENTOSBASICOS}"
+							target="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS}" />
+							</p:commandButton>
+				</p:panelGrid>
+						</p:column>
+
+				<!--  	<p:commandButton 
 						update=":editTbCONHECIMENTOSBASICOSDialog" resetValues="true"
 						style="width:95%;background:#f2f2f2"
 						rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:update')}"
@@ -83,9 +159,9 @@
 						icon="img-button-delete">
 						<f:setPropertyActionListener value="#{tbCONHECIMENTOSBASICOS}"
 							target="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS}" />
-					</p:commandButton>
+					</p:commandButton>-->
 
-				</p:column>
+			
 
 				<f:facet name="footer">
 
@@ -104,6 +180,7 @@
 
 
 		</h:form>
+		
 
 		<p:confirmDialog id="deleteTbCONHECIMENTOSBASICOSDialog"
 			widgetVar="deleteTbCONHECIMENTOSBASICOSDialogWidget"
@@ -130,8 +207,7 @@
 
 		<p:dialog dynamic="true" id="editTbCONHECIMENTOSBASICOSDialog"
 			header="#{tbCONHECIMENTOSBASICOSBean.dialogHeader}"
-			showEffect="explode"
-			hideEffect="bounce" responsive="true" resizable="false"
+			responsive="true" resizable="false"
 			modal="true" widgetVar="editTbCONHECIMENTOSBASICOSDialogWidget"
 			maximizable="false">
 			<p:ajax event="close" listener="#{tbCONHECIMENTOSBASICOSBean.reset}" />
@@ -149,20 +225,6 @@
 			</h:form>
 		</p:dialog>
 
-		<p:dialog dynamic="true" id="viewTbCONHECIMENTOSBASICOSDialog"
-			header="#{messages.VisualizarRegistro}"
-			showEffect="explode"
-			hideEffect="bounce" responsive="true" resizable="false"
-			modal="true" widgetVar="viewTbCONHECIMENTOSBASICOSDialogWidget"
-			maximizable="false">
-			<p:ajax event="close" listener="#{tbCONHECIMENTOSBASICOSBean.reset}" />
-			<h:form id="viewTbCONHECIMENTOSBASICOSForm">
-				<ui:include
-					src="/trilhas/ConhecimentosBasicos/tbCONHECIMENTOSBASICOSViewInclude.xhtml" />
-				<div style="text-align: center; margin: 10px">
-				</div>
-			</h:form>
-		</p:dialog>
 
 		
 	

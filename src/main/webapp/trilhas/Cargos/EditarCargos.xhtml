@@ -157,9 +157,9 @@
 
 						<p:dataTable id="tbPERFILCARGOSTable"
 							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresPE_ED(tbCARGOSBean.tbCARGOSEdicao)}"
-							var="tbPERFILCARGOS" resizableColumns="true"
+							var="tbPERFILCARGOS"
 							widgetVar="tbPERFILCARGOSTable"
-							emptyMessage="#{messages.label_no_records_found}" reflow="true">
+							emptyMessage="#{messages.label_no_records_found}" >
 
 							<f:facet name="header">
 
@@ -255,7 +255,7 @@
 
 		
 		<p:dialog dynamic="true" id="editTbPERFILCARGOSDialog" 
-			showEffect="explode" hideEffect="bounce" responsive="true"
+			 responsive="true"
 			resizable="false" modal="true" maximizable="false"
 			header="#{tbPERFILCARGOSBean.dialogHeader}"
 			widgetVar="editTbPERFILCARGOSDialogWidget">
@@ -324,9 +324,9 @@
 
 						<p:dataTable id="tbGRADECARGOSTable"
 							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresGR_ED(tbCARGOSBean.tbCARGOSEdicao)}"
-							var="tbGRADECARGOS" resizableColumns="true"
+							var="tbGRADECARGOS"
 							widgetVar="tbGRADECARGOSTable"
-							emptyMessage="#{messages.label_no_records_found}" reflow="true">
+							emptyMessage="#{messages.label_no_records_found}" >
 
 							<f:facet name="header">
 
@@ -421,7 +421,7 @@
 		</p:confirmDialog>
 
 		<p:dialog dynamic="true" id="editTbGRADECARGOSDialog"
-			showEffect="explode" hideEffect="bounce" responsive="true"
+			 responsive="true"
 			resizable="false" modal="true" maximizable="false"
 			header="#{tbGRADECARGOSBean.dialogHeader}"
 			widgetVar="editTbGRADECARGOSDialogWidget">
@@ -488,9 +488,6 @@
 					
 					
 					<p:panelGrid columns="2" columnClasses="col1,col2">
-						<p:commandButton value="Preencher competências com valor padrão"
-							action="#{tbCOMPETENCIASCARGOSBean.preencherCompetenciasZeros(tbCARGOSBean.tbCARGOSEdicao)}"
-							update=":editTbCOMPETENCIASCARGOSForm:tbCOMPETENCIASCARGOSEditPanel :tbCOMPETENCIASCARGOSDataForm :growlForm:growl" />
 					
 					
 						<p:commandButton value="Deletar todas as competências"
@@ -506,9 +503,9 @@
 
 						<p:dataTable id="tbCOMPETENCIASCARGOSTable"
 							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCO_ED(tbCARGOSBean.tbCARGOSEdicao)}"
-							var="tbCOMPETENCIASCARGOS" resizableColumns="true"
+							var="tbCOMPETENCIASCARGOS"
 							widgetVar="tbCOMPETENCIASCARGOSTable"
-							emptyMessage="#{messages.label_no_records_found}" reflow="true">
+							emptyMessage="#{messages.label_no_records_found}" >
 
 							<f:facet name="header">
 
@@ -603,7 +600,7 @@
 		</p:confirmDialog>
 
 		<p:dialog dynamic="true" id="editTbCOMPETENCIASCARGOSDialog"
-			showEffect="explode" hideEffect="bounce"
+			
 			resizable="false" modal="true" maximizable="false"
 			header="#{tbCOMPETENCIASCARGOSBean.dialogHeader}"
 			widgetVar="editTbCOMPETENCIASCARGOSDialogWidget">
@@ -670,9 +667,7 @@
 					
 					
 					<p:panelGrid columns="2" columnClasses="col1,col2">
-						<p:commandButton value="Preencher Formações e Experiências com valor padrão"
-							action="#{tbCONHECIMENTOSBASCARGOSBean.preencherCBZeros(tbCARGOSBean.tbCARGOSEdicao)}"
-							update=":editTbCONHECIMENTOSBASCARGOSForm:tbCONHECIMENTOSBASCARGOSEditPanel :tbCONHECIMENTOSBASCARGOSDataForm :growlForm:growl" />
+					
 					
 					
 						<p:commandButton value="Deletar todas as Formações e Experiências"
@@ -690,9 +685,9 @@
 
 						<p:dataTable id="tbCONHECIMENTOSBASCARGOSTable"
 							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCB_ED(tbCARGOSBean.tbCARGOSEdicao)}"
-							var="tbCONHECIMENTOSBASCARGOS" resizableColumns="true"
+							var="tbCONHECIMENTOSBASCARGOS"
 							draggableColumns="true" widgetVar="tbCONHECIMENTOSBASCARGOSTable"
-							emptyMessage="#{messages.label_no_records_found}" reflow="true">
+							emptyMessage="#{messages.label_no_records_found}" >
 
 							<f:facet name="header">
 
@@ -783,7 +778,7 @@
 
 		<p:dialog dynamic="true" id="editTbCONHECIMENTOSBASCARGOSDialog"
 			header="#{tbCONHECIMENTOSBASCARGOSBean.dialogHeader}"
-			showEffect="explode" hideEffect="bounce" width="500px !important"
+			 width="500px !important"
 			responsive="false"
 			resizable="false" modal="true" maximizable="false"
 			widgetVar="editTbCONHECIMENTOSBASCARGOSDialogWidget">
@@ -850,10 +845,7 @@
 					
 					
 					<p:panelGrid columns="2" columnClasses="col1,col2">
-						<p:commandButton value="Preencher Conhecimentos Técnicos com valor padrão"
-							action="#{tbCONHECIMENTOSESPCARGOSBean.preencherCBZeros(tbCARGOSBean.tbCARGOSEdicao)}"
-							update=":editTbCONHECIMENTOSESPCARGOSForm:tbCONHECIMENTOSESPCARGOSEditPanel :tbCONHECIMENTOSESPCARGOSDataForm :growlForm:growl" />
-					
+						
 					
 						<p:commandButton value="Deletar todas os Conhecimentos Técnicos "
 							action="#{tbCONHECIMENTOSESPCARGOSBean.DeletarCB(tbCARGOSBean.tbCARGOSEdicao)}"
@@ -869,9 +861,9 @@
 
 						<p:dataTable id="tbCONHECIMENTOSESPCARGOSTable"
 							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresCE_ED(tbCARGOSBean.tbCARGOSEdicao)}"
-							var="tbCONHECIMENTOSESPCARGOS" resizableColumns="true"
+							var="tbCONHECIMENTOSESPCARGOS"
 							draggableColumns="true" widgetVar="tbCONHECIMENTOSESPCARGOSTable"
-							emptyMessage="#{messages.label_no_records_found}" reflow="true">
+							emptyMessage="#{messages.label_no_records_found}" >
 
 							<f:facet name="header">
 
@@ -967,7 +959,7 @@
 		</p:confirmDialog>
 
 		<p:dialog dynamic="true" id="editTbCONHECIMENTOSESPCARGOSDialog"
-			showEffect="explode" hideEffect="bounce" responsive="true"
+			 responsive="true"
 			resizable="false" modal="true" maximizable="false"
 			header="#{tbCONHECIMENTOSESPCARGOSBean.dialogHeader}"
 			widgetVar="editTbCONHECIMENTOSESPCARGOSDialogWidget">

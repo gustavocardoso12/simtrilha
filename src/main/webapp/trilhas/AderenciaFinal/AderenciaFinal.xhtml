@@ -15,8 +15,8 @@
 			<p:dataTable id="tbPONTCARGOSTable"
 				style="width:100%"
 				value="#{tbPONTCARGOSBean.tbPONTCARGOSList}" var="tbPONTCARGOS"
-				resizableColumns="true"  draggableColumns="true" widgetVar="tbPONTCARGOSTable"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+		widgetVar="tbPONTCARGOSTable"
+				emptyMessage="#{messages.label_no_records_found}" >
 
 
 
@@ -95,7 +95,7 @@
     </p:confirmDialog>
     
     <p:dialog dynamic="true" id="editTbPONTCARGOSDialog" header="#{tbPONTCARGOSBean.dialogHeader}"
-     showEffect="explode" hideEffect="bounce" responsive="true" resizable="false"
+      responsive="true" resizable="false"
             modal="false" widgetVar="editTbPONTCARGOSDialogWidget" maximizable="false">
         <p:ajax event="close" listener="#{tbPONTCARGOSBean.reset}"/>
         <h:form id="editTbPONTCARGOSForm" >
@@ -114,7 +114,7 @@
 	<!--  	<p:dialog dynamic="true" id="viewTbPONTCARGOSDialog"
 			header="Históricos de Alterações" modal="true"
 			maximizable="false"
-			showEffect="explode" hideEffect="bounce"
+			
 			resizable="false" responsive="true"
 			widgetVar="viewTbPONTCARGOSDialogWidget">
 			<p:ajax event="close" listener="#{tbPONTCARGOSBean.reset}" />

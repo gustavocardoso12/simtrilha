@@ -8,18 +8,18 @@
 <ui:composition template="/templates/layout.xhtml">
   <ui:define name="content">
 
-    <h:form id="form1">
+    <h:form id="form1" style="background:white !important">
         <p:messages id="messages" showDetail="false" autoUpdate="true"
             closable="false" />
     </h:form>
-    <h:form id="loginForm" prependId="false">
+    <h:form id="loginForm" prependId="false" style="background:white !important">
         <div>
             <p:panel>
                 <h3><h:outputText value="Bem-vindo ao Simulador de Trilhas de Carreira" /></h3>
                 
              
                 
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="2" style="background:white !important">
                     <h:outputLabel for="username" value="Nome de Usuário:" />
                     <p:inputText id="username" required="true"
                         value="#{loginBean.username}">
@@ -40,13 +40,9 @@
                     </f:facet>
                     
                       </p:panelGrid>
-                   <!-- 
+              
                 
-                <f:facet name="footer">
-                    <h:link outcome="/trilhas/userManagement/resetPassword"><h:outputText value="Esqueceu a senha?" /></h:link>
-                    <br/>
-                    <h:link outcome="/trilhas/user/register"><h:outputText value="Criar conta" /></h:link>
-                </f:facet>--> 
+             
                 
             </p:panel>
         </div>

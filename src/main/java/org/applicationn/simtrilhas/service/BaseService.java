@@ -79,8 +79,7 @@ public class BaseService<T extends BaseEntity> {
      * @param entity
      */
     protected void handleDependenciesBeforeDelete(T entity) {
-        // overwrite this method in extending class, if required
-        // to remove related entries or to cut dependencies from DB before delete
+       
     }
     
     // This is the central method called by the DataTable

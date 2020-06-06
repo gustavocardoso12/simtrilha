@@ -13,11 +13,11 @@
     <h:form>
     <h:panelGrid columns="1" style="margin-bottom: 10px">
 					<h:outputText id="output"
-						value=" Variação do Gap: #{tbPERFILBean.gapVarPE}%" />
+						value=" Penalidade padrão: #{tbPERFILBean.gapVarPE}%" />
 					<h:inputHidden id="gapvar" value="#{tbPERFILBean.gapVarPE}" />
 					<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
 						step="1" style="width: 300px"
-						displayTemplate="Variação do gap: %{value}">
+						displayTemplate="Penalidade padrão: %{value}">
 						<p:ajax event="slideEnd" listener="#{tbPERFILBean.onSlideEndPE}"
 							update="tbPERFILTable" />
 					</p:slider>
@@ -36,7 +36,7 @@
 				
 				value="#{tbPERFILBean.tbPERFILList}" var="tbPERFIL"
 				resizableColumns="true"  draggableColumns="true" widgetVar="tbPERFILTable"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+				emptyMessage="#{messages.label_no_records_found}" >
 
 
 
@@ -128,7 +128,7 @@
     </p:confirmDialog>
     
     <p:dialog dynamic="true" id="editTbPERFILDialog" header="#{tbPERFILBean.dialogHeader}"
-     showEffect="explode" hideEffect="bounce" responsive="true" resizable="false"
+      responsive="true" resizable="false"
             modal="false" widgetVar="editTbPERFILDialogWidget" maximizable="false">
         <p:ajax event="close" />
         <h:form id="editTbPERFILForm" >
@@ -147,7 +147,7 @@
 		<p:dialog dynamic="true" id="viewTbPERFILDialog"
 			header="#{messages.label_tbPERFIL_caption}" modal="true"
 			maximizable="false"
-			showEffect="explode" hideEffect="bounce"
+			
 			resizable="false" responsive="true"
 			widgetVar="viewTbPERFILDialogWidget">
 			<p:ajax event="close"  />

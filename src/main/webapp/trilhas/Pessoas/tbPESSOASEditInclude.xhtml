@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+<p:outputPanel styleClass="ui-fluid">
+
+	<p:panelGrid columns="3" styleClass="dialog"
+		columnClasses="col1,col2,col3">
+
+		<h:outputLabel value="#{messages.field_label_tbCARGOS_deSCCARGO}:"
+			for="deSCCARGOEditInput" />
+		<p:inputText value="#{tbCARGOSBean.tbCARGOS.deSCCARGO}"
+			id="deSCCARGOEditInput"
+			label="#{messages.field_label_tbCARGOS_deSCCARGO}" />
+		<p:message for="deSCCARGOEditInput" display="icon" />
+
+		<h:outputLabel value="#{messages.field_label_tbCARGOS_miSSAO}:"
+			for="miSSAOEditInput" />
+		<p:inputText value="#{tbCARGOSBean.tbCARGOS.miSSAO}"
+			id="miSSAOEditInput" label="#{messages.field_label_tbCARGOS_miSSAO}" />
+		<p:message for="miSSAOEditInput" display="icon" />
+
+		<h:outputLabel
+			value="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}:"
+			for="reSPONSABILIDADESEditInput" />
+		<p:inputTextarea value="#{tbCARGOSBean.tbCARGOS.reSPONSABILIDADES}"
+			id="reSPONSABILIDADESEditInput" rows="1" cols="33" />
+		<p:message for="reSPONSABILIDADESEditInput" display="icon" />
+
+		
+		
+		
+		<h:outputLabel value="#{messages.field_label_tbCARGOS_idDEPTO}:"
+			for="idDEPTOSelectInput" />
+		
+			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.idDEPTO}"
+				id="idDEPTOSelectInput">
+				<f:selectItem noSelectionOption="true" itemLabel="" />
+				<f:selectItems value="#{tbCARGOSBean.idDEPTOs}" var="tbDEPTO"
+					itemLabel="Sub-Família: #{tbDEPTO.deSCDEPTO} Família: #{tbDEPTO.idAREA.deSCAREA}"
+					itemValue="#{tbDEPTO}" />
+				<o:converter converterId="omnifaces.SelectItemsConverter"
+					list="#{tbCARGOSBean.idDEPTOs}" />
+
+			</p:selectOneMenu>
+		<p:message for="reSPONSABILIDADESEditInput" display="icon" />
+		<h:outputLabel value="#{messages.field_label_tbCARGOS_idNO}:"
+			for="idNOSelectInput" />
+		
+			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.idNO}"
+				id="idNOSelectInput">
+				<f:selectItem noSelectionOption="true" itemLabel="" />
+				<f:selectItems value="#{tbCARGOSBean.idNOs}" var="tbNO"
+					itemLabel=" Nível Organizacional: #{tbNO.deSCNivel}"
+					itemValue="#{tbDEPTO}" />
+				<o:converter converterId="omnifaces.SelectItemsConverter"
+					list="#{tbCARGOSBean.idNOs}" />
+
+			</p:selectOneMenu>
+			
+			<p:message for="idpessoaSelectInput" display="icon" />
+		<h:outputLabel value="Cargo ou pessoa?"
+ 			for="idpessoaSelectInput" />  
+		
+			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.flagPessoa}"
+				id="idpessoaSelectInput">
+				<f:selectItem noSelectionOption="true" itemLabel="" />
+            	<f:selectItem itemLabel="Pessoa" itemValue="SIM" />
+            	<f:selectItem itemLabel="Cargo" itemValue="NAO" />
+
+			</p:selectOneMenu>
+			
+			
+	</p:panelGrid>
+
+			
+		
+			
+			
+			
+			
+	
+
+
+
+		
+
+		
+	
+
+
+</p:outputPanel>
+</html>

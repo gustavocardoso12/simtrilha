@@ -14,11 +14,11 @@
   <h:form>
     <h:panelGrid columns="1" style="margin-bottom: 10px">
 					<h:outputText id="output"
-						value=" Variação do Gap: #{tbCOMPETENCIASBean.gapVarCO}%" />
+						value=" Penalidade padrão: #{tbCOMPETENCIASBean.gapVarCO}%" />
 					<h:inputHidden id="gapvar" value="#{tbCOMPETENCIASBean.gapVarCO}" />
 					<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
 						step="1" style="width: 300px"
-						displayTemplate="Variação do gap: %{value}">
+						displayTemplate="Penalidade padrão: %{value}">
 						<p:ajax event="slideEnd" listener="#{tbCOMPETENCIASBean.onSlideEndCO}"
 							update="tbCOMPETENCIASTable" />
 					</p:slider>
@@ -29,38 +29,114 @@
 
 			<p:dataTable id="tbCOMPETENCIASTable"
 				value="#{tbCOMPETENCIASBean.tbCOMPETENCIASList}"
-				var="tbCOMPETENCIAS" resizableColumns="true"
-				draggableColumns="true" widgetVar="tbCOMPETENCIASTable"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+				styleClass="barraCargosPessoas"
+				var="tbCOMPETENCIAS"
+				widgetVar="tbCOMPETENCIASTable"
+				emptyMessage="#{messages.label_no_records_found}" >
 
 				
-
+		<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+						headerText="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCOMPETENCIAS.deSCCOMPETENCIA} " />
+					</p:column>
+		
 				
-
-			 <p:column style="width:30%;text-align:center;font-size:14px;color:white;font-weight:bold;" 
-					headerText="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}">
-					<h:outputText value="#{tbCOMPETENCIAS.deSCCOMPETENCIA}" />
-				</p:column>
-				
-				<p:column
-					style="width:25%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+					<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+						headerText="#{messages.field_label_tbPERFIL_penalidade}" >
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCOMPETENCIAS.penalidadeCompetencias.intValue()}%">
+							<f:convertNumber minFractionDigits="0" />
+							</h:outputText>
+					</p:column>
 					
-					headerText="#{messages.field_label_tbPERFIL_penalidade}"
-					styleClass="#{(tbCOMPETENCIAS.competenciasCustom=='S') ? 'customPenStyle': ''}">
-					<h:outputText 
-					value="#{tbCOMPETENCIAS.penalidadeCompetencias.intValue()}%">
-					<f:convertNumber minFractionDigits="0" />
-					</h:outputText>
-				</p:column>
+					
+					
+					<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+						headerText="#{messages.field_label_tbPERFIL_bloqueia}" >
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCOMPETENCIAS.bloqueiaMovCompetencias}" >
+							<f:convertNumber minFractionDigits="0" />
+							</h:outputText>
+					</p:column>
 				
-				<p:column
-					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
-					headerText="#{messages.field_label_tbPERFIL_bloqueia}">
-					<h:outputText value="#{tbCOMPETENCIAS.bloqueiaMovCompetencias}" />
-				</p:column>
+				
+				<p:column styleClass="barraCargosPessoas"
+							style="
+					width:30%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;">
+
+
+
+							<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
+							
+							
+							
+							
+							<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+								icon="img-button-edit"
+								rendered="#{tbCOMPETENCIASBean.isPermitted(tbCOMPETENCIAS, 'tbCOMPETENCIAS:update')}"
+								action="#{tbCOMPETENCIASBean.onDialogOpen(tbCOMPETENCIAS)}"
+								oncomplete="PF('editTbCOMPETENCIASDialogWidget').show()"/>
+
+							
+							<p:commandButton
+							rendered="#{tbCOMPETENCIASBean.isPermitted(tbCOMPETENCIAS, 'tbCOMPETENCIAS:delete')}"
+								oncomplete="PF('deleteTbCOMPETENCIASDialogWidget').show()"
+								styleClass="botaoPessoas"
+								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								icon="img-button-delete">
+							<f:setPropertyActionListener value="#{tbCOMPETENCIAS}"
+							target="#{tbCOMPETENCIASBean.tbCOMPETENCIAS}" />
+							</p:commandButton>
+				</p:panelGrid>
+						</p:column>
 				
 
-			<p:column headerText="Ações" style="width:50%;font-size:14px;font-weight:bold;"
+		<!--  <p:column headerText="Ações" style="width:50%;font-size:14px;font-weight:bold;"
 					exportable="false">
 
 				
@@ -84,7 +160,7 @@
 							target="#{tbCOMPETENCIASBean.tbCOMPETENCIAS}" />
 					</p:commandButton>
 
-				</p:column>
+				</p:column>-->	
 				
 				<f:facet name="footer">
 					<p:commandButton value="#{messages.CadastrarCompetencias}"
@@ -116,7 +192,7 @@
 
 		<p:dialog dynamic="true" id="editTbCOMPETENCIASDialog"
 			header="#{tbCOMPETENCIASBean.dialogHeader}"
-			showEffect="explode" hideEffect="bounce" responsive="true"
+			 responsive="true"
 			resizable="false" modal="true"
 			widgetVar="editTbCOMPETENCIASDialogWidget" maximizable="false">
 			<p:ajax event="close" listener="#{tbCOMPETENCIASBean.reset}" />

@@ -15,11 +15,11 @@
 		<h:form>
 			<h:panelGrid columns="1" style="margin-bottom: 10px">
 				<h:outputText id="output"
-					value=" Variação do Gap: #{tbGRADEBean.gapVarGR}%" />
+					value=" Penalidade padrão: #{tbGRADEBean.gapVarGR}%" />
 				<h:inputHidden id="gapvar" value="#{tbGRADEBean.gapVarGR}" />
 				<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
 					step="1" style="width: 300px"
-					displayTemplate="Variação do gap: %{value}">
+					displayTemplate="Penalidade padrão: %{value}">
 					<p:ajax event="slideEnd" listener="#{tbGRADEBean.onSlideEndGR}"
 						update="tbGRADETable" />
 				</p:slider>
@@ -36,7 +36,7 @@
 				style="width:100%"
 				value="#{tbGRADEBean.tbGRADEList}" var="tbGRADE"
 				resizableColumns="true"  draggableColumns="true" widgetVar="tbGRADETable"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+				emptyMessage="#{messages.label_no_records_found}" >
 
 
 
@@ -125,7 +125,7 @@
     </p:confirmDialog>
     
     <p:dialog dynamic="true" id="editTbGRADEDialog" header="#{tbGRADEBean.dialogHeader}"
-     showEffect="explode" hideEffect="bounce" responsive="true" resizable="false"
+      responsive="true" resizable="false"
             modal="false" widgetVar="editTbGRADEDialogWidget" maximizable="false">
         <p:ajax event="close" listener="#{tbGRADEBean.reset}"/>
         <h:form id="editTbGRADEForm" >
@@ -144,7 +144,7 @@
 		<p:dialog dynamic="true" id="viewTbGRADEDialog"
 			header="#{messages.label_tbGRADE_caption}" modal="true"
 			maximizable="false"
-			showEffect="explode" hideEffect="bounce"
+			
 			resizable="false" responsive="true"
 			widgetVar="viewTbGRADEDialogWidget">
 			<p:ajax event="close" listener="#{tbGRADEBean.reset}" />

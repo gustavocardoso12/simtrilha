@@ -90,6 +90,10 @@ public class TbCARGOSBean implements Serializable {
 	protected static final Logger logger = Logger.getLogger(TbCARGOSBean.class.getName());
 
 	protected List<TbCARGOSEntity> tbCARGOSList;
+	
+	protected List<TbCARGOSEntity> tbPESSOASList;
+
+
 
 	protected TbCARGOSEntity tbCARGOSEdicao;
 
@@ -352,6 +356,13 @@ public class TbCARGOSBean implements Serializable {
 
 		return "/trilhas/Cargos/EditarCargos.xhtml?faces-redirect=true&includeViewParams=true";
 	}
+	
+	
+	public String submitPessoas(TbCARGOSEntity cargo) {
+		id = cargo.getId().intValue();
+
+		return "/trilhas/Pessoas/EditarPessoas.xhtml?faces-redirect=true&includeViewParams=true";
+	}
 
 
 	public void InicializaCargos(int id) {
@@ -528,7 +539,16 @@ public class TbCARGOSBean implements Serializable {
 		this.tbCARGOS = new TbCARGOSEntity();
 		return "/trilhas/Cargos/AdicionarCargo.xhtml?faces-redirect=true";
 	}
+	
+	
+	public String AdicionarPessoas() {
+		reset();
+		changeHeaderCadastrar();
+		this.tbCARGOS = new TbCARGOSEntity();
+		return "/trilhas/Pessoas/AdicionarPessoas.xhtml?faces-redirect=true";
+	}
 
+	
 
 	public List<TbHABILIDADESCULTCARGOSEntity> InicializaTabelasAuxiliares(TbCARGOSEntity tbCARGOS) {
 		this.tbCARGOS = tbCARGOS;
@@ -893,7 +913,7 @@ public class TbCARGOSBean implements Serializable {
 						}
 						}
 						
-						if (listCOCARGOSPara.get(i).getIdCOMPETENCIAS().getBloqueiaMovCompetencias() == null){
+
 
 							if(listCOCARGOSPara.get(i).getIdCOMPETENCIAS().getDeSCCOMPETENCIA().equals(
 									listCOCARGOSDe.get(i).getIdCOMPETENCIAS().getDeSCCOMPETENCIA())) {
@@ -912,10 +932,7 @@ public class TbCARGOSBean implements Serializable {
 								gap.setPoNTUACAOCOMPETENCIA(gapdePARA);
 								listGap.add(gap);
 							}
-						}
-						else if (listCOCARGOSPara.get(i).getIdCOMPETENCIAS().getBloqueiaMovCompetencias().equals("SIM")) {
-							
-						}
+						
 						somaListaGap += gapdePARA;
 
 					}
@@ -1053,7 +1070,7 @@ public class TbCARGOSBean implements Serializable {
 								aderenciaGR =0.0;
 								aderenciaPE= 0.0;
 								corFinal = "#F2F2F2";
-								return;
+								
 							}
 							if(gapDeParaGR==0) {
 								flagEstaganado = "True";
@@ -1387,6 +1404,20 @@ public class TbCARGOSBean implements Serializable {
 
 	public void setTbCARGOSList(List<TbCARGOSEntity> tbCARGOSList) {
 		this.tbCARGOSList = tbCARGOSList;
+	}
+	
+	
+	public List<TbCARGOSEntity> getTbPESSOASList() {
+		
+		if (tbPESSOASList == null) {
+			tbPESSOASList= tbCARGOSService.findAllTbPESSOASEntities();
+		}
+		return tbPESSOASList;
+	}
+
+
+	public void setTbPESSOASList(List<TbCARGOSEntity> tbPESSOASList) {
+		this.tbPESSOASList = tbPESSOASList;
 	}
 
 	public boolean isPermitted(String permission) {

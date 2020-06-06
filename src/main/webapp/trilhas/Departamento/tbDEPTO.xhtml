@@ -16,7 +16,7 @@
 				style="width:100%"
 				value="#{tbDEPTOBean.tbDEPTOList}" var="tbDEPTO"
 				resizableColumns="true"  draggableColumns="true" widgetVar="tbDEPTOTable"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+				emptyMessage="#{messages.label_no_records_found}" >
 
 
 
@@ -89,7 +89,7 @@
     </p:confirmDialog>
     
     <p:dialog dynamic="true" id="editTbDEPTODialog" header="#{tbDEPTOBean.dialogHeader}"
-     showEffect="explode" hideEffect="bounce" responsive="true" resizable="false"
+      responsive="true" resizable="false"
             modal="false" widgetVar="editTbDEPTODialogWidget" maximizable="false">
         <p:ajax event="close" listener="#{tbDEPTOBean.reset}"/>
         <h:form id="editTbDEPTOForm" >
@@ -108,7 +108,7 @@
 		<p:dialog dynamic="true" id="viewTbDEPTODialog"
 			header="#{messages.label_tbDEPTO_caption}" modal="true"
 			maximizable="false"
-			showEffect="explode" hideEffect="bounce"
+			
 			resizable="false" responsive="true"
 			widgetVar="viewTbDEPTODialogWidget">
 			<p:ajax event="close" listener="#{tbDEPTOBean.reset}" />
@@ -120,7 +120,7 @@
 		<p:dialog dynamic="true" id="createIdVPFromEditDialog"
         rendered="#{tbDEPTOBean.isPermitted('tbAREA:create')}"
         header="#{tbAREABean.dialogHeader}" modal="true"
-        showEffect="explode" hideEffect="bounce" responsive="true" resizable="false"
+         responsive="true" resizable="false"
         widgetVar="createIdVPFromEditDialogWidget" maximizable="false">
         <p:ajax event="close" listener="#{tbAREABean.reset}" />
         <p:outputPanel id="createIdVPPanel">

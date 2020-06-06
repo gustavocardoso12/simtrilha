@@ -14,15 +14,15 @@
 			widgetVar="panel4"  style="background:white;background-repeat:no-repeat;">
 				<p:menu toggleable="true">
 				<p:menuitem value="Aderência"
-					url="/trilhas/Aderencias/Comparacao.xhtml"
+					url="${facesContext.externalContext.request.contextPath}/trilhas/Aderencias/Comparacao.xhtml"
 					ajax="false" async="false" />
 					
 				<p:menuitem value="Matriz de cargos"
-					url="/trilhas/Matriz/Matriz.xhtml"
+					url="${facesContext.externalContext.request.contextPath}/trilhas/Matriz/Matriz.xhtml"
 					 />	 	
 					 
 					<p:menuitem value="Auto-Trilhas"
-					url="/trilhas/AutoTrilhas/AutoTrilhas.xhtml"
+					url="${facesContext.externalContext.request.contextPath}/trilhas/AutoTrilhas/AutoTrilhas.xhtml"
 					 />	 	 
 				
 			</p:menu>
@@ -45,27 +45,29 @@
  				 <p:menu toggleable="true">
  				 
  			<p:menuitem value="Cadastro de cargos"
-					url="/trilhas/Cargos/Controle_cargos.xhtml"
+					url="${facesContext.externalContext.request.contextPath}/trilhas/Cargos/Controle_cargos.xhtml"
 					ajax="false" async="false" />	 
 					
-					
+				<p:menuitem rendered="#{userBean.user.flag_pessoa== 'SIM'}" value="Cadastro de pessoas"
+					url="${facesContext.externalContext.request.contextPath}/trilhas/Pessoas/Controle_Pessoas.xhtml"
+					ajax="false" async="false" />	 	
 					
      		
-     		<p:menuitem value="Aderência Final" url="/trilhas/AderenciaFinal/AderenciaFinal.xhtml" style="margin-bottom:10px" ajax="false" async="false" />
+     		<p:menuitem value="Aderência Final" url="${facesContext.externalContext.request.contextPath}/trilhas/AderenciaFinal/AderenciaFinal.xhtml" style="margin-bottom:10px" ajax="false" async="false" />
 
-      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="/trilhas/Competencias/ControleCompetencias.xhtml"  ajax="false" async="false" />
+      			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="${facesContext.externalContext.request.contextPath}/trilhas/Competencias/ControleCompetencias.xhtml"  ajax="false" async="false" />
      		
-     		<p:menuitem value="#{messages.menu_GRADES}" url="/trilhas/AvaliacaoCargo/tbGRADE.xhtml" ajax="false" async="false" />
+     		<p:menuitem value="#{messages.menu_GRADES}" url="${facesContext.externalContext.request.contextPath}/trilhas/AvaliacaoCargo/tbGRADE.xhtml" ajax="false" async="false" />
      			
-     		<p:menuitem value="#{messages.menu_Perfil}" url="/trilhas/Perfil/tbPERFIL.xhtml" ajax="false" async="false" />
+     		<p:menuitem value="#{messages.menu_Perfil}" url="${facesContext.externalContext.request.contextPath}/trilhas/Perfil/tbPERFIL.xhtml" ajax="false" async="false" />
      		
      	
-       			<p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="/trilhas/ConhecimentosBasicos/tbCONHECIMENTOSBASICOS.xhtml" ajax="false" async="false" />
-				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/trilhas/ConhecimentosEspecificos/tbCONHECIMENTOSESPECIFICOS.xhtml" style="margin-bottom:10px" ajax="false" async="false" />     
+       			<p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/ConhecimentosBasicos/tbCONHECIMENTOSBASICOS.xhtml" ajax="false" async="false" />
+				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/ConhecimentosEspecificos/tbCONHECIMENTOSESPECIFICOS.xhtml" style="margin-bottom:10px" ajax="false" async="false" />     
     	
-    			<p:menuitem value="Área" url="/trilhas/Area/ControleArea.xhtml" ajax="false" async="false" />
-      			<p:menuitem value="Departamento" url="/trilhas/Departamento/tbDEPTO.xhtml"  ajax="false" async="false" />
-      				<p:menuitem value="#{messages.menu_NO}" url="/trilhas/NivelOrganizacional/tbNO.xhtml" ajax="false"  async="false" />
+    			<p:menuitem value="Área" url="${facesContext.externalContext.request.contextPath}/trilhas/Area/ControleArea.xhtml" ajax="false" async="false" />
+      			<p:menuitem value="Departamento" url="${facesContext.externalContext.request.contextPath}/trilhas/Departamento/tbDEPTO.xhtml"  ajax="false" async="false" />
+      				<p:menuitem value="#{messages.menu_NO}" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelOrganizacional/tbNO.xhtml" ajax="false"  async="false" />
 	
    </p:menu>
  	 </p:panel>
@@ -81,43 +83,43 @@
       
      
       
-      <p:menuitem value="#{messages.menu_tbCARGOSs}" url="/trilhas/tbCARGOS/tbCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCARGOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbCARGOS/tbCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
   
       
-      <p:menuitem value="#{messages.menu_tbCOMPETENCIASCARGOSs}" url="/trilhas/tbCOMPETENCIASCARGOS/tbCOMPETENCIASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCOMPETENCIASCARGOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbCOMPETENCIASCARGOS/tbCOMPETENCIASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
      
       
-      <p:menuitem value="#{messages.menu_tbCOMPETENCIASEMCARGOSs}" url="/trilhas/tbCOMPETENCIASEMCARGOS/tbCOMPETENCIASEMCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCOMPETENCIASEMCARGOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbCOMPETENCIASEMCARGOS/tbCOMPETENCIASEMCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
      
       
-      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASCARGOSs}" url="/trilhas/tbCONHECIMENTOSBASCARGOS/tbCONHECIMENTOSBASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASCARGOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbCONHECIMENTOSBASCARGOS/tbCONHECIMENTOSBASCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="/trilhas/ConhecimentosEspecificos/tbCONHECIMENTOSESPECIFICOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/ConhecimentosEspecificos/tbCONHECIMENTOSESPECIFICOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPCARGOSs}" url="/trilhas/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
-      
-     
-      
-      <p:menuitem value="#{messages.menu_tbESTILOLIDERANCACARGOSs}" url="/trilhas/tbESTILOLIDERANCACARGOS/tbESTILOLIDERANCACARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPCARGOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbCONHECIMENTOSESPCARGOS/tbCONHECIMENTOSESPCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
      
       
-      <p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOCARGOSs}" url="/trilhas/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbESTILOLIDERANCACARGOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbESTILOLIDERANCACARGOS/tbESTILOLIDERANCACARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
-      <p:menuitem value="#{messages.menu_tbHABILIDADESs}" url="/trilhas/tbHABILIDADES/tbHABILIDADES.xhtml" icon="icon-entity" ajax="false" async="false" />
+     
       
-      <p:menuitem value="#{messages.menu_tbHABILIDADESCARGOSs}" url="/trilhas/tbHABILIDADESCARGOS/tbHABILIDADESCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbESTILOPENSAMENTOCARGOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbESTILOPENSAMENTOCARGOS/tbESTILOPENSAMENTOCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbHABILIDADESs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbHABILIDADES/tbHABILIDADES.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_tbHABILIDADESCARGOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbHABILIDADESCARGOS/tbHABILIDADESCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
       
       
-      <p:menuitem value="#{messages.menu_tbHABILIDADESCULTCARGOSs}" url="/trilhas/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
+      <p:menuitem value="#{messages.menu_tbHABILIDADESCULTCARGOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/tbHABILIDADESCULTCARGOS/tbHABILIDADESCULTCARGOS.xhtml" icon="icon-entity" ajax="false" async="false" />
       
     
     <p:submenu label="#{messages.menu_admin}" rendered="#{p:ifGranted('Administrator')}">
-      <p:menuitem value="#{messages.menu_user_management}" url="/trilhas/admin/user.xhtml" icon="ui-icon-person" ajax="false" async="false"/>
+      <p:menuitem value="#{messages.menu_user_management}" url="${facesContext.externalContext.request.contextPath}/trilhas/admin/user.xhtml" icon="ui-icon-person" ajax="false" async="false"/>
     </p:submenu>
     --> 
  

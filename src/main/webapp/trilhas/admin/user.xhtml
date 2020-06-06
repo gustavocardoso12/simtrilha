@@ -13,11 +13,11 @@
             onkeypress="if (event.keyCode == 13) {return false; }">
 
             <p:dataTable id="userTable" value="#{userBean.lazyModel}" var="user"
-                resizableColumns="true" paginator="true"
+                paginator="true"
                 paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                 rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
                 lazy="true" paginatorPosition="bottom" widgetVar="userTable"
-                emptyMessage="#{messages.label_no_records_found}" reflow="true">
+                emptyMessage="#{messages.label_no_records_found}" >
 
                 <f:facet name="header">
                     <p:commandButton value="#{messages.create_new_user}"

@@ -19,7 +19,7 @@ import org.applicationn.simtrilhas.service.security.UserService;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 
 /**
- * Managed bean for trilhas/user/changePassword.xhtml
+ * Managed bean for ${facesContext.externalContext.request.contextPath}/trilhas/user/changePassword.xhtml
  * */
 @ManagedBean
 @ViewScoped

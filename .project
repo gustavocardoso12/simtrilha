@@ -66,6 +66,11 @@
 			<location>C:/Users/Gustavo Peixinho/Pictures/can (2).png</location>
 		</link>
 		<link>
+			<name>src/main/webapp/resources/images/edit.png</name>
+			<type>1</type>
+			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/edit.png</location>
+		</link>
+		<link>
 			<name>src/main/webapp/resources/images/icon-user-4.jpg.png</name>
 			<type>1</type>
 			<location>C:/Users/Gustavo Peixinho/Pictures/ArtigoML/icon-user-4.jpg.png</location>
@@ -79,6 +84,11 @@
 			<name>src/main/webapp/resources/images/moura.PNG</name>
 			<type>1</type>
 			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/moura.PNG</location>
+		</link>
+		<link>
+			<name>src/main/webapp/resources/images/trash.png</name>
+			<type>1</type>
+			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/trash.png</location>
 		</link>
 		<link>
 			<name>src/main/webapp/resources/images/untitled.png</name>

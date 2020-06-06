@@ -12,11 +12,11 @@
 
     <h:form prependId="false" id="tbCOMPETENCIASCARGOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
 
-        <p:dataTable id="tbCOMPETENCIASCARGOSTable" value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOSList}" var="tbCOMPETENCIASCARGOS" resizableColumns="true" paginator="true"
+        <p:dataTable id="tbCOMPETENCIASCARGOSTable" value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOSList}" var="tbCOMPETENCIASCARGOS" paginator="true"
                 paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                 rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
                 paginatorPosition="bottom" widgetVar="tbCOMPETENCIASCARGOSTable" emptyMessage="#{messages.label_no_records_found}"
-                reflow="true">
+                >
         
           <f:facet name="header" >
 

@@ -13,9 +13,9 @@
 			onkeypress="if (event.keyCode == 13) {return false; }">
 
 			<p:dataTable id="tbCARGOSTable" value="#{tbCARGOSBean.tbCARGOSList}"
-				var="tbCARGOS" resizableColumns="true" draggableColumns="true"
+				var="tbCARGOS" draggableColumns="true"
 				widgetVar="tbCARGOSTable" rowKey="#{tbCARGOS.id}"
-				emptyMessage="#{messages.label_no_records_found}" reflow="true">
+				emptyMessage="#{messages.label_no_records_found}" >
 
 				<p:column
 					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
@@ -68,7 +68,7 @@
 					value="#{tbCARGOSBean.tbCARGOSListFiltrada}" var="tbCARGOS"
 					resizableColumns="true" draggableColumns="true"
 					widgetVar="tbCARGOSTable2"
-					emptyMessage="#{messages.label_no_records_found}" reflow="true">
+					emptyMessage="#{messages.label_no_records_found}" >
 					<p:column
 						style="white-space:normal;width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;"
 						headerText="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}">
@@ -86,7 +86,7 @@
 						value="#{tbCARGOSBean.tbCARGOSListFiltrada}" var="tbCARGOS"
 						resizableColumns="true" draggableColumns="true"
 						widgetVar="tbCARGOSTable4"
-						emptyMessage="#{messages.label_no_records_found}" reflow="true">
+						emptyMessage="#{messages.label_no_records_found}" >
 						<f:facet name="header">
 							<h:outputText
 								style="width:auto;text-align:center;font-size:16px;color:white;font-weight:bold;"

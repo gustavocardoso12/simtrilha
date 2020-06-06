@@ -56,7 +56,7 @@ public class UserProfileBean implements Serializable {
     }
 
     public String cancel() {
-        return "/trilhas/main?faces-redirect=true";
+        return "${facesContext.externalContext.request.contextPath}/trilhas/main?faces-redirect=true";
     }
 
     public void setOld_password(String old_password) {

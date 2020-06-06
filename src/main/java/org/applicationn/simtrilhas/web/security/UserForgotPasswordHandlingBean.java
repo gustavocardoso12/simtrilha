@@ -22,7 +22,7 @@ import org.applicationn.simtrilhas.web.util.ApplicationBaseURLBuider;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 
 /**
- * Managed bean for trilhas/userManagement/resetPassword.xhtml
+ * Managed bean for ${facesContext.externalContext.request.contextPath}/trilhas/userManagement/resetPassword.xhtml
  * */
 @ManagedBean
 @ViewScoped
@@ -81,7 +81,7 @@ public class UserForgotPasswordHandlingBean implements Serializable {
                 userByEmail.setPasswordResetDate();
 
                 String resetPasswordLink = ApplicationBaseURLBuider.getURL()
-                        + "/trilhas/user/changePassword.xhtml?key=" + emailResetPasswordKey;
+                        + "${facesContext.externalContext.request.contextPath}/trilhas/user/changePassword.xhtml?key=" + emailResetPasswordKey;
 
                 RegistrationMailSender.sendPasswordReset(userByEmail.getEmail(), resetPasswordLink);
 

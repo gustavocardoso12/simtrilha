@@ -12,11 +12,11 @@
 
     <h:form prependId="false" id="tbCONHECIMENTOSBASCARGOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
 
-        <p:dataTable id="tbCONHECIMENTOSBASCARGOSTable" value="#{tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOSList}" var="tbCONHECIMENTOSBASCARGOS" resizableColumns="true" paginator="true"
+        <p:dataTable id="tbCONHECIMENTOSBASCARGOSTable" value="#{tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOSList}" var="tbCONHECIMENTOSBASCARGOS" paginator="true"
                 paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                 rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
                 paginatorPosition="bottom" widgetVar="tbCONHECIMENTOSBASCARGOSTable" emptyMessage="#{messages.label_no_records_found}"
-                reflow="true">
+                >
         
           <f:facet name="header" >
 
