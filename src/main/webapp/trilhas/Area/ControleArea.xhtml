@@ -11,48 +11,104 @@
   <ui:define name="content">
 
     <h:form prependId="false" id="tbAREADataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+				
+				
+				
+			 <p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
 
+		<f:facet name="start">
+        <h:panelGrid id="diag" columns="2">
+			
+			
+			<h:outputLabel id="label2" style="font-size:14px;font-weight:bold" value="Carregando...">
+			  <p:autoUpdate />
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+   		 </f:facet>
+
+		</p:ajaxStatus>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			oncomplete="PF('statusDialog').hide()" />
+
+		<p:dialog id="dialog" widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false"  showHeader="false">
+			<h:panelGrid id="panel" columns="2">
+			
+			
+			<h:outputLabel id="label3" style="font-size:14px;font-weight:bold" value="Carregando...">
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+		</p:dialog>
+    
+				
+				
+				
 			<p:dataTable id="tbAREATable"
-				style="width:100%"
+				styleClass="barraCargosPessoas"
 				value="#{tbAREABean.tbAREAList}" var="tbAREA"
-				resizableColumns="true"  draggableColumns="true" widgetVar="tbAREATable"
+				widgetVar="tbAREATable"
 				emptyMessage="#{messages.label_no_records_found}" >
 
 
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+				   headerText="#{messages.field_label_tbAREA_deSCAREA}">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbAREA.deSCAREA}" />
+					</p:column>
+				
 
 
+					<p:column styleClass="barraCargosPessoas"
+							style="
+					width:30%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;">
 
-				<p:column
-					style="width:100%;text-align:center;font-size:14px;color:white;font-weight:bold;"
-					headerText="#{messages.field_label_tbAREA_deSCAREA}">
-					<h:outputText value="#{tbAREA.deSCAREA}" />
-				</p:column>
-
-
-				<p:column headerText="Ações" style="width:100%;font-size:14px;font-weight:bold;" 
-					exportable="false">
-
+						<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
+				
+				
+				
+						<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+								icon="img-button-edit"
+								rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:update')}"
+								action="#{tbAREABean.onDialogOpen(tbAREA)}"
+								update=":editTbAREADialog" 
+								oncomplete="PF('editTbAREADialogWidget').show()"/>
 					
-
-					<p:commandButton 
-						update=":editTbAREADialog" resetValues="true"
-						style="background:#ED6D09;width:97%;"
-						rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:update')}"
-						action="#{tbAREABean.onDialogOpen(tbAREA)}"
-						oncomplete="PF('editTbAREADialogWidget').show()"
-						value="#{messages.Editar}">
-					</p:commandButton>
-
-					<p:commandButton
-						rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:delete')}"
-						oncomplete="PF('deleteTbAREADialogWidget').show()"
-						style="background:#ED6D09;width:3%"
-						value="E"
-						icon="img-button-delete">
+					
+					
+						<p:commandButton
+							rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:delete')}"
+									oncomplete="PF('deleteTbAREADialogWidget').show()"
+								styleClass="botaoPessoas"
+								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								icon="img-button-delete">
 						<f:setPropertyActionListener value="#{tbAREA}"
 							target="#{tbAREABean.tbAREA}" />
-					</p:commandButton>
-
+							</p:commandButton>
+					
+					</p:panelGrid>
 				</p:column>
 				
 			<f:facet name="footer">
@@ -61,7 +117,7 @@
 						resetValues="true" update=":editTbAREADialog"
 						oncomplete="PF('editTbAREADialogWidget').show()"
 						rendered="#{tbAREABean.isPermitted('tbAREA:create')}"
-						style="background:#ED6D09;width:25.0%"
+						style="width:29.5%"
 						 />
 		 
 			</f:facet>	

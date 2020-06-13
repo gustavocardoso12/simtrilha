@@ -111,10 +111,24 @@ public class TbGRADEBean implements Serializable {
 	}
 
 	public void prepareNewTbGRADE() {
-		reset();
 		changeHeaderCadastrar();
 		this.tbGRADE = new TbGRADEEntity();
 
+	}
+	
+	public void onDialogOpen(TbGRADEEntity tbGRADE) {
+		changeHeaderEditar();
+		this.setTbGRADE(tbGRADE);
+		pontuacaoOriginal = tbGRADE.getPenalidadeConhecGrade();
+        this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("GRADE");
+        flagEdit = true;
+        if(pontuacaoOriginal == tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
+        	flagCustom = false;
+        	
+        }else {
+        	flagCustom = true;
+        }
+		
 	}
 
 	public String persist(TbGRADEEntity tbGRADE) {
@@ -202,20 +216,7 @@ public class TbGRADEBean implements Serializable {
 		return null;
 	}
 
-	public void onDialogOpen(TbGRADEEntity tbGRADE) {
-		reset();
-		changeHeaderEditar();
-		pontuacaoOriginal = tbGRADE.getPenalidadeConhecGrade();
-        this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("GRADE");
-        flagEdit = true;
-        if(pontuacaoOriginal == tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
-        	flagCustom = false;
-        	
-        }else {
-        	flagCustom = true;
-        }
-		this.tbGRADE = tbGRADE;
-	}
+
 
 	public void reset() {
 

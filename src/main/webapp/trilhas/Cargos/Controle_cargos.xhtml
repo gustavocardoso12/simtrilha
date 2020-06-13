@@ -9,60 +9,135 @@
 <ui:composition template="/templates/layout.xhtml">
 	<ui:define name="content">
 
-		<h:form prependId="false" id="tbCARGOSDataForm"
+
+		<h:form style="margin-left:40px" prependId="false"
+			id="tbCARGOSDataForm"
 			onkeypress="if (event.keyCode == 13) {return false; }">
+	<p:commandButton styleClass="botaoADDPessoas" value="Adicionar Cargos"
+									action="#{tbCARGOSBean.AdicionarCargos()}" style="
+width: 144px;
+height: 40px;
+margin-bottom: 30px;" />
+			
+			
+			
+			<p:spacer></p:spacer>
+			<p:spacer></p:spacer>
+			<p:spacer></p:spacer>
+			<p:spacer></p:spacer>
+			<p:panelGrid columns="1">
+			
+			<p:dataTable id="tbCARGOSTable"
+					 value="#{tbCARGOSBean.tbCARGOSList}" var="tbCARGOS"
+					 styleClass="barraCargosPessoas"
+					widgetVar="tbCARGOSTable" rowKey="#{tbCARGOS.id}"
+					emptyMessage="#{messages.label_no_records_found}">
+			
+				<p:column styleClass="te" style="width:10%;">
+						<svg class="Ret_ngulo_61"> <rect fill="#5C2B5F"
+							id="Ret_ngulo_61" rx="0" ry="0" x="0" y="0" width="9"
+							height="100"> </rect> </svg>
+					</p:column>
+			
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+						headerText="#{messages.field_label_tbCARGOS_deSCCARGO}"
+						 sortBy="#{tbCARGOS.deSCCARGO}">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCARGOS.deSCCARGO} " />
+					</p:column>
 
-			<p:dataTable id="tbCARGOSTable" value="#{tbCARGOSBean.tbCARGOSList}"
-				var="tbCARGOS" draggableColumns="true"
-				widgetVar="tbCARGOSTable" rowKey="#{tbCARGOS.id}"
-				emptyMessage="#{messages.label_no_records_found}" >
+				
+					<p:column styleClass="barraCargosPessoas"
+						style="
+						text-align: left;
+						width:90%;
+						font: Bold 15px/19px Montserrat;
+						letter-spacing: 0px;
+						color: #3B3B3B !important;
+						opacity: 1;"
+						headerText="Família/Subfamília"
+						sortBy="#{tbCARGOS.idDEPTO.deSCDEPTO}">
+						<h:outputText style="font-family:Montserrat !important;
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCARGOS.idDEPTO.deSCDEPTO} - #{tbCARGOS.idDEPTO.idAREA.deSCAREA}" />
+					</p:column>
+				
+				
+				<p:column styleClass="barraCargosPessoas"
+							style="	width:50% !important;
+							text-align: left;
+							font: Bold 15px/19px Montserrat;
+							letter-spacing: 0px;
+							color: #3B3B3B !important;
+							opacity: 1;"
+							headerText="Ultíma Edição"
+							sortBy="#{tbCARGOS.modifiedAt}">
+							<h:outputText style="font-family:Montserrat !important;
+							text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+								value="#{tbCARGOS.modifiedAt}" />
+						</p:column>
+				
+				
+				
 
-				<p:column
-					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
-					headerText="#{messages.field_label_tbCARGOS_deSCCARGO}">
-					<h:outputText value="#{tbCARGOS.deSCCARGO} " />
-				</p:column>
-
-				<p:column
-					style="width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;white-space:pre-line"
-					headerText="#{messages.field_label_tbCARGOS_miSSAO}">
-					<h:outputText value="#{tbCARGOS.miSSAO}" />
-				</p:column>
-
-
-				<p:column headerText="Ações"
-					style="background:#f2f2f2;width:20%;font-size:14px;font-weight:bold;"
-					exportable="false">
+	<p:column styleClass="barraCargosPessoas"
+							style="
+					width:30%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;">
 					
+						<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
+							<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+								icon="img-button-edit"
+								action="#{tbCARGOSBean.submit(tbCARGOS)}" />
+
+
+							<p:commandButton
+								oncomplete="PF('deleteTbCARGOSDialogWidget').show()"
+								styleClass="botaoPessoas"
+								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								icon="img-button-delete">
+								<f:setPropertyActionListener value="#{tbCARGOS}"
+									target="#{tbCARGOSBean.tbCARGOS}" />
+							</p:commandButton>
+				</p:panelGrid>
 					
-					<p:commandButton value="Editar Cargo" 
-					style="width:93%"
-					action="#{tbCARGOSBean.submit(tbCARGOS)}" />
-
-
-					<p:commandButton
-						oncomplete="PF('deleteTbCARGOSDialogWidget').show()"
-						style="background:none;width:14,5%;font-size:12px"
-						value="E"
-						icon="img-button-delete" >
-						<f:setPropertyActionListener value="#{tbCARGOS}"
-							target="#{tbCARGOSBean.tbCARGOS}" />
-					</p:commandButton>
 
 				</p:column>
 
-				<f:facet name="footer">
-
-					<p:commandButton value="#{messages.AdicionarCargo}"
-						action="#{tbCARGOSBean.AdicionarCargos()}"
-						style="width:25.0%" />
-
-				</f:facet>
-
-
+		
 			</p:dataTable>
+				</p:panelGrid>
 			<h:panelGrid id="paneCargos" styleClass="dialog"
 				columnClasses="col1,col2" columns="2">
+				
+				
+				
+				
 				<p:dataTable id="tbCARGOSTable2"
 					rendered="#{tbCARGOSBean.flagCultura==1}"
 					value="#{tbCARGOSBean.tbCARGOSListFiltrada}" var="tbCARGOS"

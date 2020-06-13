@@ -635,6 +635,17 @@ td.foo {
   border:none !important;
 }
 
+.barraCargosPessoas2 .th .ui-widget-content .ui-state-default{
+  /* color:#f2f2f2 !important; */
+  background:#5C2B5F 0% 0% no-repeat padding-box !important;
+  border:none !important;
+}
+
+
+.CompetenciasAux.ui-datatable thead th, .ui-datatable tfoot th{
+	background: #5C2B5F  !important;
+}
+
 .botaoPessoas.ui-button-text-icon-left .ui-button-text{
 	height:30px !important;
 }

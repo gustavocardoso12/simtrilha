@@ -10,50 +10,110 @@
 <ui:composition template="/templates/layout.xhtml">
   <ui:define name="content">
 
-    <h:form prependId="false" id="tbPONTCARGOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
 
+		
+	<p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
+
+		<f:facet name="start">
+        <h:panelGrid id="diag" columns="2">
+			
+			
+			<h:outputLabel id="label2" style="font-size:14px;font-weight:bold" value="Carregando...">
+			  <p:autoUpdate />
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+   		 </f:facet>
+
+		</p:ajaxStatus>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			oncomplete="PF('statusDialog').hide()" />
+
+		<p:dialog id="dialog" widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false"  showHeader="false">
+			<h:panelGrid id="panel" columns="2">
+			
+			
+			<h:outputLabel id="label3" style="font-size:14px;font-weight:bold" value="Carregando...">
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+		</p:dialog>	
+
+
+    <h:form prependId="false" id="tbPONTCARGOSDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+		
 			<p:dataTable id="tbPONTCARGOSTable"
-				style="width:100%"
+				styleClass="barraCargosPessoas"
 				value="#{tbPONTCARGOSBean.tbPONTCARGOSList}" var="tbPONTCARGOS"
-		widgetVar="tbPONTCARGOSTable"
+				widgetVar="tbPONTCARGOSTable"
 				emptyMessage="#{messages.label_no_records_found}" >
 
-
+				
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+					headerText="Fator">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbPONTCARGOS.descricaoCompleta}" />
+					</p:column>
 
 				
-				<p:column
-					style="width:60%;font-size:18px;color:white;font-weight:bold;text-align:center"
-					headerText="Fator">
-					<h:outputText value="#{tbPONTCARGOS.descricaoCompleta}" />
-				</p:column>
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+							headerText="Peso para cáculo de Aderência Final" >
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbPONTCARGOS.peso}">
+							<f:convertNumber minFractionDigits="0" />
+							</h:outputText>
+					</p:column>
+				
 
-				<p:column
-					style="width:40%;text-align:center;font-size:18px;color:white;font-weight:bold;"
-					headerText="Peso para cáculo de Aderência Final">
-					<h:outputText value="#{tbPONTCARGOS.peso}" />
-				</p:column>
+				<p:column styleClass="barraCargosPessoas"
+							style="
+					width:30%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;">
+				
+				<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 
+				
+					<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+								icon="img-button-edit"
+								rendered="#{tbPONTCARGOSBean.isPermitted(tbPONTCARGOS, 'tbPONTCARGOS:update')}"
+								action="#{tbPONTCARGOSBean.onDialogOpen(tbPONTCARGOS)}"
+								update=":editTbPONTCARGOSDialog"
+								oncomplete="PF('editTbPONTCARGOSDialogWidget').show()"/>
 
-				<p:column headerText="Ações" style="width:30%;font-size:14px;font-weight:bold;" 
-					exportable="false">
-
-					<!--  <p:commandButton 
-						update=":viewTbPONTCARGOSDialog"
-						style="background:#ED6D09;width:51%"
-						oncomplete="PF('viewTbPONTCARGOSDialogWidget').show()"
-						value="#{messages.VisualizarRegistro}">
-						<f:setPropertyActionListener value="#{tbPONTCARGOS}"
-							target="#{tbPONTCARGOSBean.tbPONTCARGOS}" />
-					</p:commandButton>-->
-
-					<p:commandButton 
-						update=":editTbPONTCARGOSDialog" resetValues="true"
-							style="background:#ED6D09;width:100%;"
-						rendered="#{tbPONTCARGOSBean.isPermitted(tbPONTCARGOS, 'tbPONTCARGOS:update')}"
-						action="#{tbPONTCARGOSBean.onDialogOpen(tbPONTCARGOS)}"
-						oncomplete="PF('editTbPONTCARGOSDialogWidget').show()"
-						value="#{messages.Editar}">
-					</p:commandButton>
 
 					<!--  <p:commandButton
 					
@@ -65,14 +125,17 @@
 						<f:setPropertyActionListener value="#{tbPONTCARGOS}"
 							target="#{tbPONTCARGOSBean.tbPONTCARGOS}" />
 					</p:commandButton>-->
-
+				
+						</p:panelGrid>
 				</p:column>
+				
+						
 				
 			<f:facet name="footer" style="width:44%">
 				
 					
-					<h:outputText style="font-size:18px;color:white;font-weight:bold;margin-left:20%" value="Soma: " />
-				   <h:outputText style="font-size:18px;color:white;font-weight:bold;margin-left:35.4%" value="#{tbPONTCARGOSBean.somaPeso}" />
+					<h:outputText style="font-size:18px;color:white;font-weight:bold;margin-left:0%" value="Soma: " />
+				   <h:outputText style="font-size:18px;color:white;font-weight:bold;margin-left:36.9%" value="#{tbPONTCARGOSBean.somaPeso}" />
 		 
 			</f:facet>	
 				

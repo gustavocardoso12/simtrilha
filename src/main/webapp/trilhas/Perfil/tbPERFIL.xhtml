@@ -9,7 +9,39 @@
       xmlns:o="http://omnifaces.org/ui">
 <ui:composition template="/templates/layout.xhtml">
   <ui:define name="content">
+	
+	 <p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
 
+		<f:facet name="start">
+        <h:panelGrid id="diag" columns="2">
+			
+			
+			<h:outputLabel id="label2" style="font-size:14px;font-weight:bold" value="Carregando...">
+			  <p:autoUpdate />
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+   		 </f:facet>
+
+		</p:ajaxStatus>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			oncomplete="PF('statusDialog').hide()" />
+
+		<p:dialog id="dialog" widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false"  showHeader="false">
+			<h:panelGrid id="panel" columns="2">
+			
+			
+			<h:outputLabel id="label3" style="font-size:14px;font-weight:bold" value="Carregando...">
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+		</p:dialog>
+	
+	
     <h:form>
     <h:panelGrid columns="1" style="margin-bottom: 10px">
 					<h:outputText id="output"
@@ -32,70 +64,109 @@
 			
 			
 			<p:dataTable id="tbPERFILTable"
-				style="width:100%"
-				
+				styleClass="barraCargosPessoas"
 				value="#{tbPERFILBean.tbPERFILList}" var="tbPERFIL"
-				resizableColumns="true"  draggableColumns="true" widgetVar="tbPERFILTable"
 				emptyMessage="#{messages.label_no_records_found}" >
 
-
-
-
-
-				<p:column
-					style="width:25%;text-align:center;font-size:14px;color:white;font-weight:bold;"
-					
+				
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
 					headerText="#{messages.field_label_tbPERFIL_deSCPERFIL}">
-					<h:outputText value="#{tbPERFIL.deSCPERFIL}" />
-				</p:column>
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							 value="#{tbPERFIL.deSCPERFIL}"/>
+					</p:column>
+				
+					<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+						headerText="#{messages.field_label_tbPERFIL_penalidade}">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbPERFIL.penalidadeConhecPerfil.intValue()}%">
+							<f:convertNumber minFractionDigits="0" />
+							</h:outputText>
+					</p:column>
 				
 				
-				<p:column
-					style="width:30%;text-align:center;font-size:14px;color:white;font-weight:bold;"
-					
-					headerText="#{messages.field_label_tbPERFIL_penalidade}"
-					styleClass="#{(tbPERFIL.conhecPerfilCustom=='S') ? 'customPenStyle': ''}">
-					<h:outputText 
-					value="#{tbPERFIL.penalidadeConhecPerfil.intValue()}%">
-					<f:convertNumber minFractionDigits="0" />
-					</h:outputText>
-				</p:column>
+								
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
+						headerText="#{messages.field_label_tbPERFIL_bloqueia}" >
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbPERFIL.bloqueiaMovConhecPerfil}">
+							<f:convertNumber minFractionDigits="0" />
+							</h:outputText>
+					</p:column>
 				
-				
-				<p:column
-					style="width:35%;text-align:center;font-size:14px;color:white;font-weight:bold;"
-					headerText="#{messages.field_label_tbPERFIL_bloqueia}">
-					<h:outputText value="#{tbPERFIL.bloqueiaMovConhecPerfil}" />
-				</p:column>
+			
 				
 			
 
 
-				<p:column headerText="Ações" style="width:50%;font-size:14px;font-weight:bold;" 
-					exportable="false">
+					<p:column styleClass="barraCargosPessoas"
+							style="
+					width:30%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;">
 
-			
-
-					<p:commandButton 
-						update=":editTbPERFILDialog" resetValues="true"
-						style="background:#ED6D09;width:95%;"
-						rendered="#{tbPERFILBean.isPermitted(tbPERFIL, 'tbPERFIL:update')}"
-						action="#{tbPERFILBean.onDialogOpen(tbPERFIL)}"
-						oncomplete="PF('editTbPERFILDialogWidget').show()"
-						value="#{messages.Editar}">
-					</p:commandButton>
-
-					<p:commandButton
-					style="background:#ED6D09;width:5%"
+						<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 					
-						rendered="#{tbPERFILBean.isPermitted(tbPERFIL, 'tbPERFIL:delete')}"
-						oncomplete="PF('deleteTbPERFILDialogWidget').show()"
-						value="E"
-						icon="img-button-delete">
-						<f:setPropertyActionListener value="#{tbPERFIL}"
+					
+					<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+								icon="img-button-edit"
+								rendered="#{tbPERFILBean.isPermitted(tbPERFIL, 'tbPERFIL:update')}"
+								action="#{tbPERFILBean.onDialogOpen(tbPERFIL)}"
+								update=":editTbPERFILDialog"
+								oncomplete="PF('editTbPERFILDialogWidget').show()"/>
+
+						<p:commandButton
+							rendered="#{tbPERFILBean.isPermitted(tbPERFIL, 'tbPERFIL:delete')}"
+								oncomplete="PF('deleteTbPERFILDialogWidget').show()"
+								styleClass="botaoPessoas"
+								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								icon="img-button-delete">
+							<f:setPropertyActionListener value="#{tbPERFIL}"
 							target="#{tbPERFILBean.tbPERFIL}" />
-					</p:commandButton>
+							</p:commandButton>
 
+					</p:panelGrid>
 				</p:column>
 				
 			<f:facet name="footer">
@@ -104,7 +175,7 @@
 						resetValues="true" update=":editTbPERFILDialog"
 						oncomplete="PF('editTbPERFILDialogWidget').show()"
 						rendered="#{tbPERFILBean.isPermitted('tbPERFIL:create')}"
-						style="background:#ED6D09;width:25.0%"
+							style="width:29.5%"
 						 />
 		 
 			</f:facet>	

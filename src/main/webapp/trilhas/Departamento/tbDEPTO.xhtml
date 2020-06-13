@@ -9,54 +9,126 @@
       xmlns:o="http://omnifaces.org/ui">
 <ui:composition template="/templates/layout.xhtml">
   <ui:define name="content">
+	
+	
+	 <p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
 
+		<f:facet name="start">
+        <h:panelGrid id="diag" columns="2">
+			
+			
+			<h:outputLabel id="label2" style="font-size:14px;font-weight:bold" value="Carregando...">
+			  <p:autoUpdate />
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+   		 </f:facet>
+
+		</p:ajaxStatus>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			oncomplete="PF('statusDialog').hide()" />
+
+		<p:dialog id="dialog" widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false"  showHeader="false">
+			<h:panelGrid id="panel" columns="2">
+			
+			
+			<h:outputLabel id="label3" style="font-size:14px;font-weight:bold" value="Carregando...">
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+		</p:dialog>
+    
+	
+	
     <h:form prependId="false" id="tbDEPTODataForm" onkeypress="if (event.keyCode == 13) {return false; }">
 
 			<p:dataTable id="tbDEPTOTable"
-				style="width:100%"
+					styleClass="barraCargosPessoas"
 				value="#{tbDEPTOBean.tbDEPTOList}" var="tbDEPTO"
-				resizableColumns="true"  draggableColumns="true" widgetVar="tbDEPTOTable"
+				 widgetVar="tbDEPTOTable"
 				emptyMessage="#{messages.label_no_records_found}" >
 
 
-
-
-
-				<p:column
-					style="width:44%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
 					headerText="#{messages.field_label_tbDEPTO_deSCDEPTO}">
-					<h:outputText value="#{tbDEPTO.deSCDEPTO}" />
-				</p:column>
-				<p:column
-					style="width:44%;text-align:center;font-size:14px;color:white;font-weight:bold;"
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+						value="#{tbDEPTO.deSCDEPTO}"/>
+					</p:column>
+			
+			
+					<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;"
 					headerText="#{messages.field_label_tbDEPTO_idAREAID}">
-					<h:outputText value="#{tbDEPTO.idAREA.deSCAREA}" />
-				</p:column>
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+						value="#{tbDEPTO.idAREA.deSCAREA}"/>
+					</p:column>
+				
+								
+				
+			
 
-				<p:column headerText="Ações" style="width:70%;font-size:14px;font-weight:bold;" 
-					exportable="false">
+					<p:column styleClass="barraCargosPessoas"
+							style="
+					width:30%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					color: #3B3B3B !important;
+					opacity: 1;">
 
 					
-
-					<p:commandButton 
-						update=":editTbDEPTODialog" resetValues="true"
-							style="background:#ED6D09;width:95%;"
-						rendered="#{tbDEPTOBean.isPermitted(tbDEPTO, 'tbDEPTO:update')}"
-						action="#{tbDEPTOBean.onDialogOpen(tbDEPTO)}"
-						oncomplete="PF('editTbDEPTODialogWidget').show()"
-						value="#{messages.Editar}">
-					</p:commandButton>
-
-					<p:commandButton
+					<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 					
+					
+						<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+								icon="img-button-edit"
+								rendered="#{tbDEPTOBean.isPermitted(tbDEPTO, 'tbDEPTO:update')}"
+								action="#{tbDEPTOBean.onDialogOpen(tbDEPTO)}"
+								update=":editTbDEPTODialog"
+								oncomplete="PF('editTbDEPTODialogWidget').show()"/>
+				
+						<p:commandButton
 							rendered="#{tbDEPTOBean.isPermitted(tbDEPTO, 'tbDEPTO:delete')}"
-						oncomplete="PF('deleteTbDEPTODialogWidget').show()"
-						style="background:#ED6D09;width:1%"
-						value="E"
-						icon="img-button-delete">
-						<f:setPropertyActionListener value="#{tbDEPTO}"
+								oncomplete="PF('deleteTbDEPTODialogWidget').show()"
+								styleClass="botaoPessoas"
+								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								icon="img-button-delete">
+							<f:setPropertyActionListener value="#{tbDEPTO}"
 							target="#{tbDEPTOBean.tbDEPTO}" />
-					</p:commandButton>
+							</p:commandButton>
+
+				</p:panelGrid>
+					
+
 
 				</p:column>
 				

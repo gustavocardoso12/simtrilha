@@ -215,8 +215,8 @@ public class TbCOMPETENCIASBean implements Serializable {
 	}
 
 	public void onDialogOpen(TbCOMPETENCIASEntity tbCOMPETENCIAS) {
-		reset();
-		this.tbCOMPETENCIAS = tbCOMPETENCIAS;
+		changeHeaderEditar();
+		this.setTbCOMPETENCIAS(tbCOMPETENCIAS);
 		pontuacaoOriginal = tbCOMPETENCIAS.getPenalidadeCompetencias();
 		this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("COMPETENCIAS");
 		flagEdit = true;
