@@ -22,13 +22,13 @@ public class TbESTILOLIDERANCACARGOSService extends BaseService<TbESTILOLIDERANC
     @Transactional
     public List<TbESTILOLIDERANCACARGOSEntity> findAllTbESTILOLIDERANCACARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o ", TbESTILOLIDERANCACARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o ", TbESTILOLIDERANCACARGOSEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbESTILOLIDERANCACARGOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbESTILOLIDERANCACARGOS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -41,22 +41,22 @@ public class TbESTILOLIDERANCACARGOSService extends BaseService<TbESTILOLIDERANC
 
     @Transactional
     public List<TbESTILOLIDERANCACARGOSEntity> findAvailableTbESTILOLIDERANCACARGOSs(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o WHERE o.idCARGOS IS NULL", TbESTILOLIDERANCACARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o WHERE o.idCARGOS IS NULL", TbESTILOLIDERANCACARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbESTILOLIDERANCACARGOSEntity> findTbESTILOLIDERANCACARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o WHERE o.idCARGOS = :tbCARGOS", TbESTILOLIDERANCACARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o WHERE o.idCARGOS = :tbCARGOS", TbESTILOLIDERANCACARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional
     public List<TbESTILOLIDERANCACARGOSEntity> findAvailableTbESTILOLIDERANCACARGOSs(TbESTILOLIDERANCAEntity tbESTILOLIDERANCA) {
-        return entityManager.createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o WHERE o.idESTLIDER IS NULL", TbESTILOLIDERANCACARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o WHERE o.idESTLIDER IS NULL", TbESTILOLIDERANCACARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbESTILOLIDERANCACARGOSEntity> findTbESTILOLIDERANCACARGOSsByIdESTLIDER(TbESTILOLIDERANCAEntity tbESTILOLIDERANCA) {
-        return entityManager.createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o WHERE o.idESTLIDER = :tbESTILOLIDERANCA", TbESTILOLIDERANCACARGOSEntity.class).setParameter("tbESTILOLIDERANCA", tbESTILOLIDERANCA).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOLIDERANCACARGOS o WHERE o.idESTLIDER = :tbESTILOLIDERANCA", TbESTILOLIDERANCACARGOSEntity.class).setParameter("tbESTILOLIDERANCA", tbESTILOLIDERANCA).getResultList();
     }
 
 }

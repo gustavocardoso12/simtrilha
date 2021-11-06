@@ -21,13 +21,20 @@ public class TbCONHECIMENTOSBASICOSService extends BaseService<TbCONHECIMENTOSBA
     @Transactional
     public List<TbCONHECIMENTOSBASICOSEntity> findAllTbCONHECIMENTOSBASICOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSBASICOS o ", TbCONHECIMENTOSBASICOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCONHECIMENTOSBASICOS o order by o.id", TbCONHECIMENTOSBASICOSEntity.class).getResultList();
     }
+    
+    @Transactional
+    public List<TbCONHECIMENTOSBASICOSEntity> findAllTbCONHECIMENTOSBASICOSEntitiesCB() {
+        
+        return getEntityManager().createQuery("SELECT o FROM TbCONHECIMENTOSBASICOS o order by o.grupo asc", TbCONHECIMENTOSBASICOSEntity.class).getResultList();
+    }
+    
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbCONHECIMENTOSBASICOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbCONHECIMENTOSBASICOS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,8 +68,8 @@ public class TbCONHECIMENTOSBASICOSService extends BaseService<TbCONHECIMENTOSBA
     // Remove all assignments from all tbCONHECIMENTOSBASCARGOS a tbCONHECIMENTOSBASICOS. Called before delete a tbCONHECIMENTOSBASICOS.
     @Transactional
     private void cutAllIdCONHECBASTbCONHECIMENTOSBASCARGOSsAssignments(TbCONHECIMENTOSBASICOSEntity tbCONHECIMENTOSBASICOS) {
-        entityManager
-                .createQuery("UPDATE TbCONHECIMENTOSBASCARGOS c SET c.idCONHECBAS = NULL WHERE c.idCONHECBAS = :p")
+    	getEntityManager()
+                .createQuery("DELETE FROM TbCONHECIMENTOSBASCARGOS c WHERE c.idCONHECBAS = :p")
                 .setParameter("p", tbCONHECIMENTOSBASICOS).executeUpdate();
     }
     

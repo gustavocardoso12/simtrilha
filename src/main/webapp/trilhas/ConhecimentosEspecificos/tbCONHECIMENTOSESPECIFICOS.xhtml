@@ -8,6 +8,45 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 <ui:composition template="/templates/layout.xhtml">
 	<ui:define name="content">
+	
+	
+		<p:panelGrid id="panelcarrega" style="margin-left: 40px;" >
+	<h:outputText id="statusMatriz"
+				style="top: 86px;
+left: 596px;
+width: 50%;
+height: 30px;
+text-align: left;
+font: Bold 16px/16px Montserrat;
+letter-spacing: 0px;
+opacity: 1;"
+				escape="false"	value="Carregando Lista de Conhecimentos Específicos.... " />
+	
+	</p:panelGrid>
+	
+	<p:spacer></p:spacer>
+		
+		<script language="javascript">
+
+		document.onreadystatechange = function () {
+			  var state = document.readyState
+			  
+			  
+			  if (state == 'complete') {
+			      setTimeout(function(){
+			          document.getElementById('interactive');
+			         document.getElementById('tbCONHECIMENTOSESPECIFICOSDataForm').style.visibility="visible";
+			         document.getElementById('statusMatriz').style.visibility="hidden";   
+			         document.getElementById('penalidade').style.visibility="visible";   
+			         
+			      },1000);
+			  }
+			}
+
+</script>
+	
+	
+	
 		<p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
 
 		<f:facet name="start">
@@ -39,26 +78,37 @@
 			</h:panelGrid>
 		</p:dialog>
 		
-		<h:form>
-			<h:panelGrid columns="1" style="margin-bottom: 10px">
-				<h:outputText id="output"
-					value=" Penalidade padrão: #{tbCONHECIMENTOSESPECIFICOSBean.gapVarCE}%" />
-				<h:inputHidden id="gapvar" value="#{tbCONHECIMENTOSESPECIFICOSBean.gapVarCE}" />
-				<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
-					step="1" style="width: 300px"
-					displayTemplate="Penalidade padrão: %{value}">
-					<p:ajax event="slideEnd"
-						listener="#{tbCONHECIMENTOSESPECIFICOSBean.onSlideEndCE}"
-						update="tbCONHECIMENTOSESPECIFICOSTable" />
-				</p:slider>
-			</h:panelGrid>
-		</h:form>
+		
+		 <h:form  id="penalidade" style="visibility:hidden">
+    <h:panelGrid columns="4" style="margin-bottom: 10px">
+    				
+						
+						<h:outputText id="output" style="font-size:14px;font-weight:bold;color:black"
+					value=" Penalidade padrão:" />
+				
+        <p:inputText id="decimal" style="background: white !important" value="#{tbCONHECIMENTOSESPECIFICOSBean.gapVarCE}" />
+        <p:slider style="width:200px" for="decimal" minValue="0.0" maxValue="100.0" step="0.5" />
+  
+				
+					<p:commandButton rendered="#{p:ifAnyGranted('Administrator')}" style="background:#ED6D09;width:100%;"
+					 update="tbCONHECIMENTOSESPECIFICOSTable" value="Aplicar"
+					action="#{tbCONHECIMENTOSESPECIFICOSBean.onSelect}">
+				</p:commandButton>
+					
+				</h:panelGrid>
+    </h:form>
+		
+		
+		
+		
 		
 		
 		<h:form prependId="false" id="tbCONHECIMENTOSESPECIFICOSDataForm"
+		style="visibility:hidden"
 			onkeypress="if (event.keyCode == 13) {return false; }">
 
 			<p:dataTable id="tbCONHECIMENTOSESPECIFICOSTable"
+				rowKey="#{tbCONHECIMENTOSESPECIFICOS.id}"
 				value="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOSList}" var="tbCONHECIMENTOSESPECIFICOS"
 				styleClass="barraCargosPessoas"
 				widgetVar="tbCONHECIMENTOSESPECIFICOSTable"
@@ -69,11 +119,11 @@
 				<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
-					width:90%;
+					width:100%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbCONHECIMENTOSESPECIFICOS_deSCCONHECIMENTOSESPECIFICOS}">
 						<h:outputText style="
@@ -89,11 +139,11 @@
 						<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
-					width:90%;
+					width:50%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbPERFIL_penalidade}" >
 						<h:outputText style="
@@ -102,7 +152,7 @@
 							letter-spacing: 0px;
 							color: #000000;
 							opacity: 1;"
-							value="#{tbCONHECIMENTOSESPECIFICOS.penalidadeConhecBas.intValue()}%">
+							value="#{tbCONHECIMENTOSESPECIFICOS.penalidadeConhecBas}%">
 							<f:convertNumber minFractionDigits="0" />
 							</h:outputText>
 					</p:column>
@@ -111,11 +161,11 @@
 				<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
-					width:90%;
+					width:50%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbPERFIL_bloqueia}">
 						<h:outputText style="
@@ -125,7 +175,27 @@
 							color: #000000;
 							opacity: 1;"
 							value="#{tbCONHECIMENTOSESPECIFICOS.bloqueiaMovConhecEsp}">
-							<f:convertNumber minFractionDigits="0" />
+							</h:outputText>
+					</p:column>
+					
+					
+					<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:50%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					
+					opacity: 1;"
+						headerText="Grupo de Rótulos">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCONHECIMENTOSESPECIFICOS.tbMascara.descGrupo}"  >
 							</h:outputText>
 					</p:column>
 
@@ -135,30 +205,28 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;">
 
 					<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 					
 					
 					
-					<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+				 	<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
 								icon="img-button-edit"
-									rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:update')}"
 								action="#{tbCONHECIMENTOSESPECIFICOSBean.onDialogOpen(tbCONHECIMENTOSESPECIFICOS)}"
 								update=":editTbCONHECIMENTOSESPECIFICOSDialog" 
 								oncomplete="PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"/>
 					
 					
 						<p:commandButton
-							rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:delete')}"
 									oncomplete="PF('deleteTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"
 								styleClass="botaoPessoas"
 								style="background:none;width:40px; height:40px;font-size:12px" value=""
 								icon="img-button-delete">
 							<f:setPropertyActionListener value="#{tbCONHECIMENTOSESPECIFICOS}"
 							target="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS}" />
-							</p:commandButton>
+							</p:commandButton> 
 				</p:panelGrid>
 			
 				</p:column>
@@ -179,18 +247,17 @@
 
 		<p:confirmDialog id="deleteTbCONHECIMENTOSESPECIFICOSDialog"
 			widgetVar="deleteTbCONHECIMENTOSESPECIFICOSDialogWidget"
-			showEffect="explode" hideEffect="fade"
 			rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:delete')}"
 			header="#{messages.label_confirm_deletion}" severity="alarm">
 			<f:facet name="message">
-				<h:outputText value="#{messages.label_delete_record}" escape="false" />
+				<h:outputText value="#{messages.label_delete_record}" />
 			</f:facet>
 			<p:outputPanel>
 				<h:form>
 					<p:panelGrid columns="2" style="margin:auto">
 						<p:commandButton value="#{messages.label_yes}"
 							action="#{tbCONHECIMENTOSESPECIFICOSBean.delete}"
-							update=":tbCONHECIMENTOSESPECIFICOSDataForm :growlForm:growl"
+							update="tbCONHECIMENTOSESPECIFICOSTable"
 							oncomplete="PF('deleteTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" />
 						<p:commandButton value="#{messages.label_no}"
 							onclick="PF('deleteTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()"
@@ -200,10 +267,9 @@
 			</p:outputPanel>
 		</p:confirmDialog>
 
-		<p:dialog dynamic="true" id="editTbCONHECIMENTOSESPECIFICOSDialog"
+		<p:dialog id="editTbCONHECIMENTOSESPECIFICOSDialog"
 			header="#{tbCONHECIMENTOSESPECIFICOSBean.dialogHeader}"
-			showEffect="explode"
-			hideEffect="bounce" responsive="true" resizable="false"
+	 responsive="true" resizable="false"
 			modal="true" widgetVar="editTbCONHECIMENTOSESPECIFICOSDialogWidget"
 			maximizable="false">
 			<p:ajax event="close"
@@ -215,26 +281,13 @@
 					<div style="text-align: center; margin: 10px">
 						<p:commandButton value="#{messages.label_save}"
 							action="#{tbCONHECIMENTOSESPECIFICOSBean.persist}"
-							update=":editTbCONHECIMENTOSESPECIFICOSForm:tbCONHECIMENTOSESPECIFICOSEditPanel :tbCONHECIMENTOSESPECIFICOSDataForm :growlForm:growl"
+							update=":editTbCONHECIMENTOSESPECIFICOSForm:tbCONHECIMENTOSESPECIFICOSEditPanel tbCONHECIMENTOSESPECIFICOSTable"
 							oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" />
 					</div>
 				</p:outputPanel>
 			</h:form>
 		</p:dialog>
 
-		<p:dialog dynamic="true" id="viewTbCONHECIMENTOSESPECIFICOSDialog"
-			header="#{messages.VisualizarRegistro}"
-			showEffect="explode"
-			hideEffect="bounce" responsive="true" resizable="false"
-			modal="true" widgetVar="viewTbCONHECIMENTOSESPECIFICOSDialogWidget"
-			maximizable="false">
-			<p:ajax event="close"
-				listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}" />
-			<h:form id="viewTbCONHECIMENTOSESPECIFICOSForm">
-				<ui:include
-					src="/trilhas/ConhecimentosEspecificos/tbCONHECIMENTOSESPECIFICOSViewInclude.xhtml" />
-			</h:form>
-		</p:dialog>
 
 
 

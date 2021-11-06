@@ -22,13 +22,13 @@ public class TbDEPTOService extends BaseService<TbDEPTOEntity> implements Serial
     @Transactional
     public List<TbDEPTOEntity> findAllTbDEPTOEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbDEPTO o ", TbDEPTOEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbDEPTO o ", TbDEPTOEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbDEPTO o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbDEPTO o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,20 +61,23 @@ public class TbDEPTOService extends BaseService<TbDEPTOEntity> implements Serial
 
     // Remove all assignments from all tbCARGOS a tbDEPTO. Called before delete a tbDEPTO.
     @Transactional
-    private void cutAllIdDEPTOTbCARGOSsAssignments(TbDEPTOEntity tbDEPTO) {
-        entityManager
-                .createQuery("UPDATE TbCARGOS c SET c.idDEPTO = NULL WHERE c.idDEPTO = :p")
+    public void cutAllIdDEPTOTbCARGOSsAssignments(TbDEPTOEntity tbDEPTO) {
+    	getEntityManager()
+                .createQuery("DELETE FROM TbCARGOS c WHERE c.idDEPTO = :p")
                 .setParameter("p", tbDEPTO).executeUpdate();
     }
     
+ 
+    
+    
     @Transactional
     public List<TbDEPTOEntity> findAvailableTbDEPTOs(TbAREAEntity tbAREA) {
-        return entityManager.createQuery("SELECT o FROM TbDEPTO o WHERE o.idAREA IS NULL", TbDEPTOEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbDEPTO o WHERE o.idAREA IS NULL", TbDEPTOEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbDEPTOEntity> findTbDEPTOsByIdAREA(TbAREAEntity tbAREA) {
-        return entityManager.createQuery("SELECT o FROM TbDEPTO o WHERE o.idAREA = :tbAREA", TbDEPTOEntity.class).setParameter("tbAREA", tbAREA).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbDEPTO o WHERE o.idAREA = :tbAREA", TbDEPTOEntity.class).setParameter("tbAREA", tbAREA).getResultList();
     }
 
 }

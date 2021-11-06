@@ -85,6 +85,9 @@ public class UserEntity extends BaseEntity implements Serializable {
     @Size(max=50)
     private String flag_grade;
     
+    @Size(max=50)
+    private String ativo;
+    
     
     public String getUsername() {
         return this.username;
@@ -196,6 +199,14 @@ public class UserEntity extends BaseEntity implements Serializable {
 
 	public void setFlag_grade(String flag_grade) {
 		this.flag_grade = flag_grade;
+	}
+
+	public String getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(String ativo) {
+		this.ativo = ativo;
 	}
 
 }

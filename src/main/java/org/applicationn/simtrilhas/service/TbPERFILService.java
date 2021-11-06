@@ -21,13 +21,13 @@ public class TbPERFILService extends BaseService<TbPERFILEntity> implements Seri
     @Transactional
     public List<TbPERFILEntity> findAllTbPERFILEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbPERFIL o ", TbPERFILEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbPERFIL o ", TbPERFILEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbPERFIL o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbPERFIL o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,8 +61,8 @@ public class TbPERFILService extends BaseService<TbPERFILEntity> implements Seri
     // Remove all assignments from all tbPERFILCARGOS a tbPERFIL. Called before delete a tbPERFIL.
     @Transactional
     private void cutAllIdPERFILTbPERFILCARGOSsAssignments(TbPERFILEntity tbPERFIL) {
-        entityManager
-                .createQuery("UPDATE TbPERFILCARGOS c SET c.idPERFIL = NULL WHERE c.idPERFIL = :p")
+    	getEntityManager()
+                .createQuery("DELETE FROM TbPERFILCARGOS c WHERE c.idPERFIL = :p")
                 .setParameter("p", tbPERFIL).executeUpdate();
     }
     

@@ -21,13 +21,21 @@ public class TbCONHECIMENTOSESPECIFICOSService extends BaseService<TbCONHECIMENT
     @Transactional
     public List<TbCONHECIMENTOSESPECIFICOSEntity> findAllTbCONHECIMENTOSESPECIFICOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCONHECIMENTOSESPECIFICOS o ", TbCONHECIMENTOSESPECIFICOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCONHECIMENTOSESPECIFICOS o ", TbCONHECIMENTOSESPECIFICOSEntity.class).getResultList();
     }
+    
+    @Transactional
+    public List<TbCONHECIMENTOSESPECIFICOSEntity> findAllTbCONHECIMENTOSESPECIFICOSEntitiesCE() {
+        
+        return getEntityManager().createQuery("SELECT o FROM TbCONHECIMENTOSESPECIFICOS o order by o.id asc ", TbCONHECIMENTOSESPECIFICOSEntity.class).getResultList();
+    }
+    
+    
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbCONHECIMENTOSESPECIFICOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbCONHECIMENTOSESPECIFICOS o ", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,8 +69,8 @@ public class TbCONHECIMENTOSESPECIFICOSService extends BaseService<TbCONHECIMENT
     // Remove all assignments from all tbCONHECIMENTOSESPCARGOS a tbCONHECIMENTOSESPECIFICOS. Called before delete a tbCONHECIMENTOSESPECIFICOS.
     @Transactional
     private void cutAllIdCONHECESPTbCONHECIMENTOSESPCARGOSsAssignments(TbCONHECIMENTOSESPECIFICOSEntity tbCONHECIMENTOSESPECIFICOS) {
-        entityManager
-                .createQuery("UPDATE TbCONHECIMENTOSESPCARGOS c SET c.idCONHECESP = NULL WHERE c.idCONHECESP = :p")
+    	getEntityManager()
+                .createQuery("DELETE FROM TbCONHECIMENTOSESPCARGOS c WHERE c.idCONHECESP = :p")
                 .setParameter("p", tbCONHECIMENTOSESPECIFICOS).executeUpdate();
     }
     

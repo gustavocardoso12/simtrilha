@@ -21,13 +21,13 @@ public class TbMOTIVADORESService extends BaseService<TbMOTIVADORESEntity> imple
     @Transactional
     public List<TbMOTIVADORESEntity> findAllTbMOTIVADORESEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbMOTIVADORES o ", TbMOTIVADORESEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbMOTIVADORES o ", TbMOTIVADORESEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbMOTIVADORES o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbMOTIVADORES o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,7 +61,7 @@ public class TbMOTIVADORESService extends BaseService<TbMOTIVADORESEntity> imple
     // Remove all assignments from all tbMOTIVADORESCARGOS a tbMOTIVADORES. Called before delete a tbMOTIVADORES.
     @Transactional
     private void cutAllIdMOTIVADORESTbMOTIVADORESCARGOSsAssignments(TbMOTIVADORESEntity tbMOTIVADORES) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbMOTIVADORESCARGOS c SET c.idMOTIVADORES = NULL WHERE c.idMOTIVADORES = :p")
                 .setParameter("p", tbMOTIVADORES).executeUpdate();
     }

@@ -1,7 +1,17 @@
 * {
-  font-family:Montserrat;
 }
-
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYC3USBnSvpkopQaUR-2r7iU.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: bold;
+  font-weight: 700;
+  src: local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf) format('truetype');
+}
 
 body,div,td {
   
@@ -38,6 +48,16 @@ a, img {
     width: auto;
     font-family: Calibri;
     
+}
+
+.dialogAT {
+    width: auto;
+    font-family: Calibri;
+    background:white !important;
+}
+
+.ui-state-active .ui-icon{
+	
 }
 
 .col1 {
@@ -112,8 +132,8 @@ a, img {
 	/* Overwrite scary ui-fluid selectmenu style of PrimeFaces 5.2 */
     box-sizing: border-box;
     padding: 0 3px;
-    width: 24px;
     background-color: green;
+    width:100px;
 }
 
 
@@ -175,8 +195,6 @@ th {
 }
 
 
-
-
 .ui-button .ui-button-text {
     display: block;
     line-height: normal;
@@ -198,11 +216,15 @@ th {
 }
 
 .ui-panelgrid .ui-grid-responsive  {
-    border-width: 1px;
+     /*  border-width: 1px;
     border-style: solid;
-    border-color: inherit;
+    border-color: inherit;*/
     padding: 1px 1px;
     background: #f2f2f2;
+}
+
+.loginForm .ui-widget-content{
+	background:#f2f2f2 !important;
 }
 
 .ui-panelgrid .ui-grid-responsive .ui-panelgrid-cell {
@@ -218,20 +240,20 @@ th {
 }
 
 .Grade.ui-panel .ui-panel-titlebar {
-	background: #00AF50 !important;
+	background: #1E9151 !important;
 }
 
 
 .GradeAux.ui-datatable .ui-datatable-header{
-	background: #00AF50 !important;
+	background: #1E9151 !important;
 }
 
 .GradeAux.ui-datatable thead th, .ui-datatable tfoot th{
-	background: #00AF50  !important;
+	background: #1E9151  !important;
 }
 
 .GradeAux.ui-datatable thead th, .ui-datatable tfoot th{
-	background: #00AF50  !important;
+	background: #1E9151  !important;
 }
 
 
@@ -254,53 +276,53 @@ th {
 
 
 .Basicos.ui-panel .ui-panel-titlebar {
-	background:#C42A22 !important;
+	background:#A8413E !important;
 }
 
 .BasicosAux.ui-datatable .ui-datatable-header{
-	background: #C42A22 !important;
+	background: #A8413E !important;
 }
 
 .BasicosAux.ui-datatable thead th, .ui-datatable tfoot th{
-	background: #C42A22 !important;
+	background: #A8413E !important;
 }
 
 .BasicosAux.ui-datatable thead th, .ui-datatable tfoot th{
-	background: #C42A22 !important;
+	background: #A8413E !important;
 }
 
 .ui-datatable-odd {
-    background: #ffffff !important;
+    background: #F8F8F8 !important;
 }
 
 .ui-datatable-even {
-    background: #F2F5F9 !important;
+    background: white !important;
 }
 
 .Especificos.ui-panel .ui-panel-titlebar {
-	background:#920A7A !important;
+	background:#a7298d !important;
 }
 
 .EspecificosAux.ui-datatable thead th, .ui-datatable tfoot th{
-	background: #920A7A  !important;
-}
-
-.EspecificosAux.ui-datatable thead th, .ui-datatable tfoot th{
-	background: #920A7A  !important;
+	background: #a7298d  !important;
 }
 
 .ui-selectonemenu .ui-selectonemenu-label {
 	white-space:pre-line !important;
 }
 
+.EspecificosAux.ui-datatable thead th, .ui-datatable tfoot th{
+	background: #a7298d  !important;
+}
+
 
 .EspecificosAux.ui-datatable .ui-datatable-header{
-	background: #920A7A !important;
+	background: #a7298d !important;
 }
 
 
 .EspecificosAuxTH.th{
-	background: #C42A22  !important;
+	background: #A8413E  !important;
 }
 
 .ui-chkbox-icon {
@@ -308,7 +330,7 @@ th {
 }
 
 .ui-icon-check{
-	color: #C42A22  !important;
+	color: #A8413E  !important;
 }
 
 .customPenStyle{
@@ -334,10 +356,11 @@ th {
 	color:black;
 }
 
+
 .img-button-delete { 
-	width:16px;
-	height:16px;
-	background-image: url('/javax.faces.resource/images/can.png.xhtml') !important; 
+	width:40px;
+	height:40px;
+	background-image: url('#{request.contextPath}/javax.faces.resource/images/trash.png.xhtml') !important; 
 	
 	}
 	
@@ -372,8 +395,10 @@ th {
 
 .ui-widget-content {
     border: none;
-    color:black !important
+    color:black !important;
+    background:white;
 }
+
 
 .ui-menu .ui-menuitem-text {
     float: left;
@@ -388,7 +413,6 @@ th {
     margin: 1px 0;
     padding: 3px 5px;
     text-align: left;
-    color: white !important;
      white-space: pre-line !important;
 }
 
@@ -519,15 +543,15 @@ th {
 }
 
 .ui-tree.ui-tree-horizontal .ui-treenode{
-	background-color:#f2f2f2 !important;
+	/*background-color:#f2f2f2 !important;*/
 }
 
 .autoTrilhas.ui-widget-content{
-	background:#f2f2f2 !important;
+	/*background:#f2f2f2 !important;*/
 
 }
 
-.autoTrilhasNo.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+.autoTrilhasNo .ui-state-default{
 	background:#12367A !important;
 
 }
@@ -537,6 +561,53 @@ th {
 }
 
 
+.menuAT .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield{
+	background:#EEEEEE !important;
+}
+
+.menuAT .ui-selectonemenu-trigger{
+	background:#EEEEEE !important;
+}
+
+
+.menuAT .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	border: none !important
+}
+
+.menuAT .ui-icon{
+	background-image: url('#{request.contextPath}/javax.faces.resource/images/icons.png.xhtml') !important; 
+}
+
+.statusMatrizAtualizada.ui-button .ui-button-text{
+	background:green !important;
+}
+
+.statusMatrizDesatualizada.ui-button .ui-button-text{
+	background:#A8413E !important;
+
+}
+.statusMatrizAtualizada{
+	color:green;
+}
+.statusMatrizDesatualizada{
+color: #A8413E;
+}
+
+.matrizTable.ui-datatable table {
+    table-layout: auto !important;
+}
+}
+
+.customSelectorStyle{
+	color: #5C2C5B !important;
+    font-weight: bold !important;
+	
+}
+
+.customSelectorPessoasStyle{
+	color: #B4B4B4 !important;
+    font-weight: bold !important;
+}
 .ui-paginator, .ui-paginator-top .ui-widget-header, .ui-corner-top{
 	background:#FACF00 !important;
 }
@@ -556,7 +627,11 @@ th {
     
 }
 
-
+.ui-widget-header {
+    border: 1px solid #333333;
+    color: #ffffff;
+    font-weight: normal;
+}
 
 .ui-dialog .ui-dialog-buttonpane {
     text-align: left;
@@ -578,10 +653,6 @@ text-align: left ! important;
         line-height:4em;
         text-align: center;
     }
-
-
-
-
 
 .ui-sticky {
         top: 70px !important;
@@ -607,11 +678,233 @@ td.foo {
     background:#12367A;
 }
 
+.Ret_ngulo_61 {
+		
+		overflow: visible;
+		width: 9px;
+		height: 100px;
+	
+	}
+	
+	
+.plus {
+		right: 30px;
+		position:absolute;
+		overflow: visible;
+		width: 40px;
+		height: 40px;
+	
+	}
+	
+.plusND {
+		right: 30px;
+		position:absolute;
+		overflow: visible;
+		width: 40px;
+		height: 40px;
+		display:none
+	
+	}		
+	
+.plussign {
+	    right: 25px;
+    top: auto;
+    position: absolute;
+    overflow: visible;
+    width: 40px;
+    height: 40px;
+    font-style: normal;
+    font-weight: lighter;
+    font-size: 27px;
+    color: rgba(255,255,255,1);
+	
+	}	
+	
+	
+.plussignND {
+	    right: 25px;
+    top: auto;
+    position: absolute;
+    overflow: visible;
+    display:none;
+    width: 40px;
+    height: 40px;
+    font-style: normal;
+    font-weight: lighter;
+    font-size: 27px;
+    color: rgba(255,255,255,1);
+	
+	}		
+	
+	
+	.openbtn {
+  font-size: 27px !important;
+  cursor: pointer;
+  background-color: #77457a;
+  color: white;
+  border: none;
+}
+
+	
+.openbtnGR {
+  font-size: 27px !important;
+  cursor: pointer;
+  background-color: #3CA56B;
+  color: white;
+  border: none;
+}
+
+	
+.openbtnPE {
+  font-size: 27px !important;
+  cursor: pointer;
+  background-color: #71cbf2;
+  color: white;
+  border: none;
+}
+
+	
+.openbtnCB {
+  font-size: 27px !important;
+  cursor: pointer;
+  background-color: #C66562;
+  color: white;
+  border: none;
+}
 
 
-.barraCargosPessoas.th {
+.openbtnCE {
+  font-size: 27px !important;
+  cursor: pointer;
+  background-color: #f791f4;
+  color: white;
+  border: none;
+}
+
+.panelMain .ui-icon-minusthick {
+    background-position: -64px -128px;
+    display: none !important;
+}
+
+.panelMain .ui-icon-plusthick {
+    background-position: -64px -128px;
+    display: none !important;
+}
+	
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th {
+    /* padding: 4px 10px; */
+    overflow: hidden;
+    /* border-width: 1px; */
+    /* border-style: solid; */
+}
+
+.barraCargosPessoas .th {
   /* color:#f2f2f2 !important; */
-  background: white !important;
+  background:#EEEEEE 0% 0% no-repeat padding-box !important;
   border:none !important;
+}
+
+.barraCargosPessoas2 .th .ui-widget-content .ui-state-default{
+  /* color:#f2f2f2 !important; */
+  background:#5C2B5F 0% 0% no-repeat padding-box !important;
+  border:none !important;
+}
+
+.barraCargosPessoasGR .th .ui-widget-content .ui-state-default{
+  /* color:#f2f2f2 !important; */
+  background:#1E9151 0% 0% no-repeat padding-box !important;
+  border:none !important;
+}
+
+.barraCargosPessoasPE .th .ui-widget-content .ui-state-default{
+  /* color:#f2f2f2 !important; */
+  background:#1E9151 0% 0% no-repeat padding-box !important;
+  border:none !important;
+}
+
+
+.barraCargosPessoasCB .th .ui-widget-content .ui-state-default{
+  /* color:#f2f2f2 !important; */
+  background:#A8413E 0% 0% no-repeat padding-box !important;
+  border:none !important;
+}
+
+
+.barraCargosPessoasCE .th .ui-widget-content .ui-state-default{
+  /* color:#f2f2f2 !important; */
+  background:#a7298d 0% 0% no-repeat padding-box !important;
+  border:none !important;
+}
+.CompetenciasAux.ui-datatable thead th, .ui-datatable tfoot th{
+	background: #5C2B5F  !important;
+}
+
+.botaoPessoas.ui-button-text-icon-left .ui-button-text{
+	height:30px !important;
+}
+
+
+.botaoADDPessoas.ui-button-text .ui-c {
+	height:30px !important;
+}
+
+.botaoADDPessoas.ui-button-text-only .ui-button-text  {
+
+	padding: .9em 1em !important;
+}
+
+
+
+
+
+.botaoPessoas.ui-button-text-icon-left .ui-icon{
+	position: absolute;
+    top: 50%;
+   	margin-top: -13px;
+    margin-left: 0px;
+}
+
+
+.img-button-edit { 
+	width:40px;
+	height:40px;
+	background-image: url('#{request.contextPath}/javax.faces.resource/images/edit.png.xhtml') !important; 
+	
+	}
+
+
+
+	
+ .painelpessoas{
+ width:15px !important;
+ }	
+ 
+ 	
+ .painelpessoas2{
+ width:25px !important;
+ }	
+	
+	button {
+    font-family: Montserrat;
+    font-size: 1em;
+}
+	
+	
+.BG_k {
+    overflow: visible;
+    width: 40px;
+    height: 40px;
+    left: 0px;
+    top: 0px;
+}	
+
+
+
+#Plus {
+    width: 40px;
+    height: 40px;
+    left: 1004px;
+    top: 10px;
+    overflow: visible;
 }
 

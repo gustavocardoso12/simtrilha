@@ -7,8 +7,7 @@ import java.util.List;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 
-import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
-import org.applicationn.simtrilhas.domain.TbGRADECARGOSEntity;
+
 import org.applicationn.simtrilhas.domain.TbPONTCARGOSEntity;
 
 @Named
@@ -21,26 +20,17 @@ public class TbPONTCARGOSService extends BaseService<TbPONTCARGOSEntity> impleme
     }
     
     @Transactional
-    public List<TbPONTCARGOSEntity> findAllTbPONTCARGOSEntities(String BancoDados) {
+    public List<TbPONTCARGOSEntity> findAllTbPONTCARGOSEntities() {
     	List<TbPONTCARGOSEntity>  result = new ArrayList<>();
-    	
-    	
-    	switch (BancoDados) {
-    		case "Moura": 
-    			result = entityManager.createQuery("SELECT o FROM TbPONTCARGOS o order by o.id", TbPONTCARGOSEntity.class).getResultList();
-    			break;
-    		case "Cocamar":
-    			result = entityManagerCocamar.createQuery("SELECT o FROM TbPONTCARGOS o order by o.id", TbPONTCARGOSEntity.class).getResultList();
-    			break;
-    	}
-   
+
+    	result =getEntityManager().createQuery("SELECT o FROM TbPONTCARGOS o order by o.id", TbPONTCARGOSEntity.class).getResultList();  
         return result;
     }
     
     
     @Transactional
     public TbPONTCARGOSEntity findPONTCARGOSByRequisito(String Requisito) {
-    	TbPONTCARGOSEntity result = entityManager.createQuery("SELECT o FROM TbPONTCARGOS o WHERE o.deSCPONT = :deSCPONT", TbPONTCARGOSEntity.class)
+    	TbPONTCARGOSEntity result =getEntityManager().createQuery("SELECT o FROM TbPONTCARGOS o WHERE o.deSCPONT = :deSCPONT", TbPONTCARGOSEntity.class)
     			.setParameter("deSCPONT", Requisito)
     			.getSingleResult();
         return result;
@@ -49,7 +39,7 @@ public class TbPONTCARGOSService extends BaseService<TbPONTCARGOSEntity> impleme
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbPONTCARGOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbPONTCARGOS o", Long.class).getSingleResult();
     }
     
     @Override

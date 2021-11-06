@@ -21,13 +21,13 @@ public class TbCOMPETENCIASService extends BaseService<TbCOMPETENCIASEntity> imp
     @Transactional
     public List<TbCOMPETENCIASEntity> findAllTbCOMPETENCIASEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIAS o ", TbCOMPETENCIASEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCOMPETENCIAS o ", TbCOMPETENCIASEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbCOMPETENCIAS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbCOMPETENCIAS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -51,8 +51,7 @@ public class TbCOMPETENCIASService extends BaseService<TbCOMPETENCIASEntity> imp
     @Override
     protected void handleDependenciesBeforeDelete(TbCOMPETENCIASEntity tbCOMPETENCIAS) {
 
-        /* This is called before a TbCOMPETENCIAS is deleted. Place here all the
-           steps to cut dependencies to other entities */
+       
         
         this.cutAllIdCOMPETENCIASTbCOMPETENCIASCARGOSsAssignments(tbCOMPETENCIAS);
         
@@ -61,8 +60,8 @@ public class TbCOMPETENCIASService extends BaseService<TbCOMPETENCIASEntity> imp
     // Remove all assignments from all tbCOMPETENCIASCARGOS a tbCOMPETENCIAS. Called before delete a tbCOMPETENCIAS.
     @Transactional
     private void cutAllIdCOMPETENCIASTbCOMPETENCIASCARGOSsAssignments(TbCOMPETENCIASEntity tbCOMPETENCIAS) {
-        entityManager
-                .createQuery("UPDATE TbCOMPETENCIASCARGOS c SET c.idCOMPETENCIAS = NULL WHERE c.idCOMPETENCIAS = :p")
+    	getEntityManager()
+                .createQuery("DELETE FROM TbCOMPETENCIASCARGOS c WHERE c.idCOMPETENCIAS = :p")
                 .setParameter("p", tbCOMPETENCIAS).executeUpdate();
     }
     

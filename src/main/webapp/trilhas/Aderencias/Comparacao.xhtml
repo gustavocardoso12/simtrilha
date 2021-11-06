@@ -4,12 +4,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://www.w3.org/TR/2002/WD-SVG11-20020108/SVG.xsd"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 <ui:composition template="/templates/layout.xhtml">
 	<ui:define name="content">
 
 
+  
+
+	
 		<p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
 
 
@@ -26,22 +31,83 @@
 			</h:panelGrid>
 		</p:dialog>
 
+		
+	<h:panelGrid id="panepessoasCargos2" styleClass="dialog"
+		style="top: 78px;
+left: 282px;
+width: 142px;
+margin-left: 10px;
+margin-top: 5px;
+opacity: 1;"
+			columnClasses="col2,col2" columns="2">
+	<p:commandLink id="btnCargo" global="false" action="#{tbCARGOSBean.SelecionaCargosComp}"  update="paneCargos paneCargos2 panepessoasCargos2"  style="margin-right:20px;">
+       
+  		
+		<h:outputLabel
+					
+					
+					style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;" 
+styleClass="#{(tbCARGOSBean.selector==true) ? 'customSelectorStyle': 'customSelectorPessoasStyle'}"
+value="Cargo" />
+  </p:commandLink>
+
+<p:commandLink rendered="#{userBean.user.flag_grade=='SIM'}"  id="btnPessoas" global="false" action="#{tbCARGOSBean.SelecionaPessoasComp}" update="paneCargos paneCargos2 panepessoasCargos2"  style="margin-right:20px;">
+<h:outputLabel
+styleClass="#{(tbCARGOSBean.selector==true) ? 'customSelectorPessoasStyle': 'customSelectorStyle'}"
+					style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;" value="Pessoa" />
+	
+	</p:commandLink>
+	</h:panelGrid>
 
 
 
-		<h:panelGrid id="paneCargos" 
-			 columns="2">
+<div class="ui-g">
+ 
+
+
+<div >
+		
+		
+		<h:panelGrid id="paneCargos" styleClass="dialogAT"
+			columnClasses="col2,col2" style="margin-left: 10px;" columns="2">
+			
+				<h:form>
+
+				<h:panelGrid id="paneCargoDe">
 			
 				
-			
 				
-				<h:form id="paneCargoDe" style="width:100%; min-width:140px">
 				
-				<h:outputLabel value="Família De:" for="idAREASelectInput" />
+					<h:outputLabel
+					style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;" value="Família De" for="idAREASelectInput" />
 				
 				<div style="width: 100%">
 				
-				<p:selectOneMenu autoWidth="false" value="#{tbCARGOSBean.areaEscolhida}"
+				<p:selectOneMenu styleClass="menuAT"  style="width:300px" autoWidth="false" value="#{tbCARGOSBean.areaEscolhida}"
 					id="idAREASelectInput">
 					<f:selectItem noSelectionOption="true" itemLabel="" />
 					<f:selectItems value="#{tbCARGOSBean.distinctArea}" var="tbCARGO"
@@ -53,9 +119,20 @@
 				</p:selectOneMenu>
 				</div>
 				
-				<h:outputLabel autoWidth="false" rendered="#{tbCARGOSBean.areaEscolhida!=null}" value="SubFamília De:" for="idDEPTOSelectInput" />
+				<h:outputLabel
+					
+						style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;"
+						value="SubFamília De" for="idDEPTOSelectInput" />
 				<div style="width: 100%">
-				<p:selectOneMenu rendered="#{tbCARGOSBean.areaEscolhida!=null}" value="#{tbCARGOSBean.departamentoEscolhido}"
+				<p:selectOneMenu styleClass="menuAT"  style="width:300px" value="#{tbCARGOSBean.departamentoEscolhido}"
 					id="idDEPTOSelectInput">
 					<f:selectItem noSelectionOption="true" itemLabel="" />
 					<f:selectItems value="#{tbCARGOSBean.distinctDepto}" var="tbCARGO"
@@ -67,15 +144,26 @@
 									
 				</p:selectOneMenu>	
 				</div>	
-				<h:outputLabel rendered="#{tbCARGOSBean.departamentoEscolhido!=null}" value="Cargo De:" for="idCARGOSSelectInput" />
+					<h:outputLabel
+						
+						style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;"
+						value="#{(tbCARGOSBean.selector==true) ? 'Cargo': 'Pessoa'} De" for="idCARGOSSelectInput" />
 				
 				
 				
-				<p:selectOneMenu autoWidth="false" rendered="#{tbCARGOSBean.departamentoEscolhido!=null}" value="#{tbCARGOSBean.cargoDe}"
+				<p:selectOneMenu  styleClass="menuAT"  style="width:300px" autoWidth="false"  value="#{tbCARGOSBean.cargoDe}"
 					id="idCARGOSSelectInput">
 					<f:selectItem noSelectionOption="true" itemLabel="" />
 					<f:selectItems value="#{tbCARGOSBean.distinctCargos}" var="tbCARGO"
-						itemLabel="Cargo De: #{tbCARGO.deSCCARGO}"
+						itemLabel=" #{tbCARGO.deSCCARGO}"
 						itemValue="#{tbCARGO}" />
 						
 						<p:ajax event="change" 
@@ -83,7 +171,7 @@
 						partialSubmit="true"
 						 listener="#{tbCARGOSBean.calculaAderenciasParciais(tbCARGOSBean.cargoDe,
                     								   tbCARGOSBean.cargoPara)}"
-								update="paneCargoPara DSCO 
+								update="paneCargos2 DSCO 
 								 DSGR	
 								 DSPE 
 								 DSCB 
@@ -92,7 +180,9 @@
 								" />
 					<o:converter converterId="omnifaces.SelectItemsConverter"
 						list="#{tbCARGOSBean.distinctCargos}" />						
-				</p:selectOneMenu>			
+				</p:selectOneMenu>		
+				
+				</h:panelGrid>	
 	</h:form>
 			
 		
@@ -100,12 +190,39 @@
 				
 			
 				
-				<h:form id="paneCargoPara"  style="width:105%; min-width:140px">
+			
+		
+		
+
+		</h:panelGrid>
+		
+		
+		
+	</div>
+		
+		<div >
+		
+		<h:panelGrid id="paneCargos2"  styleClass="dialogAT"
+			columnClasses="col2,col2" style="margin-left: 10px;" columns="2">
+			
+				<h:form>
+
+				<h:panelGrid id="paneCargoPara">
+		
+			
+					<h:outputLabel
+					style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;" value="Família Para" for="idAREASelectInput" />
 				
-				<h:outputLabel value="Família Para:"  for="idAREASelectInput" />
-				
-				<div style="width: 105%">
-				<p:selectOneMenu autoWidth="false"  value="#{tbCARGOSBean.areaEscolhidaPara}"
+				<div style="width: 100%">
+				<p:selectOneMenu  styleClass="menuAT"  style="width:300px"  autoWidth="false"  value="#{tbCARGOSBean.areaEscolhidaPara}"
 					id="idAREASelectInput">
 					<f:selectItem noSelectionOption="true" itemLabel="" />
 					<f:selectItems value="#{tbCARGOSBean.distinctAreaPara}" var="tbCARGO"
@@ -118,10 +235,21 @@
 				
 				</div>
 				
-				<h:outputLabel rendered="#{tbCARGOSBean.areaEscolhidaPara!=null}" value="SubFamília Para:" for="idDEPTOSelectInput" />
+				<h:outputLabel
+					
+						style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;"
+						value="SubFamília Para" for="idDEPTOSelectInput" />
 				
-				<div style="width: 105%">
-				<p:selectOneMenu autoWidth="false"  rendered="#{tbCARGOSBean.areaEscolhidaPara!=null}" value="#{tbCARGOSBean.departamentoEscolhidoPara}"
+				<div style="width: 100%">
+				<p:selectOneMenu autoWidth="false" styleClass="menuAT"  style="width:300px" value="#{tbCARGOSBean.departamentoEscolhidoPara}"
 					id="idDEPTOSelectInput">
 					<f:selectItem noSelectionOption="true" itemLabel="" />
 					<f:selectItems value="#{tbCARGOSBean.distinctDeptoPara}" var="tbCARGO"
@@ -133,11 +261,22 @@
 								</p:selectOneMenu>	
 				</div>					
 					
-				<h:outputLabel rendered="#{tbCARGOSBean.departamentoEscolhidoPara!=null}" value="Cargo Para:" for="idCARGOSSelectInput" />
+					<h:outputLabel
+						
+						style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;"
+						value="Cargo Para" for="idCARGOSSelectInput" />
 				
 				
-				<div style="width: 105%">
-				<p:selectOneMenu autoWidth="false" rendered="#{tbCARGOSBean.departamentoEscolhidoPara!=null}" value="#{tbCARGOSBean.cargoPara}"
+				<div style="width: 100%">
+				<p:selectOneMenu autoWidth="false" styleClass="menuAT"  style="width:300px" value="#{tbCARGOSBean.cargoPara}"
 					id="idCARGOSSelectInput">
 					<f:selectItem noSelectionOption="true" itemLabel="" />
 					<f:selectItems value="#{tbCARGOSBean.distinctCargosPara}" var="tbCARGO"
@@ -160,28 +299,27 @@
 						list="#{tbCARGOSBean.distinctCargosPara}" />				
 				</p:selectOneMenu>			
 				</div>
-					</h:form>
+			</h:panelGrid>
+			</h:form>
+			</h:panelGrid>
 				
 		
-		
+		</div>
 
-		</h:panelGrid>
-		
 
 		<p:spacer></p:spacer>
+
+
+</div>
 
 		<p:panel style="color:black" id="DSAF">
 
 			<h:panelGrid id="paneAderenciaFinal">
 				<h:panelGrid rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
 					styleClass="dialog"
-					style="width: 200px; 
-																					height: 50px;
-																				    "
+					style="width: 200px; height: 50px;"
 					columnClasses="col1,col2,col3" columns="3">
-
-
-
+					
 					<f:facet name="header">
 					
 						<h:outputText style="font-size:12px;font-weight:bold;color:white"
@@ -190,7 +328,7 @@
 						
     						<p:progressBar rendered="#{!tbCARGOSBean.flagDowngrade==true}" style="background:black !important;" styleClass="#{tbCARGOSBean.corBarraAderenciaFinal}"
     						value="#{tbCARGOSBean.aderenciaFinal}" labelTemplate="{value}%" displayOnly="true"/>
-						   <h:outputLabel rendered="#{tbCARGOSBean.flagDowngrade==true}" style="font-size:16px;font-weight:bold;color:white;"
+						   <h:outputLabel rendered="#{tbCARGOSBean.flagDowngrade==true}" style="font-size:16px;font-weight:bold;color:white !important;"
 							value="#{tbCARGOSBean.avisoDowngrade}">
 							<f:convertNumber type="percent" />
 						</h:outputLabel>
@@ -212,15 +350,47 @@
 
 
 
-		<p:panel style="color:black"  id="DSCO">
+		<p:panel style="color:black" 	id="DSCO">
+		
+		
 			<p:panel id="toggleable17"
-				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
-				header="Competências: #{tbCARGOSBean.aderencia.intValue()}% "
-				toggleable="true" toggleSpeed="500" closeSpeed="500"
+			rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
+			styleClass="panelMain"	
+			toggleable="true"
 			widgetVar="panel18" collapsed="true">
+			
+			<f:facet name="header">
+                               
+			<p:outputLabel 
+					style="				
+    white-space: nowrap;
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);" value="Competências: #{tbCARGOSBean.aderencia.intValue()}%"/>
+			<svg class="plus"> <rect fill="rgba(119,69,122,1)"
+							id="plus" rx="0" ry="0" x="0" y="0" width="40"
+							height="40"> </rect> 
+							
+							
+							</svg>
+							
+				<span class="plussign">
+				
+	
+
+				<button class="openbtn" onclick="PF('panel18').toggle();">+</button>
+				
+				</span>
+		
+                            </f:facet>
+			
 				<h:panelGrid id="paneCO" >
 
-
+					
 					
 
 					<p:spacer></p:spacer>
@@ -235,6 +405,7 @@
 							
 							<p:dataTable id="tbCONHECIMENTOBASTable" 
 								styleClass="CompetenciasAux"
+								style="width:auto" 
 								value="#{tbCARGOSBean.listCOCARGOSPara}"
 								var="tbCONHECIMENTOBASCARGOS"
 								widgetVar="tbCONHECIMENTOBASCARGOSTable"
@@ -248,8 +419,7 @@
 						style="				
     top: 51px;
     overflow: visible;
-    width: 184px;
-    white-space: nowrap;
+    width:25%;
     line-height: 40px;
     margin-top: -13px;
     text-align: left;
@@ -269,8 +439,7 @@
 						style="				
     top: 51px;
     overflow: visible;
-    width: 184px;
-    white-space: nowrap;
+    width:25%;
     line-height: 40px;
     margin-top: -13px;
     text-align: left;
@@ -281,7 +450,7 @@
     color: rgba(0,0,0,1);"
 					headerText="Cargo De">
 						<h:outputText
-							value="#{tbCARGOSBean.listCOCARGOSDe.get(row).poNTUACAOCOMPETENCIA}" />
+							value="#{tbCARGOSBean.listCOCARGOSDe.get(row).poNTUACAOCOMPETENCIA.intValue()}" />
 					</p:column>
 								
 							
@@ -292,8 +461,7 @@
 					style="				
     top: 51px;
     overflow: visible;
-    width: 184px;
-    white-space: nowrap;
+    width:25%;
     line-height: 40px;
     margin-top: -13px;
     text-align: left;
@@ -305,15 +473,14 @@
 					headerText="Cargo Para">
 						<h:outputText 
 						
-							value="#{tbCONHECIMENTOBASCARGOS.poNTUACAOCOMPETENCIA}"  />
+							value="#{tbCONHECIMENTOBASCARGOS.poNTUACAOCOMPETENCIA.intValue()}"  />
 					</p:column>
 								
 							<p:column styleClass="barraCargosPessoas"
 						style="				
     top: 51px;
     overflow: visible;
-    width: 184px;
-    white-space: nowrap;
+    width:25%;
     line-height: 40px;
     margin-top: -13px;
     text-align: left;
@@ -324,8 +491,8 @@
     color: rgba(0,0,0,1);"
 					headerText="Penalidade">
 						<h:outputText
-							value="#{(tbCARGOSBean.listGap.get(row).poNTUACAOCOMPETENCIA eq 0) ? tbCARGOSBean.listGap.get(row).poNTUACAOCOMPETENCIA:
-										- tbCARGOSBean.listGap.get(row).poNTUACAOCOMPETENCIA
+							value="#{(tbCARGOSBean.listGap.get(row).poNTUACAOCOMPETENCIA.intValue() eq 0) ? tbCARGOSBean.listGap.get(row).poNTUACAOCOMPETENCIA.intValue():
+										- tbCARGOSBean.listGap.get(row).poNTUACAOCOMPETENCIA.intValue()
 										}%" />
 					</p:column>
 								
@@ -354,43 +521,79 @@
 
 
 		<!-- Grades-->
-		<p:panel style="color:black" styleClass="Grade" id="DSGR">
+		<p:panel style="color:black" styleClass="Grade"  id="DSGR">
 			<p:panel id="toggleable14"
 				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
-				header="Grade: #{tbCARGOSBean.aderenciaGR.intValue()}% "
-				toggleable="true" toggleSpeed="500" closeSpeed="500"
-				styleClass="Grade" widgetVar="panel16" collapsed="true">
-				<h:panelGrid id="paneGR" styleClass="Grade">
+				styleClass="panelMain"	
+				toggleable="#{userBean.user.flag_grade=='SIM'}"
+				widgetVar="panel16" collapsed="true">
+				
 
-
+					<f:facet name="header">
+                               
+			<p:outputLabel 
+					style="				
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);" value="Avaliação do Cargo: #{tbCARGOSBean.aderenciaGR.intValue()}%"/>
+			<svg   class="plus"> 
+		
+			<rect fill="rgba(60,165,107,1)"
+							id="plus" rx="0" ry="0" x="0" y="0" width="40"
+							height="40"> </rect> 
+							
+							
+							</svg>
+							
+				<span class="plussign">
+				<button rendered="#{userBean.user.flag_grade=='SIM'}" class="openbtnGR" onclick="PF('panel16').toggle();">+</button>
+				</span>
+		
+                            </f:facet>
 					
 
-					<p:spacer></p:spacer>
+					<h:panelGrid id="paneGR" styleClass="Grade">
+					
+					
 					<h:form  id="tbGRADECARGOSDataForm"
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
-						<h:panelGrid id="paneCargos7" style="  width: auto !important;
-    font-family: Calibri;"
-							columns="4">
+						<h:panelGrid id="paneCargos7" style="
+									width: auto !important;
+    								font-family: Calibri;"
+									columns="4">
 
 
-							<p:dataTable style="width:auto" id="tbCONHECIMENTOBASTable" styleClass="GradeAux"
+							<p:dataTable id="tbCONHECIMENTOBASTable" 
+							    styleClass="GradeAux"
+							    style="width:auto" 
 								value="#{tbCARGOSBean.listGRCARGOSPara}"
 								var="tbCONHECIMENTOBASCARGOS"
 								widgetVar="tbCONHECIMENTOBASCARGOSTable"
-								
 								rowIndexVar="row"
 								emptyMessage="#{messages.label_no_records_found}">
 
 								
-							<p:column
+							<p:column styleClass="barraCargosPessoasGR"
 								
-									style="width:40%;text-align:center;font-weight:bold;">
-									
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Avaliação do cargo" />
-								</f:facet>
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:35%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Avaliação do cargo">
+
 									
 									<h:outputText
 										value="#{tbCONHECIMENTOBASCARGOS.idGRADE.deSCGRADE}" />
@@ -398,44 +601,68 @@
 								
 								
 								<p:column
-									
-									style="width:20%;text-align:center;font-weight:bold;">
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Cargo De" />
-								</f:facet>
-									
+									styleClass="barraCargosPessoasGR"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:25%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Cargo De" >
 									<h:outputText
-										value="#{tbCARGOSBean.listGRCARGOSDe.get(row).poNTUACAOGRADE}">
+										value="#{tbCARGOSBean.listGRCARGOSDe.get(row).poNTUACAOGRADE.intValue()}">
 										
 									</h:outputText>
 								</p:column>
 								
 								
 									<p:column
-								
-									style="width:20%;text-align:center;font-weight:bold;">
+									styleClass="barraCargosPessoasGR"
+								style="				
+    top: 51px;
+    overflow: visible;
+    width:25%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Cargo Para" >
 									
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Cargo Para" />
-								</f:facet>
 									
 									<h:outputText
-										value="#{tbCONHECIMENTOBASCARGOS.poNTUACAOGRADE}" />
+										value="#{tbCONHECIMENTOBASCARGOS.poNTUACAOGRADE.intValue()}" />
 								</p:column>
 								
 								
 									<p:column
-									style="width:25%;text-align:center;font-weight:bold;">
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold;white-space:nowrap"
-										value="Penalidade" />
-								</f:facet>
+									styleClass="barraCargosPessoasGR"
+								style="				
+    top: 51px;
+    overflow: visible;
+    width:25%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Penalidade" >
 									
 									<h:outputText
-										value="#{(tbCARGOSBean.listGapGR.get(row).poNTUACAOGRADE eq 0) ? tbCARGOSBean.listGapGR.get(row).poNTUACAOGRADE :
-										- tbCARGOSBean.listGapGR.get(row).poNTUACAOGRADE
+										value="#{(tbCARGOSBean.listGapGR.get(row).poNTUACAOGRADE.intValue() eq 0) ? tbCARGOSBean.listGapGR.get(row).poNTUACAOGRADE.intValue() :
+										- tbCARGOSBean.listGapGR.get(row).poNTUACAOGRADE.intValue()
 										}%">
 										
 										
@@ -460,42 +687,60 @@
 
 
 
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
 		<!-- Perfil -->
 		<p:panel style="color:black" styleClass="Perfil" id="DSPE">
 			<p:panel id="toggleable13"
-				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
-				header="Perfil: #{tbCARGOSBean.aderenciaPE.intValue()}% "
-				toggleable="true" toggleSpeed="500" closeSpeed="500"
-				styleClass="Perfil" widgetVar="panel14" collapsed="true">
+				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}" 
+				styleClass="panelMain"	
+				toggleable="true"
+				widgetVar="panel14" collapsed="true">
+				
+				
+				<f:facet name="header">
+                               
+			<p:outputLabel 
+					style="				
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);" value="Perfil: #{tbCARGOSBean.aderenciaPE.intValue()}%"/>
+			<svg class="plus"> 
+			
+			<rect fill="rgba(113,203,242,1)"
+							id="plus" rx="0" ry="0" x="0" y="0" width="40"
+							height="40"> </rect> 
+							
+							
+							</svg>
+							
+				<span class="plussign">
+				<button class="openbtnPE" onclick="PF('panel14').toggle();">+</button>
+				</span>
+		
+                            </f:facet>
+				
+				
+				
 				<h:panelGrid id="panePE" styleClass="Perfil">
 
 
 					
 
-					<p:spacer></p:spacer>
+				
 					<h:form  id="tbPERFILCARGOSDataForm"
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
-						<h:panelGrid id="paneCargos6" style="  width: auto !important;
-    font-family: Calibri;"
-							columns="4">
+						<h:panelGrid id="paneCargos6" style="  
+									width: auto !important;
+    								font-family: Calibri;"
+									columns="4">
 
 
-							<p:dataTable style="width:auto" id="tbCONHECIMENTOBASTable" styleClass="PerfilAux"
+							<p:dataTable style="width:auto" id="tbCONHECIMENTOBASTable" 
+								styleClass="PerfilAux"
 								value="#{tbCARGOSBean.listPECARGOSPara}"
 								var="tbCONHECIMENTOBASCARGOS"
 								widgetVar="tbCONHECIMENTOBASCARGOSTable"
@@ -503,60 +748,98 @@
 								rowIndexVar="row"
 								emptyMessage="#{messages.label_no_records_found}">
 
+							<p:column styleClass="barraCargosPessoasPE"
 								
-							<p:column
-								
-									style="width:40%;text-align:center;font-weight:bold;">
-									
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Perfil" />
-								</f:facet>
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:35%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Perfil">
+
 									
 									<h:outputText
 										value="#{tbCONHECIMENTOBASCARGOS.idPERFIL.deSCPERFIL}" />
 								</p:column>
-								
-								
+							
+							
 								<p:column
-									
-									style="width:20%;text-align:center;font-weight:bold;">
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Cargo De" />
-								</f:facet>
-									
+									styleClass="barraCargosPessoasPE"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:25%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Cargo De" >
 									<h:outputText
-										value="#{tbCARGOSBean.listPECARGOSDe.get(row).poNTUACAOPERFIL}">
+										value="
+										#{tbCARGOSBean.listPECARGOSDe.get(row).mascara} : 
+										#{tbCARGOSBean.listPECARGOSDe.get(row).poNTUACAOPERFIL.intValue()}">
 										
 									</h:outputText>
 								</p:column>
 								
 								
-									<p:column
+							
 								
-									style="width:20%;text-align:center;font-weight:bold;">
-									
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Cargo Para" />
-								</f:facet>
+								
+								<p:column
+									styleClass="barraCargosPessoasPE"
+								style="				
+    top: 51px;
+    overflow: visible;
+    width:25%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Cargo Para" >
 									
 									<h:outputText
-										value="#{tbCONHECIMENTOBASCARGOS.poNTUACAOPERFIL}" />
+										value="
+										#{tbCONHECIMENTOBASCARGOS.mascara} : 
+										#{tbCONHECIMENTOBASCARGOS.poNTUACAOPERFIL.intValue()}" />
 								</p:column>
 								
 								
 									<p:column
-									style="width:25%;text-align:center;font-weight:bold;">
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold;white-space:nowrap"
-										value="Penalidade" />
-								</f:facet>
+									styleClass="barraCargosPessoasPE"
+								style="				
+    top: 51px;
+    overflow: visible;
+    width:25%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Penalidade" >
+					
 									
 									<h:outputText
-										value="#{(tbCARGOSBean.listGapPE.get(row).poNTUACAOPERFIL eq 0) ? tbCARGOSBean.listGapPE.get(row).poNTUACAOPERFIL :
-										- tbCARGOSBean.listGapPE.get(row).poNTUACAOPERFIL
+										value="#{(tbCARGOSBean.listGapPE.get(row).poNTUACAOPERFIL.intValue() eq 0) ? tbCARGOSBean.listGapPE.get(row).poNTUACAOPERFIL.intValue() :
+										- tbCARGOSBean.listGapPE.get(row).poNTUACAOPERFIL.intValue()
 										}%">
 										
 										
@@ -585,20 +868,53 @@
 		<p:panel style="color:black" styleClass="Basicos" id="DSCB">
 			<p:panel id="toggleable11"
 				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
-				header="Formação e Experiências: #{tbCARGOSBean.aderenciaCB.intValue()}% "
-				toggleable="true" toggleSpeed="500" closeSpeed="500"
-				styleClass="Basicos" widgetVar="panel11" collapsed="true">
+				 styleClass="panelMain"	
+				 toggleable="true"
+				 widgetVar="panel11" collapsed="true">
+				 
+				 
+				 
+				<f:facet name="header">
+                               
+			<p:outputLabel 
+					style="				
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);" value="Formação e Experiências: #{tbCARGOSBean.aderenciaCB.intValue()}%"/>
+			<svg class="plus"> 
+			
+			<rect fill="rgba(198,101,98,1)"
+							id="plus" rx="0" ry="0" x="0" y="0" width="40"
+							height="40"> </rect> 
+							
+							
+							</svg>
+							
+				<span class="plussign">
+				<button class="openbtnCB" onclick="PF('panel11').toggle();">+</button>
+				</span>
+		
+                            </f:facet>
+				 
+				 
+				 
+				 
+				 
 				<h:panelGrid id="paneCB" styleClass="Basicos">
 
 
 					
 
-					<p:spacer></p:spacer>
 					<h:form  id="tbCONHECIMENTOSBASCARGOSDataForm"
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
-						<h:panelGrid id="paneCargos5" style="  width: auto !important;
-    font-family: Calibri;"
+						<h:panelGrid id="paneCargos5" style="
+							width: auto !important;
+    						font-family: Calibri;"
 							columns="4">
 
 
@@ -610,60 +926,99 @@
 								rowIndexVar="row"
 								emptyMessage="#{messages.label_no_records_found}">
 
-								
-							<p:column
-								
-									style="width:40%;text-align:center;font-weight:bold;">
-									
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Formação e Experiências" />
-								</f:facet>
+												<p:column
+									styleClass="barraCargosPessoasCB"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:40%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Formação e Experiências" >
 									
 									<h:outputText
 										value="#{tbCONHECIMENTOBASCARGOS.idCONHECBAS.deSCCONHECIMENTOSBASICOS}" />
 								</p:column>
 								
 								
-								<p:column
+									<p:column
+									styleClass="barraCargosPessoasCB"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:30%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Cargo De" >
 									
-									style="width:20%;text-align:center;font-weight:bold;">
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Cargo De" />
-								</f:facet>
 									
+																	
 									<h:outputText
-										value="#{tbCARGOSBean.listCBCARGOSDe.get(row).poNTUACAOCONBAS}">
+										value="
+										#{tbCARGOSBean.listCBCARGOSDe.get(row).mascara} :  
+										#{tbCARGOSBean.listCBCARGOSDe.get(row).poNTUACAOCONBAS.intValue()
+										}">
 										
 									</h:outputText>
+									
 								</p:column>
 								
+										<p:column
+									styleClass="barraCargosPessoasCB"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:30%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Cargo Para" >
 								
-									<p:column
 								
-									style="width:20%;text-align:center;font-weight:bold;">
-									
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Cargo Para" />
-								</f:facet>
+										
 									
 									<h:outputText
-										value="#{tbCONHECIMENTOBASCARGOS.poNTUACAOCONBAS}" />
+										value="
+										#{tbCONHECIMENTOBASCARGOS.mascara} : 
+										#{tbCONHECIMENTOBASCARGOS.poNTUACAOCONBAS.intValue()}" />
 								</p:column>
 								
-								
-									<p:column
-									style="width:25%;text-align:center;font-weight:bold;">
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold;white-space:nowrap"
-										value="Penalidade" />
-								</f:facet>
+											<p:column
+									styleClass="barraCargosPessoasCB"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:20%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Penalidade">
 									
 									<h:outputText
-										value="#{(tbCARGOSBean.listGapCB.get(row).poNTUACAOCONBAS eq 0) ? tbCARGOSBean.listGapCB.get(row).poNTUACAOCONBAS :
-										- tbCARGOSBean.listGapCB.get(row).poNTUACAOCONBAS
+										value="#{(tbCARGOSBean.listGapCB.get(row).poNTUACAOCONBAS.intValue() eq 0) ? tbCARGOSBean.listGapCB.get(row).poNTUACAOCONBAS.intValue() :
+										- tbCARGOSBean.listGapCB.get(row).poNTUACAOCONBAS.intValue()
 										}%">
 										
 										
@@ -706,24 +1061,58 @@
 
 
 		<!--  Conhecimentos Específicos -->
-	<!--  Conhecimentos Básicos -->
 		<p:panel style="color:black" styleClass="Especificos" id="DSCE">
 			<p:panel id="toggleable12"
 				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
-				header="Conhecimentos Técnicos: #{tbCARGOSBean.aderenciaCE.intValue()}% "
-				toggleable="true" toggleSpeed="500" closeSpeed="500"
-				styleClass="Basicos" widgetVar="panel12" collapsed="true">
+				styleClass="panelMain"	
+				toggleable="true"
+				widgetVar="panel12" collapsed="true">
+				
+				
+				<f:facet name="header">
+                               
+			<p:outputLabel 
+					style="				
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);" value="Conhecimentos Técnicos: #{tbCARGOSBean.aderenciaCE.intValue()}%"/>
+			<svg class="plus"> 
+			
+			<rect fill="rgba(247,145,244,1)"
+							id="plus" rx="0" ry="0" x="0" y="0" width="40"
+							height="40"> </rect> 
+							
+							
+							</svg>
+							
+				<span class="plussign">
+				<button class="openbtnCE" onclick="PF('panel12').toggle();">+</button>
+				</span>
+		
+                            </f:facet>
+				
+				
+				
+				
+				
+				
+				
 				<h:panelGrid id="paneCE" styleClass="Especificos">
 
 
 					
 
-					<p:spacer></p:spacer>
+				
 					<h:form  id="tbCONHECIMENTOSESPCARGOSDataForm"
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
-						<h:panelGrid id="paneCargos5" style="  width: auto !important;
-    font-family: Calibri;"
+						<h:panelGrid id="paneCargos5" style="
+							width: auto !important;
+   							 font-family: Calibri;"
 							columns="4">
 
 
@@ -734,61 +1123,94 @@
 								
 								rowIndexVar="row"
 								emptyMessage="#{messages.label_no_records_found}">
-
-								
-							<p:column
-								
-									style="width:40%;text-align:center;font-weight:bold;">
-									
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Conhecimentos Técnicos" />
-								</f:facet>
+	<p:column
+									styleClass="barraCargosPessoasCE"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:40%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Conhecimentos Técnicos" >
+							
 									
 									<h:outputText
 										value="#{tbCONHECIMENTOBASCARGOS.idCONHECESP.deSCCONHECIMENTOSESPECIFICOS}" />
 								</p:column>
 								
-								
-								<p:column
-									
-									style="width:20%;text-align:center;font-weight:bold;">
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Cargo De" />
-								</f:facet>
+						<p:column
+									styleClass="barraCargosPessoasCE"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:20%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Cargo De" >		
+
 									
 									<h:outputText
-										value="#{tbCARGOSBean.listCECARGOSDe.get(row).poNTUACAOCONESP}">
+										value="
+										#{tbCARGOSBean.listCECARGOSDe.get(row).mascara} : 
+										#{tbCARGOSBean.listCECARGOSDe.get(row).poNTUACAOCONESP.intValue()}">
 										
 									</h:outputText>
 								</p:column>
 								
-								
-									<p:column
-								
-									style="width:20%;text-align:center;font-weight:bold;">
-									
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold"
-										value="Cargo Para" />
-								</f:facet>
+							<p:column
+									styleClass="barraCargosPessoasCE"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:20%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Cargo Para" >			
 									
 									<h:outputText
-										value="#{tbCONHECIMENTOBASCARGOS.poNTUACAOCONESP}" />
+										value="
+										#{tbCONHECIMENTOBASCARGOS.mascara} :  
+										#{tbCONHECIMENTOBASCARGOS.poNTUACAOCONESP.intValue()}" />
 								</p:column>
 								
-								
-									<p:column
-									style="width:25%;text-align:center;font-weight:bold;">
-										<f:facet name="header">
-									<h:outputText style="font-weight:bold;white-space:nowrap"
-										value="Penalidade" />
-								</f:facet>
+							<p:column
+									styleClass="barraCargosPessoasCE"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:20%;
+    line-height: 40px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+    headerText="Penalidade">	
+
 									
 									<h:outputText
-										value="#{(tbCARGOSBean.listGapCE.get(row).poNTUACAOCONESP eq 0) ? tbCARGOSBean.listGapCE.get(row).poNTUACAOCONESP :
-										- tbCARGOSBean.listGapCE.get(row).poNTUACAOCONESP
+										value="#{(tbCARGOSBean.listGapCE.get(row).poNTUACAOCONESP.intValue() eq 0) ? tbCARGOSBean.listGapCE.get(row).poNTUACAOCONESP.intValue() :
+										- tbCARGOSBean.listGapCE.get(row).poNTUACAOCONESP.intValue()
 										}%">
 										
 										

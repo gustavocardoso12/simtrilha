@@ -21,13 +21,13 @@ public class TbNOService extends BaseService<TbNOEntity> implements Serializable
     @Transactional
     public List<TbNOEntity> findAllTbNOEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbNO o ", TbNOEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbNO o ", TbNOEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbNO o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbNO o", Long.class).getSingleResult();
     }
     
     @Override
@@ -51,8 +51,7 @@ public class TbNOService extends BaseService<TbNOEntity> implements Serializable
     @Override
     protected void handleDependenciesBeforeDelete(TbNOEntity tbNO) {
 
-        /* This is called before a TbNO is deleted. Place here all the
-           steps to cut dependencies to other entities */
+
         
     }
 

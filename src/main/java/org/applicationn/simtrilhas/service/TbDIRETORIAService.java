@@ -22,20 +22,20 @@ public class TbDIRETORIAService extends BaseService<TbDIRETORIAEntity> implement
     @Transactional
     public List<TbDIRETORIAEntity> findAllTbDIRETORIAEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbDIRETORIA o ", TbDIRETORIAEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbDIRETORIA o ", TbDIRETORIAEntity.class).getResultList();
     }
     
     @Transactional
     public List<TbDIRETORIAEntity> findTbDIRETORIAVP(int idVP) {
         Long n = (long) idVP;
      	System.out.println(idVP);
-        return entityManager.createQuery("SELECT o FROM TbDIRETORIA o WHERE o.idVP.id= :idVP ", TbDIRETORIAEntity.class).setMaxResults(1).setParameter("idVP", n).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbDIRETORIA o WHERE o.idVP.id= :idVP ", TbDIRETORIAEntity.class).setMaxResults(1).setParameter("idVP", n).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbDIRETORIA o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbDIRETORIA o", Long.class).getSingleResult();
     }
     
     @Override
@@ -69,19 +69,19 @@ public class TbDIRETORIAService extends BaseService<TbDIRETORIAEntity> implement
     // Remove all assignments from all tbESTATUARIO a tbDIRETORIA. Called before delete a tbDIRETORIA.
     @Transactional
     private void cutAllIdDIRETORIATbESTATUARIOsAssignments(TbDIRETORIAEntity tbDIRETORIA) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbESTATUARIO c SET c.idDIRETORIA = NULL WHERE c.idDIRETORIA = :p")
                 .setParameter("p", tbDIRETORIA).executeUpdate();
     }
     
     @Transactional
     public List<TbDIRETORIAEntity> findAvailableTbDIRETORIAs(TbVICEPRESIDENCIAEntity tbVICEPRESIDENCIA) {
-        return entityManager.createQuery("SELECT o FROM TbDIRETORIA o WHERE o.idVP IS NULL", TbDIRETORIAEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbDIRETORIA o WHERE o.idVP IS NULL", TbDIRETORIAEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbDIRETORIAEntity> findTbDIRETORIAsByIdVP(TbVICEPRESIDENCIAEntity tbVICEPRESIDENCIA) {
-        return entityManager.createQuery("SELECT o FROM TbDIRETORIA o WHERE o.idVP = :tbVICEPRESIDENCIA", TbDIRETORIAEntity.class).setParameter("tbVICEPRESIDENCIA", tbVICEPRESIDENCIA).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbDIRETORIA o WHERE o.idVP = :tbVICEPRESIDENCIA", TbDIRETORIAEntity.class).setParameter("tbVICEPRESIDENCIA", tbVICEPRESIDENCIA).getResultList();
     }
 
 }

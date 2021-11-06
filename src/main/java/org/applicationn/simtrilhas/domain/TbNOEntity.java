@@ -17,8 +17,8 @@ public class TbNOEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Size(max = 300)
-    @Column(length = 50, name="DESC_NIVEL")
+   
+    @Column(name="DESC_NIVEL")
     @NotNull
     private String deSCNivel;
     

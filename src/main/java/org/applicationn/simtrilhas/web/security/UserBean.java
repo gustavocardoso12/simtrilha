@@ -38,10 +38,14 @@ public class UserBean implements Serializable {
     private UserService userService;
     
     public UserEntity getUser() {
+    	try {
         if (user == null) {
             user = new UserEntity();
             loadCurrentUser();
         }
+    	}catch(Exception ex) {
+    		
+    	}
         return user;
     }
 

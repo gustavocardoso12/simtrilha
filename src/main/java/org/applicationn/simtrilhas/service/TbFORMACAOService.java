@@ -21,13 +21,13 @@ public class TbFORMACAOService extends BaseService<TbFORMACAOEntity> implements 
     @Transactional
     public List<TbFORMACAOEntity> findAllTbFORMACAOEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbFORMACAO o ", TbFORMACAOEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbFORMACAO o ", TbFORMACAOEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbFORMACAO o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbFORMACAO o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,7 +61,7 @@ public class TbFORMACAOService extends BaseService<TbFORMACAOEntity> implements 
     // Remove all assignments from all tbCURSOS a tbFORMACAO. Called before delete a tbFORMACAO.
     @Transactional
     private void cutAllIdFORMACAOTbCURSOSsAssignments(TbFORMACAOEntity tbFORMACAO) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbCURSOS c SET c.idFORMACAO = NULL WHERE c.idFORMACAO = :p")
                 .setParameter("p", tbFORMACAO).executeUpdate();
     }

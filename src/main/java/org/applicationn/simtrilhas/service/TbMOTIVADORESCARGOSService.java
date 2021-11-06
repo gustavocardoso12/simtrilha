@@ -22,13 +22,13 @@ public class TbMOTIVADORESCARGOSService extends BaseService<TbMOTIVADORESCARGOSE
     @Transactional
     public List<TbMOTIVADORESCARGOSEntity> findAllTbMOTIVADORESCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbMOTIVADORESCARGOS o ", TbMOTIVADORESCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbMOTIVADORESCARGOS o ", TbMOTIVADORESCARGOSEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbMOTIVADORESCARGOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbMOTIVADORESCARGOS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -41,22 +41,22 @@ public class TbMOTIVADORESCARGOSService extends BaseService<TbMOTIVADORESCARGOSE
 
     @Transactional
     public List<TbMOTIVADORESCARGOSEntity> findAvailableTbMOTIVADORESCARGOSs(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbMOTIVADORESCARGOS o WHERE o.idCARGOS IS NULL", TbMOTIVADORESCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbMOTIVADORESCARGOS o WHERE o.idCARGOS IS NULL", TbMOTIVADORESCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbMOTIVADORESCARGOSEntity> findTbMOTIVADORESCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbMOTIVADORESCARGOS o WHERE o.idCARGOS = :tbCARGOS", TbMOTIVADORESCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbMOTIVADORESCARGOS o WHERE o.idCARGOS = :tbCARGOS", TbMOTIVADORESCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional
     public List<TbMOTIVADORESCARGOSEntity> findAvailableTbMOTIVADORESCARGOSs(TbMOTIVADORESEntity tbMOTIVADORES) {
-        return entityManager.createQuery("SELECT o FROM TbMOTIVADORESCARGOS o WHERE o.idMOTIVADORES IS NULL", TbMOTIVADORESCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbMOTIVADORESCARGOS o WHERE o.idMOTIVADORES IS NULL", TbMOTIVADORESCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbMOTIVADORESCARGOSEntity> findTbMOTIVADORESCARGOSsByIdMOTIVADORES(TbMOTIVADORESEntity tbMOTIVADORES) {
-        return entityManager.createQuery("SELECT o FROM TbMOTIVADORESCARGOS o WHERE o.idMOTIVADORES = :tbMOTIVADORES", TbMOTIVADORESCARGOSEntity.class).setParameter("tbMOTIVADORES", tbMOTIVADORES).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbMOTIVADORESCARGOS o WHERE o.idMOTIVADORES = :tbMOTIVADORES", TbMOTIVADORESCARGOSEntity.class).setParameter("tbMOTIVADORES", tbMOTIVADORES).getResultList();
     }
 
 }

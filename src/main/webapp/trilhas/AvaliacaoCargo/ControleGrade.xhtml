@@ -40,21 +40,28 @@
 			<p:graphicImage name="/images/waiting.gif" />
 			</h:panelGrid>
 		</p:dialog>
-    
+    	
+    	
+    	 <h:form>
+    <h:panelGrid columns="4" style="margin-bottom: 10px">
+    				
+						
+						<h:outputText id="output" style="font-size:14px;font-weight:bold;color:black"
+					value=" Penalidade padrão:" />
+				
+        <p:inputText id="decimal" value="#{tbGRADEBean.gapVarGR}" />
+        <p:slider style="width:200px" for="decimal" minValue="0.0" maxValue="100.0" step="0.5" />
+  
+				
+					<p:commandButton rendered="#{p:ifAnyGranted('Administrator')}" style="background:#ED6D09;width:100%;"
+					 update="tbGRADETable" value="Aplicar"
+					action="#{tbGRADEBean.onSelect}">
+				</p:commandButton>
+					
+				</h:panelGrid>
+    </h:form>
 
-		<h:form>
-			<h:panelGrid columns="1" style="margin-bottom: 10px">
-				<h:outputText id="output"
-					value=" Penalidade padrão: #{tbGRADEBean.gapVarGR}%" />
-				<h:inputHidden id="gapvar" value="#{tbGRADEBean.gapVarGR}" />
-				<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
-					step="1" style="width: 300px"
-					displayTemplate="Penalidade padrão: %{value}">
-					<p:ajax event="slideEnd" listener="#{tbGRADEBean.onSlideEndGR}"
-						update="tbGRADETable" />
-				</p:slider>
-			</h:panelGrid>
-		</h:form>
+		
 
 		<h:form prependId="false" id="tbGRADEDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
 
@@ -72,7 +79,7 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 					headerText="#{messages.field_label_tbGRADE_deSCGRADE}">
 						<h:outputText style="
@@ -92,7 +99,7 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbPERFIL_penalidade}" >
 						<h:outputText style="
@@ -101,7 +108,7 @@
 							letter-spacing: 0px;
 							color: #000000;
 							opacity: 1;"
-							value="#{tbGRADE.penalidadeConhecGrade.intValue()}%">
+							value="#{tbGRADE.penalidadeConhecGrade}%">
 							<f:convertNumber minFractionDigits="0" />
 							</h:outputText>
 					</p:column>
@@ -114,7 +121,7 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbPERFIL_bloqueia}" >
 						<h:outputText style="
@@ -136,7 +143,7 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;">
 
 				

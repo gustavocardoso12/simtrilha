@@ -20,7 +20,7 @@ public class RolePermissionsService extends BaseService<RolePermission> implemen
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM RolePermission o", Long.class).getSingleResult();
+        return getEntityManagerMatriz().createQuery("SELECT COUNT(o) FROM RolePermission o", Long.class).getSingleResult();
     }
 
 }

@@ -22,13 +22,13 @@ public class TbHABILIDADESCARGOSService extends BaseService<TbHABILIDADESCARGOSE
     @Transactional
     public List<TbHABILIDADESCARGOSEntity> findAllTbHABILIDADESCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbHABILIDADESCARGOS o ", TbHABILIDADESCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbHABILIDADESCARGOS o ", TbHABILIDADESCARGOSEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbHABILIDADESCARGOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbHABILIDADESCARGOS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -41,22 +41,22 @@ public class TbHABILIDADESCARGOSService extends BaseService<TbHABILIDADESCARGOSE
 
     @Transactional
     public List<TbHABILIDADESCARGOSEntity> findAvailableTbHABILIDADESCARGOSs(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbHABILIDADESCARGOS o WHERE o.idCARGOS IS NULL", TbHABILIDADESCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbHABILIDADESCARGOS o WHERE o.idCARGOS IS NULL", TbHABILIDADESCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbHABILIDADESCARGOSEntity> findTbHABILIDADESCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbHABILIDADESCARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.idHABCARGOS", TbHABILIDADESCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbHABILIDADESCARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.idHABCARGOS", TbHABILIDADESCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional
     public List<TbHABILIDADESCARGOSEntity> findAvailableTbHABILIDADESCARGOSs(TbHABILIDADESEntity tbHABILIDADES) {
-        return entityManager.createQuery("SELECT o FROM TbHABILIDADESCARGOS o WHERE o.idHABCARGOS IS NULL", TbHABILIDADESCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbHABILIDADESCARGOS o WHERE o.idHABCARGOS IS NULL", TbHABILIDADESCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbHABILIDADESCARGOSEntity> findTbHABILIDADESCARGOSsByIdHABCARGOS(TbHABILIDADESEntity tbHABILIDADES) {
-        return entityManager.createQuery("SELECT o FROM TbHABILIDADESCARGOS o WHERE o.idHABCARGOS = :tbHABILIDADES", TbHABILIDADESCARGOSEntity.class).setParameter("tbHABILIDADES", tbHABILIDADES).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbHABILIDADESCARGOS o WHERE o.idHABCARGOS = :tbHABILIDADES", TbHABILIDADESCARGOSEntity.class).setParameter("tbHABILIDADES", tbHABILIDADES).getResultList();
     }
 
 }

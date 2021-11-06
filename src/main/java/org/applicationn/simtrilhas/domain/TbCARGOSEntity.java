@@ -20,16 +20,16 @@ public class TbCARGOSEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Size(max = 100)
-    @Column(length = 100, name="DESC_CARGO")
+
+    @Column(name="DESC_CARGO")
     @NotNull
     private String deSCCARGO;
 
     @Column(name="MISSAO")
     private String miSSAO;
 
-    @Size(max = 1000)
-    @Column(length = 1000, name="RESPONSABILIDADES")
+
+    @Column(name="RESPONSABILIDADES")
     private String reSPONSABILIDADES;
 
     @ManyToOne(optional=true)

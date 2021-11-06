@@ -91,7 +91,7 @@ public class TbCOMPETENCIASCARGOSBean extends TbCARGOSBean  implements Serializa
     		
     		cargos.setIdCARGOS(tbCARGOS);
     		cargos.setIdCOMPETENCIAS(listaComp);
-    		cargos.setPoNTUACAOCOMPETENCIA(0);
+    		cargos.setPoNTUACAOCOMPETENCIA(0.0);
     		
     		tbCOMPETENCIASCARGOSService.save(cargos);
     	

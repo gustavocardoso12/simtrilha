@@ -3,24 +3,20 @@ package org.applicationn.simtrilhas.web;
 import java.io.Serializable;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
+
 
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCOMPETENCIASCARGOSEntity;
@@ -30,6 +26,7 @@ import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCURSOSEntity;
 import org.applicationn.simtrilhas.domain.TbDEPTOEntity;
 import org.applicationn.simtrilhas.domain.TbNOEntity;
+import org.applicationn.simtrilhas.domain.TbNivelEscolaridadeEntity;
 import org.applicationn.simtrilhas.domain.TbDIRETORIAEntity;
 import org.applicationn.simtrilhas.domain.TbESTATUARIOEntity;
 import org.applicationn.simtrilhas.domain.TbESTILOLIDERANCACARGOSEntity;
@@ -38,7 +35,6 @@ import org.applicationn.simtrilhas.domain.TbGRADECARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbHABILIDADESCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbHABILIDADESCULTCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbHABILIDADESCULTURAISEntity;
-import org.applicationn.simtrilhas.domain.TbMATRIZCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbMATRIZCARGOSEntityTrilhas;
 import org.applicationn.simtrilhas.domain.TbMOTIVADORESCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILCARGOSEntity;
@@ -63,21 +59,15 @@ import org.applicationn.simtrilhas.service.TbHABILIDADESCULTCARGOSService;
 import org.applicationn.simtrilhas.service.TbHABILIDADESCULTURAISService;
 import org.applicationn.simtrilhas.service.TbMATRIZCARGOSService;
 import org.applicationn.simtrilhas.service.TbMOTIVADORESCARGOSService;
+import org.applicationn.simtrilhas.service.TbNIVELESCOLARIDADEService;
 import org.applicationn.simtrilhas.service.TbPERFILCARGOSService;
 import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.service.security.UserService;
-import org.applicationn.simtrilhas.web.security.UserBean;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
-import org.primefaces.model.diagram.Connection;
-import org.primefaces.model.diagram.DefaultDiagramModel;
-import org.primefaces.model.diagram.DiagramModel;
-import org.primefaces.model.diagram.Element;
-import org.primefaces.model.diagram.endpoint.DotEndPoint;
-import org.primefaces.model.diagram.endpoint.EndPointAnchor;
 
 @Named("tbCARGOSBean")
 @ViewScoped
@@ -166,6 +156,9 @@ public class TbCARGOSBean implements Serializable {
 
 	@Inject
 	protected UserService userService;
+	
+	@Inject
+	protected TbNIVELESCOLARIDADEService tbNIVELESCOLARIDADEService;
 
 	protected List<TbHABILIDADESCARGOSEntity> tbHABILIDADESCARGOSs;
 
@@ -233,7 +226,7 @@ public class TbCARGOSBean implements Serializable {
 
 	protected TbCARGOSEntity cargoPara;
 
-	protected int gapDePara;
+	protected Double gapDePara;
 
 	protected int gapVar = 30;
 
@@ -241,7 +234,7 @@ public class TbCARGOSBean implements Serializable {
 
 	List<TbCOMPETENCIASCARGOSEntity> listGap = new ArrayList<TbCOMPETENCIASCARGOSEntity>();
 
-	protected int gapDeParaGR;
+	protected double gapDeParaGR;
 
 	protected int gapVarGR = 25;
 
@@ -257,7 +250,7 @@ public class TbCARGOSBean implements Serializable {
 
 	List<TbMOTIVADORESCARGOSEntity> listGapMO = new ArrayList<TbMOTIVADORESCARGOSEntity>();
 
-	protected int gapDeParaPE;
+	protected double gapDeParaPE;
 
 	protected int gapVarPE = 10;
 
@@ -265,7 +258,7 @@ public class TbCARGOSBean implements Serializable {
 
 	List<TbPERFILCARGOSEntity> listGapPE = new ArrayList<TbPERFILCARGOSEntity>();
 
-	protected int gapDeParaCB;
+	protected double gapDeParaCB;
 
 	protected int gapVarCB = 2;
 
@@ -273,7 +266,7 @@ public class TbCARGOSBean implements Serializable {
 
 	List<TbCONHECIMENTOSBASCARGOSEntity> listGapCB = new ArrayList<TbCONHECIMENTOSBASCARGOSEntity>();
 
-	protected int gapDeParaCE;
+	protected double gapDeParaCE;
 
 	protected int gapVarCE = 5;
 
@@ -313,7 +306,7 @@ public class TbCARGOSBean implements Serializable {
 
 	protected Double aderenciaFinal;
 
-	private DefaultDiagramModel model;
+
 
 	protected String avisoDowngrade;
 
@@ -350,6 +343,8 @@ public class TbCARGOSBean implements Serializable {
 	private boolean flagBloqueio;
 
 	private int id;
+	
+	protected boolean selector;
 
 	public String submit(TbCARGOSEntity cargo) {
 		id = cargo.getId().intValue();
@@ -416,8 +411,9 @@ public class TbCARGOSBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		try {
 		user = userService.getCurrentUser();
-		tbPesos = tbPONTCARGOSService.findAllTbPONTCARGOSEntities(user.getBanco_dados());
+		tbPesos = tbPONTCARGOSService.findAllTbPONTCARGOSEntities();
 
 
 
@@ -430,6 +426,11 @@ public class TbCARGOSBean implements Serializable {
 		pesoCB = tbPesos.get(3).getPeso();
 
 		pesoCE = tbPesos.get(4).getPeso();
+		
+       selector = true;
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 
 	}
 
@@ -450,7 +451,10 @@ public class TbCARGOSBean implements Serializable {
 
 	public void autoTrilhas(TbCARGOSEntity tbCARGOS) {
 		if (tbCARGOS == null) {
-
+			FacesMessage message = MessageFactory.getMessage(
+					"simulacao_vazia");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return;
 		} else {
 			try {
 			setFlagCultura(1);
@@ -477,13 +481,15 @@ public class TbCARGOSBean implements Serializable {
 			}
 
 			// nivel 2
-			TreeNode[] nodesn2 = new TreeNode[listaTrilhas.size() * listaTrilhas.size()];
+			
 			List<TreeNode> nodesn2_per = new ArrayList<TreeNode>();
 
 			for (int i = 0; i < listaTrilhas.size(); i++) {
 				listaTrilhasn2 = tbMATRIZCARGOSService.findTrilhas(aderenciaMinima,
 						listaTrilhas.get(i).getIdCARGOPARA());
 				listaTrilhasn2_per.addAll(listaTrilhasn2);
+				System.out.println(listaTrilhasn2_per.size());
+				TreeNode[] nodesn2 = new TreeNode[listaTrilhasn2_per.size()];
 				for (int j = 0; j < listaTrilhasn2.size(); j++) {
 					nodesn2[j] = new DefaultTreeNode(listaTrilhasn2.get(j).getIdCARGOPARA().getDeSCCARGO() + " "
 							+ listaTrilhasn2.get(j).getAdERENCIAFINAL().intValue() + "%", nodes[i]);
@@ -493,12 +499,13 @@ public class TbCARGOSBean implements Serializable {
 			}
 
 			// nível 3
-			TreeNode[] nodesn3 = new TreeNode[listaTrilhas.size() * listaTrilhas.size() * listaTrilhas.size()];
+			
 			List<TreeNode> nodesn3_per = new ArrayList<TreeNode>();
 			for (int i = 0; i < listaTrilhasn2_per.size(); i++) {
 				listaTrilhasn3 = tbMATRIZCARGOSService.findTrilhas(aderenciaMinima,
 						listaTrilhasn2_per.get(i).getIdCARGOPARA());
 				listaTrilhasn3_per.addAll(listaTrilhasn3);
+				TreeNode[] nodesn3 = new TreeNode[listaTrilhasn3_per.size()];
 				for (int j = 0; j < listaTrilhasn3.size(); j++) {
 					nodesn3[j] = new DefaultTreeNode(listaTrilhasn3.get(j).getIdCARGOPARA().getDeSCCARGO() + " "
 							+ listaTrilhasn3.get(j).getAdERENCIAFINAL().intValue() + "%", nodesn2_per.get(i));
@@ -507,8 +514,7 @@ public class TbCARGOSBean implements Serializable {
 
 			}
 			// nivel 4
-			TreeNode[] nodesn4 = new TreeNode[listaTrilhas.size() * listaTrilhas.size() * listaTrilhas.size()
-			                                  * listaTrilhas.size()];
+			TreeNode[] nodesn4 = new TreeNode[listaTrilhasn3_per.size() * listaTrilhasn3_per.size()];
 
 			for (int i = 0; i < listaTrilhasn3_per.size(); i++) {
 				listaTrilhasn4 = tbMATRIZCARGOSService.findTrilhas(aderenciaMinima,
@@ -548,7 +554,62 @@ public class TbCARGOSBean implements Serializable {
 		return "/trilhas/Pessoas/AdicionarPessoas.xhtml?faces-redirect=true";
 	}
 
+	public void SelecionaPessoasAT() {
+		selector = false; 
+		
+		this.distinctArea = tbAREAService.findDistinctTbAREAATEntitiesDe();
+		areaEscolhida=null;
+		distinctDepto=null;
+		distinctCargos=null;
+		departamentoEscolhido=null;
+		cargoDe = null;
+		
+	}
 	
+	public void SelecionaPessoasComp() {
+		selector = false; 
+		
+		this.distinctArea = tbAREAService.findDistinctTbAREAATEntitiesDe();
+		areaEscolhida=null;
+		distinctDepto=null;
+		distinctCargos=null;
+		departamentoEscolhido=null;
+		cargoDe = null;
+		
+		areaEscolhidaPara=null;
+		distinctDeptoPara=null;
+		distinctCargosPara=null;
+		departamentoEscolhidoPara=null;
+		cargoPara=null;
+		
+	}
+	
+	public void SelecionaCargosComp() {
+		selector = true; 
+		this.distinctArea = tbAREAService.findDistinctTbAREAEntitiesDe(user.getFlag_pessoa());
+		areaEscolhida=null;
+		distinctDepto=null;
+		distinctCargos=null;
+		departamentoEscolhido=null;
+		cargoDe = null;
+		
+		areaEscolhidaPara=null;
+		distinctDeptoPara=null;
+		distinctCargosPara=null;
+		departamentoEscolhidoPara=null;
+		cargoPara=null;
+	}
+	
+	
+	public void SelecionaCargosAT() {
+		selector = true; 
+		this.distinctArea = tbAREAService.findDistinctTbAREAEntitiesDe(user.getFlag_pessoa());
+		areaEscolhida=null;
+		distinctDepto=null;
+		distinctCargos=null;
+		departamentoEscolhido=null;
+		cargoDe = null;
+	}
 
 	public List<TbHABILIDADESCULTCARGOSEntity> InicializaTabelasAuxiliares(TbCARGOSEntity tbCARGOS) {
 		this.tbCARGOS = tbCARGOS;
@@ -728,9 +789,13 @@ public class TbCARGOSBean implements Serializable {
 
 	// 100% - ((Cargo Para - Cargo De) * Variação no GAP)
 	public void calculaConhecimentosEspecificosDEPARA(TbCARGOSEntity tbCARGOSDe, TbCARGOSEntity tbCARGOSPara) {
-
+		List<TbNivelEscolaridadeEntity> listaFormacao = new ArrayList<TbNivelEscolaridadeEntity>();
 		listCECARGOSDe = InicializaTabelasAuxiliaresCE_De(tbCARGOSDe,tbCARGOSPara);
 		listCECARGOSPara = InicializaTabelasAuxiliaresCE_PARA(tbCARGOSDe, tbCARGOSPara);
+		
+	
+		
+		
 		listGapCE.clear();
 		Double somaListaGap = 0.0;
 		flagCultura = 1;
@@ -739,15 +804,15 @@ public class TbCARGOSBean implements Serializable {
 			for (i = 0; i < listCECARGOSPara.size(); i++) {
 				
 				if(listCECARGOSDe.get(i).getPoNTUACAOCONESP() ==null) {
-					listCECARGOSDe.get(i).setPoNTUACAOCONESP(0);
+					listCECARGOSDe.get(i).setPoNTUACAOCONESP(0.0);
 				}
 				
 				if(listCECARGOSPara.get(i).getPoNTUACAOCONESP() ==null) {
-					listCECARGOSPara.get(i).setPoNTUACAOCONESP(0);
+					listCECARGOSPara.get(i).setPoNTUACAOCONESP(0.0);
 				}
 					else {
 						TbCONHECIMENTOSESPCARGOSEntity gap = new TbCONHECIMENTOSESPCARGOSEntity();					
-						int gapdePARA = 0;
+						double gapdePARA = 0;
 
 						if(listCECARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp()==null) {
 							
@@ -796,9 +861,55 @@ public class TbCARGOSBean implements Serializable {
 				aderenciaCE = 100.0;
 			}
 			// Se aderência menor que 0%, força o valor
-			else if (aderenciaCE < 0) {
-				aderenciaCE = 0.0;
+			else if (aderenciaCE < -100) {
+				aderenciaCE = -100.0;
 			}
+			
+			
+			listaFormacao = tbNIVELESCOLARIDADEService.findAlltbNIVELESCOLARIDADEEntities();
+			
+			for(int i2 =0; i2<listCECARGOSDe.size();i2++) {
+				
+				if(listCECARGOSDe.get(i2).getIdCONHECESP().getGrupo()==null) {
+					
+				}else {
+					
+					for (int j = 0; j<listaFormacao.size();j++) {
+						if(listCECARGOSDe.get(i2).getIdCONHECESP().getGrupo().equals(listaFormacao.get(j).getGrupo())	
+						&& (listCECARGOSDe.get(i2).getPoNTUACAOCONESP().intValue()==listaFormacao.get(j).getIdFormacao())){
+								
+								listCECARGOSDe.get(i2).setMascara(listaFormacao.get(j).getDescFormacao());
+								
+							
+							
+						}
+					}
+				}
+				
+				}
+			
+			
+				for(int i2 =0; i2<listCECARGOSPara.size();i2++) {
+				
+				if(listCECARGOSPara.get(i2).getIdCONHECESP().getGrupo()==null) {
+					
+				}else {
+					
+					for (int j = 0; j<listaFormacao.size();j++) {
+						if(listCECARGOSPara.get(i2).getIdCONHECESP().getGrupo().equals(listaFormacao.get(j).getGrupo())	
+						&& (listCECARGOSPara.get(i2).getPoNTUACAOCONESP().intValue()==listaFormacao.get(j).getIdFormacao())){
+								
+								listCECARGOSPara.get(i2).setMascara(listaFormacao.get(j).getDescFormacao());
+								
+							
+							
+						}
+					}
+				}
+				
+				}
+			
+			
 		} catch (IndexOutOfBoundsException ex) {
 
 		}
@@ -807,10 +918,15 @@ public class TbCARGOSBean implements Serializable {
 	// 100% - ((Cargo Para - Cargo De) * Variação no GAP)
 	public void calculaConhecimentosBasicosDEPARA(TbCARGOSEntity tbCARGOSDe, TbCARGOSEntity tbCARGOSPara) {
 
+		@SuppressWarnings("unused")
 		List<TbCONHECIMENTOSBASCARGOSEntity> listzeros = new ArrayList<TbCONHECIMENTOSBASCARGOSEntity>();
-		
+		List<TbNivelEscolaridadeEntity> listaFormacao = new ArrayList<TbNivelEscolaridadeEntity>();
 		listCBCARGOSDe = InicializaTabelasAuxiliaresCB_De(tbCARGOSDe,tbCARGOSPara);
 		listCBCARGOSPara = InicializaTabelasAuxiliaresCB_para(tbCARGOSDe, tbCARGOSPara);
+		listaFormacao = tbNIVELESCOLARIDADEService.findAlltbNIVELESCOLARIDADEEntities();
+		
+		
+		
 
 		listGapCB.clear();
 		Double somaListaGap = 0.0;
@@ -820,16 +936,16 @@ public class TbCARGOSBean implements Serializable {
 			for (i = 0; i < listCBCARGOSPara.size(); i++) {
 				
 						if(listCBCARGOSDe.get(i).getPoNTUACAOCONBAS() ==null) {
-							listCBCARGOSDe.get(i).setPoNTUACAOCONBAS(0);
+							listCBCARGOSDe.get(i).setPoNTUACAOCONBAS(0.0);
 						}
 						
 						if(listCBCARGOSPara.get(i).getPoNTUACAOCONBAS() ==null) {
-							listCBCARGOSPara.get(i).setPoNTUACAOCONBAS(0);
+							listCBCARGOSPara.get(i).setPoNTUACAOCONBAS(0.0);
 						}
 
 						TbCONHECIMENTOSBASCARGOSEntity gap = new TbCONHECIMENTOSBASCARGOSEntity();
 
-						int gapdePARA = 0;
+						double gapdePARA = 0;
 						
 						if(listCBCARGOSPara.get(i).getIdCONHECBAS().getBloqueiaMovConhecBas()==null) {
 							
@@ -870,9 +986,54 @@ public class TbCARGOSBean implements Serializable {
 				aderenciaCB = 100.0;
 			}
 			// Se aderência menor que 0%, força o valor
-			else if (aderenciaCB < 0) {
-				aderenciaCB = 0.0;
+			else if (aderenciaCB < -100) {
+				aderenciaCB = -100.0;
 			}
+			
+			for(int i2 =0; i2<listCBCARGOSDe.size();i2++) {
+				
+				if(listCBCARGOSDe.get(i2).getIdCONHECBAS().getGrupo()==null) {
+					
+				}else {
+					
+					for (int j = 0; j<listaFormacao.size();j++) {
+						if(listCBCARGOSDe.get(i2).getIdCONHECBAS().getGrupo().equals(listaFormacao.get(j).getGrupo())	
+						&& (listCBCARGOSDe.get(i2).getPoNTUACAOCONBAS().intValue()==listaFormacao.get(j).getIdFormacao())){
+								
+								listCBCARGOSDe.get(i2).setMascara(listaFormacao.get(j).getDescFormacao());
+								
+							
+							
+						}
+					}
+				}
+				
+				}
+			
+			
+			
+			for(int i2 =0; i2<listCBCARGOSPara.size();i2++) {
+				
+				if(listCBCARGOSPara.get(i2).getIdCONHECBAS().getGrupo()==null) {
+					
+				}else {
+					
+					for (int j = 0; j<listaFormacao.size();j++) {
+						if(listCBCARGOSPara.get(i2).getIdCONHECBAS().getGrupo().equals(listaFormacao.get(j).getGrupo())	
+						&& (listCBCARGOSPara.get(i2).getPoNTUACAOCONBAS().intValue()==listaFormacao.get(j).getIdFormacao())){
+								
+								listCBCARGOSPara.get(i2).setMascara(listaFormacao.get(j).getDescFormacao());
+								
+							
+							
+						}
+					}
+				}
+				
+				}
+			
+			
+			
 		} catch (IndexOutOfBoundsException ex) {
 
 		}
@@ -892,15 +1053,15 @@ public class TbCARGOSBean implements Serializable {
 			for (i=0; i < listCOCARGOSPara.size(); i++) {
 
 				if(listCOCARGOSDe.get(i).getPoNTUACAOCOMPETENCIA() ==null) {
-					listCOCARGOSDe.get(i).setPoNTUACAOCOMPETENCIA(0);
+					listCOCARGOSDe.get(i).setPoNTUACAOCOMPETENCIA(0.0);
 				}
 				
 				if(listCOCARGOSPara.get(i).getPoNTUACAOCOMPETENCIA() ==null) {
-					listCOCARGOSPara.get(i).setPoNTUACAOCOMPETENCIA(0);
+					listCOCARGOSPara.get(i).setPoNTUACAOCOMPETENCIA(0.0);
 				}
 				else {
 						TbCOMPETENCIASCARGOSEntity gap = new TbCOMPETENCIASCARGOSEntity();
-						int gapdePARA = 0;
+						double gapdePARA = 0;
 						
 						if(listCOCARGOSPara.get(i).getIdCOMPETENCIAS().getBloqueiaMovCompetencias()==null) {
 							
@@ -921,10 +1082,10 @@ public class TbCARGOSBean implements Serializable {
 								gapDePara = listCOCARGOSPara.get(i).getPoNTUACAOCOMPETENCIA()
 										- listCOCARGOSDe.get(i).getPoNTUACAOCOMPETENCIA();	
 
-								if(gapDePara<0) {
-									gapDePara =0;
+								if(gapDePara<0.0) {
+									gapDePara =0.0;
 								}
-								if(gapDePara==0) {
+								if(gapDePara==0.0) {
 
 								}else {
 									gapdePARA = gapDePara * listCOCARGOSDe.get(i).getIdCOMPETENCIAS().getPenalidadeCompetencias();	
@@ -949,8 +1110,8 @@ public class TbCARGOSBean implements Serializable {
 				aderencia = 100.0;
 			}
 			// Se aderência menor que 0%, força o valor
-			else if (aderencia < 0) {
-				aderencia = 0.0;
+			else if (aderencia < -100) {
+				aderencia = -100.0;
 			}
 		} catch (IndexOutOfBoundsException ex) {
 
@@ -959,9 +1120,15 @@ public class TbCARGOSBean implements Serializable {
 
 	// 100% - (((módulo(Cargo Para - Cargo De)) -4) * Variação no GAP)
 	public void calculaPerfilDEPARA(TbCARGOSEntity tbCARGOSDe, TbCARGOSEntity tbCARGOSPara) {
-
+		List<TbNivelEscolaridadeEntity> listaFormacao = new ArrayList<TbNivelEscolaridadeEntity>();
 		listPECARGOSDe = InicializaTabelasAuxiliaresPE_De(tbCARGOSDe,tbCARGOSPara);
 		listPECARGOSPara = InicializaTabelasAuxiliaresPE_para(tbCARGOSDe, tbCARGOSPara);
+		
+		
+	
+		
+		
+		
 		listGapPE.clear();
 		Double somaListaGapPE = 0.0;
 		flagCultura = 1;
@@ -971,16 +1138,16 @@ public class TbCARGOSBean implements Serializable {
 			for (i = 0; i < listPECARGOSPara.size(); i++) {
 
 				if(listPECARGOSDe.get(i).getPoNTUACAOPERFIL() ==null) {
-					listPECARGOSDe.get(i).setPoNTUACAOPERFIL(0);
+					listPECARGOSDe.get(i).setPoNTUACAOPERFIL(0.0);
 				}
 				
 				if(listPECARGOSPara.get(i).getPoNTUACAOPERFIL() ==null) {
-					listPECARGOSPara.get(i).setPoNTUACAOPERFIL(0);
+					listPECARGOSPara.get(i).setPoNTUACAOPERFIL(0.0);
 				}
 				
 				else {
 						TbPERFILCARGOSEntity gap = new TbPERFILCARGOSEntity();
-						int gapdePARA = 0;
+						double gapdePARA = 0;
 
 						
 						if(listPECARGOSPara.get(i).getIdPERFIL().getBloqueiaMovConhecPerfil()==null) {
@@ -1024,9 +1191,55 @@ public class TbCARGOSBean implements Serializable {
 				aderenciaPE = 100.0;
 			}
 			// Se aderência menor que 0%, força o valor
-			else if (aderenciaPE < 0) {
-				aderenciaPE = 0.0;
+			else if (aderenciaPE < -100) {
+				aderenciaPE = -100.0;
 			}
+			
+			listaFormacao = tbNIVELESCOLARIDADEService.findAlltbNIVELESCOLARIDADEEntities();
+			
+			for(int i2 =0; i2<listPECARGOSDe.size();i2++) {
+				
+				if(listPECARGOSDe.get(i2).getIdPERFIL().getGrupo()==null) {
+					
+				}else {
+					
+					for (int j = 0; j<listaFormacao.size();j++) {
+						if(listPECARGOSDe.get(i2).getIdPERFIL().getGrupo().equals(listaFormacao.get(j).getGrupo())	
+						&& (listPECARGOSDe.get(i2).getPoNTUACAOPERFIL().intValue()==listaFormacao.get(j).getIdFormacao())){
+								
+								listPECARGOSDe.get(i2).setMascara(listaFormacao.get(j).getDescFormacao());
+								
+							
+							
+						}
+					}
+				}
+				
+				}
+			
+			
+			
+			for(int i2 =0; i2<listPECARGOSPara.size();i2++) {
+				
+				if(listPECARGOSPara.get(i2).getIdPERFIL().getGrupo()==null) {
+					
+				}else {
+					
+					for (int j = 0; j<listaFormacao.size();j++) {
+						if(listPECARGOSPara.get(i2).getIdPERFIL().getGrupo().equals(listaFormacao.get(j).getGrupo())	
+						&& (listPECARGOSPara.get(i2).getPoNTUACAOPERFIL().intValue()==listaFormacao.get(j).getIdFormacao())){
+								
+								listPECARGOSPara.get(i2).setMascara(listaFormacao.get(j).getDescFormacao());
+								
+							
+							
+						}
+					}
+				}
+				
+				}
+			
+			
 		} catch (IndexOutOfBoundsException ex) {
 
 		}
@@ -1047,15 +1260,15 @@ public class TbCARGOSBean implements Serializable {
 
 
 				if(listGRCARGOSDe.get(i).getPoNTUACAOGRADE() ==null) {
-					listGRCARGOSDe.get(i).setPoNTUACAOGRADE(0);
+					listGRCARGOSDe.get(i).setPoNTUACAOGRADE(0.0);
 				}
 				
 				if(listGRCARGOSPara.get(i).getPoNTUACAOGRADE() ==null) {
-					listGRCARGOSPara.get(i).setPoNTUACAOGRADE(0);
+					listGRCARGOSPara.get(i).setPoNTUACAOGRADE(0.0);
 				}  
 					else {
 						TbGRADECARGOSEntity gap = new TbGRADECARGOSEntity();
-						int gapdePARA = 0;
+						double gapdePARA = 0;
 						if(listGRCARGOSPara.get(i).getIdGRADE().getDeSCGRADE().equals(listGRCARGOSDe.get(i).getIdGRADE().getDeSCGRADE())){
 
 							gapDeParaGR = listGRCARGOSPara.get(i).getPoNTUACAOGRADE() - listGRCARGOSDe.get(i).getPoNTUACAOGRADE();
@@ -1069,6 +1282,7 @@ public class TbCARGOSBean implements Serializable {
 								aderenciaCE =0.0;
 								aderenciaGR =0.0;
 								aderenciaPE= 0.0;
+								gapDeParaGR=0.0;
 								corFinal = "#F2F2F2";
 								
 							}
@@ -1093,8 +1307,8 @@ public class TbCARGOSBean implements Serializable {
 				aderenciaGR = 100.0;
 			}
 			// Se aderência menor que 0%, força o valor
-			else if (aderenciaGR < 0) {
-				aderenciaGR = 0.0;
+			else if (aderenciaGR < -100) {
+				aderenciaGR = -100.0;
 			}
 		} catch (IndexOutOfBoundsException ex) {
 
@@ -1108,38 +1322,33 @@ public class TbCARGOSBean implements Serializable {
 		} else {
 
 			if (tbCARGOSDe.getId() == tbCARGOSPara.getId()) {
-				aderenciaFinal = 100.0;
-				aderencia = 100.0;
-				aderenciaCB = 100.0;
-				aderenciaCE = 100.0;
-				aderenciaGR = 100.0;
-				aderenciaPE = 100.0;
 				corFinal = "#16600A";
+			}
+
+			calculaGRADESDEPARA(tbCARGOSDe, tbCARGOSPara);
+
+			calculaCompetenciasDEPARA(tbCARGOSDe, tbCARGOSPara);
+
+			calculaPerfilDEPARA(tbCARGOSDe, tbCARGOSPara);
+
+			calculaConhecimentosBasicosDEPARA(tbCARGOSDe, tbCARGOSPara);
+
+			calculaConhecimentosEspecificosDEPARA(tbCARGOSDe, tbCARGOSPara);
+
+			
+
+			if (flagDowngrade == true) {
+				avisoDowngrade = "Downgrade";
+				corBarraAderenciaFinal = "barraProgressoCinza";
+				corFinal = "#F2F2F2";
+				aderenciaFinal = 0.0;
+				aderencia = 0.0;
+				aderenciaCB = 0.0;
+				aderenciaCE = 0.0;
+				aderenciaGR = 0.0;
+				aderenciaPE = 0.0;
 			} else {
-
-				calculaGRADESDEPARA(tbCARGOSDe, tbCARGOSPara);
-
-				if (flagDowngrade == true) {
-					avisoDowngrade = "Downgrade";
-					corBarraAderenciaFinal = "barraProgressoCinza";
-					corFinal = "#F2F2F2";
-					aderenciaFinal = 0.0;
-					aderencia = 0.0;
-					aderenciaCB = 0.0;
-					aderenciaCE = 0.0;
-					aderenciaGR = 0.0;
-					aderenciaPE = 0.0;
-				} else {
-					calculaCompetenciasDEPARA(tbCARGOSDe, tbCARGOSPara);
-
-					calculaPerfilDEPARA(tbCARGOSDe, tbCARGOSPara);
-
-					calculaConhecimentosBasicosDEPARA(tbCARGOSDe, tbCARGOSPara);
-
-					calculaConhecimentosEspecificosDEPARA(tbCARGOSDe, tbCARGOSPara);
-
-					calculaAderenciaFinal(tbCARGOSDe, tbCARGOSPara);
-				}
+				calculaAderenciaFinal(tbCARGOSDe, tbCARGOSPara);
 			}
 		}
 	}
@@ -1159,7 +1368,11 @@ public class TbCARGOSBean implements Serializable {
 
 			aderenciaFinal = ((pesoCO * aderencia) + (pesoNH * aderenciaGR) + (pesoPE * aderenciaPE)
 					+ (pesoCB * aderenciaCB) + (pesoCE * aderenciaCE)) / 100;
-
+			
+			if(aderenciaFinal<0.0) {
+				aderenciaFinal=0.0;
+			}
+			
 			if (aderenciaFinal == 0.0) {
 				corFinal = "#F2F2F2";
 			} else {
@@ -1279,6 +1492,8 @@ public class TbCARGOSBean implements Serializable {
 			if (tbCARGOSEdicao.getId() != null) {
 				tbCARGOSEdicao = tbCARGOSService.update(tbCARGOSEdicao);
 				message = "message_successfully_updated";
+				this.tbCARGOSEdicao = tbCARGOSService.find((long) id);
+				
 			} else {
 				tbCARGOSEdicao = tbCARGOSService.save(tbCARGOSEdicao);
 				message = "message_successfully_created";
@@ -1296,7 +1511,7 @@ public class TbCARGOSBean implements Serializable {
 			FacesContext.getCurrentInstance().validationFailed();
 		}
 
-
+		tbCARGOSList = null;
 		FacesMessage facesMessage = MessageFactory.getMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
@@ -1317,6 +1532,7 @@ public class TbCARGOSBean implements Serializable {
 			// Set validationFailed to keep the dialog open
 			FacesContext.getCurrentInstance().validationFailed();
 		}
+		tbCARGOSList = null;
 		FacesContext.getCurrentInstance().addMessage(null, MessageFactory.getMessage(message));
 
 		return null;
@@ -1558,11 +1774,11 @@ public class TbCARGOSBean implements Serializable {
 		this.cargoPara = cargoPara;
 	}
 
-	public int getGapDePara() {
+	public Double getGapDePara() {
 		return gapDePara;
 	}
 
-	public void setGapDePara(int gapDePara) {
+	public void setGapDePara(Double gapDePara) {
 		this.gapDePara = gapDePara;
 	}
 
@@ -1614,7 +1830,7 @@ public class TbCARGOSBean implements Serializable {
 		this.tbMOTIVADORESCARGOSs = tbMOTIVADORESCARGOSs;
 	}
 
-	public int getGapDeParaGR() {
+	public double getGapDeParaGR() {
 		return gapDeParaGR;
 	}
 
@@ -1686,7 +1902,7 @@ public class TbCARGOSBean implements Serializable {
 		this.listGapMO = listGapMO;
 	}
 
-	public int getGapDeParaPE() {
+	public double getGapDeParaPE() {
 		return gapDeParaPE;
 	}
 
@@ -1726,7 +1942,7 @@ public class TbCARGOSBean implements Serializable {
 		this.aderenciaFinal = aderenciaFinal;
 	}
 
-	public int getGapDeParaCB() {
+	public double getGapDeParaCB() {
 		return gapDeParaCB;
 	}
 
@@ -1758,7 +1974,7 @@ public class TbCARGOSBean implements Serializable {
 		this.listGapCB = listGapCB;
 	}
 
-	public int getGapDeParaCE() {
+	public double getGapDeParaCE() {
 		return gapDeParaCE;
 	}
 
@@ -1806,9 +2022,10 @@ public class TbCARGOSBean implements Serializable {
 		this.msgMovimentacaoFalha = msgMovimentacaoFalha;
 	}
 
-	public List<String> getDistinctArea() {
-
+	 public List<String> getDistinctArea() {
+		if(distinctArea==null) {
 		this.distinctArea = tbAREAService.findDistinctTbAREAEntitiesDe(user.getFlag_pessoa());
+		}
 		return distinctArea;
 	}
 
@@ -1820,6 +2037,8 @@ public class TbCARGOSBean implements Serializable {
 		if (areaEscolhida != null) {
 			this.distinctDepto = tbAREAService.findDistinctTbDEPTOEntities(areaEscolhida);
 
+		}else {
+			this.distinctDepto = null;
 		}
 		return distinctDepto;
 	}
@@ -1830,11 +2049,37 @@ public class TbCARGOSBean implements Serializable {
 
 	public List<TbCARGOSEntity> getDistinctCargos() {
 		if (departamentoEscolhido != null) {
-			this.distinctCargos = tbAREAService.findDistinctTbCARGOSEntities(departamentoEscolhido, areaEscolhida);
+			
+			if(selector==true) {
+				this.distinctCargos = tbAREAService.findDistinctTbCARGOSEntities(departamentoEscolhido, areaEscolhida, "NAO");
 
+			}else {
+				this.distinctCargos = tbAREAService.findDistinctTbCARGOSEntities(departamentoEscolhido, areaEscolhida, "SIM");
+			}
+			
+			
+		}else {
+			this.distinctCargos =null;
 		}
 		return distinctCargos;
 	}
+	
+	
+	public List<TbCARGOSEntity> getDistinctCargosPara() {
+		if (departamentoEscolhidoPara != null) {
+			if(selector==true) {
+			this.distinctCargosPara = tbAREAService.findDistinctTbCARGOSEntities(departamentoEscolhidoPara,
+					areaEscolhidaPara,"NAO");
+			}
+			else {
+				this.distinctCargosPara = tbAREAService.findDistinctTbCARGOSEntities(departamentoEscolhidoPara,
+						areaEscolhidaPara,"NAO");
+			}
+			
+		}
+		return distinctCargosPara;
+	}
+
 
 	public void teste() {
 		System.out.println(cargoDe.getDeSCCARGO());
@@ -1884,15 +2129,7 @@ public class TbCARGOSBean implements Serializable {
 		this.distinctDeptoPara = distinctDeptoPara;
 	}
 
-	public List<TbCARGOSEntity> getDistinctCargosPara() {
-		if (departamentoEscolhidoPara != null) {
-			this.distinctCargosPara = tbAREAService.findDistinctTbCARGOSEntities(departamentoEscolhidoPara,
-					areaEscolhidaPara);
-
-		}
-		return distinctCargosPara;
-	}
-
+	
 	public void setDistinctCargosPara(List<TbCARGOSEntity> distinctCargosPara) {
 		this.distinctCargosPara = distinctCargosPara;
 	}
@@ -2182,6 +2419,16 @@ public class TbCARGOSBean implements Serializable {
 
 	public void setFlagEstaganado(String flagEstaganado) {
 		this.flagEstaganado = flagEstaganado;
+	}
+
+
+	public boolean getSelector() {
+		return selector;
+	}
+
+
+	public void setSelector(boolean selector) {
+		this.selector = selector;
 	}
 
 }

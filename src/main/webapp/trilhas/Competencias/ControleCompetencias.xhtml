@@ -41,19 +41,27 @@
 			</h:panelGrid>
 		</p:dialog>
   <h:form>
-    <h:panelGrid columns="1" style="margin-bottom: 10px">
-					<h:outputText id="output"
-						value=" Penalidade padrão: #{tbCOMPETENCIASBean.gapVarCO}%" />
-					<h:inputHidden id="gapvar" value="#{tbCOMPETENCIASBean.gapVarCO}" />
-					<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
-						step="1" style="width: 300px"
-						displayTemplate="Penalidade padrão: %{value}">
-						<p:ajax event="slideEnd" listener="#{tbCOMPETENCIASBean.onSlideEndCO}"
-							update="tbCOMPETENCIASTable" />
-					</p:slider>
+    <h:panelGrid columns="4" style="margin-bottom: 10px">
+    				
+					<h:outputText id="output" style="font-size:14px;font-weight:bold;color:black"
+						value=" Penalidade padrão:" />
+				
+        <p:inputText id="decimal" value="#{tbCOMPETENCIASBean.gapVarCO}" />
+        <p:slider style="width:200px" for="decimal" minValue="0.0" maxValue="100.0" step="0.5" />
+  
+				
+					<p:commandButton rendered="#{p:ifAnyGranted('Administrator')}" style="background:#ED6D09;width:100%;"
+					 update="tbCOMPETENCIASTable" value="Aplicar"
+					action="#{tbCOMPETENCIASBean.onSelect}">
+				</p:commandButton>
+					
 				</h:panelGrid>
     </h:form>
-
+	
+	
+	
+	
+	
     <h:form  prependId="false" id="tbCOMPETENCIASDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
 
 			<p:dataTable id="tbCOMPETENCIASTable"
@@ -71,7 +79,7 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}">
 						<h:outputText style="
@@ -91,7 +99,7 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbPERFIL_penalidade}" >
 						<h:outputText style="
@@ -100,8 +108,7 @@
 							letter-spacing: 0px;
 							color: #000000;
 							opacity: 1;"
-							value="#{tbCOMPETENCIAS.penalidadeCompetencias.intValue()}%">
-							<f:convertNumber minFractionDigits="0" />
+							value="#{tbCOMPETENCIAS.penalidadeCompetencias}%">
 							</h:outputText>
 					</p:column>
 					
@@ -114,7 +121,7 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+				
 					opacity: 1;"
 						headerText="#{messages.field_label_tbPERFIL_bloqueia}" >
 						<h:outputText style="
@@ -135,7 +142,7 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;">
 
 

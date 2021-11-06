@@ -22,13 +22,13 @@ public class TbESTILOPENSAMENTOCARGOSService extends BaseService<TbESTILOPENSAME
     @Transactional
     public List<TbESTILOPENSAMENTOCARGOSEntity> findAllTbESTILOPENSAMENTOCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o ", TbESTILOPENSAMENTOCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o ", TbESTILOPENSAMENTOCARGOSEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbESTILOPENSAMENTOCARGOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbESTILOPENSAMENTOCARGOS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -41,22 +41,22 @@ public class TbESTILOPENSAMENTOCARGOSService extends BaseService<TbESTILOPENSAME
 
     @Transactional
     public List<TbESTILOPENSAMENTOCARGOSEntity> findAvailableTbESTILOPENSAMENTOCARGOSs(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o WHERE o.idCARGOS IS NULL", TbESTILOPENSAMENTOCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o WHERE o.idCARGOS IS NULL", TbESTILOPENSAMENTOCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbESTILOPENSAMENTOCARGOSEntity> findTbESTILOPENSAMENTOCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o WHERE o.idCARGOS = :tbCARGOS", TbESTILOPENSAMENTOCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o WHERE o.idCARGOS = :tbCARGOS", TbESTILOPENSAMENTOCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional
     public List<TbESTILOPENSAMENTOCARGOSEntity> findAvailableTbESTILOPENSAMENTOCARGOSs(TbESTILOPENSAMENTOEntity tbESTILOPENSAMENTO) {
-        return entityManager.createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o WHERE o.idESTPENSAMENTO IS NULL", TbESTILOPENSAMENTOCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o WHERE o.idESTPENSAMENTO IS NULL", TbESTILOPENSAMENTOCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbESTILOPENSAMENTOCARGOSEntity> findTbESTILOPENSAMENTOCARGOSsByIdESTPENSAMENTO(TbESTILOPENSAMENTOEntity tbESTILOPENSAMENTO) {
-        return entityManager.createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o WHERE o.idESTPENSAMENTO = :tbESTILOPENSAMENTO", TbESTILOPENSAMENTOCARGOSEntity.class).setParameter("tbESTILOPENSAMENTO", tbESTILOPENSAMENTO).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOPENSAMENTOCARGOS o WHERE o.idESTPENSAMENTO = :tbESTILOPENSAMENTO", TbESTILOPENSAMENTOCARGOSEntity.class).setParameter("tbESTILOPENSAMENTO", tbESTILOPENSAMENTO).getResultList();
     }
 
 }

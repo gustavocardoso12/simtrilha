@@ -22,19 +22,19 @@ public class TbESTATUARIOService extends BaseService<TbESTATUARIOEntity> impleme
     @Transactional
     public List<TbESTATUARIOEntity> findAllTbESTATUARIOEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbESTATUARIO o ", TbESTATUARIOEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTATUARIO o ", TbESTATUARIOEntity.class).getResultList();
     }
     
     @Transactional
     public List<String> findByTbESTATUARIOEntities() {
         
-        return entityManager.createQuery("SELECT DISTINCT(o.deSCESTATUARIO) FROM TbESTATUARIO o ", String.class).getResultList();
+        return getEntityManager().createQuery("SELECT DISTINCT(o.deSCESTATUARIO) FROM TbESTATUARIO o ", String.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbESTATUARIO o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbESTATUARIO o", Long.class).getSingleResult();
     }
     
     @Override
@@ -68,19 +68,19 @@ public class TbESTATUARIOService extends BaseService<TbESTATUARIOEntity> impleme
     // Remove all assignments from all tbCARGOS a tbESTATUARIO. Called before delete a tbESTATUARIO.
     @Transactional
     private void cutAllIdESTTbCARGOSsAssignments(TbESTATUARIOEntity tbESTATUARIO) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbCARGOS c SET c.idEST = NULL WHERE c.idEST = :p")
                 .setParameter("p", tbESTATUARIO).executeUpdate();
     }
     
     @Transactional
     public List<TbESTATUARIOEntity> findAvailableTbESTATUARIOs(TbDIRETORIAEntity tbDIRETORIA) {
-        return entityManager.createQuery("SELECT o FROM TbESTATUARIO o WHERE o.idDIRETORIA IS NULL", TbESTATUARIOEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTATUARIO o WHERE o.idDIRETORIA IS NULL", TbESTATUARIOEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbESTATUARIOEntity> findTbESTATUARIOsByIdDIRETORIA(TbDIRETORIAEntity tbDIRETORIA) {
-        return entityManager.createQuery("SELECT o FROM TbESTATUARIO o WHERE o.idDIRETORIA = :tbDIRETORIA", TbESTATUARIOEntity.class).setParameter("tbDIRETORIA", tbDIRETORIA).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTATUARIO o WHERE o.idDIRETORIA = :tbDIRETORIA", TbESTATUARIOEntity.class).setParameter("tbDIRETORIA", tbDIRETORIA).getResultList();
     }
 
 }

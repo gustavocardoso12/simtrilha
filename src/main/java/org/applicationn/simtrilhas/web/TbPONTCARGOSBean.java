@@ -1,7 +1,6 @@
 package org.applicationn.simtrilhas.web;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,13 +13,12 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
-import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSESPECIFICOSEntity;
+
 import org.applicationn.simtrilhas.domain.TbPONTCARGOSEntity;
 import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.service.security.UserService;
-import org.applicationn.simtrilhas.web.security.UserBean;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 
 @Named("tbPONTCARGOSBean")
@@ -194,7 +192,7 @@ public class TbPONTCARGOSBean implements Serializable {
         	
         	user = userService.getCurrentUser();
         	
-            tbPONTCARGOSList = tbPONTCARGOSService.findAllTbPONTCARGOSEntities(user.getBanco_dados());
+            tbPONTCARGOSList = tbPONTCARGOSService.findAllTbPONTCARGOSEntities();
             
             somaPeso = 0;
             

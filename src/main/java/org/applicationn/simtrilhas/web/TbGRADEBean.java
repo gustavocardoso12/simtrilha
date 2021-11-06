@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
+import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
 import org.applicationn.simtrilhas.domain.TbGRADECARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbGRADEEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILEntity;
@@ -70,28 +71,29 @@ public class TbGRADEBean implements Serializable {
 
 
 
-	public void onSlideEndGR(SlideEndEvent event) {
-		gapVarGR =  event.getValue();
-		flagEdit = false;
-		for (TbGRADEEntity tbGRADEEntity : tbGRADEList) {
-			if(tbGRADEList.size()==1) {
-				tbGRADEEntity.setPenalidadeConhecGrade((int) gapVarGR);
-				persist(tbGRADEEntity);
 
-			}else {
-				if(tbGRADEEntity.getConhecGradeCustom()==null) {
-					tbGRADEEntity.setPenalidadeConhecGrade((int) gapVarGR);
+	
+public void onSelect() {
+		
+		flagEdit = false;
+		
+			for (TbGRADEEntity tbGRADEEntity : tbGRADEList) {
+
+				if(tbGRADEList.size()==1) {
+					tbGRADEEntity.setPenalidadeConhecGrade( gapVarGR);
 					persist(tbGRADEEntity);
 
+				}else {
+					if(tbGRADEEntity.getConhecGradeCustom()==null) {
+						tbGRADEEntity.setPenalidadeConhecGrade( gapVarGR);
+						persist(tbGRADEEntity);
+
+					}
 				}
+
 			}
-			
-
-		}
-
-
-	} 
-
+		
+	}
 
 
 	public void setDialogHeader(final String dialogHeader) { 
@@ -150,7 +152,7 @@ public class TbGRADEBean implements Serializable {
 				}else {
 
 					if(flagEdit==false){
-						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbGRADE.getPenalidadeConhecGrade());
+						tbPONTCARGOSEntity.setPoNTUACAOORIGINAL((double) tbGRADE.getPenalidadeConhecGrade());
 						tbGRADE.setConhecGradeCustom(null);
 
 					}else {
@@ -211,6 +213,7 @@ public class TbGRADEBean implements Serializable {
 			// Set validationFailed to keep the dialog open
 			FacesContext.getCurrentInstance().validationFailed();
 		}
+		tbGRADEList = null;
 		FacesContext.getCurrentInstance().addMessage(null, MessageFactory.getMessage(message));
 
 		return null;

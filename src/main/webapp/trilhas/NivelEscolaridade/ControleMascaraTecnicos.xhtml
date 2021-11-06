@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+		
+	 <p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
+
+		<f:facet name="start">
+        <h:panelGrid id="diag" columns="2">
+			
+			
+			<h:outputLabel id="label2" style="font-size:14px;font-weight:bold" value="Carregando...">
+			  <p:autoUpdate />
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+   		 </f:facet>
+
+		</p:ajaxStatus>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			oncomplete="PF('statusDialog').hide()" />
+
+		<p:dialog id="dialog" widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false"  showHeader="false">
+			<h:panelGrid id="panel" columns="2">
+			
+			
+			<h:outputLabel id="label3" style="font-size:14px;font-weight:bold" value="Carregando...">
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+		</p:dialog>	
+		
+		
+    <h:form prependId="false" id="tbNEDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+			<p:dataTable id="tbNETable"
+				styleClass="barraCargosPessoas"
+				value="#{tbNEBean.tbNEListGrupo5}" var="tbNE"
+				widgetVar="tbNETable"
+				emptyMessage="#{messages.label_no_records_found}" >
+
+
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					
+					opacity: 1;"
+					headerText="ID - Conhecimento Técnico">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbNE.idFormacao}" />
+					</p:column>
+				
+				
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					
+					opacity: 1;"
+					headerText=" Conhecimento Técnico">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbNE.descFormacao}" />
+					</p:column>
+					
+					
+
+		
+
+					<p:column styleClass="barraCargosPessoas"
+							style="
+					width:30%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					
+					opacity: 1;">
+
+						<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
+					
+					
+						<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+								icon="img-button-edit"
+								rendered="#{tbNEBean.isPermitted(tbNO, 'tbNO:update')}"
+									action="#{tbNEBean.onDialogOpen(tbNE)}"
+								update=":edittbNEDialog"
+								oncomplete="PF('edittbNEDialogWidget').show()"/>
+				
+						<p:commandButton
+							
+							rendered="true"
+								oncomplete="PF('deletetbNEDialogWidget').show()"
+								styleClass="botaoPessoas"
+								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								icon="img-button-delete">
+								<f:setPropertyActionListener value="#{tbNE}"
+							target="#{tbNEBean.tbNE}" />
+							</p:commandButton>
+
+				</p:panelGrid>
+
+				</p:column>
+				
+			<f:facet name="footer">
+				<p:commandButton value="Cadastrar Rótulo de Conhecimento Técnico"
+						action="#{tbNEBean.prepareNewtbNE()}"
+						resetValues="true" update=":edittbNEDialog"
+						oncomplete="PF('edittbNEDialogWidget').show()"
+						rendered="#{tbNEBean.isPermitted('tbNO:create')}"
+						style="background:#ED6D09;width:25.0%"
+						 />
+		 
+			</f:facet>	
+				
+			</p:dataTable>
+        
+    </h:form>
+    
+    
+    
+    
+    
+    
+    
+
+    <p:confirmDialog id="deletetbNEDialog" showEffect="explode" hideEffect="fade" widgetVar="deletetbNEDialogWidget"
+        rendered="#{tbNEBean.isPermitted(tbNEBean.tbNE, 'tbNO:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+           <p:panelGrid   columns="2" style="margin:auto"  >
+              <p:commandButton value="#{messages.label_yes}" action="#{tbNEBean.delete}" update=":tbNEDataForm :growlForm:growl" oncomplete="PF('deletetbNEDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deletetbNEDialogWidget').hide()" type="button" />
+            </p:panelGrid>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+    <p:dialog dynamic="true" id="edittbNEDialog" header="#{tbNEBean.dialogHeader}"
+      responsive="true" resizable="false"
+            modal="false" widgetVar="edittbNEDialogWidget" maximizable="false">
+        <p:ajax event="close" listener="#{tbNEBean.reset}"/>
+        <h:form id="edittbNEForm" >
+            <p:outputPanel id="tbNEEditPanel">
+                <ui:include src="/trilhas/NivelEscolaridade/EditarMascaraTecnicos.xhtml"/>
+                <div style="text-align: center; margin:10px">
+                    <p:commandButton value="#{messages.label_save}"
+                            action="#{tbNEBean.persistGRP5}"
+                            update=":edittbNEForm:tbNEEditPanel :tbNEDataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('edittbNEDialogWidget').hide()" />
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+
+	
+
+	
+    
+  </ui:define>
+</ui:composition>
+</html>

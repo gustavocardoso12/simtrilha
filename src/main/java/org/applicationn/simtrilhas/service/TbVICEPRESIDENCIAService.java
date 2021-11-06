@@ -21,13 +21,13 @@ public class TbVICEPRESIDENCIAService extends BaseService<TbVICEPRESIDENCIAEntit
     @Transactional
     public List<TbVICEPRESIDENCIAEntity> findAllTbVICEPRESIDENCIAEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbVICEPRESIDENCIA o ", TbVICEPRESIDENCIAEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbVICEPRESIDENCIA o ", TbVICEPRESIDENCIAEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbVICEPRESIDENCIA o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbVICEPRESIDENCIA o", Long.class).getSingleResult();
     }
     
     @Override
@@ -58,7 +58,7 @@ public class TbVICEPRESIDENCIAService extends BaseService<TbVICEPRESIDENCIAEntit
     // Remove all assignments from all tbDIRETORIA a tbVICEPRESIDENCIA. Called before delete a tbVICEPRESIDENCIA.
     @Transactional
     private void cutAllIdVPTbDIRETORIAsAssignments(TbVICEPRESIDENCIAEntity tbVICEPRESIDENCIA) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbDIRETORIA c SET c.idVP = NULL WHERE c.idVP = :p")
                 .setParameter("p", tbVICEPRESIDENCIA).executeUpdate();
     }

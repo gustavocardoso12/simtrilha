@@ -17,9 +17,12 @@ import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
+import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
+import org.applicationn.simtrilhas.domain.TbMASCARAEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILEntity;
 import org.applicationn.simtrilhas.domain.TbPONTCARGOSEntity;
+import org.applicationn.simtrilhas.service.TbMASCARAService;
 import org.applicationn.simtrilhas.service.TbPERFILCARGOSService;
 import org.applicationn.simtrilhas.service.TbPERFILService;
 import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
@@ -54,6 +57,9 @@ public class TbPERFILBean implements Serializable {
     @Inject
     private TbPERFILCARGOSService tbPERFILCARGOSService;
     
+    @Inject
+    private TbMASCARAService tbMASCARAService;
+    
     private DualListModel<TbPERFILCARGOSEntity> tbPERFILCARGOSs;
     private List<String> transferedTbPERFILCARGOSIDs;
     private List<String> removedTbPERFILCARGOSIDs;
@@ -62,31 +68,82 @@ public class TbPERFILBean implements Serializable {
     
     private double pontuacaoOriginal;
     
-    private double gapVarPE;
+    private double gapPE;
     
-    private boolean flagBloqueio;
+    private double g;
+    
+    public double getG() {
+		return g;
+	}
+
+
+	public void setG(double g) {
+		this.g = g;
+	}
+
+
+	public double getGapPE() {
+    	this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("PERFIL");
+    	gapPE = tbPONTCARGOSEntity.getPoNTUACAOORIGINAL();
+		return gapPE;
+	}
+
+
+	public void setGapPE(double gapPE) {
+		this.gapPE = gapPE;
+	}
+
+
+	private boolean flagBloqueio;
 	
     private boolean flagCustom;
 	
 	private boolean flagEdit;
 	
+	   private List<TbMASCARAEntity> allIdMASCARAsList;
+		
+		
+		public List<TbMASCARAEntity> getAllIdMASCARAsList() {
+			if (this.allIdMASCARAsList == null) {
+	            this.allIdMASCARAsList = tbMASCARAService.findAllTbMASCARAEntities();
+	        }
+			return allIdMASCARAsList;
+		}
+
+
+		public void setAllIdMASCARAsList(List<TbMASCARAEntity> allIdMASCARAsList) {
+			this.allIdMASCARAsList = allIdMASCARAsList;
+		}
+
+	    
+	    public void updateIdMASCARA(TbMASCARAEntity tbMASCARA) {
+	        this.tbPERFIL.setTbMascara(tbMASCARA);
+	        allIdMASCARAsList = null;
+	    }
 	
+
+	public void teste(String t) {
+		System.out.println(this.g);
+		System.out.println(t);
+	}
 	
-	public void onSlideEndPE(SlideEndEvent event) {
-		gapVarPE =  event.getValue();
+	public void onSelect() {
+		
 		flagEdit = false;
+		
+		System.out.println(gapPE);
+		
 		for (TbPERFILEntity tbPERFILEntity : tbPERFILList) {
 
 			if(tbPERFILEntity.getConhecPerfilCustom()==null) {
-				tbPERFILEntity.setPenalidadeConhecPerfil((int) gapVarPE);
+				tbPERFILEntity.setPenalidadeConhecPerfil(gapPE);
 				persist(tbPERFILEntity);
 
 			}
 
 		}
-
-
-	} 
+		
+	}
 
     public void setDialogHeader(final String dialogHeader) { 
         this.dialogHeader = dialogHeader;
@@ -136,7 +193,7 @@ public class TbPERFILBean implements Serializable {
             	}else {
             		
             		if(flagEdit==false){
-            			tbPONTCARGOSEntity.setPoNTUACAOORIGINAL(tbPERFIL.getPenalidadeConhecPerfil());
+            			tbPONTCARGOSEntity.setPoNTUACAOORIGINAL((double) tbPERFIL.getPenalidadeConhecPerfil());
             			tbPERFIL.setConhecPerfilCustom(null);
             			
             		}else {
@@ -198,6 +255,9 @@ public class TbPERFILBean implements Serializable {
             // Set validationFailed to keep the dialog open
             FacesContext.getCurrentInstance().validationFailed();
         }
+        
+        tbPERFILList = null;
+        
         FacesContext.getCurrentInstance().addMessage(null, MessageFactory.getMessage(message));
         
         return null;
@@ -354,17 +414,7 @@ public class TbPERFILBean implements Serializable {
 		this.pontuacaoOriginal = pontuacaoOriginal;
 	}
 
-	public double getGapVarPE() {
-		
-			this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("PERFIL");
-			gapVarPE = tbPONTCARGOSEntity.getPoNTUACAOORIGINAL();
-		
-		return gapVarPE;
-	}
 
-	public void setGapVarPE(double gapVarPE) {
-		this.gapVarPE = gapVarPE;
-	}
 
 	public boolean isFlagBloqueio() {
 		if(tbPERFIL==null) {
@@ -411,5 +461,8 @@ public class TbPERFILBean implements Serializable {
 	public void setFlagEdit(boolean flagEdit) {
 		this.flagEdit = flagEdit;
 	}
+
+
+
     
 }

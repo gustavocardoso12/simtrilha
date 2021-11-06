@@ -21,13 +21,13 @@ public class TbESTILOLIDERANCAService extends BaseService<TbESTILOLIDERANCAEntit
     @Transactional
     public List<TbESTILOLIDERANCAEntity> findAllTbESTILOLIDERANCAEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbESTILOLIDERANCA o ", TbESTILOLIDERANCAEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOLIDERANCA o ", TbESTILOLIDERANCAEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbESTILOLIDERANCA o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbESTILOLIDERANCA o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,7 +61,7 @@ public class TbESTILOLIDERANCAService extends BaseService<TbESTILOLIDERANCAEntit
     // Remove all assignments from all tbESTILOLIDERANCACARGOS a tbESTILOLIDERANCA. Called before delete a tbESTILOLIDERANCA.
     @Transactional
     private void cutAllIdESTLIDERTbESTILOLIDERANCACARGOSsAssignments(TbESTILOLIDERANCAEntity tbESTILOLIDERANCA) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbESTILOLIDERANCACARGOS c SET c.idESTLIDER = NULL WHERE c.idESTLIDER = :p")
                 .setParameter("p", tbESTILOLIDERANCA).executeUpdate();
     }

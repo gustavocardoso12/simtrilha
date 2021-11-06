@@ -17,8 +17,8 @@ public class TbAREAEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Size(max = 50)
-    @Column(length = 50, name="DESC_AREA")
+
+    @Column(name="DESC_AREA")
     @NotNull
     private String deSCAREA;
 

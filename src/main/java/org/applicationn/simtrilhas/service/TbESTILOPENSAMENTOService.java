@@ -21,13 +21,13 @@ public class TbESTILOPENSAMENTOService extends BaseService<TbESTILOPENSAMENTOEnt
     @Transactional
     public List<TbESTILOPENSAMENTOEntity> findAllTbESTILOPENSAMENTOEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbESTILOPENSAMENTO o ", TbESTILOPENSAMENTOEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbESTILOPENSAMENTO o ", TbESTILOPENSAMENTOEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbESTILOPENSAMENTO o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbESTILOPENSAMENTO o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,7 +61,7 @@ public class TbESTILOPENSAMENTOService extends BaseService<TbESTILOPENSAMENTOEnt
     // Remove all assignments from all tbESTILOPENSAMENTOCARGOS a tbESTILOPENSAMENTO. Called before delete a tbESTILOPENSAMENTO.
     @Transactional
     private void cutAllIdESTPENSAMENTOTbESTILOPENSAMENTOCARGOSsAssignments(TbESTILOPENSAMENTOEntity tbESTILOPENSAMENTO) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbESTILOPENSAMENTOCARGOS c SET c.idESTPENSAMENTO = NULL WHERE c.idESTPENSAMENTO = :p")
                 .setParameter("p", tbESTILOPENSAMENTO).executeUpdate();
     }

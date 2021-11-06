@@ -22,7 +22,8 @@ public abstract class BaseEntity implements Serializable {
     @SequenceGenerator(
         name = "sequence",
         sequenceName = "sequence",
-        allocationSize = 1
+        allocationSize = 10000
+        
     )
     private Long id;
 

@@ -70,25 +70,30 @@ public class TbCOMPETENCIASBean implements Serializable {
 	private boolean flagCustom;
 
 	private boolean flagEdit;
+	
+	private Double eventSlider;
 
 	private String dialogHeader;
 
 
-	public void onSlideEndCO(SlideEndEvent event) {
-		gapVarCO =  event.getValue();
+	
+	public void onSelect() {
+		
 		flagEdit = false;
-		for (TbCOMPETENCIASEntity tbCOMPETENCIASEntity : tbCOMPETENCIASList) {
+		
+		
 
-			if(tbCOMPETENCIASEntity.getCompetenciasCustom()==null) {
-				tbCOMPETENCIASEntity.setPenalidadeCompetencias((int) gapVarCO);
-				persist(tbCOMPETENCIASEntity);
+			for (TbCOMPETENCIASEntity tbCOMPETENCIASEntity : tbCOMPETENCIASList) {
+
+				if(tbCOMPETENCIASEntity.getCompetenciasCustom()==null) {
+					tbCOMPETENCIASEntity.setPenalidadeCompetencias(gapVarCO);
+					persist(tbCOMPETENCIASEntity);
+
+				}
 
 			}
-
-		}
-
-
-	} 
+		
+	}
 
 	public void setDialogHeader(final String dialogHeader) { 
 		this.dialogHeader = dialogHeader;
@@ -150,19 +155,7 @@ public class TbCOMPETENCIASBean implements Serializable {
 				message = "message_successfully_created";
 			}
 			
-			listaCargos = tbCARGOSService.AllTbCARGOSEntities();
-			
-			for(int i=0; i<listaCargos.size();i++) {
-				
-				TbCOMPETENCIASCARGOSEntity cargo = new TbCOMPETENCIASCARGOSEntity();
-				
-				cargo.setIdCARGOS(listaCargos.get(i));
-				cargo.setIdCOMPETENCIAS(tbCOMPETENCIAS);
-				cargo.setPoNTUACAOCOMPETENCIA(0);
-				
-				tbCOMPETENCIASCARGOSService.save(cargo);
-				
-			}
+
 			
 			
 			
@@ -209,8 +202,10 @@ public class TbCOMPETENCIASBean implements Serializable {
 			// Set validationFailed to keep the dialog open
 			FacesContext.getCurrentInstance().validationFailed();
 		}
-		FacesContext.getCurrentInstance().addMessage(null, MessageFactory.getMessage(message));
 
+		tbCOMPETENCIASList = null;
+		FacesContext.getCurrentInstance().addMessage(null, MessageFactory.getMessage(message));
+		
 		return null;
 	}
 
@@ -432,5 +427,15 @@ public class TbCOMPETENCIASBean implements Serializable {
 	public void setListaCargos(List<TbCARGOSEntity> listaCargos) {
 		this.listaCargos = listaCargos;
 	}
+
+	public Double getEventSlider() {
+		return eventSlider;
+	}
+
+	public void setEventSlider(Double eventSlider) {
+		this.eventSlider = eventSlider;
+	}
+
+
 
 }

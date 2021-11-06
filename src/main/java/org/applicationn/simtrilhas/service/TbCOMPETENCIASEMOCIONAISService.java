@@ -21,13 +21,13 @@ public class TbCOMPETENCIASEMOCIONAISService extends BaseService<TbCOMPETENCIASE
     @Transactional
     public List<TbCOMPETENCIASEMOCIONAISEntity> findAllTbCOMPETENCIASEMOCIONAISEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASEMOCIONAIS o ", TbCOMPETENCIASEMOCIONAISEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCOMPETENCIASEMOCIONAIS o ", TbCOMPETENCIASEMOCIONAISEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbCOMPETENCIASEMOCIONAIS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbCOMPETENCIASEMOCIONAIS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,7 +61,7 @@ public class TbCOMPETENCIASEMOCIONAISService extends BaseService<TbCOMPETENCIASE
     // Remove all assignments from all tbCOMPETENCIASEMCARGOS a tbCOMPETENCIASEMOCIONAIS. Called before delete a tbCOMPETENCIASEMOCIONAIS.
     @Transactional
     private void cutAllIdCOMPEMTbCOMPETENCIASEMCARGOSsAssignments(TbCOMPETENCIASEMOCIONAISEntity tbCOMPETENCIASEMOCIONAIS) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbCOMPETENCIASEMCARGOS c SET c.idCOMPEM = NULL WHERE c.idCOMPEM = :p")
                 .setParameter("p", tbCOMPETENCIASEMOCIONAIS).executeUpdate();
     }

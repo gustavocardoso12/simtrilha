@@ -9,28 +9,104 @@
 <ui:composition template="/templates/layout.xhtml">
 	<ui:define name="content">
 
+		
+		<p:panelGrid id="panelcarrega" style="margin-left: 40px;" >
+	<h:outputText id="statusMatriz"
+				style="top: 86px;
+left: 596px;
+width: 50%;
+height: 30px;
+text-align: left;
+font: Bold 16px/16px Montserrat;
+letter-spacing: 0px;
+opacity: 1;"
+				escape="false"	value="Carregando Lista de Formações e Experiências... " />
+	
+	</p:panelGrid>
+	
+	<p:spacer></p:spacer>
+		
+		<script language="javascript">
 
-		<h:form>
-			<h:panelGrid columns="1" style="margin-bottom: 10px">
-				<h:outputText id="output"
-					value=" Penalidade padrão: #{tbCONHECIMENTOSBASICOSBean.gapVarCB}%" />
-				<h:inputHidden id="gapvar" value="#{tbCONHECIMENTOSBASICOSBean.gapVarCB}" />
-				<p:slider for="gapvar" display="output" minValue="0" maxValue="100"
-					step="1" style="width: 300px"
-					displayTemplate="Penalidade padrão: %{value}">
-					<p:ajax event="slideEnd"
-						listener="#{tbCONHECIMENTOSBASICOSBean.onSlideEndCB}"
-						update="tbCONHECIMENTOSBASICOSTable" />
-				</p:slider>
+		document.onreadystatechange = function () {
+			  var state = document.readyState
+			  
+			  
+			  if (state == 'complete') {
+			      setTimeout(function(){
+			          document.getElementById('interactive');
+			         document.getElementById('tbCONHECIMENTOSBASICOSDataForm').style.visibility="visible";
+			         document.getElementById('statusMatriz').style.visibility="hidden";   
+			         document.getElementById('penalidade').style.visibility="visible";   
+			         
+			      },1000);
+			  }
+			}
+
+</script>
+
+
+
+	<p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
+
+		<f:facet name="start">
+        <h:panelGrid id="diag" columns="2">
+			
+			
+			<h:outputLabel id="label2" style="font-size:14px;font-weight:bold" value="Carregando...">
+			  <p:autoUpdate />
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
 			</h:panelGrid>
-		</h:form>
+   		 </f:facet>
+
+		</p:ajaxStatus>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			oncomplete="PF('statusDialog').hide()" />
+
+		<p:dialog id="dialog" widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false"  showHeader="false">
+			<h:panelGrid id="panel" columns="2">
+			
+			
+			<h:outputLabel id="label3" style="font-size:14px;font-weight:bold" value="Carregando...">
+        
+        </h:outputLabel>
+			<p:graphicImage name="/images/waiting.gif" />
+			</h:panelGrid>
+		</p:dialog>
+		
+		
+		 <h:form id="penalidade" style="visibility:hidden">
+    <h:panelGrid columns="4" style="margin-bottom: 10px">
+    				
+						
+						<h:outputText id="output" style="font-size:14px;font-weight:bold;color:black"
+					value=" Penalidade padrão:" />
+				
+        <p:inputText id="decimal" value="#{tbCONHECIMENTOSBASICOSBean.gapVarCB}" style="background: white !important"/>
+        <p:slider style="width:200px" for="decimal" minValue="0.0" maxValue="100.0" step="0.5" />
+  
+				
+					<p:commandButton rendered="#{p:ifAnyGranted('Administrator')}" style="background:#ED6D09;width:100%;"
+					 update="tbCONHECIMENTOSBASICOSTable" value="Aplicar"
+					action="#{tbCONHECIMENTOSBASICOSBean.onSelect}">
+				</p:commandButton>
+					
+				</h:panelGrid>
+    </h:form>
+		
+		
 
 
-		<h:form prependId="false" id="tbCONHECIMENTOSBASICOSDataForm"
+		<h:form prependId="false" style="visibility:hidden" id="tbCONHECIMENTOSBASICOSDataForm"
 			onkeypress="if (event.keyCode == 13) {return false; }">
 
 			<p:dataTable id="tbCONHECIMENTOSBASICOSTable"
 				styleClass="barraCargosPessoas"
+				rowKey="#{tbCONHECIMENTOSBASICOS.id}"
 				value="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOSList}"
 				var="tbCONHECIMENTOSBASICOS"
 				 widgetVar="tbCONHECIMENTOSBASICOSTable"
@@ -41,11 +117,11 @@
 				<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
-					width:90%;
+					width:100%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbCONHECIMENTOSBASICOS_deSCCONHECIMENTOSBASICOS}">
 						<h:outputText style="
@@ -62,11 +138,11 @@
 						styleClass="#{(tbCONHECIMENTOSBASICOS.conhecBasCustom=='S') ? 'customPenStyle': 'barraCargosPessoas'}"
 						style="
 					top: 416px;
-					width:90%;
+					width:50%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbPERFIL_penalidade}" >
 						<h:outputText style="
@@ -75,7 +151,7 @@
 							letter-spacing: 0px;
 							color: #000000;
 							opacity: 1;"
-							value="#{tbCONHECIMENTOSBASICOS.penalidadeConhecBas.intValue()}%">
+							value="#{tbCONHECIMENTOSBASICOS.penalidadeConhecBas}%">
 							<f:convertNumber minFractionDigits="0" />
 							</h:outputText>
 					</p:column>
@@ -83,11 +159,11 @@
 			<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
-					width:90%;
+					width:50%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;"
 						headerText="#{messages.field_label_tbPERFIL_bloqueia}">
 						<h:outputText style="
@@ -97,7 +173,27 @@
 							color: #000000;
 							opacity: 1;"
 							value="#{tbCONHECIMENTOSBASICOS.bloqueiaMovConhecBas}"  >
-							<f:convertNumber minFractionDigits="0" />
+							</h:outputText>
+					</p:column>
+					
+					
+					<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:50%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					
+					opacity: 1;"
+						headerText="Grupo de Rótulos">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCONHECIMENTOSBASICOS.tbMascara.descGrupo}"  >
 							</h:outputText>
 					</p:column>
 				
@@ -112,7 +208,7 @@
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					color: #3B3B3B !important;
+					
 					opacity: 1;">
 
 
@@ -120,18 +216,17 @@
 							<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 							
 							
-							
-							
 							<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
 								icon="img-button-edit"
-									update=":editTbCONHECIMENTOSBASICOSDialog"
-								rerendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:update')}"
-						action="#{tbCONHECIMENTOSBASICOSBean.onDialogOpen(tbCONHECIMENTOSBASICOS)}"
-								ooncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSBASICOSDialogWidget').show()"/>
+								update=":editTbCONHECIMENTOSBASICOSDialog"
+								rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:update')}"
+								action="#{tbCONHECIMENTOSBASICOSBean.onDialogOpen(tbCONHECIMENTOSBASICOS)}"
+								oncomplete="PF('editTbCONHECIMENTOSBASICOSDialogWidget').show()"/>
+							
+					
 
 							
 							<p:commandButton
-							rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:delete')}"
 								oncomplete="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').show()"
 								styleClass="botaoPessoas"
 								style="background:none;width:40px; height:40px;font-size:12px" value=""
@@ -142,25 +237,7 @@
 				</p:panelGrid>
 						</p:column>
 
-				<!--  	<p:commandButton 
-						update=":editTbCONHECIMENTOSBASICOSDialog" resetValues="true"
-						style="width:95%;background:#f2f2f2"
-						rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:update')}"
-						action="#{tbCONHECIMENTOSBASICOSBean.onDialogOpen(tbCONHECIMENTOSBASICOS)}"
-						oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSBASICOSDialogWidget').show()"
-						value="#{messages.EditarConhecimentosBasicos}">
-					</p:commandButton>
-
-					<p:commandButton 
-						rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:delete')}"
-						style="width:5%"
-						oncomplete="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').show()"
-						value="E"
-						icon="img-button-delete">
-						<f:setPropertyActionListener value="#{tbCONHECIMENTOSBASICOS}"
-							target="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS}" />
-					</p:commandButton>-->
-
+				
 			
 
 				<f:facet name="footer">
@@ -184,7 +261,6 @@
 
 		<p:confirmDialog id="deleteTbCONHECIMENTOSBASICOSDialog"
 			widgetVar="deleteTbCONHECIMENTOSBASICOSDialogWidget"
-			showEffect="explode" hideEffect="fade"
 			rendered="#{tbCONHECIMENTOSBASICOSBean.isPermitted(tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS, 'tbCONHECIMENTOSBASICOS:delete')}"
 			header="#{messages.label_confirm_deletion}" severity="alarm">
 			<f:facet name="message">
@@ -195,7 +271,7 @@
 					<p:panelGrid columns="2" style="margin:auto">
 						<p:commandButton value="#{messages.label_yes}"
 							action="#{tbCONHECIMENTOSBASICOSBean.delete}"
-							update=":tbCONHECIMENTOSBASICOSDataForm :growlForm:growl"
+							update="tbCONHECIMENTOSBASICOSTable"
 							oncomplete="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').hide()" />
 						<p:commandButton value="#{messages.label_no}"
 							onclick="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').hide()"
@@ -205,7 +281,7 @@
 			</p:outputPanel>
 		</p:confirmDialog>
 
-		<p:dialog dynamic="true" id="editTbCONHECIMENTOSBASICOSDialog"
+		<p:dialog  id="editTbCONHECIMENTOSBASICOSDialog"
 			header="#{tbCONHECIMENTOSBASICOSBean.dialogHeader}"
 			responsive="true" resizable="false"
 			modal="true" widgetVar="editTbCONHECIMENTOSBASICOSDialogWidget"
@@ -218,7 +294,7 @@
 					<div style="text-align: center; margin: 10px">
 						<p:commandButton value="#{messages.label_save}"
 							action="#{tbCONHECIMENTOSBASICOSBean.persist}"
-							update=":editTbCONHECIMENTOSBASICOSForm:tbCONHECIMENTOSBASICOSEditPanel :tbCONHECIMENTOSBASICOSDataForm :growlForm:growl"
+							update=":editTbCONHECIMENTOSBASICOSForm:tbCONHECIMENTOSBASICOSEditPanel tbCONHECIMENTOSBASICOSTable"
 							oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSBASICOSDialogWidget').hide()" />
 					</div>
 				</p:outputPanel>

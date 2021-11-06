@@ -88,7 +88,7 @@ public class TbCONHECIMENTOSBASCARGOSBean extends TbCARGOSBean implements Serial
     		
     		cargos.setIdCARGOS(tbCARGOS);
     		cargos.setIdCONHECBAS(listaComp);
-    		cargos.setPoNTUACAOCONBAS(0);
+    		cargos.setPoNTUACAOCONBAS(0.0);
     		
     		tbCONHECIMENTOSBASCARGOSService.save(cargos);
     	

@@ -21,13 +21,13 @@ public class TbHABILIDADESService extends BaseService<TbHABILIDADESEntity> imple
     @Transactional
     public List<TbHABILIDADESEntity> findAllTbHABILIDADESEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbHABILIDADES o ", TbHABILIDADESEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbHABILIDADES o ", TbHABILIDADESEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbHABILIDADES o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbHABILIDADES o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,7 +61,7 @@ public class TbHABILIDADESService extends BaseService<TbHABILIDADESEntity> imple
     // Remove all assignments from all tbHABILIDADESCARGOS a tbHABILIDADES. Called before delete a tbHABILIDADES.
     @Transactional
     private void cutAllIdHABCARGOSTbHABILIDADESCARGOSsAssignments(TbHABILIDADESEntity tbHABILIDADES) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbHABILIDADESCARGOS c SET c.idHABCARGOS = NULL WHERE c.idHABCARGOS = :p")
                 .setParameter("p", tbHABILIDADES).executeUpdate();
     }

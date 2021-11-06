@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,8 +19,8 @@ public class TbCONHECIMENTOSESPECIFICOSEntity extends BaseEntity implements Seri
 
     private static final long serialVersionUID = 1L;
 
-    @Size(max = 300)
-    @Column(length = 300, name="DESC_CONHECIMENTOS_ESPECIFICOS")
+
+    @Column(name="DESC_CONHECIMENTOS_ESPECIFICOS")
     @NotNull
     private String deSCCONHECIMENTOSESPECIFICOS;
 
@@ -37,7 +39,7 @@ public class TbCONHECIMENTOSESPECIFICOSEntity extends BaseEntity implements Seri
     private Date modifiedAt;
     
     @Column(name="PENALIDADE_CONHECESP")
-    private int penalidadeConhecBas;
+    private Double penalidadeConhecBas;
     
     @Column(name="BLOQUEIA_MOV_CONHECESP")
     private String bloqueiaMovConhecEsp;
@@ -45,6 +47,30 @@ public class TbCONHECIMENTOSESPECIFICOSEntity extends BaseEntity implements Seri
     @Column(name="CONHECESP_CUSTOM")
     private String conhecEspCustom;
     
+    @Column(name="GRUPO", insertable=false, updatable = false)
+    private Integer grupo;
+    
+    @ManyToOne(optional=true)
+    @JoinColumn(name = "GRUPO", referencedColumnName = "ID_GRUPO")
+    private TbMASCARAEntity tbMascara;
+    
+	
+
+	public TbMASCARAEntity getTbMascara() {
+		return tbMascara;
+	}
+
+	public void setTbMascara(TbMASCARAEntity tbMascara) {
+		this.tbMascara = tbMascara;
+	}
+	
+	public Integer getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Integer idGrupo) {
+		this.grupo = idGrupo;
+	}
     
     public String getDeSCCONHECIMENTOSESPECIFICOS() {
         return this.deSCCONHECIMENTOSESPECIFICOS;
@@ -82,12 +108,12 @@ public class TbCONHECIMENTOSESPECIFICOSEntity extends BaseEntity implements Seri
         }
     }
 
-	public int getPenalidadeConhecBas() {
+	public Double getPenalidadeConhecBas() {
 		return penalidadeConhecBas;
 	}
 
-	public void setPenalidadeConhecBas(int penalidadeConhecBas) {
-		this.penalidadeConhecBas = penalidadeConhecBas;
+	public void setPenalidadeConhecBas(Double double1) {
+		this.penalidadeConhecBas = double1;
 	}
 
 	public String getBloqueiaMovConhecEsp() {

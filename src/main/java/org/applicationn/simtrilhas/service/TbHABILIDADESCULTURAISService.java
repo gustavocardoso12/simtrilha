@@ -21,13 +21,13 @@ public class TbHABILIDADESCULTURAISService extends BaseService<TbHABILIDADESCULT
     @Transactional
     public List<TbHABILIDADESCULTURAISEntity> findAllTbHABILIDADESCULTURAISEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbHABILIDADESCULTURAIS o ", TbHABILIDADESCULTURAISEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbHABILIDADESCULTURAIS o ", TbHABILIDADESCULTURAISEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbHABILIDADESCULTURAIS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbHABILIDADESCULTURAIS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,7 +61,7 @@ public class TbHABILIDADESCULTURAISService extends BaseService<TbHABILIDADESCULT
     // Remove all assignments from all tbHABILIDADESCULTCARGOS a tbHABILIDADESCULTURAIS. Called before delete a tbHABILIDADESCULTURAIS.
     @Transactional
     private void cutAllIdHABCULTCARTbHABILIDADESCULTCARGOSsAssignments(TbHABILIDADESCULTURAISEntity tbHABILIDADESCULTURAIS) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbHABILIDADESCULTCARGOS c SET c.idHABCULTCAR = NULL WHERE c.idHABCULTCAR = :p")
                 .setParameter("p", tbHABILIDADESCULTURAIS).executeUpdate();
     }

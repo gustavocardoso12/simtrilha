@@ -20,6 +20,22 @@
                 <p:selectBooleanCheckbox value="#{tbPERFILBean.flagBloqueio}"  id="deSCPERFILBLOQUEIAEditInput"/>
                 <p:message for="deSCPERFILBLOQUEIAEditInput" display="icon" />
 				
+				
+				<h:outputLabel value="Grupo de Rótulos::" for="idVPSelectInput" rendered="#{not hideIdVPSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdVPSelectInput}">
+                    <p:selectOneMenu style="font-size:12px" value="#{tbPERFILBean.tbPERFIL.tbMascara}"
+                                    id="idVPSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="Escolha um rótulo:" />
+                        <f:selectItems value="#{tbPERFILBean.allIdMASCARAsList}" 
+                                    var="tbMASCARA" 
+                                    itemLabel="#{tbMASCARA.descGrupo}"
+                                    itemValue="#{tbMASCARA}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbPERFILBean.allIdMASCARAsList}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>	
+					  <p:message for="idVPSelectInput" display="icon" />	
+				
+				
 				    
                  <h:outputLabel value="#{messages.field_label_tbPERFIL_penalidade}:" for="deSCPERFILPENALIDADEEditInput" />
        			 <p:selectOneMenu id="deSCPERFILPENALIDADEEditInput" value="#{tbPERFILBean.flagCustom}" style="width:125px">

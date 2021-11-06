@@ -22,6 +22,21 @@
                 <p:selectBooleanCheckbox value="#{tbCONHECIMENTOSESPECIFICOSBean.flagBloqueio}"  id="deSCCONHECIMENTOSESPECIFICOSBLOQUEIAEditInput"/>
                 <p:message for="deSCCONHECIMENTOSESPECIFICOSBLOQUEIAEditInput" display="icon" />
 					
+					
+				<h:outputLabel value="Grupo de Rótulos::" for="idVPSelectInput" rendered="#{not hideIdVPSelectInput}"/>
+                <h:panelGroup rendered="#{not hideIdVPSelectInput}">
+                    <p:selectOneMenu style="font-size:12px" value="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS.tbMascara}"
+                                    id="idVPSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="Escolha um rótulo:" />
+                        <f:selectItems value="#{tbCONHECIMENTOSESPECIFICOSBean.allIdMASCARAsList}" 
+                                    var="tbMASCARA" 
+                                    itemLabel="#{tbMASCARA.descGrupo}"
+                                    itemValue="#{tbMASCARA}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbCONHECIMENTOSESPECIFICOSBean.allIdMASCARAsList}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>	
+					  <p:message for="idVPSelectInput" display="icon" />	
+					
 				  <h:outputLabel value="#{messages.field_label_tbPERFIL_penalidade}:" for="deSCCONHECIMENTOSESPECIFICOSPENALIDADEEditInput" />
        			 <p:selectOneMenu id="deSCCONHECIMENTOSESPECIFICOSPENALIDADEEditInput" value="#{tbCONHECIMENTOSESPECIFICOSBean.flagCustom}" style="width:125px">
             		 <f:selectItem itemLabel="Personalizável" itemValue="true" />

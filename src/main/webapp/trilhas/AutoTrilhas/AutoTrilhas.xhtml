@@ -28,15 +28,70 @@
 		</p:dialog>
 
 
-
-
-		<h:panelGrid id="paneCargos" styleClass="dialog"
+	<h:panelGrid id="panepessoasCargos" styleClass="dialog"
+		style="top: 78px;
+left: 282px;
+width: 142px;
+margin-left: 10px;
+margin-top: 5px;
+opacity: 1;"
 			columnClasses="col2,col2" columns="2">
+	<p:commandLink id="btnCargo" global="false" action="#{tbCARGOSBean.SelecionaCargosAT}"  update="paneCargos panepessoasCargos"  style="margin-right:20px;">
+       
+  		
+		<h:outputLabel
+					
+					
+					style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;" 
+styleClass="#{(tbCARGOSBean.selector==true) ? 'customSelectorStyle': 'customSelectorPessoasStyle'}"
+value="Cargo" />
+  </p:commandLink>
+
+<p:commandLink
+ id="btnPessoas" rendered="#{userBean.user.flag_grade=='SIM'}" global="false" action="#{tbCARGOSBean.SelecionaPessoasAT}" update="paneCargos panepessoasCargos"  style="margin-right:20px;">
+<h:outputLabel
+styleClass="#{(tbCARGOSBean.selector==true) ? 'customSelectorPessoasStyle': 'customSelectorStyle'}"
+					style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;" value="Pessoa" />
+	
+	</p:commandLink>
+	</h:panelGrid>
+
+
+<div class="ui-g">
+
+
+		<h:panelGrid id="paneCargos" styleClass="dialogAT"
+			columnClasses="col2,col2" style="margin-left: 10px;" columns="2">
 			<h:form>
 
 				<h:panelGrid id="paneCargoDe">
-					<h:outputLabel value="Família De:" for="idAREASelectInput" />
-					<p:selectOneMenu autoWidth="false" style="width:300px"
+					<h:outputLabel
+					style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;" value="Família De" for="idAREASelectInput" />
+					<p:selectOneMenu styleClass="menuAT" autoWidth="false" style="width:300px"
 						value="#{tbCARGOSBean.areaEscolhida}" id="idAREASelectInput">
 						<f:selectItem noSelectionOption="true" itemLabel="" />
 						<f:selectItems value="#{tbCARGOSBean.distinctArea}" var="tbCARGO"
@@ -46,10 +101,20 @@
 								" />
 					</p:selectOneMenu>
 
-					<h:outputLabel rendered="#{tbCARGOSBean.areaEscolhida!=null}"
-						value="SubFamília De:" for="idDEPTOSelectInput" />
-					<p:selectOneMenu style="width:300px"
-						rendered="#{tbCARGOSBean.areaEscolhida!=null}"
+					<h:outputLabel
+					
+						style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;"
+						value="SubFamília De" for="idDEPTOSelectInput" />
+					<p:selectOneMenu styleClass="menuAT" style="width:300px"
+					
 						value="#{tbCARGOSBean.departamentoEscolhido}"
 						id="idDEPTOSelectInput">
 						<f:selectItem noSelectionOption="true" itemLabel="" />
@@ -61,24 +126,34 @@
 
 					</p:selectOneMenu>
 					<h:outputLabel
-						rendered="#{tbCARGOSBean.departamentoEscolhido!=null}"
-						value="Cargo De:" for="idCARGOSSelectInput" />
-					<p:selectOneMenu style="width:300px"
-						rendered="#{tbCARGOSBean.departamentoEscolhido!=null}"
+						
+						style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;"
+						value="#{(tbCARGOSBean.selector==true) ? 'Cargo': 'Pessoa'} De" for="idCARGOSSelectInput" />
+					<p:selectOneMenu styleClass="menuAT" style="width:300px"
+						
 						value="#{tbCARGOSBean.cargoDe}" id="idCARGOSSelectInput">
 						<f:selectItem noSelectionOption="true" itemLabel="" />
 						<f:selectItems value="#{tbCARGOSBean.distinctCargos}"
-							var="tbCARGO" itemLabel="Cargo De: #{tbCARGO.deSCCARGO}"
+							var="tbCARGO" itemLabel="#{tbCARGO.deSCCARGO}"
 							itemValue="#{tbCARGO}" />
-
-						<p:ajax event="change"
-							listener="#{tbCARGOSBean.autoTrilhas(tbCARGOSBean.cargoDe)}"
-							update="tbCARGOS" />
+							<p:ajax event="change" global="false"
+							update="paneCargoDe
+								" />
+						
 						<o:converter converterId="omnifaces.SelectItemsConverter"
 							list="#{tbCARGOSBean.distinctCargos}" />
 					</p:selectOneMenu>
 
-
+				
+				
 
 
 				</h:panelGrid>
@@ -86,30 +161,63 @@
 
 
 			</h:form>
+			
+			
+			</h:panelGrid>
+			
+			
+			
+			<h:panelGrid id="paneCargos2" styleClass="dialogAT"
+			columnClasses="col2,col2" style="margin-left: 10px;" columns="2">
 
 
-			<h:form  style="margin-left:250px">
-				<h:outputText style="font-size:14px;font-weight:bold;color:black"
-					value="Aderência Mínima: " />
+			<h:form 
+			
+			 style="margin-left: 25px;
+    width: 155px;
+    margin-top: 4px !important;
+        margin-right: 20px;">
+				<h:outputText 
+				style="top: 135px;
+left: 302px;
+width: 67px;
+height: 15px;
+text-align: left;
+font: Normal 12px/15px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;"
+					value="Compatibilidade Mínima: " />
 
 				<p:inputNumber id="AderenciaMinima"
-				 onkeypress="if (event.keyCode == 13) {event.target.blur();event.stopPropagation();return false;} else {return true;};"
+				styleClass="iptAT"
+				style="width:70% !important"
 					value="#{tbCARGOSBean.aderenciaMinima}" symbol="%"
 					symbolPosition="s" emptyValue="sign">
 				
-					<p:ajax event="change"
-					render="tbCARGOS" execute="AderenciaMinima"
-							listener="#{tbCARGOSBean.autoTrilhas(tbCARGOSBean.cargoDe)}"
-							update="tbCARGOS" />		
+						
 				</p:inputNumber>
+				
+				
+				<p:commandButton style="background:#ED6D09;width:100%;margin-top: 44%;"
+					actionListener="#{tbCARGOSBean.autoTrilhas(tbCARGOSBean.cargoDe)}"
+					value="Simular"
+					
+							update="tbCARGOS">
+				</p:commandButton>
+				
+				
 			</h:form>
 
 		</h:panelGrid>
 
 
+
+
+
 		
-			
-			
+		
+			</div>
 
 			<p:spacer></p:spacer>
 			<p:spacer></p:spacer>
@@ -119,7 +227,18 @@
 
 				 <p:tree styleClass="autoTrilhas" id ="autotrilhas" value="#{tbCARGOSBean.root}" var="node" orientation="horizontal">
         <p:treeNode styleClass="autoTrilhasNo">
-            <h:outputText style="font-size:16px;font-weight:bold;b" value="#{node}" />
+            <h:outputText escape="false" style="
+            top: 684px;
+left: 309px;
+width: 189px;
+height: 18px;
+text-align: left;
+font: Bold 14px/18px Montserrat;
+letter-spacing: 0px;
+color: #FFFFFF;
+opacity: 1;" value="#{node}" />
+
+		
         </p:treeNode>
     </p:tree>
 				</h:panelGrid>

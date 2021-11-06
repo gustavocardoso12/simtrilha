@@ -9,7 +9,9 @@
   
   
  		
-	<p:panel rendered="#{p:ifAnyGranted('Administrator,Colaborador')}" id="toggleableAderencia" header="Aderência entre Cargos" collapsed="true"
+	<p:panel  
+	
+	rendered="#{p:ifAnyGranted('Administrator,Colaborador')}" id="toggleableAderencia" header="Simulações" collapsed="#{loginBean.findBrowserRenderMode() == 'MOBILE' ? true : false}"
 			toggleable="true" toggleSpeed="500" closeSpeed="500"
 			widgetVar="panel4"  style="background:white;background-repeat:no-repeat;">
 				<p:menu toggleable="true">
@@ -41,7 +43,7 @@
 
   
 
-		<p:panel rendered="#{p:ifAnyGranted('Administrator')}" id="toggleable" header="Configuração" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="true"  style="background:white;background-repeat:no-repeat">
+		<p:panel  rendered="#{p:ifAnyGranted('Administrator')}" id="toggleable" header="Configuração" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="#{loginBean.findBrowserRenderMode() == 'MOBILE' ? true : false}" style="background:white;background-repeat:no-repeat">
  				 <p:menu toggleable="true">
  				 
  			<p:menuitem value="Cadastro de cargos"
@@ -67,11 +69,38 @@
     	
     			<p:menuitem value="Área" url="${facesContext.externalContext.request.contextPath}/trilhas/Area/ControleArea.xhtml" ajax="false" async="false" />
       			<p:menuitem value="Departamento" url="${facesContext.externalContext.request.contextPath}/trilhas/Departamento/tbDEPTO.xhtml"  ajax="false" async="false" />
-      				<p:menuitem value="#{messages.menu_NO}" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelOrganizacional/tbNO.xhtml" ajax="false"  async="false" />
-	
+      				<p:menuitem value="#{messages.menu_NO}" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelOrganizacional/tbNO.xhtml" ajax="false"  async="false" style="margin-bottom:10px" />
+      				
+      				
+      				
+				
+				
+				
+			
    </p:menu>
  	 </p:panel>
-
+	
+	<p:panel rendered="#{p:ifAnyGranted('Administrator')}" id="toggleable23" header="Customização de Rótulos" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel32" collapsed="#{loginBean.findBrowserRenderMode() == 'MOBILE' ? true : false}"  style="background:white;background-repeat:no-repeat">
+ 				 <p:menu toggleable="true">
+ 				 <p:menuitem value="Formações Acadêmicas" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraFormacoes.xhtml" ajax="false"  async="false" />
+ 				
+ 				
+ 				 <p:menuitem value="Conhecimentos Técnicos" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraTecnicos.xhtml" ajax="false"  async="false" />				
+ 				
+ 				 <p:menuitem value="Idiomas" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraIdiomas.xhtml" ajax="false"  async="false" />
+ 				
+ 				 <p:menuitem value="Experiências" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraExperencia.xhtml" ajax="false"  async="false" />
+ 				 
+ 				  <p:menuitem value="Certificações" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraCertificados.xhtml" ajax="false"  async="false" />
+ 				  
+ 				   <p:menuitem value="Perfil" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraPerfil.xhtml" ajax="false"  async="false" />
+ 				 
+ 				<!-- <p:menuitem value="Controle de Rótulos" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaras.xhtml" ajax="false"  async="false" /> --> 
+					 				
+ 				 </p:menu>
+ 				 </p:panel>
+		
+		
 
 
 		<!--     

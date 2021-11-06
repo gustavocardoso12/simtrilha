@@ -22,13 +22,13 @@ public class TbCOMPETENCIASEMCARGOSService extends BaseService<TbCOMPETENCIASEMC
     @Transactional
     public List<TbCOMPETENCIASEMCARGOSEntity> findAllTbCOMPETENCIASEMCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o ", TbCOMPETENCIASEMCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o ", TbCOMPETENCIASEMCARGOSEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbCOMPETENCIASEMCARGOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbCOMPETENCIASEMCARGOS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -41,22 +41,22 @@ public class TbCOMPETENCIASEMCARGOSService extends BaseService<TbCOMPETENCIASEMC
 
     @Transactional
     public List<TbCOMPETENCIASEMCARGOSEntity> findAvailableTbCOMPETENCIASEMCARGOSs(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o WHERE o.idCARGOS IS NULL", TbCOMPETENCIASEMCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o WHERE o.idCARGOS IS NULL", TbCOMPETENCIASEMCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbCOMPETENCIASEMCARGOSEntity> findTbCOMPETENCIASEMCARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS) {
-        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o WHERE o.idCARGOS = :tbCARGOS", TbCOMPETENCIASEMCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o WHERE o.idCARGOS = :tbCARGOS", TbCOMPETENCIASEMCARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
 
     @Transactional
     public List<TbCOMPETENCIASEMCARGOSEntity> findAvailableTbCOMPETENCIASEMCARGOSs(TbCOMPETENCIASEMOCIONAISEntity tbCOMPETENCIASEMOCIONAIS) {
-        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o WHERE o.idCOMPEM IS NULL", TbCOMPETENCIASEMCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o WHERE o.idCOMPEM IS NULL", TbCOMPETENCIASEMCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbCOMPETENCIASEMCARGOSEntity> findTbCOMPETENCIASEMCARGOSsByIdCOMPEM(TbCOMPETENCIASEMOCIONAISEntity tbCOMPETENCIASEMOCIONAIS) {
-        return entityManager.createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o WHERE o.idCOMPEM = :tbCOMPETENCIASEMOCIONAIS", TbCOMPETENCIASEMCARGOSEntity.class).setParameter("tbCOMPETENCIASEMOCIONAIS", tbCOMPETENCIASEMOCIONAIS).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCOMPETENCIASEMCARGOS o WHERE o.idCOMPEM = :tbCOMPETENCIASEMOCIONAIS", TbCOMPETENCIASEMCARGOSEntity.class).setParameter("tbCOMPETENCIASEMOCIONAIS", tbCOMPETENCIASEMOCIONAIS).getResultList();
     }
 
 }

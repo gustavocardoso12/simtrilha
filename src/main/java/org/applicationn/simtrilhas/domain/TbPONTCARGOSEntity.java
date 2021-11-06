@@ -14,13 +14,11 @@ public class TbPONTCARGOSEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Size(max = 20)
-    @Column(length = 20, name="DESC_PONT")
+    @Column(name="DESC_PONT")
     private String deSCPONT;
 
     @Column(name="PONTUACAO_ORIGINAL")
-    @Digits(integer = 4, fraction = 0)
-    private Integer poNTUACAOORIGINAL;
+    private Double poNTUACAOORIGINAL;
     
     @Column(name="DESCRICAO_PONT")
     private String descricaoCompleta;
@@ -36,11 +34,11 @@ public class TbPONTCARGOSEntity extends BaseEntity implements Serializable {
         this.deSCPONT = deSCPONT;
     }
 
-    public Integer getPoNTUACAOORIGINAL() {
+    public Double getPoNTUACAOORIGINAL() {
         return this.poNTUACAOORIGINAL;
     }
 
-    public void setPoNTUACAOORIGINAL(Integer poNTUACAOORIGINAL) {
+    public void setPoNTUACAOORIGINAL(Double poNTUACAOORIGINAL) {
         this.poNTUACAOORIGINAL = poNTUACAOORIGINAL;
     }
 

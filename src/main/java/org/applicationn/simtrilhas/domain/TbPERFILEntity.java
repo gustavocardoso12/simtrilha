@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,8 +19,7 @@ public class TbPERFILEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Size(max = 50)
-    @Column(length = 50, name="DESC_PERFIL")
+    @Column(name="DESC_PERFIL")
     @NotNull
     private String deSCPERFIL;
 
@@ -37,7 +38,7 @@ public class TbPERFILEntity extends BaseEntity implements Serializable {
     private Date modifiedAt;
     
     @Column(name="PENALIDADE_PERFIL")
-    private int penalidadeConhecPerfil;
+    private Double penalidadeConhecPerfil;
     
     @Column(name="BLOQUEIA_MOV_PERFIL")
     private String bloqueiaMovConhecPerfil;
@@ -45,14 +46,38 @@ public class TbPERFILEntity extends BaseEntity implements Serializable {
     @Column(name="PERFIL_CUSTOM")
     private String conhecPerfilCustom;
     
+    @Column(name="GRUPO", insertable=false, updatable = false)
+    private Integer grupo;
+    
+    @ManyToOne(optional=true)
+    @JoinColumn(name = "GRUPO", referencedColumnName = "ID_GRUPO")
+    private TbMASCARAEntity tbMascara;
+    
+	
+
+	public TbMASCARAEntity getTbMascara() {
+		return tbMascara;
+	}
+
+	public void setTbMascara(TbMASCARAEntity tbMascara) {
+		this.tbMascara = tbMascara;
+	}
+	
+	public Integer getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Integer idGrupo) {
+		this.grupo = idGrupo;
+	}
     
     
-    public int getPenalidadeConhecPerfil() {
+    public Double getPenalidadeConhecPerfil() {
 		return penalidadeConhecPerfil;
 	}
 
-	public void setPenalidadeConhecPerfil(int penalidadeConhecPerfil) {
-		this.penalidadeConhecPerfil = penalidadeConhecPerfil;
+	public void setPenalidadeConhecPerfil(Double double1) {
+		this.penalidadeConhecPerfil = double1;
 	}
 
 	public String getBloqueiaMovConhecPerfil() {

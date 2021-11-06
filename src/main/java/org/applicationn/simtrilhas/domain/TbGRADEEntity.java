@@ -17,8 +17,8 @@ public class TbGRADEEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Size(max = 200)
-    @Column(length = 200, name="DESC_GRADE")
+
+    @Column(name="DESC_GRADE")
     @NotNull
     private String deSCGRADE;
 
@@ -37,7 +37,7 @@ public class TbGRADEEntity extends BaseEntity implements Serializable {
     private Date modifiedAt;
     
     @Column(name="PENALIDADE_GRADE")
-    private int penalidadeConhecGrade;
+    private Double penalidadeConhecGrade;
     
     @Column(name="BLOQUEIA_MOV_GRADE")
     private String bloqueiaMovConhecGrade;
@@ -49,12 +49,12 @@ public class TbGRADEEntity extends BaseEntity implements Serializable {
         return this.deSCGRADE;
     }
 
-    public int getPenalidadeConhecGrade() {
+    public Double getPenalidadeConhecGrade() {
 		return penalidadeConhecGrade;
 	}
 
-	public void setPenalidadeConhecGrade(int penalidadeConhecGrade) {
-		this.penalidadeConhecGrade = penalidadeConhecGrade;
+	public void setPenalidadeConhecGrade(Double double1) {
+		this.penalidadeConhecGrade = double1;
 	}
 
 	public String getBloqueiaMovConhecGrade() {

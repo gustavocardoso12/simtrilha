@@ -1,8 +1,14 @@
 package org.applicationn.simtrilhas.web;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +38,7 @@ import org.applicationn.simtrilhas.domain.TbGRADEEntity;
 import org.applicationn.simtrilhas.domain.TbMATRIZCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbPERFILEntity;
+import org.applicationn.simtrilhas.service.AlteracoesService;
 import org.applicationn.simtrilhas.service.TbCARGOSService;
 import org.applicationn.simtrilhas.service.TbCOMPETENCIASService;
 import org.applicationn.simtrilhas.service.TbCONHECIMENTOSBASICOSService;
@@ -79,7 +86,10 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 	@Inject
 	private TbPERFILService tbPERFILService; 
 
-	private List<Long> listaDe = new ArrayList<Long>();
+	@Inject
+	private AlteracoesService alteracoesService;
+
+	private Long countDe;
 
 	private List<Long> listaPara = new ArrayList<Long>();
 
@@ -97,7 +107,7 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 	private List<TbMATRIZCARGOSEntity> MatrizPrincipal = new ArrayList<TbMATRIZCARGOSEntity>();
 
 	private List<TbCARGOSEntity> listaCargos = new ArrayList<TbCARGOSEntity>();
-	
+
 	private List<TbCARGOSEntity> listaCargosPara = new ArrayList<TbCARGOSEntity>();
 
 	private List<TbCARGOSEntity> listaCargosSPessoas = new ArrayList<TbCARGOSEntity>();
@@ -113,7 +123,7 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 	List<TbGRADEEntity> listGR = new ArrayList<TbGRADEEntity>();
 
 	List<TbMATRIZCARGOSEntity> matrizCargos = new ArrayList<TbMATRIZCARGOSEntity>();
-	
+
 	List<TbMATRIZCARGOSEntity> matrizListaInsercao = new ArrayList<TbMATRIZCARGOSEntity>();
 
 	List<TbCONHECIMENTOSESPCARGOSEntity> listCECARGOSDe = new ArrayList<TbCONHECIMENTOSESPCARGOSEntity>();
@@ -136,15 +146,26 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 	boolean oldposicaoGR = false;
 
-	List<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>> arrlist10 = new ArrayList<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>>();
+	List<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>> arrayCompleta = new ArrayList<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>>();
 
 	int id_fde =0;
 	int id_fpara = 0;
 
 	private ArrayList<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>> data3D = new ArrayList<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>>();
 
-	private String porcentagemFinal = "teste";
+	private List<TbMATRIZCARGOSEntity> resultMatriz = new ArrayList<TbMATRIZCARGOSEntity>();
 
+	private String ajaxStatus="Exportando Matriz... O processo leva de 2 a 3 minutos";
+
+	private String porcentagemFinal = "";
+
+	private String statusMatriz ="";
+
+	private boolean matrizProgresso = false;
+
+	private boolean statusMatrizControle; 
+
+	private int tamanhoMatriz; 
 
 	public TbMATRIZCARGOSBean() {
 
@@ -152,59 +173,367 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 
 
+	public void filtraMatriz(String familiaDe, String familiaPara) {
+		try {
+
+
+
+			if((familiaDe=="") || (familiaPara=="")){
+
+			}else {
+
+
+				arrayCompleta =  new ArrayList<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>>();
+
+				listaCargos = tbCARGOSService.findAllTbCARGOSEntitiesMatrizFamiliaDe(user.getFlag_pessoa(),familiaDe);
+				listaCargosPara = tbCARGOSService.findAllTbCARGOSEntitiesMatrizFamiliaPara(familiaPara);
+
+
+				for (int i=0; i<listaCargos.size();i++) {
+
+					arrayCompleta.add(new ArrayList<ArrayList<TbMATRIZCARGOSEntity>>());
+
+					for(int j=0; j<listaCargosPara.size();j++) {
+
+						arrayCompleta.get(i).add(new ArrayList<TbMATRIZCARGOSEntity>());
+					}
+
+				}
+
+				tamanhoMatriz = (int) (233.75 * listaCargosPara.size());
+
+				List<Object[]> result = new ArrayList<Object[]>();
+
+				result = tbMATRIZCARGOSService.findTbMATRIZCARGOSEntitiesCompleta( familiaDe, familiaPara);
+
+				resultMatriz= tbMATRIZCARGOSService.findTbMATRIZCARGOSEntitiesFT( familiaDe, familiaPara);
+
+
+
+				int id_de = 0;
+				int id_para = 0;
+
+				int id_matrizde  =0;
+				int id_matrizpara  = 0;
+
+				int tamanho = resultMatriz.size();
+
+				int tamanhoK = result.size();
+
+				int ultimaposicao =0;
+
+				int k =0;
+				int p =0;
+
+
+
+
+
+
+
+				for (p=0; p<tamanho;p++) {
+
+					for (k=ultimaposicao; k<tamanhoK;k++) {
+						id_de = (int) result.get(k)[0];
+
+						id_para = (int) result.get(k)[1];
+
+						id_matrizde = (int) result.get(k)[3];
+
+						id_matrizpara = (int) result.get(k)[2];
+
+
+						if(id_de==resultMatriz.get(p).getIdCARGODE()) {
+
+
+							if(id_para==resultMatriz.get(p).getIdCARGOPARA()) {
+
+								TbMATRIZCARGOSEntity r = new TbMATRIZCARGOSEntity();
+
+								r.setIdCARGODE((long) id_de);
+								r.setIdCARGOPARA((long) id_para);
+								r.setCorAderencia(resultMatriz.get(p).getCorAderencia());
+								r.setAdERENCIAFINAL(resultMatriz.get(p).getAdERENCIAFINAL());
+								arrayCompleta.get(id_matrizde).get(id_matrizpara).add(r);
+
+								ultimaposicao = k;
+								break;
+							}
+
+
+						}
+
+					}
+
+
+
+
+
+
+
+
+				}
+
+
+
+			}
+			System.out.println(arrayCompleta.size());
+
+			if(arrayCompleta.size()==1) {
+				String message = "message_matriz_vazia";
+				FacesMessage facesMessage = MessageFactory.getMessage(message);
+				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+			}
+
+		}catch(IndexOutOfBoundsException ex) {
+
+		}
+
+	}
+
+	public Double exportMatrizValue(int indiceX, int indiceY) {
+		List<TbMATRIZCARGOSEntity> lista = new ArrayList<TbMATRIZCARGOSEntity>();
+		Double aderencia =0.0;
+		lista=arrayCompleta.get(indiceX).get(indiceY);
+		for(TbMATRIZCARGOSEntity t: lista) {
+			aderencia= t.getAdERENCIAFINAL();
+		}
+		return aderencia;
+	}
+
+
+	public String exportMatrizValueCor(int indiceX, int indiceY) {
+		List<TbMATRIZCARGOSEntity> lista = new ArrayList<TbMATRIZCARGOSEntity>();
+		String corAderencia ="";
+		lista=arrayCompleta.get(indiceX).get(indiceY);
+		for(TbMATRIZCARGOSEntity t: lista) {
+			corAderencia= t.getCorAderencia();
+		}
+		return corAderencia;
+	}
 
 	@PostConstruct
 	public void initizalite(){
-
 		try {
 
-			listaDe = tbMATRIZCARGOSService.findDistinctDe();
-			List<Object[]> result = new ArrayList<Object[]>();
-			listaCargos = tbCARGOSService.findAllTbCARGOSEntitiesMatriz(user.getFlag_pessoa());
-			listaCargosSPessoas = tbCARGOSService.findFiveTbCARGOSEntities();
-			listaCargosPara = tbCARGOSService.findTbCARGOSSPessoasEntities();
-			result = tbMATRIZCARGOSService.findTbMATRIZCARGOSEntities(user.getFlag_pessoa());
-			int k=0, l =0;
-
-			for(k = 0; k<listaDe.size();k++) {
-				data3D.add(new ArrayList<ArrayList<TbMATRIZCARGOSEntity>>());
-
-				for(l=0;l<listaDe.size();l++) {
-					data3D.get(k).add(new ArrayList<TbMATRIZCARGOSEntity>());
-				}
-			}
 
 
-			int pontoinicial = listaCargosSPessoas.size() - listaCargos.size();
 
 
-			if(result.size()==0) {
 
-			}else {
-				long id_de = 0;
-				long id_para = 0;
 
-				for (Object[] res : result) {
-					TbMATRIZCARGOSEntity r = new TbMATRIZCARGOSEntity();
-					r.setCorAderencia((String) res[0]);
-					r.setAdERENCIAFINAL((double) res[1]);
-					id_de = ((long) res[2] - pontoinicial);
-					id_para = ((long) res[3] - 1);
-					data3D.get((int) id_de).get((int) id_para).add(r);
 
-				}
 
-				//arrlist10 = data3D.subList(0, 10); 
+			tamanhoMatriz = (int) (193.75 * countDe);
 
-			}
+
+
+
+
 
 		}catch (Exception ex) {
 			System.out.println(ex.getCause());
 		}
 
+
+		try {
+			checaMatrizStatus();
+		}catch(ParseException ex) {
+
+		}
+
 	}
 
 
+
+
+
+	public void checaMatrizStatus() throws ParseException {
+
+		Date alteracaoMatriz = new Date();
+
+		Date alteracaoArea = new Date();
+		Date alteracaoDepto = new Date();
+		Date alteracaoCargo = new Date();
+
+
+		Date alteracaoCompetencias = new Date();
+		Date alteracaoGrade = new Date();
+		Date alteracaoPerfil = new Date();
+		Date alteracaoConhecBAS = new Date();
+		Date alteracaoConhecESP = new Date();
+
+
+		Date alteracaoCompetenciasCargos = new Date();
+		Date alteracaoGradesCargos = new Date();
+		Date alteracaoPerfilCargos = new Date();
+		Date alteracaoConhecBASCargos = new Date();
+		Date alteracaoConhecESPCargos = new Date();
+
+
+		alteracaoMatriz = alteracoesService.findUltimaAlteracaoTbMatriz();
+
+
+
+		alteracaoArea = alteracoesService.findUltimaAlteracaoTbMAREA();
+
+		alteracaoDepto = alteracoesService.findUltimaAlteracaoTbDEPTO();
+
+		alteracaoCargo = alteracoesService.findUltimaAlteracaoTbCARGO();
+
+
+
+		alteracaoCompetencias = alteracoesService.findUltimaAlteracaoTbCOMPETENCIAS();
+
+		alteracaoGrade = alteracoesService.findUltimaAlteracaoTbGRADE();
+
+		alteracaoPerfil = alteracoesService.findUltimaAlteracaoTbPERFIL();
+
+		alteracaoConhecBAS = alteracoesService.findUltimaAlteracaoTbCONHECBAS();
+
+		alteracaoConhecESP = alteracoesService.findUltimaAlteracaoTbCONHECESP();
+
+
+
+		alteracaoCompetenciasCargos = alteracoesService.findUltimaAlteracaoTbCOMPETENCIASCARGOS();
+
+		alteracaoGradesCargos = alteracoesService.findUltimaAlteracaoTbGRADECARGOS();
+
+		alteracaoPerfilCargos = alteracoesService.findUltimaAlteracaoTbPERFILCARGOS();
+
+		alteracaoConhecBASCargos = alteracoesService.findUltimaAlteracaoTbCONHECBASCARGOS();
+
+		alteracaoConhecESPCargos = alteracoesService.findUltimaAlteracaoTbCONHECESPCARGOS();
+
+
+		List<Date> dates = new ArrayList<Date>();
+
+		if(alteracaoArea==null) {
+
+		}else {
+			dates.add(alteracaoArea);
+		}
+
+		if(alteracaoArea==null) {
+		}
+		else {
+			dates.add(alteracaoDepto);
+		}
+
+		if(alteracaoCargo==null) {
+
+		}else {
+			dates.add(alteracaoCargo);
+		}
+
+		if(alteracaoCompetencias==null) {
+
+		}else {
+			dates.add(alteracaoCompetencias);
+		}
+
+		if(alteracaoGrade==null) {
+		}else {
+			dates.add(alteracaoGrade);
+		}
+
+		if(alteracaoPerfil==null) {
+
+		}else {
+			dates.add(alteracaoPerfil);
+		}
+
+		if(alteracaoConhecBAS==null) {
+
+		}else {
+			dates.add(alteracaoConhecBAS);
+		}
+
+		if(alteracaoConhecESP==null) {
+
+		}else {
+			dates.add(alteracaoConhecESP);
+		}
+
+		if(alteracaoCompetenciasCargos==null) {
+
+		}else {
+			dates.add(alteracaoCompetenciasCargos);
+		}
+
+		if(alteracaoGradesCargos==null) {
+
+		}else {
+			dates.add(alteracaoGradesCargos);
+		}
+		if(alteracaoPerfilCargos==null) {
+
+		}else {
+			dates.add(alteracaoPerfilCargos);
+		}
+		if(alteracaoConhecBASCargos==null) {
+
+		}else {
+			dates.add(alteracaoConhecBASCargos);
+		}
+		if(alteracaoConhecESPCargos==null) {
+
+		}else {
+			dates.add(alteracaoConhecESPCargos);
+		}
+
+		Date latest = Collections.max(dates);
+
+		if(alteracaoMatriz==null) {
+			statusMatriz = "A Matriz está vazia! Clique no botão Atualizar Matriz";
+			statusMatrizControle = false;
+		}else {
+			if(latest==null) {
+
+			}else {
+				if(alteracaoMatriz.after(latest)) {
+
+					statusMatriz = "A matriz está atualizada!";
+					statusMatrizControle = true;
+
+				}else {
+					if(alteracaoMatriz.before(latest)) {
+
+						final String OLD_FORMAT = "yyyy-MM-dd HH:mm:ss";
+						final String NEW_FORMAT = "dd/MM";
+						final String NEW_FORMAT_HOURS = "HH:MM";
+
+
+
+						String oldDateString = latest+"";
+						String diaMes;
+						String horas;
+
+
+
+
+
+						SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+						Date d = sdf.parse(oldDateString);
+						sdf.applyPattern(NEW_FORMAT);
+						diaMes = sdf.format(d);
+
+						SimpleDateFormat sdfhr = new SimpleDateFormat(OLD_FORMAT);
+						Date dhoras = sdfhr.parse(oldDateString);
+						sdfhr.applyPattern(NEW_FORMAT_HOURS);
+						horas = sdfhr.format(dhoras);
+
+
+						statusMatriz = "Atenção: A Matriz encontra-se desatualizada devido a alteração realizada em "
+								+ diaMes +" <br> Atualize a Matriz antes de prosseguir.";
+						statusMatrizControle = false;
+					}
+				}
+
+			}
+		}
+
+	}
 
 
 	public void prepareNewTbMATRIZCARGOS() {
@@ -223,7 +552,6 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 
 	public void resetListas() {
-		listaDe.clear();
 		listaPara.clear();
 		data3D.clear();
 		listaCargos.clear();
@@ -243,11 +571,13 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 		return FacesContext.getCurrentInstance().getViewRoot().findComponent(id) ;  
 	}
 
-	public void calcularMatriz() {
 
+
+	public void calcularMatriz() {
+		matrizProgresso = true;
 		super.init();
-		setPorcentagemFinal("Carregando listas");
-		System.out.println("Carregando listas");
+		setPorcentagemFinal("Iniciando atualização da Matriz...");
+		PrimeFaces.current().ajax().update("formAtt:porcentagemFinal");
 		long startTime = System.nanoTime();
 		matrizListaInsercao.clear();
 		listaCargos = tbCARGOSService.findFiveTbCARGOSEntities();
@@ -263,8 +593,6 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 		listPerfil = tbPERFILCARGOSService.findAllTbPERFILCARGOSEntities();
 
-		porcentagemFinal="Deletando matriz antiga...";
-		System.out.println("Deletando matriz antiga...");
 
 		String flag_pessoa = "";
 
@@ -286,7 +614,16 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 			for(int j=0; j<listaCargos.size();j++) {
 				TbMATRIZCARGOSEntity matrizItem = new TbMATRIZCARGOSEntity(); 
 
+
+
 				cargoPara = listaCargos.get(j);
+
+				if((i==4) && (j==7)) {
+					System.out.println(cargoDe.getDeSCCARGO() + "De: \n" + cargoPara.getDeSCCARGO() + " Para: \n");
+					System.out.println("parada");
+				}
+
+
 				if(cargoDe.getId()==cargoPara.getId()) {
 					matrizItem.setAdERENCIAFINAL(100.0);
 					aderenciaFinal = 100.0;
@@ -328,13 +665,11 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				}else {
 					matrizItem.setFlagPessoa(flag_pessoa);
 					matrizListaInsercao.add(matrizItem);
-				
-				}
-				System.out.println("Interação I:" + i + "\n" 
-						+  "Interação J:" + j + "\n"	);
-				System.out.println(porcentagem * (i+1));
 
-				porcentagemFinal = ""+porcentagem * (i+1) + "%";
+				}
+
+				setPorcentagemFinal("Fase 1/2: Calculando a Matriz, progresso: "+Math.round(porcentagem * (i+1)) + "%");
+				PrimeFaces.current().ajax().update("formAtt:porcentagemFinal");
 			}
 
 
@@ -343,17 +678,23 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 		}
 
+		double percentageOfInserting = 0.0;
+		percentageOfInserting = 100.0 / matrizListaInsercao.size();
+
 		for(int i=0; i<matrizListaInsercao.size();i++) {
-			
-			
-			
-			tbMATRIZCARGOSService.insertWithEntityManager(matrizListaInsercao.get(i),i);
-			
-			
+
+			tbMATRIZCARGOSService.insertWithentityManager(matrizListaInsercao.get(i),i);
+
+
+			if(i % 100 == 0) {
+
+				setPorcentagemFinal("Fase 2/2: Carregando a matriz no banco de dados, progresso: "+Math.round(percentageOfInserting * (i+1)) + "%");
+			}
 		}
-		
+
 		resetListas();
 		initizalite();
+		matrizProgresso = false;
 		long stopTime = System.nanoTime();
 		System.out.println("Tempo Decorrido: ");
 		System.out.println(stopTime - startTime);
@@ -372,7 +713,6 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 		int n = 0;
 		int n2 = 0;
 		for (int k =0 ; k<listConhecimentosEspecificos.size();k++) {
-
 
 			if(listConhecimentosEspecificos.get(k).getIdCARGOS().getDeSCCARGO().equals(tbCARGOSPara.getDeSCCARGO())) {
 				listCARGOSPara.add(listConhecimentosEspecificos.get(k));
@@ -396,6 +736,7 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 					listCECARGOSDe.add(listConhecimentosEspecificos.get(k));
 					controle2="S";
 					n2++;
+					break;
 				}else {
 					controle2="N";
 				}
@@ -420,10 +761,11 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				if(gap.getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().equals(listCECARGOSDe.get(j).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS())) {
 					teste ="S";
 					gap.setPoNTUACAOCONESP(listCECARGOSDe.get(j).getPoNTUACAOCONESP());
+					break;
 				}
 			}
 			if(teste.equals("N")) {
-				gap.setPoNTUACAOCONESP(0);
+				gap.setPoNTUACAOCONESP(0.0);
 			}
 			listDe.add(gap);
 
@@ -439,40 +781,34 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				TbCONHECIMENTOSESPCARGOSEntity gap = new TbCONHECIMENTOSESPCARGOSEntity();
 				//Calcula a subtração entre cada pontuação de cada competência
 
-				int gapdePARA = 0;
-				
-				if(listCARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp().equals("SIM") &&
-						(listCARGOSPara.get(i).getPoNTUACAOCONESP() >=1) && 
-						(listDe.get(i).getPoNTUACAOCONESP()==0)) {
-					flagDowngrade = true;
-				}
-				
-				if(listCARGOSPara.get(i).getPoNTUACAOCONESP() == listDe.get(i).getPoNTUACAOCONESP()){
+				double gapdePARA = 0;
+				if(listCARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp()==null) {
 
 				}else {
-					//Se "(Cargo Para - Cargo De)" < 0 então  "(Cargo Para - Cargo De)" = "0"
-					if(listCARGOSPara.get(i).getPoNTUACAOCONESP() < listDe.get(i).getPoNTUACAOCONESP()){
-
-					}else {
-
-
-
-						if(listDe.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp()==null) {
-							gapdePARA =(listCARGOSPara.get(i).getPoNTUACAOCONESP() - 
-									listDe.get(i).getPoNTUACAOCONESP())
-									* listDe.get(i).getIdCONHECESP().getPenalidadeConhecBas();
-						}else {
-
-							if(listDe.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp().equals("SIM")) {
-								flagDowngrade = true;
-							}
-						}
+					if(listCARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp().equals("SIM") &&
+							(listCARGOSPara.get(i).getPoNTUACAOCONESP() >=1) && 
+							(listDe.get(i).getPoNTUACAOCONESP()==0)) {
+						flagDowngrade = true;
 					}
 				}
 
-				gap.setPoNTUACAOCONESP(gapdePARA);
-				listGapCE.add(gap);
-				somaListaGap += gapdePARA;
+				if(listCARGOSPara.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().equals(listDe.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS())) {
+					gapDeParaCE = listCARGOSPara.get(i).getPoNTUACAOCONESP()
+							- listDe.get(i).getPoNTUACAOCONESP();
+					if (gapDeParaCE < 0) {
+						gapDeParaCE = 0;
+					}else {
+
+						if (gapDeParaCE == 0) {
+						} else {
+							gapdePARA = gapDeParaCE * listDe.get(i).getIdCONHECESP().getPenalidadeConhecBas();
+						}
+						gap.setPoNTUACAOCONESP(gapdePARA);
+						listGapCE.add(gap);
+					}
+					somaListaGap += gapdePARA;
+				}
+
 			}
 
 			//calculo de aderência
@@ -483,9 +819,9 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 			if(aderenciaCE > 100) {
 				aderenciaCE =100.0;
 			}
-			//Se aderência menor que 0%, força o valor 
-			else if (aderenciaCE <0) {
-				aderenciaCE =0.0;
+			//Se aderência menor que -100%, força o valor 
+			else if (aderenciaCE <-100) {
+				aderenciaCE =-100.0;
 			}
 		}catch(IndexOutOfBoundsException ex) {
 
@@ -525,6 +861,7 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 					listCBCARGOSDe.add(listConhecimentosBasicos.get(k));
 					controle2="S";
 					n2++;
+
 				}
 				else {
 					controle2="N";
@@ -548,10 +885,11 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				if(gap.getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS().equals(listCBCARGOSDe.get(j).getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS())) {
 					teste ="S";
 					gap.setPoNTUACAOCONBAS(listCBCARGOSDe.get(j).getPoNTUACAOCONBAS());
+					break;
 				}
 			}
 			if(teste.equals("N")) {
-				gap.setPoNTUACAOCONBAS(0);
+				gap.setPoNTUACAOCONBAS(0.0);
 			}
 			listDe.add(gap);
 
@@ -564,29 +902,37 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 			for(int i=0; i<listDe.size();i++) {
 				TbCONHECIMENTOSBASCARGOSEntity gap = new TbCONHECIMENTOSBASCARGOSEntity();
 				//Calcula a subtração entre cada pontuação de cada competência
-				int gapdePARA =0;
-				
-				
-				if(listCARGOSPara.get(i).getIdCONHECBAS().getBloqueiaMovConhecBas().equals("SIM") &&
-						(listCARGOSPara.get(i).getPoNTUACAOCONBAS() >=1) && 
-						(listDe.get(i).getPoNTUACAOCONBAS()==0)) {
-					flagDowngrade = true;
-				}
-				
-				if(listCARGOSPara.get(i).getPoNTUACAOCONBAS() == listDe.get(i).getPoNTUACAOCONBAS()){
+				double gapdePARA =0;
+
+				if(listCARGOSPara.get(i).getIdCONHECBAS().getBloqueiaMovConhecBas()==null) {
 
 				}else {
-					if(listCARGOSPara.get(i).getPoNTUACAOCONBAS() < listDe.get(i).getPoNTUACAOCONBAS()){
-
-					}else {
-
-						gapdePARA =(listCARGOSPara.get(i).getPoNTUACAOCONBAS() - 
-								listDe.get(i).getPoNTUACAOCONBAS())
-								* listDe.get(i).getIdCONHECBAS().getPenalidadeConhecBas();
+					if(listCARGOSPara.get(i).getIdCONHECBAS().getBloqueiaMovConhecBas().equals("SIM") &&
+							(listCARGOSPara.get(i).getPoNTUACAOCONBAS() >=1) && 
+							(listDe.get(i).getPoNTUACAOCONBAS()==0)) {
+						flagDowngrade = true;
 					}
 				}
-				gap.setPoNTUACAOCONBAS(gapdePARA);
-				listGapCB.add(gap);
+
+
+
+				if(listCARGOSPara.get(i).getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS().equals(listDe.get(i).getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS())) {
+					gapDeParaCB = listCARGOSPara.get(i).getPoNTUACAOCONBAS()
+							- listDe.get(i).getPoNTUACAOCONBAS();
+					if (gapDeParaCB < 0) {
+						gapDeParaCB = 0;
+					}else {
+
+						if (gapDeParaCB == 0) {
+						} else {
+							gapdePARA = gapDeParaCB * listDe.get(i).getIdCONHECBAS().getPenalidadeConhecBas();
+						}
+					}
+					gap.setPoNTUACAOCONBAS(gapdePARA);
+					listGapCB.add(gap);
+				}
+
+
 				somaListaGap+=gapdePARA;
 			}
 
@@ -600,8 +946,8 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				aderenciaCB =100.0;
 			}
 			//Se aderência menor que 0%, força o valor 
-			else if (aderenciaCB <0) {
-				aderenciaCB =0.0;
+			else if (aderenciaCB <-100) {
+				aderenciaCB =-100.0;
 			}
 		}catch(IndexOutOfBoundsException ex) {
 
@@ -621,11 +967,14 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 		int n2 = 0;
 
 		if(oldposicaoCO == true) {
+			listCOCARGOSDe.clear();
 			for (int k =0 ; k<listCompetencia.size();k++) {
 				if(listCompetencia.get(k).getIdCARGOS().getDeSCCARGO().equals(tbCARGOSDe.getDeSCCARGO())) {
 					listCOCARGOSDe.add(listCompetencia.get(k));
 					controle="S";
 					n++;
+
+
 				}else {
 					controle="N";
 				}
@@ -667,10 +1016,11 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				if(gap.getIdCOMPETENCIAS().getDeSCCOMPETENCIA().equals(listCOCARGOSDe.get(j).getIdCOMPETENCIAS().getDeSCCOMPETENCIA())) {
 					teste ="S";
 					gap.setPoNTUACAOCOMPETENCIA(listCOCARGOSDe.get(j).getPoNTUACAOCOMPETENCIA());
+					break;
 				}
 			}
 			if(teste.equals("N")) {
-				gap.setPoNTUACAOCOMPETENCIA(0);
+				gap.setPoNTUACAOCOMPETENCIA(0.0);
 			}
 			listDe.add(gap);
 
@@ -685,25 +1035,28 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 			for(int i=0; i<listDe.size();i++) {
 				TbCOMPETENCIASCARGOSEntity gap = new TbCOMPETENCIASCARGOSEntity();
 				//Calcula a subtração entre cada pontuação de cada competência
-				
-				
-				if(listCARGOSPara.get(i).getIdCOMPETENCIAS().getBloqueiaMovCompetencias().equals("SIM") &&
-						(listCARGOSPara.get(i).getPoNTUACAOCOMPETENCIA() >=1) && 
-						(listDe.get(i).getPoNTUACAOCOMPETENCIA()==0)) {
-					flagDowngrade = true;
+
+				if(listCARGOSPara.get(i).getIdCOMPETENCIAS().getBloqueiaMovCompetencias()==null) {
+
+				}else {
+					if(listCARGOSPara.get(i).getIdCOMPETENCIAS().getBloqueiaMovCompetencias().equals("SIM") &&
+							(listCARGOSPara.get(i).getPoNTUACAOCOMPETENCIA() >=1) && 
+							(listDe.get(i).getPoNTUACAOCOMPETENCIA()==0)) {
+						flagDowngrade = true;
+					}
 				}
-				
+
 				gapDePara= listCARGOSPara.get(i).getPoNTUACAOCOMPETENCIA()
 						-  listDe.get(i).getPoNTUACAOCOMPETENCIA();
 
 
-				if(gapDePara<0) {
-					gapDePara = 0;
+				if(gapDePara<0.0) {
+					gapDePara = 0.0;
 				}
-				int gapdePARA = 0;
+				double gapdePARA = 0.0;
 
 				// gap = (Cargo Para - Cargo De) * penalidade
-				if (gapDePara==0) {
+				if (gapDePara==0.0) {
 
 				}else {
 					gapdePARA = gapDePara* listDe.get(i).getIdCOMPETENCIAS().getPenalidadeCompetencias();
@@ -722,8 +1075,8 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				aderencia =100.0;
 			}
 			//Se aderência menor que 0%, força o valor 
-			else if (aderencia <0) {
-				aderencia =0.0;
+			else if (aderencia <-100) {
+				aderencia =-100.0;
 			}
 		}catch(IndexOutOfBoundsException ex) {
 
@@ -741,22 +1094,24 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 		int n = 0;
 		int n2 = 0;
 		if(oldposicaoGR==true) {
-		for (int k =0 ; k<listGrade.size();k++) {
-			if(listGrade.get(k).getIdCARGOS().getDeSCCARGO().equals(tbCARGOSDe.getDeSCCARGO())) {
-				listGRCARGOSDe.add(listGrade.get(k));
-				controle="S";
-				n++;
-			}else {
-				controle="N";
+			listGRCARGOSDe.clear();
+			for (int k =0 ; k<listGrade.size();k++) {
+				if(listGrade.get(k).getIdCARGOS().getDeSCCARGO().equals(tbCARGOSDe.getDeSCCARGO())) {
+					listGRCARGOSDe.add(listGrade.get(k));
+					controle="S";
+					n++;
+
+				}else {
+					controle="N";
+				}
+
+				if(controle.equals("N") && (n>0)) {
+					break;
+				}
+
+
 			}
-
-			if(controle.equals("N") && (n>0)) {
-				break;
-			}
-
-
-		}
-		oldposicaoGR=false;
+			oldposicaoGR=false;
 		}
 
 		for (int k =0 ; k<listGrade.size();k++) {
@@ -786,10 +1141,11 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				if(gap.getIdGRADE().getDeSCGRADE().equals(listGRCARGOSDe.get(j).getIdGRADE().getDeSCGRADE())) {
 					teste ="S";
 					gap.setPoNTUACAOGRADE(listGRCARGOSDe.get(j).getPoNTUACAOGRADE());
+					break;
 				}
 			}
 			if(teste.equals("N")) {
-				gap.setPoNTUACAOGRADE(0);
+				gap.setPoNTUACAOGRADE(0.0);
 			}
 			listDe.add(gap);
 
@@ -805,15 +1161,15 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 
 				if(listDe.get(i).getPoNTUACAOGRADE() ==null) {
-					listDe.get(i).setPoNTUACAOGRADE(0);
+					listDe.get(i).setPoNTUACAOGRADE(0.0);
 				}
 
 				if(listCARGOSPara.get(i).getPoNTUACAOGRADE() ==null) {
-					listCARGOSPara.get(i).setPoNTUACAOGRADE(0);
+					listCARGOSPara.get(i).setPoNTUACAOGRADE(0.0);
 				}  
 				else {
 					TbGRADECARGOSEntity gap = new TbGRADECARGOSEntity();
-					int gapdePARA = 0;
+					double gapdePARA = 0;
 					if(listCARGOSPara.get(i).getIdGRADE().getDeSCGRADE().equals(listDe.get(i).getIdGRADE().getDeSCGRADE())){
 
 						gapDeParaGR = listCARGOSPara.get(i).getPoNTUACAOGRADE() - listDe.get(i).getPoNTUACAOGRADE();
@@ -851,8 +1207,8 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				aderenciaGR = 100.0;
 			}
 			// Se aderência menor que 0%, força o valor
-			else if (aderenciaGR < 0) {
-				aderenciaGR = 0.0;
+			else if (aderenciaGR < -100) {
+				aderenciaGR = -100.0;
 			}
 		} catch (IndexOutOfBoundsException ex) {
 
@@ -873,22 +1229,23 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 		int n = 0;
 		int n2 = 0;
 		if(oldposicaoPE==true) {
-		for (int k =0 ; k<listPerfil.size();k++) {
-			if(listPerfil.get(k).getIdCARGOS().getDeSCCARGO().equals(tbCARGOSDe.getDeSCCARGO())) {
-				listPECARGOSDe.add(listPerfil.get(k));
-				controle="S";
-				n++;
-			}else {
-				controle="N";
+			listPECARGOSDe.clear();
+			for (int k =0 ; k<listPerfil.size();k++) {
+				if(listPerfil.get(k).getIdCARGOS().getDeSCCARGO().equals(tbCARGOSDe.getDeSCCARGO())) {
+					listPECARGOSDe.add(listPerfil.get(k));
+					controle="S";
+					n++;
+				}else {
+					controle="N";
+				}
+
+				if(controle.equals("N") && (n>0)) {
+					break;
+				}
+
+
 			}
-
-			if(controle.equals("N") && (n>0)) {
-				break;
-			}
-
-
-		}
-		oldposicaoPE=false;
+			oldposicaoPE=false;
 		}
 		for (int k =0 ; k<listPerfil.size();k++) {
 
@@ -920,10 +1277,11 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				if(gap.getIdPERFIL().getDeSCPERFIL().equals(listPECARGOSDe.get(j).getIdPERFIL().getDeSCPERFIL())) {
 					teste ="S";
 					gap.setPoNTUACAOPERFIL(listPECARGOSDe.get(j).getPoNTUACAOPERFIL());
+					break;
 				}
 			}
 			if(teste.equals("N")) {
-				gap.setPoNTUACAOPERFIL(0);
+				gap.setPoNTUACAOPERFIL(0.0);
 			}
 			listDe.add(gap);
 
@@ -941,16 +1299,19 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				//Calcula a subtração entre cada pontuação de cada perfil
 
 
-				int gapdePARA = 0;
-				
-				if(listCARGOSPara.get(i).getIdPERFIL().getBloqueiaMovConhecPerfil().equals("SIM") &&
-						(listCARGOSPara.get(i).getPoNTUACAOPERFIL() >=1) && 
-						(listDe.get(i).getPoNTUACAOPERFIL()==0)
-						
-						) {
-					flagDowngrade = true;
+				double gapdePARA = 0;
+				if(listCARGOSPara.get(i).getIdPERFIL().getBloqueiaMovConhecPerfil()==null) {
+
+				}else {
+					if(listCARGOSPara.get(i).getIdPERFIL().getBloqueiaMovConhecPerfil().equals("SIM") &&
+							(listCARGOSPara.get(i).getPoNTUACAOPERFIL() >=1) && 
+							(listDe.get(i).getPoNTUACAOPERFIL()==0)
+
+							) {
+						flagDowngrade = true;
+					}
 				}
-				
+
 				if(listCARGOSPara.get(i).getPoNTUACAOPERFIL() == listDe.get(i).getPoNTUACAOPERFIL()) {
 					gapDeParaPE = 0;
 				}else {
@@ -983,8 +1344,8 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				aderenciaPE =100.0;
 			}
 			//Se aderência menor que 0%, força o valor 
-			else if (aderenciaPE <0) {
-				aderenciaPE =0.0;
+			else if (aderenciaPE <-100) {
+				aderenciaPE =-100.0;
 			}
 		}catch(IndexOutOfBoundsException ex) {
 
@@ -1095,25 +1456,6 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 		this.listaCargos = listaCargos;
 	}
 
-	public List<Long> getListaDe() {
-
-		return listaDe;
-	}
-
-	public void setListaDe(List<Long> listaDe) {
-		this.listaDe = listaDe;
-	}
-
-	public List<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>> getArrlist10() {
-		return arrlist10;
-	}
-
-
-
-
-	public void setArrlist10(List<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>> arrlist10) {
-		this.arrlist10 = arrlist10;
-	}
 
 
 
@@ -1245,6 +1587,98 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 	public void setMatrizListaInsercao(List<TbMATRIZCARGOSEntity> matrizListaInsercao) {
 		this.matrizListaInsercao = matrizListaInsercao;
+	}
+
+
+
+
+	public String getStatusMatriz() {
+		return statusMatriz;
+	}
+
+
+
+
+	public void setStatusMatriz(String statusMatriz) {
+		this.statusMatriz = statusMatriz;
+	}
+
+
+
+
+	public boolean isStatusMatrizControle() {
+		return statusMatrizControle;
+	}
+
+
+
+
+	public void setStatusMatrizControle(boolean statusMatrizControle) {
+		this.statusMatrizControle = statusMatrizControle;
+	}
+
+
+
+
+	public boolean isMatrizProgresso() {
+		return matrizProgresso;
+	}
+
+
+
+
+	public void setMatrizProgresso(boolean matrizProgresso) {
+		this.matrizProgresso = matrizProgresso;
+	}
+
+
+	public Long getCountDe() {
+		return countDe;
+	}
+
+
+	public void setCountDe(Long countDe) {
+		this.countDe = countDe;
+	}
+
+
+	public int getTamanhoMatriz() {
+		return tamanhoMatriz;
+	}
+
+
+	public void setTamanhoMatriz(int tamanhoMatriz) {
+		this.tamanhoMatriz = tamanhoMatriz;
+	}
+
+
+	public List<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>> getArrayCompleta() {
+		return arrayCompleta;
+	}
+
+
+	public void setArrayCompleta(List<ArrayList<ArrayList<TbMATRIZCARGOSEntity>>> arrayCompleta) {
+		this.arrayCompleta = arrayCompleta;
+	}
+
+
+	public List<TbMATRIZCARGOSEntity> getResultMatriz() {
+		return resultMatriz;
+	}
+
+
+	public void setResultMatriz(List<TbMATRIZCARGOSEntity> resultMatriz) {
+		this.resultMatriz = resultMatriz;
+	}
+
+
+	public String getAjaxStatus() {
+		return ajaxStatus;
+	}
+
+
+	public void setAjaxStatus(String ajaxStatus) {
+		this.ajaxStatus = ajaxStatus;
 	}
 
 

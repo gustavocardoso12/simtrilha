@@ -21,13 +21,13 @@ public class TbGRADEService extends BaseService<TbGRADEEntity> implements Serial
     @Transactional
     public List<TbGRADEEntity> findAllTbGRADEEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbGRADE o ", TbGRADEEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbGRADE o ", TbGRADEEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbGRADE o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbGRADE o", Long.class).getSingleResult();
     }
     
     @Override
@@ -61,8 +61,8 @@ public class TbGRADEService extends BaseService<TbGRADEEntity> implements Serial
     // Remove all assignments from all tbGRADECARGOS a tbGRADE. Called before delete a tbGRADE.
     @Transactional
     private void cutAllIdGRADETbGRADECARGOSsAssignments(TbGRADEEntity tbGRADE) {
-        entityManager
-                .createQuery("UPDATE TbGRADECARGOS c SET c.idGRADE = NULL WHERE c.idGRADE = :p")
+    	getEntityManager()
+                .createQuery("DELETE FROM TbGRADECARGOS c WHERE c.idGRADE = :p")
                 .setParameter("p", tbGRADE).executeUpdate();
     }
     

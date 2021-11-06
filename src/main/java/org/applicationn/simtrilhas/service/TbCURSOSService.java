@@ -22,13 +22,13 @@ public class TbCURSOSService extends BaseService<TbCURSOSEntity> implements Seri
     @Transactional
     public List<TbCURSOSEntity> findAllTbCURSOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCURSOS o ", TbCURSOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCURSOS o ", TbCURSOSEntity.class).getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbCURSOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbCURSOS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -62,19 +62,19 @@ public class TbCURSOSService extends BaseService<TbCURSOSEntity> implements Seri
     // Remove all assignments from all tbCARGOS a tbCURSOS. Called before delete a tbCURSOS.
     @Transactional
     private void cutAllIdCURSOSTbCARGOSsAssignments(TbCURSOSEntity tbCURSOS) {
-        entityManager
+    	getEntityManager()
                 .createQuery("UPDATE TbCARGOS c SET c.idCURSOS = NULL WHERE c.idCURSOS = :p")
                 .setParameter("p", tbCURSOS).executeUpdate();
     }
     
     @Transactional
     public List<TbCURSOSEntity> findAvailableTbCURSOSs(TbFORMACAOEntity tbFORMACAO) {
-        return entityManager.createQuery("SELECT o FROM TbCURSOS o WHERE o.idFORMACAO IS NULL", TbCURSOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCURSOS o WHERE o.idFORMACAO IS NULL", TbCURSOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbCURSOSEntity> findTbCURSOSsByIdFORMACAO(TbFORMACAOEntity tbFORMACAO) {
-        return entityManager.createQuery("SELECT o FROM TbCURSOS o WHERE o.idFORMACAO = :tbFORMACAO", TbCURSOSEntity.class).setParameter("tbFORMACAO", tbFORMACAO).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCURSOS o WHERE o.idFORMACAO = :tbFORMACAO", TbCURSOSEntity.class).setParameter("tbFORMACAO", tbFORMACAO).getResultList();
     }
 
 }

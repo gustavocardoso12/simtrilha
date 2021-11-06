@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -17,7 +18,6 @@ import javax.transaction.Transactional;
 import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.domain.security.UserStatus;
 import org.applicationn.simtrilhas.service.BaseService;
-import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 import org.primefaces.model.SortOrder;
 
@@ -35,7 +35,7 @@ public class UserService extends BaseService<UserEntity> implements Serializable
     @Named("users")
     @Transactional
     public List<UserEntity> findAllUserEntities() {
-        return entityManager.createQuery("SELECT o FROM User o", UserEntity.class).getResultList();
+        return getEntityManagerMatriz().createQuery("SELECT o FROM User o", UserEntity.class).getResultList();
     }
     
     @Transactional
@@ -52,7 +52,7 @@ public class UserService extends BaseService<UserEntity> implements Serializable
     public UserEntity findUserByUsername(String username) {
         UserEntity user;
         try {
-            user = entityManager.createQuery("SELECT o FROM User o WHERE o.username = :p", UserEntity.class)
+            user =getEntityManagerMatriz().createQuery("SELECT o FROM User o WHERE o.username = :p", UserEntity.class)
                     .setParameter("p", username).getSingleResult();
         } catch (NoResultException e) {
             logger.log(Level.INFO, "User with user name ''{0}'' does not exist.", username);
@@ -61,11 +61,14 @@ public class UserService extends BaseService<UserEntity> implements Serializable
         return user;
     }
     
+    
+
+    
     @Transactional
     public UserEntity findUserByEmail(String email) {
         UserEntity user;
         try {
-            user = entityManager.createQuery("SELECT o FROM User o WHERE o.email = :p", UserEntity.class)
+            user =  getEntityManagerMatriz().createQuery("SELECT o FROM User o WHERE o.email = :p", UserEntity.class)
                     .setParameter("p", email).getSingleResult();
         } catch (NoResultException e) {
             logger.log(Level.INFO, "User with email ''{0}'' does not exist.", email);
@@ -78,7 +81,7 @@ public class UserService extends BaseService<UserEntity> implements Serializable
     public UserEntity findUserByEmailResetPasswordKey(String emailResetPasswordKey) {
         UserEntity user;
         try {
-            user = entityManager.createQuery("SELECT o FROM User o WHERE o.emailResetPasswordKey = :p", UserEntity.class)
+            user =  getEntityManagerMatriz().createQuery("SELECT o FROM User o WHERE o.emailResetPasswordKey = :p", UserEntity.class)
                     .setParameter("p", emailResetPasswordKey).getSingleResult();
         } catch (NoResultException e) {
             logger.log(Level.INFO, "User with passwort reset key ''{0}'' not found.", emailResetPasswordKey);
@@ -91,7 +94,7 @@ public class UserService extends BaseService<UserEntity> implements Serializable
     public UserEntity findUserByEmailConfirmationKey(String emailConfirmationKey) {
         UserEntity user;
         try {
-            user = entityManager.createQuery("SELECT o FROM User o WHERE o.emailConfirmationKey = :p", UserEntity.class)
+            user = getEntityManagerMatriz().createQuery("SELECT o FROM User o WHERE o.emailConfirmationKey = :p", UserEntity.class)
                     .setParameter("p", emailConfirmationKey).getSingleResult();
         } catch (NoResultException e) {
             logger.log(Level.INFO, "User with activation key ''{0}'' not found.", emailConfirmationKey);
@@ -116,7 +119,7 @@ public class UserService extends BaseService<UserEntity> implements Serializable
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM User o", Long.class).getSingleResult();
+        return getEntityManagerMatriz().createQuery("SELECT COUNT(o) FROM User o", Long.class).getSingleResult();
     }
 
     @Override
@@ -174,7 +177,7 @@ public class UserService extends BaseService<UserEntity> implements Serializable
             query.append(SortOrder.DESCENDING.equals(sortOrder) ? " DESC" : " ASC");
         }
         
-        TypedQuery<UserEntity> q = this.entityManager.createQuery(query.toString(), UserEntity.class);
+        TypedQuery<UserEntity> q = this.getEntityManagerMatriz().createQuery(query.toString(), UserEntity.class);
         
         for(String queryParameter : queryParameters.keySet()) {
             q.setParameter(queryParameter, queryParameters.get(queryParameter));

@@ -2,9 +2,17 @@ package org.applicationn.simtrilhas.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,7 +44,7 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
     private Date modifiedAt;
     
     @Column(name="PENALIDADE_CONHECBAS")
-    private int penalidadeConhecBas;
+    private Double penalidadeConhecBas;
     
     @Column(name="BLOQUEIA_MOV_CONHECBAS")
     private String bloqueiaMovConhecBas;
@@ -44,7 +52,34 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
     @Column(name="CONHECBAS_CUSTOM")
     private String conhecBasCustom;
     
-    public String getDeSCCONHECIMENTOSBASICOS() {
+   
+    @Column(name="GRUPO", insertable=false, updatable = false)
+    private Integer grupo;
+    
+    @ManyToOne(optional=true)
+    @JoinColumn(name = "GRUPO", referencedColumnName = "ID_GRUPO")
+    private TbMASCARAEntity tbMascara;
+    
+	
+
+	public TbMASCARAEntity getTbMascara() {
+		return tbMascara;
+	}
+
+	public void setTbMascara(TbMASCARAEntity tbMascara) {
+		this.tbMascara = tbMascara;
+	}
+	
+	public Integer getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Integer idGrupo) {
+		this.grupo = idGrupo;
+	}
+    
+
+	public String getDeSCCONHECIMENTOSBASICOS() {
         return this.deSCCONHECIMENTOSBASICOS;
     }
 
@@ -80,12 +115,12 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
         }
     }
 
-	public int getPenalidadeConhecBas() {
+	public Double getPenalidadeConhecBas() {
 		return penalidadeConhecBas;
 	}
 
-	public void setPenalidadeConhecBas(int penalidadeConhecBas) {
-		this.penalidadeConhecBas = penalidadeConhecBas;
+	public void setPenalidadeConhecBas(Double double1) {
+		this.penalidadeConhecBas = double1;
 	}
 
 	public String getBloqueiaMovConhecBas() {
@@ -103,5 +138,6 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
 	public void setConhecBasCustom(String conhecBasCustom) {
 		this.conhecBasCustom = conhecBasCustom;
 	}
-    
+
+
 }

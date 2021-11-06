@@ -7,11 +7,9 @@ import java.util.List;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 
-import org.applicationn.simtrilhas.domain.TbAREAEntity;
+
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
-import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
 import org.applicationn.simtrilhas.domain.TbDEPTOEntity;
-import org.applicationn.simtrilhas.domain.TbMATRIZCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbNOEntity;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 
@@ -49,14 +47,14 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     @Transactional
     public List<TbCARGOSEntity> findAllTbCARGOSEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
     }
     
     
     @Transactional
     public List<TbCARGOSEntity> findAllTbPESSOASEntities() {
         
-        return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'SIM' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'SIM' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
     }
     
     
@@ -68,9 +66,9 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
 
     	}else {
     		if (flag_pessoa.equals("NAO")) {
-    			result = entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
+    			result = getEntityManager().createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
     		}else {
-    			result = entityManager.createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
+    			result = getEntityManager().createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id ", TbCARGOSEntity.class).getResultList();
     		}
     	}
 		return result;
@@ -78,11 +76,93 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     
     
     
+    @SuppressWarnings("unchecked")
+	@Transactional
+    public List<TbCARGOSEntity> findAllTbCARGOSEntitiesMatrizFamiliaDe(String flag_pessoa, String familiaDe) {
+        
+    	List<TbCARGOSEntity> result = new ArrayList<>();
+    	if(flag_pessoa== null) {
+
+    	}else {
+    		if(familiaDe.equals("TODOS")) {
+    			result = getEntityManager().createNativeQuery(
+    					"SELECT o.* FROM TbCARGOS o "+
+    					" inner loop join TB_DEPTO td " + 
+    					" on (o.IDDEPTO_ID  = td.id ) " + 
+    					" inner loop join TB_AREA ta " + 
+    					" on (td.IDAREA_ID = ta.id ) " + 
+    					" WHERE 1=1"  + 
+    					" ORDER BY o.ID", TbCARGOSEntity.class)
+    					.getResultList();
+    		}else {
+    		if (flag_pessoa.equals("NAO")) {
+    			result = getEntityManager().createNativeQuery(
+    					"SELECT o.* FROM TbCARGOS o "+
+    					" inner loop join TB_DEPTO td " + 
+    					" on (o.IDDEPTO_ID  = td.id ) " + 
+    					" inner loop join TB_AREA ta " + 
+    					" on (td.IDAREA_ID = ta.id ) " + 
+    					" WHERE o.FLAG_PESSOA = 'NAO' " + 
+    					" and ta.DESC_AREA = :familiaDe " + 
+    					" ORDER BY o.ID", TbCARGOSEntity.class)
+    					.setParameter("familiaDe", familiaDe)
+    					.getResultList();
+    		}else {
+    			result = getEntityManager().createNativeQuery(
+    					"SELECT o.* FROM TbCARGOS o "+
+    					" inner loop join TB_DEPTO td " + 
+    					" on (o.IDDEPTO_ID  = td.id ) " + 
+    					" inner loop join TB_AREA ta " + 
+    					" on (td.IDAREA_ID = ta.id ) " + 
+    					" WHERE 1=1 " + 
+    					" and ta.DESC_AREA = :familiaDe " + 
+    					" ORDER BY o.ID", TbCARGOSEntity.class)
+    					.setParameter("familiaDe", familiaDe)
+    					.getResultList();
+    		}
+    	}
+    	}
+		return result;
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+	@Transactional
+    public List<TbCARGOSEntity> findAllTbCARGOSEntitiesMatrizFamiliaPara( String familiaPara) {
+        
+    	List<TbCARGOSEntity> result = new ArrayList<>();
+    	
+    	if(familiaPara.equals("TODOS")) {
+    		result = getEntityManager().createNativeQuery(
+					"SELECT o.* FROM TbCARGOS o "+
+					" inner loop join TB_DEPTO td " + 
+					" on (o.IDDEPTO_ID  = td.id ) " + 
+					" inner loop join TB_AREA ta " + 
+					" on (td.IDAREA_ID = ta.id ) " + 
+					" WHERE 1=1 "
+					+ "and o.FLAG_PESSOA = 'NAO' "+ 
+					" ORDER BY o.ID", TbCARGOSEntity.class)
+					.getResultList();
+    	}else {
+    			result = getEntityManager().createNativeQuery(
+    					"SELECT o.* FROM TbCARGOS o "+
+    					" inner loop join TB_DEPTO td " + 
+    					" on (o.IDDEPTO_ID  = td.id ) " + 
+    					" inner loop join TB_AREA ta " + 
+    					" on (td.IDAREA_ID = ta.id ) " + 
+    					" WHERE 1=1 " + 
+    					" and ta.DESC_AREA = :familiaPara " + 
+    					" ORDER BY o.ID", TbCARGOSEntity.class)
+    					.setParameter("familiaPara", familiaPara)
+    					.getResultList();
+    	}
+		return result;
+    }
     
     @Transactional
     public List<TbCARGOSEntity> findTbCARGOSEntities(Long idCargos) {
         
-        return entityManager.createQuery("SELECT o FROM TbCARGOS o where o.id = :idCargos ORDER BY o.id", TbCARGOSEntity.class)
+        return getEntityManager().createQuery("SELECT o FROM TbCARGOS o where o.id = :idCargos ORDER BY o.id", TbCARGOSEntity.class)
         		.setParameter("idCargos", idCargos)
         		.getResultList();
     }
@@ -92,33 +172,33 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     @Transactional
     public List<TbCARGOSEntity> findFiveTbCARGOSEntities() {
         
-    	return entityManager.createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id ", TbCARGOSEntity.class)
+    	return getEntityManager().createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id ", TbCARGOSEntity.class)
     			.getResultList();
     }
     
     @Transactional
     public List<TbCARGOSEntity> findTbCARGOSSPessoasEntities() {
         
-    	return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class)
+    	return getEntityManager().createQuery("SELECT o FROM TbCARGOS o WHERE o.flagPessoa = 'NAO' ORDER BY o.id ", TbCARGOSEntity.class)
     			.getResultList();
     }
     
     @Transactional
     public List<TbCARGOSEntity> AllTbCARGOSEntities() {
         
-    	return entityManager.createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id DESC ", TbCARGOSEntity.class)
+    	return getEntityManager().createQuery("SELECT o FROM TbCARGOS o ORDER BY o.id DESC ", TbCARGOSEntity.class)
     			.getResultList();
     }
     
     @Override
     @Transactional
     public long countAllEntries() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM TbCARGOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT COUNT(o) FROM TbCARGOS o", Long.class).getSingleResult();
     }
     
     @Transactional
     public long UltimoID() {
-        return entityManager.createQuery("SELECT MAX(o.id) FROM TbCARGOS o", Long.class).getSingleResult();
+        return getEntityManager().createQuery("SELECT MAX(o.id) FROM TbCARGOS o", Long.class).getSingleResult();
     }
     
     @Override
@@ -143,7 +223,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
  // Remove all assignments from all tbCOMPETENCIASCARGOS a tbCARGOS. Called before delete a tbCARGOS.
     @Transactional
     private void cutAllIdCARGOSTbONHECBASCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
-        entityManager
+        getEntityManager()
                 .createQuery("DELETE FROM TbCONHECIMENTOSBASCARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
@@ -151,7 +231,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     // Remove all assignments from all tbCOMPETENCIASCARGOS a tbCARGOS. Called before delete a tbCARGOS.
     @Transactional
     private void cutAllIdCARGOSTbONHECESPCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
-        entityManager
+    	getEntityManager()
                 .createQuery("DELETE FROM TbCONHECIMENTOSESPCARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
@@ -159,7 +239,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     // Remove all assignments from all tbCOMPETENCIASCARGOS a tbCARGOS. Called before delete a tbCARGOS.
     @Transactional
     private void cutAllIdCARGOSTbCOMPETENCIASCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
-        entityManager
+    	getEntityManager()
                 .createQuery("DELETE FROM TbCOMPETENCIASCARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
@@ -167,7 +247,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     // Remove all assignments from all tbGRADECARGOS a tbCARGOS. Called before delete a tbCARGOS.
     @Transactional
     private void cutAllIdCARGOSTbGRADECARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
-        entityManager
+    	getEntityManager()
                 .createQuery("DELETE FROM TbGRADECARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
@@ -175,7 +255,7 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     // Remove all assignments from all tbPERFILCARGOS a tbCARGOS. Called before delete a tbCARGOS.
     @Transactional
     private void cutAllIdCARGOSTbPERFILCARGOSsAssignments(TbCARGOSEntity tbCARGOS) {
-        entityManager
+    	getEntityManager()
                 .createQuery("DELETE FROM TbPERFILCARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
     }
@@ -188,22 +268,22 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
     
     @Transactional
     public List<TbCARGOSEntity> findAvailableTbCARGOSs(TbDEPTOEntity tbDEPTO) {
-        return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.idDEPTO IS NULL", TbCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCARGOS o WHERE o.idDEPTO IS NULL", TbCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbCARGOSEntity> findTbCARGOSsByIdDEPTO(TbDEPTOEntity tbDEPTO) {
-        return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.idDEPTO = :tbDEPTO", TbCARGOSEntity.class).setParameter("tbDEPTO", tbDEPTO).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCARGOS o WHERE o.idDEPTO = :tbDEPTO", TbCARGOSEntity.class).setParameter("tbDEPTO", tbDEPTO).getResultList();
     }
     
     @Transactional
     public List<TbCARGOSEntity> findAvailableTbCARGOSs(TbNOEntity tbNO) {
-        return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.idNO IS NULL", TbCARGOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCARGOS o WHERE o.idNO IS NULL", TbCARGOSEntity.class).getResultList();
     }
 
     @Transactional
     public List<TbCARGOSEntity> findTbCARGOSsByIdNO(TbNOEntity tbNO) {
-        return entityManager.createQuery("SELECT o FROM TbCARGOS o WHERE o.idNO = :tbNO", TbCARGOSEntity.class).setParameter("tbNO", tbNO).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCARGOS o WHERE o.idNO = :tbNO", TbCARGOSEntity.class).setParameter("tbNO", tbNO).getResultList();
     }
 
 }
