@@ -48,6 +48,14 @@ public class TbGRADECARGOSService extends BaseService<TbGRADECARGOSEntity> imple
         return getEntityManager().createQuery("SELECT o FROM TbGRADECARGOS o  ORDER BY o.idCARGOS,o.idGRADE ", TbGRADECARGOSEntity.class).getResultList();
     }
     
+    
+    @Transactional
+    public TbGRADECARGOSEntity findTbGRADECARGOSEntities() {
+        
+        return getEntityManager().createQuery("SELECT o FROM TbGRADECARGOS o  ORDER BY o.idCARGOS,o.idGRADE ", TbGRADECARGOSEntity.class).getSingleResult();
+    }
+    
+    
     @Override
     @Transactional
     public long countAllEntries() {

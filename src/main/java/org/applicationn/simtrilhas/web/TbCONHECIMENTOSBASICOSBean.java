@@ -1,6 +1,7 @@
 package org.applicationn.simtrilhas.web;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,18 +14,15 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
-import org.applicationn.simtrilhas.domain.TbAREAEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCONHECIMENTOSBASICOSEntity;
 import org.applicationn.simtrilhas.domain.TbMASCARAEntity;
-import org.applicationn.simtrilhas.domain.TbPERFILEntity;
 import org.applicationn.simtrilhas.domain.TbPONTCARGOSEntity;
 import org.applicationn.simtrilhas.service.TbCONHECIMENTOSBASICOSService;
 import org.applicationn.simtrilhas.service.TbMASCARAService;
 import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
-import org.primefaces.event.SlideEndEvent;
 import org.primefaces.model.DualListModel;
 
 @Named("tbCONHECIMENTOSBASICOSBean")
@@ -251,9 +249,6 @@ public class TbCONHECIMENTOSBASICOSBean implements Serializable {
 
 
 	public TbCONHECIMENTOSBASICOSEntity getTbCONHECIMENTOSBASICOS() {
-		if (this.tbCONHECIMENTOSBASICOS == null) {
-			prepareNewTbCONHECIMENTOSBASICOS();
-		}
 		return this.tbCONHECIMENTOSBASICOS;
 	}
 
@@ -264,6 +259,10 @@ public class TbCONHECIMENTOSBASICOSBean implements Serializable {
 	public List<TbCONHECIMENTOSBASICOSEntity> getTbCONHECIMENTOSBASICOSList() {
 		if ((tbCONHECIMENTOSBASICOSList == null)|| (flagDelete==true)) {
 			tbCONHECIMENTOSBASICOSList = tbCONHECIMENTOSBASICOSService.findAllTbCONHECIMENTOSBASICOSEntitiesCB();
+			tbCONHECIMENTOSBASICOSList.sort(Comparator.comparing(TbCONHECIMENTOSBASICOSEntity::getGrupo, 
+					  Comparator.nullsLast(Comparator.naturalOrder())
+					));
+		
 		}
 		return tbCONHECIMENTOSBASICOSList;
 	}

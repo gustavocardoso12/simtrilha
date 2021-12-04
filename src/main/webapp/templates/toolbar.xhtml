@@ -3,10 +3,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:p="http://primefaces.org/ui">
 <ui:composition>
-  <h:form>
-    <h:link rendered="#{userBean.user.theme=='MOURA'}" outcome="/trilhas/main" style="float:left">
+  <h:form  rendered="#{fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Windows')}"	 >
+  
+  <!--   <h:link rendered="#{userBean.user.theme=='MOURA'}" outcome="/trilhas/main" style="float:left">
       <h:graphicImage name="images/moura.PNG" alt="logo" height="48px" style="margin-right:10px"/>
     </h:link>
     
@@ -14,12 +16,38 @@
       <h:graphicImage name="images/logoAPTA.PNG" alt="logo" height="48px" style="margin-right:10px"/>
     </h:link>
     
+    <h:link rendered="#{userBean.user.theme=='BRB'}" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/logoBRB.png" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
     
-    <span style="font-size:2em;color:#12367A;font-family:Montserrat;height:48px;vertical-align:middle;display:table-cell;font-weight:bold">
+    <h:link rendered="#{userBean.user.theme=='CIEE'}" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/logoCIEE.png" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
+    
+    <h:link rendered="#{userBean.user.theme=='HP'}" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/logoHP.PNG" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
+    
+    
+    <span style="font-size:2em;color:#5a5a5a;font-family:Montserrat;height:48px;vertical-align:middle;display:table-cell;font-weight:bold">
       <h:outputText value="#{messages.application_name}" />
-    </span>
-    <p:toolbar styleClass="toolbar">
+    </span> -->
+    
+       <!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:17%">
+<ui:insert name="menu">
+              <ui:include src="menu.xhtml" />
+            </ui:insert>
+
+<h:graphicImage width="100%" height="100%" name="images/Sidebar.png" />
+</div>
+
+
+
+    <p:toolbar styleClass="toolbar_login">
       <f:facet name="left">
+       <h:outputText value="#{messages.application_name}" style="font-size:18px;color:black;font-family: 'Montserrat';    position: absolute;
+    top: 15px;"/> 
        <!--   <p:button styleClass="button" style="background:#9C1E02;" outcome="/trilhas/main" value="#{messages.toolbar_home}" />-->
       </f:facet>
       <f:facet name="right">
@@ -28,11 +56,11 @@
           <f:selectItems value="#{localeBean.locales}" ></f:selectItems>
         </p:selectOneMenu> --> 
         
-        <p:button style="background:#9C1E02;" outcome="/trilhas/main.xhtml" value="#{messages.toolbar_login}"
-                  rendered="#{empty request.remoteUser}"/>
+     <!--     <p:button style="background:#9C1E02;" outcome="/trilhas/main.xhtml" value="#{messages.toolbar_login}"
+                  rendered="#{empty request.remoteUser}"/>-->
         <!--  <h:outputText value=" #{messages.toolbar_user}: #{request.remoteUser}" rendered="#{not empty request.remoteUser}"
                   style="margin-right:10px"/>-->
-                  
+                 
                   
         <p:button  style="font-size:14px" value="#{userBean.user.theme}"
                            rendered="#{not empty request.remoteUser}" /> 
@@ -44,6 +72,76 @@
         
       </f:facet>
     </p:toolbar>
+    
+    
+	<h:graphicImage width="100%" height="100%" name="images/fundoapta11.png" />
+
+
   </h:form>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <h:form  rendered="#{!fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Windows')}">
+  <h:link rendered="#{userBean.user.theme=='MOURA'}" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/moura.PNG" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
+    
+    <h:link rendered="#{userBean.user.theme=='APTA' or userBean.user.theme==null}" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/logoAPTA.PNG" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
+    
+    <h:link rendered="#{userBean.user.theme=='BRB'}" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/logoBRB.png" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
+    
+    <h:link rendered="#{userBean.user.theme=='CIEE'}" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/logoCIEE.png" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
+    
+    <h:link rendered="#{userBean.user.theme=='HP'}" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/logoHP.PNG" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
+    
+    
+    <span style="font-size:2em;color:#5a5a5a;font-family:Montserrat;height:48px;vertical-align:middle;display:table-cell;font-weight:bold">
+      <h:outputText value="#{messages.application_name}" />
+    </span>
+
+
+
+    <p:toolbar  styleClass="toolbar" >
+      <f:facet name="right">
+        
+          <p:button style="background:#9C1E02;" outcome="/trilhas/main.xhtml" value="#{messages.toolbar_login}"
+                  rendered="#{empty request.remoteUser}"/>
+        <!--  <h:outputText value=" #{messages.toolbar_user}: #{request.remoteUser}" rendered="#{not empty request.remoteUser}"
+                  style="margin-right:10px"/>-->
+                 
+                  
+        <p:button  style="font-size:14px" value="#{userBean.user.theme}"
+                           rendered="#{not empty request.remoteUser}" /> 
+                  
+        <p:button outcome="/trilhas/user/profile" style="font-size:14px" value="#{request.remoteUser}" icon="fa fa-user"
+                           rendered="#{not empty request.remoteUser}" />
+        <p:commandButton action="#{loginBean.logout}" style="font-size:14px"  value="#{messages.toolbar_logout}" icon="fa fa-key"
+                      rendered="#{not empty request.remoteUser}" ajax="false"/>
+        
+      </f:facet>
+    </p:toolbar>
+   
+
+
+  </h:form>
+  
+  
+  
 </ui:composition>
 </html>

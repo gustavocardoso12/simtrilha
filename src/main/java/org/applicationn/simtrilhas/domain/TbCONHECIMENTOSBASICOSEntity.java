@@ -56,7 +56,7 @@ public class TbCONHECIMENTOSBASICOSEntity extends BaseEntity implements Serializ
     @Column(name="GRUPO", insertable=false, updatable = false)
     private Integer grupo;
     
-    @ManyToOne(optional=true)
+    @ManyToOne(optional=true,fetch = FetchType.LAZY)
     @JoinColumn(name = "GRUPO", referencedColumnName = "ID_GRUPO")
     private TbMASCARAEntity tbMascara;
     

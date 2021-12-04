@@ -3,12 +3,20 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:p="http://primefaces.org/ui">
 <ui:composition>
   <title>#{messages.application_name}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <h:outputScript library="js" name="calendar.js" />
+   <h:outputStylesheet library="css" name="theme.css" />
   <h:outputStylesheet rendered="#{userBean.user.theme=='MOURA'}" library="css" name="standard.css" />
+  <h:outputStylesheet rendered="#{userBean.user.theme=='CIEE'}" library="css" name="ciee.css" />
+  <h:outputStylesheet rendered="#{userBean.user.theme=='BRB'}" library="css" name="brb.css" />
+   <h:outputStylesheet rendered="#{userBean.user.theme=='HP'}" library="css" name="hp.css" />
   <h:outputStylesheet rendered="#{userBean.user.theme=='APTA' or userBean.user.theme==null}" library="css" name="apta.css" />
+   <h:outputStylesheet rendered="#{userBean.user.theme==null}" library="css" name="w3.css" />
+  
+  
 </ui:composition>
 </html>

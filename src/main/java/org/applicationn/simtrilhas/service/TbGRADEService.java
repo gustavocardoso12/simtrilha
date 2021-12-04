@@ -24,6 +24,12 @@ public class TbGRADEService extends BaseService<TbGRADEEntity> implements Serial
         return getEntityManager().createQuery("SELECT o FROM TbGRADE o ", TbGRADEEntity.class).getResultList();
     }
     
+    @Transactional
+    public TbGRADEEntity findTbGRADEEntities() {
+        
+        return getEntityManager().createQuery("SELECT o FROM TbGRADE o where o.deSCGRADE = UPPER('GRADE') ", TbGRADEEntity.class).getSingleResult();
+    }
+    
     @Override
     @Transactional
     public long countAllEntries() {

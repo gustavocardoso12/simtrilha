@@ -26,8 +26,10 @@
 				<h:outputLabel value="Grupo de Rótulos::" for="idVPSelectInput" rendered="#{not hideIdVPSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdVPSelectInput}">
                     <p:selectOneMenu style="font-size:12px" value="#{tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS.tbMascara}"
+                    				required="true"
+                    				requiredMessage="#{messages.validacao_conhec_esp_mascara}"
                                     id="idVPSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="Escolha um rótulo:" />
+                        <f:selectItem  itemLabel="Escolha um rótulo:" />
                         <f:selectItems value="#{tbCONHECIMENTOSESPECIFICOSBean.allIdMASCARAsList}" 
                                     var="tbMASCARA" 
                                     itemLabel="#{tbMASCARA.descGrupo}"

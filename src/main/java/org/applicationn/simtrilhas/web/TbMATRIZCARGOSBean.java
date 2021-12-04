@@ -618,11 +618,13 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 				cargoPara = listaCargos.get(j);
 
-				if((i==4) && (j==7)) {
+				if((i==3) && (j==0)) {
 					System.out.println(cargoDe.getDeSCCARGO() + "De: \n" + cargoPara.getDeSCCARGO() + " Para: \n");
 					System.out.println("parada");
 				}
 
+				System.out.println(i);
+				System.out.println(j);
 
 				if(cargoDe.getId()==cargoPara.getId()) {
 					matrizItem.setAdERENCIAFINAL(100.0);
@@ -793,6 +795,14 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				}
 
 				if(listCARGOSPara.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().equals(listDe.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS())) {
+					if(listCARGOSPara.get(i).getPoNTUACAOCONESP()==null) {
+						listCARGOSPara.get(i).setPoNTUACAOCONESP(0.0);
+					}
+
+					if(listDe.get(i).getPoNTUACAOCONESP()==null) {
+						listDe.get(i).setPoNTUACAOCONESP(0.0);
+					}
+
 					gapDeParaCE = listCARGOSPara.get(i).getPoNTUACAOCONESP()
 							- listDe.get(i).getPoNTUACAOCONESP();
 					if (gapDeParaCE < 0) {
@@ -917,6 +927,15 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 
 				if(listCARGOSPara.get(i).getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS().equals(listDe.get(i).getIdCONHECBAS().getDeSCCONHECIMENTOSBASICOS())) {
+
+					if( listCARGOSPara.get(i).getPoNTUACAOCONBAS()==null) {
+						listCARGOSPara.get(i).setPoNTUACAOCONBAS(0.0);
+					}
+
+					if( listDe.get(i).getPoNTUACAOCONBAS()==null) {
+						listDe.get(i).setPoNTUACAOCONBAS(0.0);
+					}
+
 					gapDeParaCB = listCARGOSPara.get(i).getPoNTUACAOCONBAS()
 							- listDe.get(i).getPoNTUACAOCONBAS();
 					if (gapDeParaCB < 0) {
@@ -1045,6 +1064,15 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 						flagDowngrade = true;
 					}
 				}
+
+				if(listCARGOSPara.get(i).getPoNTUACAOCOMPETENCIA()==null) {
+					listCARGOSPara.get(i).setPoNTUACAOCOMPETENCIA(0.0);
+				}
+
+				if( listDe.get(i).getPoNTUACAOCOMPETENCIA()==null) {
+					listDe.get(i).setPoNTUACAOCOMPETENCIA(0.0);
+				}
+
 
 				gapDePara= listCARGOSPara.get(i).getPoNTUACAOCOMPETENCIA()
 						-  listDe.get(i).getPoNTUACAOCOMPETENCIA();
@@ -1315,12 +1343,17 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				if(listCARGOSPara.get(i).getPoNTUACAOPERFIL() == listDe.get(i).getPoNTUACAOPERFIL()) {
 					gapDeParaPE = 0;
 				}else {
+
+					if(listCARGOSPara.get(i).getPoNTUACAOPERFIL()==null) {
+						listCARGOSPara.get(i).setPoNTUACAOPERFIL(0.0);
+					}
+					if(listDe.get(i).getPoNTUACAOPERFIL()==null) {
+						listDe.get(i).setPoNTUACAOPERFIL(0.0);
+					}
+
 					//(Módulo(Cargo Para - Cargo De)
 					gapDeParaPE= listCARGOSPara.get(i).getPoNTUACAOPERFIL() - listDe.get(i).getPoNTUACAOPERFIL();
-
 					gapDeParaPE = Math.abs(gapDeParaPE);
-
-
 
 				}
 

@@ -43,8 +43,14 @@
     
     
 
-    <div style="padding: 4px 0.000001px">
-        <ui:include src="toolbar.xhtml" />
+    <div>
+    <h:panelGroup rendered="#{userBean.user.theme==null}"  id="wrapperPanel">
+        <ui:include  src="toolbar.xhtml" />
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{userBean.user.theme!=null}"  id="wrapperPanelMain">
+        <ui:include  src="toolbarMain.xhtml" />
+        </h:panelGroup>
     </div>
 
     <div class="ui-fluid">

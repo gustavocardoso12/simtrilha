@@ -2,9 +2,6 @@ package org.applicationn.simtrilhas.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -13,7 +10,6 @@ import javax.transaction.Transactional;
 import org.applicationn.simtrilhas.domain.BaseEntity;
 import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
-import org.applicationn.simtrilhas.service.security.UserService;
 import org.primefaces.model.SortOrder;
 
 public class BaseService<T extends BaseEntity> {
@@ -27,25 +23,29 @@ public class BaseService<T extends BaseEntity> {
 	@PersistenceContext(unitName = "BRB")
 	private EntityManager entityManagerBRB;
 
+	@PersistenceContext(unitName = "CIEE")
+	private EntityManager entityManagerCIEE;
+	
+	@PersistenceContext(unitName = "HP")
+	private EntityManager entityManagerHP;
 
-	 @Transactional
-	    public UserEntity findUserByUsername(String username) {
-	        UserEntity user;
-	        try {
-	            user =getEntityManagerMatriz().createQuery("SELECT o FROM User o WHERE o.username = :p", UserEntity.class)
-	                    .setParameter("p", username).getSingleResult();
-	        } catch (NoResultException e) {
-	           
-	            return null;
-	        }
-	        return user;
-	    }
 
-	public BaseService() {
-		
+	@Transactional
+	public UserEntity findUserByUsername(String username) {
+		UserEntity user;
+		try {
+			user =getEntityManagerMatriz().createQuery("SELECT o FROM User o WHERE o.username = :p", UserEntity.class)
+					.setParameter("p", username).getSingleResult();
+		} catch (NoResultException e) {
 
+			return null;
+		}
+		return user;
 	}
 
+	public BaseService() {
+
+	}
 	/*
 	 * Obtenção do banco de dados que será utilizado para a operação. 
 	 * Se o username for null, o que é comum nas consultas iniciais será usado o banco padrão
@@ -61,8 +61,6 @@ public class BaseService<T extends BaseEntity> {
 			if(username==null) {
 				return entityManager;
 			}else {
-
-				
 				switch(user.getBanco_dados()) {
 				case "Moura":
 					return entityManager;
@@ -70,6 +68,10 @@ public class BaseService<T extends BaseEntity> {
 					return entityManagerCocamar;
 				case "BRB":
 					return entityManagerBRB;
+				case "CIEE":
+					return entityManagerCIEE;
+				case "HP":
+					return entityManagerHP;
 				default:
 					return entityManager;
 				}
@@ -80,7 +82,7 @@ public class BaseService<T extends BaseEntity> {
 
 		return entityManager;
 	}
-	
+
 	public EntityManager getEntityManagerMatriz() {
 		return entityManager;
 	}

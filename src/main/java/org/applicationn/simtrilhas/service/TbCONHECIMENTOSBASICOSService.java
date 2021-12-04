@@ -27,7 +27,7 @@ public class TbCONHECIMENTOSBASICOSService extends BaseService<TbCONHECIMENTOSBA
     @Transactional
     public List<TbCONHECIMENTOSBASICOSEntity> findAllTbCONHECIMENTOSBASICOSEntitiesCB() {
         
-        return getEntityManager().createQuery("SELECT o FROM TbCONHECIMENTOSBASICOS o order by o.grupo asc", TbCONHECIMENTOSBASICOSEntity.class).getResultList();
+        return getEntityManager().createQuery("SELECT o FROM TbCONHECIMENTOSBASICOS o", TbCONHECIMENTOSBASICOSEntity.class).getResultList();
     }
     
     

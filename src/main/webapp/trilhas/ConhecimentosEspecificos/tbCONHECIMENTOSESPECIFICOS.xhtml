@@ -237,7 +237,6 @@ opacity: 1;"
 						action="#{tbCONHECIMENTOSESPECIFICOSBean.prepareNewTbCONHECIMENTOSESPECIFICOS()}"
 						resetValues="true" update=":editTbCONHECIMENTOSESPECIFICOSDialog"
 						oncomplete="PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').show()"
-						rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted('tbCONHECIMENTOSESPECIFICOS:create')}"
 						style="width:29.5%"/>
 						</f:facet>
 			</p:dataTable>
@@ -247,7 +246,6 @@ opacity: 1;"
 
 		<p:confirmDialog id="deleteTbCONHECIMENTOSESPECIFICOSDialog"
 			widgetVar="deleteTbCONHECIMENTOSESPECIFICOSDialogWidget"
-			rendered="#{tbCONHECIMENTOSESPECIFICOSBean.isPermitted(tbCONHECIMENTOSESPECIFICOSBean.tbCONHECIMENTOSESPECIFICOS, 'tbCONHECIMENTOSESPECIFICOS:delete')}"
 			header="#{messages.label_confirm_deletion}" severity="alarm">
 			<f:facet name="message">
 				<h:outputText value="#{messages.label_delete_record}" />
@@ -273,7 +271,7 @@ opacity: 1;"
 			modal="true" widgetVar="editTbCONHECIMENTOSESPECIFICOSDialogWidget"
 			maximizable="false">
 			<p:ajax event="close"
-				listener="#{tbCONHECIMENTOSESPECIFICOSBean.reset}" />
+				/>
 			<h:form id="editTbCONHECIMENTOSESPECIFICOSForm">
 				<p:outputPanel id="tbCONHECIMENTOSESPECIFICOSEditPanel">
 					<ui:include
@@ -281,7 +279,7 @@ opacity: 1;"
 					<div style="text-align: center; margin: 10px">
 						<p:commandButton value="#{messages.label_save}"
 							action="#{tbCONHECIMENTOSESPECIFICOSBean.persist}"
-							update=":editTbCONHECIMENTOSESPECIFICOSForm:tbCONHECIMENTOSESPECIFICOSEditPanel tbCONHECIMENTOSESPECIFICOSTable"
+							update=":editTbCONHECIMENTOSESPECIFICOSForm:tbCONHECIMENTOSESPECIFICOSEditPanel tbCONHECIMENTOSESPECIFICOSTable :growlForm:growl"
 							oncomplete="if(!args.validationFailed) PF('editTbCONHECIMENTOSESPECIFICOSDialogWidget').hide()" />
 					</div>
 				</p:outputPanel>

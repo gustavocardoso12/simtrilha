@@ -57,7 +57,7 @@ opacity: 1;"
 		<h:form style="margin-left:40px;visibility:hidden" prependId="false"
 			id="tbCARGOSDataForm"
 			onkeypress="if (event.keyCode == 13) {return false; }">
-	<p:commandButton styleClass="botaoADDPessoas" value="Adicionar Cargos"
+	<p:commandButton rendered="#{not empty tbCARGOSBean.tbCARGOSList}" styleClass="botaoADDPessoas" value="Adicionar Cargos"
 									action="#{tbCARGOSBean.AdicionarCargos()}" style="
 width: 144px;
 height: 40px;
@@ -179,61 +179,7 @@ margin-bottom: 30px;" />
 		
 			</p:dataTable>
 				</p:panelGrid>
-			<h:panelGrid id="paneCargos" styleClass="dialog"
-				columnClasses="col1,col2" columns="2">
-				
-				
-				
-				
-				<p:dataTable id="tbCARGOSTable2"
-					rendered="#{tbCARGOSBean.flagCultura==1}"
-					value="#{tbCARGOSBean.tbCARGOSListFiltrada}" var="tbCARGOS"
-					resizableColumns="true" draggableColumns="true"
-					widgetVar="tbCARGOSTable2"
-					emptyMessage="#{messages.label_no_records_found}" >
-					<p:column
-						style="white-space:normal;width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;"
-						headerText="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}">
-						<h:outputText escape="false" value="#{tbCARGOS.reSPONSABILIDADES}" />
-					</p:column>
 
-
-
-				</p:dataTable>
-
-				<h:panelGroup>
-					
-					<p:dataTable id="tbCARGOSTable4"
-						rendered="#{tbCARGOSBean.flagCultura==1}"
-						value="#{tbCARGOSBean.tbCARGOSListFiltrada}" var="tbCARGOS"
-						resizableColumns="true" draggableColumns="true"
-						widgetVar="tbCARGOSTable4"
-						emptyMessage="#{messages.label_no_records_found}" >
-						<f:facet name="header">
-							<h:outputText
-								style="width:auto;text-align:center;font-size:16px;color:white;font-weight:bold;"
-								escape="false" value="Organizacional" />
-						</f:facet>
-						<p:column
-							style="width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;"
-							headerText="#{messages.field_label_tbCARGOS_idEST}">
-							<h:outputText style="width:auto;font-size:13px"
-								value="#{tbCARGOS.idDEPTO.deSCDEPTO}" />
-						</p:column>
-
-						<p:column
-							style="width:auto;text-align:center;font-size:14px;color:white;font-weight:bold;"
-							headerText="Área:">
-							<h:outputText style="width:auto;font-size:13px"
-								value="#{tbCARGOS.idDEPTO.idAREA.deSCAREA}" />
-						</p:column>
-
-					</p:dataTable>
-
-
-				</h:panelGroup>
-
-			</h:panelGrid>
 		</h:form>
 
 

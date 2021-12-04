@@ -3,14 +3,108 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:p="http://primefaces.org/ui">
-	
-	<meta http-equiv="CACHE-CONTROL" content="no-cache, no-store, must-revalidate" />
+
+<meta http-equiv="CACHE-CONTROL"
+	content="no-cache, no-store, must-revalidate" />
 <ui:composition template="/templates/layout.xhtml">
 
 	<ui:define name="content">
+
+		<h:form id="loginForm" rendered="#{fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Windows')}"
+			style="position: absolute; top: 192px;
+left: 371px;
+width: 509px;
+height: 324px;"
+			styleClass="loginForm" prependId="false">
+			<div>
+				<p:panel header="Entrar" styleClass="loginForm">
+				
+				
+				
+					
+
+					<p:panelGrid styleClass="loginForm">
+					
+						
+						
+						
+					
+					
+						<h3>
+							<h:outputText style="font-family:Montserrat"
+								rendered="#{empty empty userBean.user.username}"
+								value="Bem-vindo ao Simulador de Trilhas de Carreira" />
+						</h3>
+						<h2 style="text-align: center">
+							<h:outputText style="font-family:Montserrat"
+								rendered="#{not empty userBean.user.username}"
+								value="Bem-vindo ao Simulador de Trilhas de Carreira" />
+						</h2>
+					</p:panelGrid>
+
+
+
+
+					<p:panelGrid columns="1" style="position: relative;
+    left: 15px;" rendered="#{empty userBean.user.username}">
+					
+						
+						
 	
-	<h:form id="loginForm" styleClass="loginForm" prependId="false">
+						<h:outputLabel for="username" style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;"
+						   value="Login:" />
+						   
+						   <p:spacer></p:spacer>
+						   
+						<p:inputText id="username"
+							style="border: 1px solid #666 !important;background:white !important;    width: 270%;"
+							
+							required="true" value="#{loginBean.username}">
+						</p:inputText>
+
+							 <p:spacer></p:spacer>
+							
+						<h:outputLabel for="password" style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;" value="Senha:" />
+															 
+															  <p:spacer></p:spacer>
+						<p:password id="password"
+							style="border: 1px solid #666 !important;;background:white !important;width: 270%;"
+							required="true" value="#{loginBean.password}">
+						</p:password>
+						
+						 <p:spacer></p:spacer>
+
+						<p:panelGrid>
+							<p:commandButton type="submit" id="login" ajax="false"
+								action="#{loginBean.login}" value="#{messages.login_login}"
+								style="float:right !important;position: relative;left: 260px;" />
+						</p:panelGrid>		
+						<p:spacer></p:spacer>
+					</p:panelGrid>
+
+					<!-- <f:facet name="footer" rendered="#{loginBean.logged == false}">
+                    <h:link outcome="${facesContext.externalContext.request.contextPath}/trilhas/userManagement/resetPassword"><h:outputText value="Esqueceu a senha?" /></h:link>
+                    <br/>
+                    <h:link outcome="${facesContext.externalContext.request.contextPath}/trilhas/user/register"><h:outputText value="Criar conta" /></h:link>
+                </f:facet>-->
+
+				</p:panel>
+			</div>
+		</h:form>
+
+		<h:form 
+		rendered="#{!fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Windows')}"
+		id="loginFormMobile" styleClass="loginForm" prependId="false">
         <div>
             <p:panel  styleClass="loginForm">
             
@@ -21,24 +115,24 @@
              
                 
                 <p:panelGrid columns="2"  rendered="#{empty userBean.user.username}">
-                    <h:outputLabel for="username" value="Nome de Usuário:" />
-                    <p:inputText id="username" style="border: 1px solid #666 !important;;background:white !important" required="true"
+                    <h:outputLabel for="usernameMobile" value="Nome de Usuário:" />
+                    <p:inputText id="usernameMobile" style="border: 1px solid #666 !important;;background:white !important" required="true"
                         value="#{loginBean.username}">
                     </p:inputText>
                     
     
     
-                    <h:outputLabel for="password" value="Senha:" />
-                    <p:password id="password" style="border: 1px solid #666 !important;;background:white !important"  required="true"
+                    <h:outputLabel for="passwordMobile" value="Senha:" />
+                    <p:password id="passwordMobile" style="border: 1px solid #666 !important;;background:white !important"  required="true"
                         value="#{loginBean.password}">
                     </p:password>
                     
-                    <h:outputLabel for="rememberMe" value="Manter-me Conectado:" />
-                    <h:selectBooleanCheckbox id="rememberMe" value="#{loginBean.remember}" />
+                    <h:outputLabel for="rememberMeMobile" value="Manter-me Conectado:" />
+                    <h:selectBooleanCheckbox id="rememberMeMobile" value="#{loginBean.remember}" />
                     <h:panelGroup />
     
                     <f:facet name="footer">
-                        <p:commandButton type="submit" id="login" ajax="false"
+                        <p:commandButton type="submit" id="loginMpbile" ajax="false"
                             action="#{loginBean.login}" value="#{messages.login_login}" style="float:right"/>
                     </f:facet>
                 </p:panelGrid>
@@ -52,8 +146,10 @@
             </p:panel>
         </div>
     </h:form>
-	
-	
+
+
+
+
 	</ui:define>
 </ui:composition>
 </html>

@@ -15,60 +15,51 @@
 			toggleable="true" toggleSpeed="500" closeSpeed="500"
 			widgetVar="panel4"  style="background:white;background-repeat:no-repeat;">
 				<p:menu toggleable="true">
-				<p:menuitem value="Aderência"
+				<p:menuitem value="Simular Movimento"
 					url="${facesContext.externalContext.request.contextPath}/trilhas/Aderencias/Comparacao.xhtml"
 					ajax="false" async="false" />
 					
-				<p:menuitem value="Matriz de cargos"
+				<p:menuitem value="Matriz de Movimentos"
 					url="${facesContext.externalContext.request.contextPath}/trilhas/Matriz/Matriz.xhtml"
 					 />	 	
 					 
-					<p:menuitem value="Auto-Trilhas"
+					<p:menuitem value="Trilhas de Carreira"
 					url="${facesContext.externalContext.request.contextPath}/trilhas/AutoTrilhas/AutoTrilhas.xhtml"
 					 />	 	 
 				
 			</p:menu>
 			
-			
-			
-			
 		</p:panel>
- 	
- 	
- 	
 
- 
- 
-        
-
-  
-
-		<p:panel  rendered="#{p:ifAnyGranted('Administrator')}" id="toggleable" header="Configuração" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="#{loginBean.findBrowserRenderMode() == 'MOBILE' ? true : false}" style="background:white;background-repeat:no-repeat">
+		<p:panel  rendered="#{p:ifAnyGranted('Administrator')}" id="toggleable" header="Cadastro" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" collapsed="#{loginBean.findBrowserRenderMode() == 'MOBILE' ? true : false}" style="background:white;background-repeat:no-repeat">
  				 <p:menu toggleable="true">
  				 
- 			<p:menuitem value="Cadastro de cargos"
+ 			<p:menuitem value="Cargos"
 					url="${facesContext.externalContext.request.contextPath}/trilhas/Cargos/Controle_cargos.xhtml"
 					ajax="false" async="false" />	 
 					
-				<p:menuitem rendered="#{userBean.user.flag_pessoa== 'SIM'}" value="Cadastro de pessoas"
+				<p:menuitem rendered="#{userBean.user.flag_pessoa== 'SIM'}" value="Pessoas"
 					url="${facesContext.externalContext.request.contextPath}/trilhas/Pessoas/Controle_Pessoas.xhtml"
 					ajax="false" async="false" />	 	
 					
      		
-     		<p:menuitem value="Aderência Final" url="${facesContext.externalContext.request.contextPath}/trilhas/AderenciaFinal/AderenciaFinal.xhtml" style="margin-bottom:10px" ajax="false" async="false" />
+     		<p:menuitem value="Pesos e Comptabilidade" url="${facesContext.externalContext.request.contextPath}/trilhas/AderenciaFinal/AderenciaFinal.xhtml" style="margin-bottom:10px" ajax="false" async="false" />
 
+      			<p:menuitem value="#{messages.menu_Perfil}" url="${facesContext.externalContext.request.contextPath}/trilhas/Perfil/tbPERFIL.xhtml" ajax="false" async="false" />
+     		
+      			
+      			
       			<p:menuitem value="#{messages.menu_tbCOMPETENCIASs}" url="${facesContext.externalContext.request.contextPath}/trilhas/Competencias/ControleCompetencias.xhtml"  ajax="false" async="false" />
      		
      		<p:menuitem value="#{messages.menu_GRADES}" url="${facesContext.externalContext.request.contextPath}/trilhas/AvaliacaoCargo/ControleGrade.xhtml" ajax="false" async="false" />
      			
-     		<p:menuitem value="#{messages.menu_Perfil}" url="${facesContext.externalContext.request.contextPath}/trilhas/Perfil/tbPERFIL.xhtml" ajax="false" async="false" />
      		
      	
        			<p:menuitem value="#{messages.menu_tbCONHECIMENTOSBASICOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/ConhecimentosBasicos/tbCONHECIMENTOSBASICOS.xhtml" ajax="false" async="false" />
 				<p:menuitem value="#{messages.menu_tbCONHECIMENTOSESPECIFICOSs}" url="${facesContext.externalContext.request.contextPath}/trilhas/ConhecimentosEspecificos/tbCONHECIMENTOSESPECIFICOS.xhtml" style="margin-bottom:10px" ajax="false" async="false" />     
     	
-    			<p:menuitem value="Área" url="${facesContext.externalContext.request.contextPath}/trilhas/Area/ControleArea.xhtml" ajax="false" async="false" />
-      			<p:menuitem value="Departamento" url="${facesContext.externalContext.request.contextPath}/trilhas/Departamento/tbDEPTO.xhtml"  ajax="false" async="false" />
+    			<p:menuitem value="Familias" url="${facesContext.externalContext.request.contextPath}/trilhas/Area/ControleArea.xhtml" ajax="false" async="false" />
+      			<p:menuitem value="SubFamílias" url="${facesContext.externalContext.request.contextPath}/trilhas/Departamento/tbDEPTO.xhtml"  ajax="false" async="false" />
       				<p:menuitem value="#{messages.menu_NO}" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelOrganizacional/tbNO.xhtml" ajax="false"  async="false" style="margin-bottom:10px" />
       				
       				
@@ -82,18 +73,22 @@
 	
 	<p:panel rendered="#{p:ifAnyGranted('Administrator')}" id="toggleable23" header="Customização de Rótulos" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel32" collapsed="#{loginBean.findBrowserRenderMode() == 'MOBILE' ? true : false}"  style="background:white;background-repeat:no-repeat">
  				 <p:menu toggleable="true">
- 				 <p:menuitem value="Formações Acadêmicas" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraFormacoes.xhtml" ajax="false"  async="false" />
  				
  				
- 				 <p:menuitem value="Conhecimentos Técnicos" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraTecnicos.xhtml" ajax="false"  async="false" />				
  				
- 				 <p:menuitem value="Idiomas" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraIdiomas.xhtml" ajax="false"  async="false" />
- 				
- 				 <p:menuitem value="Experiências" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraExperencia.xhtml" ajax="false"  async="false" />
- 				 
- 				  <p:menuitem value="Certificações" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraCertificados.xhtml" ajax="false"  async="false" />
+ 				  <p:menuitem value="Perfis" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraPerfil.xhtml" ajax="false"  async="false" />
  				  
- 				   <p:menuitem value="Perfil" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraPerfil.xhtml" ajax="false"  async="false" />
+ 				   <p:menuitem value="Experiências" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraExperencia.xhtml" ajax="false"  async="false" />
+ 				   
+ 				    <p:menuitem value="Formação: Acadêmica" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraFormacoes.xhtml" ajax="false"  async="false" />
+ 				    
+ 				     <p:menuitem value="Formação: Idiomas" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraIdiomas.xhtml" ajax="false"  async="false" />
+ 				
+ 				 <p:menuitem value="Conhecimentos: Técnicos" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraTecnicos.xhtml" ajax="false"  async="false" />				
+ 				 
+ 				  <p:menuitem value="Conhecimentos: Certificações" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaraCertificados.xhtml" ajax="false"  async="false" />
+ 				  
+ 				 
  				 
  				<!-- <p:menuitem value="Controle de Rótulos" url="${facesContext.externalContext.request.contextPath}/trilhas/NivelEscolaridade/ControleMascaras.xhtml" ajax="false"  async="false" /> --> 
 					 				

@@ -39,8 +39,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 			<property name="hibernate.order_updates" value="true" />
 			<property name="hibernate.jdbc.batch_versioned_data"
 				value="true" />
-			<!-- <property name="hibernate.show_sql" value="true"/> <property name="hibernate.format_sql" 
-				value="true"/> <property name="hibernate.use_sql_comments" value="true"/> -->
+		
 		</properties>
 	</persistence-unit>
 
@@ -63,6 +62,40 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	</persistence-unit>
 
 
+	<persistence-unit name="CIEE" transaction-type="JTA">
+		<jta-data-source>java:/SimTrilhasProdDS_CIEE</jta-data-source>
+
+
+		<properties>
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.SQLServer2012Dialect" />
+			<property name="hibernate.jdbc.batch_size" value="10000" />
+			<property name="hibernate.default_schema" value="dbo" />
+			<property name="hibernate.order_inserts" value="true" />
+			<property name="hibernate.order_updates" value="true" />
+			<property name="hibernate.jdbc.batch_versioned_data"
+				value="true" />
+		</properties>
+	</persistence-unit>
+	
+	
+	
+		<persistence-unit name="HP" transaction-type="JTA">
+		<jta-data-source>java:/SimTrilhasProdDS_HP</jta-data-source>
+
+
+		<properties>
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.SQLServer2012Dialect" />
+			<property name="hibernate.jdbc.batch_size" value="10000" />
+			<property name="hibernate.default_schema" value="dbo" />
+			<property name="hibernate.order_inserts" value="true" />
+			<property name="hibernate.order_updates" value="true" />
+			<property name="hibernate.jdbc.batch_versioned_data"
+				value="true" />
+				
+		</properties>
+	</persistence-unit>
 
 
 </persistence>
