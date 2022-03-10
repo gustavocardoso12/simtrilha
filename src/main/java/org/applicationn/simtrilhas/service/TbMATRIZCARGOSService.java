@@ -226,11 +226,10 @@ public class TbMATRIZCARGOSService extends BaseService<TbMATRIZCARGOSEntity> imp
 
 
 	@Transactional
-	public void insertWithentityManager(TbMATRIZCARGOSEntity tbMATRIZCARGOS, int i) {
+	public void insertWithentityManager(TbMATRIZCARGOSEntity tbMATRIZCARGOS, int i, String username) {
 
 
 
-		String username = SecurityWrapper.getUsername();
 
 		tbMATRIZCARGOS.updateAuditInformation(username);
 

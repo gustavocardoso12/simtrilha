@@ -81,7 +81,8 @@
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-						headerText="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}">
+						headerText="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}"
+						 sortBy="#{tbCOMPETENCIAS.deSCCOMPETENCIA}">
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
@@ -95,7 +96,7 @@
 					<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
-					width:90%;
+					width:60%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
@@ -117,13 +118,17 @@
 					<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
-					width:90%;
+					width:70%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
 				
 					opacity: 1;"
-						headerText="#{messages.field_label_tbPERFIL_bloqueia}" >
+						escape="true"
+						sortBy="#{tbCOMPETENCIAS.bloqueiaMovCompetencias}" >
+						<f:facet name="header">
+   							 <h:outputLabel value="Bloqueia&#10;Movimentação" style="white-space:pre;"/>
+						</f:facet>
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
@@ -134,15 +139,40 @@
 							<f:convertNumber minFractionDigits="0" />
 							</h:outputText>
 					</p:column>
-				
-				
-				<p:column styleClass="barraCargosPessoas"
-							style="
-					width:30%;
+					
+					
+					
+						<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:70%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					
+				
+					opacity: 1;"
+						headerText="Data de inclusão: "
+						sortBy="#{tbCOMPETENCIAS.createdAt}" >
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCOMPETENCIAS.createdAt}" >
+							 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+							</h:outputText>
+					</p:column>
+				
+				
+				<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:70%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+				
 					opacity: 1;">
 
 
@@ -152,8 +182,10 @@
 							
 							
 							
-							<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+							<p:commandButton styleClass="botaoPessoas"
+							style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="DDD"
 								icon="img-button-edit"
+								
 								update=":editTbCOMPETENCIASDialog"
 								rendered="#{tbCOMPETENCIASBean.isPermitted(tbCOMPETENCIAS, 'tbCOMPETENCIAS:update')}"
 								action="#{tbCOMPETENCIASBean.onDialogOpen(tbCOMPETENCIAS)}"
@@ -164,7 +196,7 @@
 							rendered="#{tbCOMPETENCIASBean.isPermitted(tbCOMPETENCIAS, 'tbCOMPETENCIAS:delete')}"
 								oncomplete="PF('deleteTbCOMPETENCIASDialogWidget').show()"
 								styleClass="botaoPessoas"
-								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="DD"
 								icon="img-button-delete">
 							<f:setPropertyActionListener value="#{tbCOMPETENCIAS}"
 							target="#{tbCOMPETENCIASBean.tbCOMPETENCIAS}" />

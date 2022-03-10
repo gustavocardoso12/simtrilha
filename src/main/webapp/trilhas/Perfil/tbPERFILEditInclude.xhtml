@@ -12,7 +12,9 @@
               <p:panelGrid columns="3" id="penalidadePane" styleClass="dialog"  columnClasses="col1,col2,col3"  >
             
                 <h:outputLabel value="#{messages.field_label_tbPERFIL_deSCPERFIL}:" for="deSCPERFILEditInput" />
-                <p:inputText value="#{tbPERFILBean.tbPERFIL.deSCPERFIL}" id="deSCPERFILEditInput"  />
+                <p:inputText
+                required="true" requiredMessage="Campo obrigatório!"
+                 value="#{tbPERFILBean.tbPERFIL.deSCPERFIL}" id="deSCPERFILEditInput"  />
                 <p:message for="deSCPERFILEditInput" display="icon" />
 
 

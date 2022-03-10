@@ -18,7 +18,9 @@
             
                 <h:outputLabel value="Perfil:" for="idPERFILSelectInput" rendered="#{not hideIdPERFILSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdPERFILSelectInput}">
-                    <p:selectOneMenu value="#{tbPERFILCARGOSBean.tbPERFILCARGOS.idPERFIL}"
+                    <p:selectOneMenu
+                    required="true" requiredMessage="Descrição é obrigatória!!!"
+                     value="#{tbPERFILCARGOSBean.tbPERFILCARGOS.idPERFIL}"
                                     id="idPERFILSelectInput">
                         <f:selectItem noSelectionOption="true" itemLabel="" />
                         <f:selectItems value="#{tbPERFILCARGOSBean.idPERFILs}" 
@@ -34,7 +36,9 @@
               
                 
                 <h:outputLabel value="Pontuação:" for="poNTUACAOCOMPETENCIAEditInput" />
-              <p:inputText value="#{tbPERFILCARGOSBean.tbPERFILCARGOS.poNTUACAOPERFIL}" id="poNTUACAOCOMPETENCIAEditInput" label="Pontuação" > 
+              <p:inputText value="#{tbPERFILCARGOSBean.tbPERFILCARGOS.poNTUACAOPERFIL}" 
+              required="true" requiredMessage="Pontuação é obrigatória!"
+              id="poNTUACAOCOMPETENCIAEditInput" label="Pontuação" > 
                   <f:convertNumber /> 
                </p:inputText> 
                 <p:message for="poNTUACAOCOMPETENCIAEditInput" display="icon" />

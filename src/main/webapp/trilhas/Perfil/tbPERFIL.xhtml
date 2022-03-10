@@ -86,7 +86,8 @@
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-					headerText="#{messages.field_label_tbPERFIL_deSCPERFIL}">
+					headerText="#{messages.field_label_tbPERFIL_deSCPERFIL}"
+					sortBy="#{tbPERFIL.deSCPERFIL}">
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
@@ -105,7 +106,8 @@
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-						headerText="#{messages.field_label_tbPERFIL_penalidade}">
+						headerText="#{messages.field_label_tbPERFIL_penalidade}"
+						>
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
@@ -128,7 +130,10 @@
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-						headerText="#{messages.field_label_tbPERFIL_bloqueia}" >
+						sortBy="#{tbPERFIL.bloqueiaMovConhecPerfil}" >
+						<f:facet name="header">
+   							 <h:outputLabel value="Bloqueia&#10;Movimentação" style="white-space:pre;"/>
+						</f:facet>
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
@@ -150,7 +155,8 @@
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-						headerText="Grupo de Rótulos">
+						headerText="Grupo de Rótulos"
+						sortBy="#{tbPERFIL.tbMascara.descGrupo}">
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
@@ -160,22 +166,46 @@
 							value="#{tbPERFIL.tbMascara.descGrupo}"  >
 							</h:outputText>
 					</p:column>
-			
-
-
+					
+					
 					<p:column styleClass="barraCargosPessoas"
-							style="
-					width:30%;
+						style="
+					top: 416px;
+					width:50%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
 					
+					opacity: 1;"
+						headerText="Data de inclusão"
+						sortBy="#{tbPERFIL.createdAt}">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbPERFIL.createdAt}"  >
+							 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+							</h:outputText>
+					</p:column>
+
+
+						<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:70%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+				
 					opacity: 1;">
 
 						<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 					
 					
-					<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+					<p:commandButton styleClass="botaoPessoas"  value="DDD" 
+					style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" 
 								icon="img-button-edit"
 								rendered="#{tbPERFILBean.isPermitted(tbPERFIL, 'tbPERFIL:update')}"
 								action="#{tbPERFILBean.onDialogOpen(tbPERFIL)}"
@@ -183,10 +213,11 @@
 								oncomplete="PF('editTbPERFILDialogWidget').show()"/>
 
 						<p:commandButton
+						value="DD"
 							rendered="#{tbPERFILBean.isPermitted(tbPERFIL, 'tbPERFIL:delete')}"
 								oncomplete="PF('deleteTbPERFILDialogWidget').show()"
 								styleClass="botaoPessoas"
-								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" 
 								icon="img-button-delete">
 							<f:setPropertyActionListener value="#{tbPERFIL}"
 							target="#{tbPERFILBean.tbPERFIL}" />

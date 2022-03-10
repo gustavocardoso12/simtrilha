@@ -34,7 +34,9 @@
               
                 
                 <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}:" for="poNTUACAOCOMPETENCIAEditInput" />
-                <p:inputText value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.poNTUACAOCOMPETENCIA}" id="poNTUACAOCOMPETENCIAEditInput" label="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}" >
+                <p:inputText value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.poNTUACAOCOMPETENCIA}" 
+                   required="true" requiredMessage="Pontuação é obrigatória!"
+                id="poNTUACAOCOMPETENCIAEditInput" label="#{messages.field_label_tbCOMPETENCIASCARGOS_poNTUACAOCOMPETENCIA}" >
                     <f:convertNumber />
                 </p:inputText>
                 <p:message for="poNTUACAOCOMPETENCIAEditInput" display="icon" />

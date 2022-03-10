@@ -24,6 +24,16 @@ a, img {
     outline:none
 }
 
+	.ControleCargosDesligado{
+	
+	margin-left:40px;visibility:hidden !important;
+	}
+	
+	.ControleCargosLigado{
+	
+	margin-left:40px;visibility:visible !important;
+	}
+	
 
 
 .button{
@@ -563,8 +573,7 @@ th {
 	background:#FFFFFF !important;
 }
 
-@media screen and (min-width: 40.063em)
-{.ui-md-2 {
+.ui-md-2 {
     width: 40.66666667% !important;
 }
 
@@ -638,6 +647,32 @@ color: #A8413E;
 
 .loginForm.ui-panel-content .ui-widget-content{
 	background:white !important;
+}
+
+.userForm .dialog {
+	width: 100% !important;
+}
+
+.userForm .ui-widget-content {
+	background: white !important;
+}
+
+.userForm .ui-panel-titlebar {
+	text-align: left;
+	letter-spacing: 0px;
+	color: #FFFFFF;
+	opacity: 1;
+	border-radius: 0px !important;
+}
+
+.ui-corner-all{
+	border-radius: 0px !important;
+}
+
+.menuCriarUsuarios .ui-selectonemenu-label.ui-selectonemenu-label {
+    cursor: pointer;
+    background: white !important;
+    border-radius:0px !important;
 }
 
 .DataTableFormacao.ui-datatable .ui-datatable-header .ui-datatable .ui-datatable-footer {
@@ -923,5 +958,4 @@ td.foo {
     left: 1004px;
     top: 10px;
     overflow: visible;
-}
 }

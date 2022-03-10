@@ -12,11 +12,15 @@
               <p:panelGrid columns="3" styleClass="dialog"  columnClasses="col1,col2,col3"  >
               
               	<h:outputLabel value="Número do Nível:" for="IDNOEditInput" />
-                <p:inputText value="#{tbNOBean.tbNO.idNivel}" id="IDNOEditInput"  />
+                <p:inputText
+                required="true" requiredMessage="Campo obrigatório!"
+                 value="#{tbNOBean.tbNO.idNivel}" id="IDNOEditInput"  />
                 <p:message for="IDNOEditInput" display="icon" />
             
                 <h:outputLabel value="#{messages.field_label_tbAREA_deSCNO}:" for="deSCNOEditInput" />
-                <p:inputText value="#{tbNOBean.tbNO.deSCNivel}" id="deSCNOEditInput"  />
+                <p:inputText
+                required="true" requiredMessage="Campo obrigatório!"
+                 value="#{tbNOBean.tbNO.deSCNivel}" id="deSCNOEditInput"  />
                 <p:message for="deSCNOEditInput" display="icon" />
 
 

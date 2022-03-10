@@ -123,7 +123,8 @@ opacity: 1;"
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-						headerText="#{messages.field_label_tbCONHECIMENTOSBASICOS_deSCCONHECIMENTOSBASICOS}">
+						headerText="#{messages.field_label_tbCONHECIMENTOSBASICOS_deSCCONHECIMENTOSBASICOS}"
+						sortBy="#{tbCONHECIMENTOSBASICOS.deSCCONHECIMENTOSBASICOS}" >
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
@@ -165,7 +166,10 @@ opacity: 1;"
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-						headerText="#{messages.field_label_tbPERFIL_bloqueia}">
+						sortBy="#{tbCONHECIMENTOSBASICOS.bloqueiaMovConhecBas}">
+						<f:facet name="header">
+   							 <h:outputLabel value="Bloqueia&#10;Movimentação" style="white-space:pre;"/>
+						</f:facet>
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
@@ -186,7 +190,8 @@ opacity: 1;"
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-						headerText="Grupo de Rótulos">
+						headerText="Grupo de Rótulos"
+						sortBy="#{tbCONHECIMENTOSBASICOS.tbMascara.descGrupo}">
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
@@ -199,16 +204,38 @@ opacity: 1;"
 				
 			
 				
-
-				
-
 						<p:column styleClass="barraCargosPessoas"
-							style="
-					width:30%;
+						style="
+					top: 416px;
+					width:50%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
 					
+					opacity: 1;"
+						headerText="Data de inclusão"
+						sortBy="#{tbCONHECIMENTOSBASICOS.createdAt}">
+						<h:outputText style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbCONHECIMENTOSBASICOS.createdAt}"  >
+							 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+							</h:outputText>
+					</p:column>
+				
+				
+
+							<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:70%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+				
 					opacity: 1;">
 
 
@@ -216,7 +243,8 @@ opacity: 1;"
 							<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 							
 							
-							<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+							<p:commandButton styleClass="botaoPessoas" 
+							style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="DDD"
 								icon="img-button-edit"
 								update=":editTbCONHECIMENTOSBASICOSDialog"
 								action="#{tbCONHECIMENTOSBASICOSBean.onDialogOpen(tbCONHECIMENTOSBASICOS)}"
@@ -228,7 +256,7 @@ opacity: 1;"
 							<p:commandButton
 								oncomplete="PF('deleteTbCONHECIMENTOSBASICOSDialogWidget').show()"
 								styleClass="botaoPessoas"
-								style="background:none;width:40px; height:40px;font-size:12px" value=""
+								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="DD"
 								icon="img-button-delete">
 							<f:setPropertyActionListener value="#{tbCONHECIMENTOSBASICOS}"
 							target="#{tbCONHECIMENTOSBASICOSBean.tbCONHECIMENTOSBASICOS}" />

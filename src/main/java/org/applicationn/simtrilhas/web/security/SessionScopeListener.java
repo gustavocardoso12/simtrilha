@@ -26,58 +26,69 @@ import org.slf4j.LoggerFactory;
 @Named("sessionWatchdog")
 @SessionScoped
 public class SessionScopeListener extends BaseService<UserEntity> implements Serializable, HttpSessionListener {
-	
+
 	private String  userName;
-	
-	 @Inject
-	 private UserService userService;
-	 
-	 static List<Sessoes> sessoesGravadas = new ArrayList<Sessoes>();
+
+	@Inject
+	private UserService userService;
+
+	static List<Sessoes> sessoesGravadas = new ArrayList<Sessoes>();
 
 	private HttpSessionEvent event;
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(SessionScopeListener.class);
-	
+
 	private static String user;
-	
+
 	public void sessionCreated(HttpSessionEvent event) {
 		logger.debug("starting session {}", event.getSession().getId());
 		this.event = event;
 	}
-	
 
 
 
-    @Transactional
+
+	@Transactional
 	public void sessionDestroyed(HttpSessionEvent event) {
 		logger.debug("stopping session {}", event.getSession().getId());
-			
-				try {
-				
-				String username = SecurityWrapper.getUsername();
-				UserEntity user = userService.findUserByUsername(username);
-				user.setAtivo("NAO");
-				getEntityManagerMatriz().merge(user);
-				getEntityManagerMatriz().flush();
-				for(int i=0;i<LoginBean.usuario.size();i++) {
-					if(username.equals(LoginBean.usuario.get(i))) {
-						LoginBean.usuario.remove(i);
-					}
-				}
-				} catch (RuntimeException ex) {
-					for(int i=0;i<LoginBean.usuario.size();i++) {
-						String username = LoginBean.usuario.get(i);
-						UserEntity user = userService.findUserByUsername(username);
-						user.setAtivo("NAO");
-						getEntityManagerMatriz().merge(user);
-						getEntityManagerMatriz().flush();
-					}
-				}
-				
-			
-				
 
-}
+		try {
+
+			String username = SecurityWrapper.getUsername();
+			UserEntity user = userService.findUserByUsername(username);
+			user.setAtivo("NAO");
+			getEntityManagerMatriz().merge(user);
+			getEntityManagerMatriz().flush();
+			for(int i=0;i<LoginBean.usuario.size();i++) {
+				if(username.equals(LoginBean.usuario.get(i))) {
+					LoginBean.usuario.remove(i);
+				}
+			}
+		} catch (RuntimeException ex) {
+			for(int i=0;i<LoginBean.usuario.size();i++) {
+				String username = LoginBean.usuario.get(i);
+				UserEntity user = userService.findUserByUsername(username);
+				if(user==null) {
+					try {
+						Thread.sleep(10000);
+						user = userService.findUserByUsername(username);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
+				}else {
+					user.setAtivo("NAO");
+					getEntityManagerMatriz().merge(user);
+					getEntityManagerMatriz().flush();
+				}
+				
+			}
+		}
+
+
+
+
+	}
 
 
 

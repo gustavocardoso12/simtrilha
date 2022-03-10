@@ -31,7 +31,9 @@
         
                 
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_poNTUACAOCONESP}:" for="poNTUACAOCONESPEditInput" />
-                <p:inputText value="#{tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS.poNTUACAOCONESP}" id="poNTUACAOCONESPEditInput" label="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_poNTUACAOCONESP}" >
+                <p:inputText value="#{tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS.poNTUACAOCONESP}"
+                   required="true" requiredMessage="Pontuação é obrigatória!"
+                 id="poNTUACAOCONESPEditInput" label="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_poNTUACAOCONESP}" >
                     <f:convertNumber />
                 </p:inputText>
                 <p:message for="poNTUACAOCONESPEditInput" display="icon" />

@@ -37,6 +37,8 @@ public class TbNIVELESCOLARIDADEBean implements Serializable {
     private List<TbNivelEscolaridadeEntity> tbNEListGrupo5;
     
     private List<TbNivelEscolaridadeEntity> tbNEListGrupo6;
+    
+    private List<TbNivelEscolaridadeEntity> tbNEListGrupo7;
 
     private TbNivelEscolaridadeEntity tbNE;
     
@@ -107,6 +109,7 @@ public class TbNIVELESCOLARIDADEBean implements Serializable {
         tbNEListGrupo4 = null;
         tbNEListGrupo5 = null;
         tbNEListGrupo6 = null;
+        tbNEListGrupo7 = null;
         FacesMessage facesMessage = MessageFactory.getMessage(message);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
         
@@ -150,6 +153,7 @@ public class TbNIVELESCOLARIDADEBean implements Serializable {
         tbNEListGrupo4 = null;
         tbNEListGrupo5 = null;
         tbNEListGrupo6 = null;
+        tbNEListGrupo7 = null;
         FacesMessage facesMessage = MessageFactory.getMessage(message);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
         
@@ -193,6 +197,7 @@ public class TbNIVELESCOLARIDADEBean implements Serializable {
         tbNEListGrupo4 = null;
         tbNEListGrupo5 = null;
         tbNEListGrupo6 = null;
+        tbNEListGrupo7 = null;
         FacesMessage facesMessage = MessageFactory.getMessage(message);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
         
@@ -236,6 +241,7 @@ public class TbNIVELESCOLARIDADEBean implements Serializable {
         tbNEListGrupo4 = null;
         tbNEListGrupo5 = null;
         tbNEListGrupo6 = null;
+        tbNEListGrupo7 = null;
         FacesMessage facesMessage = MessageFactory.getMessage(message);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
         
@@ -280,6 +286,7 @@ public class TbNIVELESCOLARIDADEBean implements Serializable {
         tbNEListGrupo4 = null;
         tbNEListGrupo5 = null;
         tbNEListGrupo6 = null;
+        tbNEListGrupo7 = null;
         FacesMessage facesMessage = MessageFactory.getMessage(message);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
         
@@ -324,13 +331,56 @@ public class TbNIVELESCOLARIDADEBean implements Serializable {
         tbNEListGrupo4 = null;
         tbNEListGrupo5 = null;
         tbNEListGrupo6 = null;
+        tbNEListGrupo7 = null;
         FacesMessage facesMessage = MessageFactory.getMessage(message);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
         
         return null;
     }
     
-    
+    public String persistGRP7() {
+
+        if (tbNE.getId() == null && !isPermitted("tbNO:create")) {
+            return "accessDenied";
+        } else if (tbNE.getId() != null && !isPermitted(tbNE, "tbNO:update")) {
+            return "accessDenied";
+        }
+        
+        String message;
+        
+        try {
+            tbNE.setGrupo(7);
+            if (tbNE.getId() != null) {
+                tbNE = tbNEService.update(tbNE);
+                message = "message_successfully_updated";
+            } else {
+                tbNE = tbNEService.save(tbNE);
+                message = "message_successfully_created";
+            }
+        } catch (OptimisticLockException e) {
+            logger.log(Level.SEVERE, "Error occured", e);
+            message = "message_optimistic_locking_exception";
+            // Set validationFailed to keep the dialog open
+            FacesContext.getCurrentInstance().validationFailed();
+        } catch (PersistenceException e) {
+            logger.log(Level.SEVERE, "Error occured", e);
+            message = "message_save_exception";
+            // Set validationFailed to keep the dialog open
+            FacesContext.getCurrentInstance().validationFailed();
+        }
+        
+        tbNEList = null;
+        tbNEListGrupo2 = null;
+        tbNEListGrupo3 = null;
+        tbNEListGrupo4 = null;
+        tbNEListGrupo5 = null;
+        tbNEListGrupo6 = null;
+        tbNEListGrupo7 = null;
+        FacesMessage facesMessage = MessageFactory.getMessage(message);
+        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+        
+        return null;
+    }
     public String delete() {
         
         if (!isPermitted(tbNE, "tbNO:delete")) {
@@ -368,6 +418,7 @@ public class TbNIVELESCOLARIDADEBean implements Serializable {
         tbNEListGrupo4 = null;
         tbNEListGrupo5 = null;
         tbNEListGrupo6 = null;
+        tbNEListGrupo7 = null;
     }
 
     public TbNivelEscolaridadeEntity gettbNE() {
@@ -424,6 +475,17 @@ public class TbNIVELESCOLARIDADEBean implements Serializable {
 			 tbNEListGrupo4 = tbNEService.findAlltbNIVELESCOLARIDADEEntitiesGrupo4();
 	         }
 		return tbNEListGrupo4;
+	}
+	
+	public void setTbNEListGrupo7(List<TbNivelEscolaridadeEntity> tbNEListGrupo7) {
+		this.tbNEListGrupo7 = tbNEListGrupo7;
+	}
+	
+	public List<TbNivelEscolaridadeEntity> getTbNEListGrupo7() {
+		 if (tbNEListGrupo7 == null) {
+			 tbNEListGrupo7 = tbNEService.findAlltbNIVELESCOLARIDADEEntitiesGrupo7();
+	         }
+		return tbNEListGrupo7;
 	}
 
 	public void setTbNEListGrupo4(List<TbNivelEscolaridadeEntity> tbNEListGrupo4) {

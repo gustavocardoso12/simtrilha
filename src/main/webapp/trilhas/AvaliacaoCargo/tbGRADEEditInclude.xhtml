@@ -12,7 +12,9 @@
               <p:panelGrid columns="3" styleClass="dialog" id="penalidadeGrade"  columnClasses="col1,col2,col3"  >
             
                 <h:outputLabel value="#{messages.field_label_tbGRADE_deSCGRADE}:" for="deSCGRADEEditInput" />
-                <p:inputText value="#{tbGRADEBean.tbGRADE.deSCGRADE}" id="deSCGRADEEditInput"  />
+                <p:inputText
+                required="true" requiredMessage="Campo obrigatório!"
+                 value="#{tbGRADEBean.tbGRADE.deSCGRADE}" id="deSCGRADEEditInput"  />
                 <p:message for="deSCGRADEEditInput" display="icon" />
 				
 				

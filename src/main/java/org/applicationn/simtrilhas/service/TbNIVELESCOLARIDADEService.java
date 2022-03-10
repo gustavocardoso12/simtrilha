@@ -44,6 +44,12 @@ public class TbNIVELESCOLARIDADEService extends BaseService<TbNivelEscolaridadeE
     }
     
     @Transactional
+    public List<TbNivelEscolaridadeEntity> findAlltbNIVELESCOLARIDADEEntitiesGrupo7() {
+        
+        return getEntityManager().createQuery("SELECT o FROM tbNIVELESCOLARIDADE o where o.grupo = 7 order by o.idFormacao ", TbNivelEscolaridadeEntity.class).getResultList();
+    }
+    
+    @Transactional
     public List<TbNivelEscolaridadeEntity> findAlltbNIVELESCOLARIDADEEntitiesGrupo5() {
         
         return getEntityManager().createQuery("SELECT o FROM tbNIVELESCOLARIDADE o where o.grupo = 5 order by o.idFormacao ", TbNivelEscolaridadeEntity.class).getResultList();

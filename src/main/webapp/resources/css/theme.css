@@ -20,6 +20,12 @@
 	font-size: 1em;
 }
 
+body .ui-chkbox .ui-chkbox-box.ui-state-active {
+    border-color: #2196F3;
+    background: #2196F3;
+    color: #ffffff;
+}
+
 .ui-widget-content {
 	border: none;
 	background: #000000 url("/javax.faces.resource/images/ui-bg_inset-soft_25_000000_1x100.png.xhtml?ln=primefaces-ui-darkness") 50% bottom repeat-x;

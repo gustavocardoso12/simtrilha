@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+
+
+
+	<ui:define name="content">
+
+
+
+		<p:panelGrid id="panelcarrega" style="margin-left: 40px;">
+			<h:outputText id="statusMatriz"
+				style="top: 86px;
+					   left: 596px;
+					   width: 50%;
+					   height: 30px;
+					   text-align: left;
+					   font: Bold 16px/16px Montserrat;
+					   letter-spacing: 0px;
+						opacity: 1;"
+				escape="false" value="Carregando Lista de Usuários.... " />
+
+		</p:panelGrid>
+
+		<p:spacer></p:spacer>
+
+		<script language="javascript">
+
+		document.onreadystatechange = function () {
+			  var state = document.readyState
+			  
+			  
+			  if (state == 'complete') {
+			      setTimeout(function(){
+			          document.getElementById('interactive');
+			          document.getElementById('statusMatriz').style.visibility="hidden"; 
+			         document.getElementById('tbUSUARIOSDataForm').style.visibility="visible";
+			          
+			      },1000);
+			  }
+			}
+
+		</script>
+
+
+
+
+
+
+
+
+		<h:form style="margin-left:40px;visibility:hidden" prependId="false"
+			id="tbUSUARIOSDataForm"
+			onkeypress="if (event.keyCode == 13) {return false; }">
+			<p:commandButton rendered="#{not empty ControleUsuariosBean.tbUSUARIOSList}"
+				styleClass="botaoADDPessoas" value="Adicionar Usuário"
+				action="#{ ControleUsuariosBean.AdicionarUsuarios()}"
+				style="
+				width: 144px;
+				height: 40px;
+				margin-bottom: 30px;" />
+
+
+
+			<p:spacer></p:spacer>
+			<p:spacer></p:spacer>
+			<p:spacer></p:spacer>
+			<p:spacer></p:spacer>
+			<p:panelGrid columns="1">
+
+				<p:dataTable id="tbUSUARIOSTable"
+					rendered="#{not empty ControleUsuariosBean.tbUSUARIOSList}"
+					value="#{ControleUsuariosBean.tbUSUARIOSList}" var="tbUSUARIOS"
+					styleClass="barraCargosPessoas" widgetVar="tbUSUARIOSTable"
+					rowKey="#{tbUSUARIOS.id}"
+					emptyMessage="#{messages.label_no_records_found}">
+
+					<p:column styleClass="te" style="width:10%;">
+						<svg class="Ret_ngulo_61"> <rect fill="#5C2B5F"
+							id="Ret_ngulo_61" rx="0" ry="0" x="0" y="0" width="9"
+							height="100"> </rect> </svg>
+					</p:column>
+
+					<p:column styleClass="barraCargosPessoas"
+						style="
+					top: 416px;
+					width:90%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					
+					opacity: 1;"
+						headerText="Login: "
+						sortBy="#{tbUSUARIOS.username}">
+						<h:outputText
+							style="
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbUSUARIOS.username}  " />
+					</p:column>
+
+
+					<p:column styleClass="barraCargosPessoas"
+						style="
+						text-align: left;
+						width:90%;
+						font: Bold 15px/19px Montserrat;
+						letter-spacing: 0px;
+						
+						opacity: 1;"
+						headerText="Nível de acesso"
+						sortBy="#{tbUSUARIOS.roles.get(0)}">
+						<h:outputText
+							style="font-family:Montserrat !important;
+						text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbUSUARIOS.roles.get(0)}" />
+					</p:column>
+
+
+					<p:column styleClass="barraCargosPessoas"
+						style="	width:50% !important;
+							text-align: left;
+							font: Bold 15px/19px Montserrat;
+							letter-spacing: 0px;
+							
+							opacity: 1;"
+						headerText="Tema: " sortBy="#{tbUSUARIOS.theme}">
+						<h:outputText
+							style="font-family:Montserrat !important;
+							text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbUSUARIOS.theme}" />
+					</p:column>
+
+
+
+
+					<p:column styleClass="barraCargosPessoas"
+						style="
+					width:30%;
+					text-align: left;
+					font: Bold 15px/19px Montserrat;
+					letter-spacing: 0px;
+					
+					opacity: 1;">
+
+						<p:panelGrid columns="2"
+							columnClasses="painelpessoas,painelpessoas2">
+							<p:commandButton styleClass="botaoPessoas" async="true"
+								immediate="true" partialSubmit="true" value=""
+								style="background:none;width:40px; height:40px;font-size:12px"
+								icon="img-button-edit" action="#{ControleUsuariosBean.submit(tbUSUARIOS)}" />
+
+
+							
+						</p:panelGrid>
+
+
+					</p:column>
+
+
+				</p:dataTable>
+			</p:panelGrid>
+
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

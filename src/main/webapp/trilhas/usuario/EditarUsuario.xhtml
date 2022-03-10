@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<o:viewParam name="id" value="#{ControleUsuariosBean.id}" />
+		</f:metadata>
+
+
+		<p:panel header="Cadastrar" styleClass="userForm"
+			style="position: relative;
+    left: 6px;">
+			<h:form prependId="false" id="tbUSUARIOSDataForm"
+				styleClass="userForm" style="width:100% important"
+				onkeypress="if (event.keyCode == 13) {return false; }">
+
+
+				<p:outputPanel styleClass="ui-fluid">
+
+					<p:panelGrid columns="1" styleClass="dialog">
+
+
+
+
+						<h:outputLabel value="Nome de usuário: "
+							style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;"
+							for="usernameEditInput" />
+
+						<p:spacer></p:spacer>
+
+						<p:inputText
+							value="#{ControleUsuariosBean.usuarioEdicao.username}"
+							id="usernameEditInput" required="true"
+							requiredMessage="Informe o nome de usuário"
+							style="border: 1px solid #666 !important;background:white !important;  "
+							label="" />
+						<p:message for="usernameEditInput" display="icon" />
+
+
+
+						<p:spacer></p:spacer>
+
+
+						<h:outputLabel value="Email:"
+							style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;"
+							for="EmailEditInput" />
+
+
+						<p:spacer></p:spacer>
+						<p:inputText value="#{ControleUsuariosBean.usuarioEdicao.email}"
+							required="true" requiredMessage="Insira o email"
+							style="border: 1px solid #666 !important;background:white !important;  "
+							id="EmailEditInput">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+
+						<p:spacer></p:spacer>
+
+						<p:message for="EmailEditInput" display="icon" />
+
+
+
+
+						<h:outputLabel value="Tema Visual:"
+							style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;"
+							for="idTEMASelectInput" />
+
+						<p:spacer></p:spacer>
+
+						<p:selectOneMenu
+							style="border: 1px solid #666 !important;background:white !important;  "
+							styleClass="menuCriarUsuarios"
+							value="#{ControleUsuariosBean.usuarioEdicao.theme}"
+							required="true" requiredMessage="Insira o Tema"
+							id="idTEMASelectInput">
+							<f:selectItem noSelectionOption="false" itemLabel="" />
+							<f:selectItems value="#{ControleUsuariosBean.themesList}"
+								var="tbTHEME" itemLabel="#{tbTHEME}" itemValue="#{tbTHEME}" />
+							<o:converter converterId="omnifaces.SelectItemsConverter"
+								list="#{ControleUsuariosBean.themesList}" />
+
+						</p:selectOneMenu>
+
+						<p:spacer></p:spacer>
+
+						<h:outputLabel value="Banco de dados: "
+							style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;"
+							for="idTEMASelectInput" />
+						<p:spacer></p:spacer>
+						<p:selectOneMenu
+							style="border: 1px solid #666 !important;background:white !important;  "
+							styleClass="menuCriarUsuarios"
+							value="#{ControleUsuariosBean.usuarioEdicao.banco_dados}"
+							required="true" requiredMessage="Insira o Banco de Dados"
+							id="idBDelectInput">
+							<f:selectItem noSelectionOption="false" itemLabel="" />
+							<f:selectItems value="#{ControleUsuariosBean.BDList}" var="tbBD"
+								itemLabel="#{tbBD}" itemValue="#{tbBD}" />
+							<o:converter converterId="omnifaces.SelectItemsConverter"
+								list="#{ControleUsuariosBean.BDList}" />
+
+						</p:selectOneMenu>
+						<p:spacer></p:spacer>
+
+
+
+
+
+
+
+						<h:outputLabel value="Permissão para ver Pessoas cadastradas:  "
+							style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;"
+							for="idPESSOASelectInput" />
+						<p:spacer></p:spacer>
+						<p:selectOneMenu
+							style="border: 1px solid #666 !important;background:white !important;  "
+							styleClass="menuCriarUsuarios"
+							value="#{ControleUsuariosBean.usuarioEdicao.flag_pessoa}"
+							required="true"
+							requiredMessage="Insira se o usuário poderá ver pessoas ou não"
+							id="idPESSOASelectInput">
+							<f:selectItem noSelectionOption="false" itemLabel="" />
+
+							<f:selectItem itemValue="SIM" itemLabel="SIM" />
+							<f:selectItem itemValue="NAO" itemLabel="NAO" />
+						</p:selectOneMenu>
+						<p:spacer></p:spacer>
+
+						<h:outputLabel value="Permissão para ver Grades:  "
+							style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;"
+							for="idGRADESelectInput" />
+						<p:spacer></p:spacer>
+						<p:selectOneMenu
+							style="border: 1px solid #666 !important;background:white !important;  "
+							styleClass="menuCriarUsuarios"
+							value="#{ControleUsuariosBean.usuarioEdicao.flag_grade}"
+							required="true"
+							requiredMessage="Insira se o usuário poderá ver Grades ou não"
+							id="idGRADESelectInput">
+							<f:selectItem noSelectionOption="false" itemLabel="" />
+
+							<f:selectItem itemValue="SIM" itemLabel="SIM" />
+							<f:selectItem itemValue="NAO" itemLabel="NAO" />
+						</p:selectOneMenu>
+						<p:spacer></p:spacer>
+
+
+
+
+						<h:outputLabel value="Nível de acesso: "
+							style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;"
+							for="idNIVELelectInput" />
+						<p:spacer></p:spacer>
+						<p:selectOneMenu
+							style="border: 1px solid #666 !important;background:white !important;  "
+							styleClass="menuCriarUsuarios"
+							value="#{ControleUsuariosBean.nivelAcesso}"
+							required="true"
+							requiredMessage="Insira o nível de acesso ao sistema"
+							id="idNIVELelectInput">
+							<f:selectItem noSelectionOption="false" itemLabel="" />
+							<f:selectItem itemValue="Administrator" itemLabel="Administrator" />
+							<f:selectItem itemValue="Colaborador" itemLabel="Colaborador" />
+
+						</p:selectOneMenu>
+						<p:spacer></p:spacer>
+
+
+
+
+						<p:message for="idSaveSelectInput" display="icon" />
+						<h:outputLabel value="" for="idSaveSelectInput" />
+						<p:commandButton value="Salvar" id="idSaveSelectInput"
+							actionListener="#{ControleUsuariosBean.persistEdicao(ControleUsuariosBean.usuarioEdicao)}"
+							update="tbUSUARIOSDataForm 
+								  :growlForm:growl
+									 "
+							process="tbUSUARIOSDataForm" style="width:29.5%" />
+
+
+
+					</p:panelGrid>
+
+				</p:outputPanel>
+
+
+
+
+
+
+			</h:form>
+
+		</p:panel>
+
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

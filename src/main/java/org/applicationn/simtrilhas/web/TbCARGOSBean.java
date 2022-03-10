@@ -17,7 +17,7 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
-
+import org.applicationn.simtrilhas.domain.TbAREAEntity;
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCOMPETENCIASCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEMCARGOSEntity;
@@ -83,6 +83,8 @@ public class TbCARGOSBean implements Serializable {
 	protected List<TbCARGOSEntity> tbCARGOSList;
 
 	protected List<TbCARGOSEntity> tbPESSOASList;
+	
+	protected List<TbCARGOSEntity> tbCADASTRO;
 
 
 
@@ -91,6 +93,8 @@ public class TbCARGOSBean implements Serializable {
 	protected List<TbCARGOSEntity> tbCARGOSListFiltrada = new ArrayList<TbCARGOSEntity>();
 
 	protected TbCARGOSEntity tbCARGOS;
+
+	private TbAREAEntity tbAREA;
 
 	@Inject
 	protected TbMATRIZCARGOSService tbMATRIZCARGOSService;
@@ -209,6 +213,8 @@ public class TbCARGOSBean implements Serializable {
 	protected String departamentoEscolhidoPara;
 
 	protected List<TbDEPTOEntity> allIdDEPTOsList;
+
+	protected List<TbAREAEntity> allIdAREAsList;
 
 	protected List<TbNOEntity> allIdNOsList;
 
@@ -348,20 +354,53 @@ public class TbCARGOSBean implements Serializable {
 
 	private int id;
 
+	private String flagPessoa;
+
 	protected boolean selector;
 
 	public String submit(TbCARGOSEntity cargo) {
+		String statusFinal = "";
+		if(flagPessoa.equals("SIM")) {
+			statusFinal = submitPessoas(cargo);
+		}else if(flagPessoa.equals("NAO")) {
+			statusFinal =submitCargos(cargo);
+		}
+		return statusFinal;
+	}
+	
+	
+	public String submitCargos(TbCARGOSEntity cargo) {
 		id = cargo.getId().intValue();
-
-		return "/trilhas/Cargos/EditarCargos.xhtml?faces-redirect=true&includeViewParams=true";
+		flagPessoa = cargo.getFlagPessoa().toString();
+		return "/trilhas/Cadastro/Editar.xhtml?faces-redirect=true&includeViewParams=true";
 	}
 
 
 	public String submitPessoas(TbCARGOSEntity cargo) {
 		id = cargo.getId().intValue();
-
-		return "/trilhas/Pessoas/EditarPessoas.xhtml?faces-redirect=true&includeViewParams=true";
+		flagPessoa = cargo.getFlagPessoa().toString();
+		return "/trilhas/Cadastro/Editar.xhtml?faces-redirect=true&includeViewParams=true";
 	}
+	
+	
+
+/*	public String Adicionar() {
+		String statusFinal = "";
+		if(flagPessoa.equals("SIM")) {
+			statusFinal = AdicionarPessoas();
+		}else if(flagPessoa.equals("NAO")) {
+			statusFinal =AdicionarCargos();
+		}
+		return statusFinal;
+	}
+
+	public String AdicionarCargos() {
+		reset();
+		changeHeaderCadastrar();
+		this.tbCARGOS = new TbCARGOSEntity();
+		return "/trilhas/Cadastro/Cadastrar.xhtml?faces-redirect=true&includeViewParams=true&viewPessoa=NAO";
+	}*/
+
 
 
 	public void InicializaCargos(int id) {
@@ -543,11 +582,21 @@ public class TbCARGOSBean implements Serializable {
 		this.tbCARGOS = new TbCARGOSEntity();
 	}
 
+	public String Adicionar() {
+		String statusFinal = "";
+		if(flagPessoa.equals("SIM")) {
+			statusFinal = AdicionarPessoas();
+		}else if(flagPessoa.equals("NAO")) {
+			statusFinal =AdicionarCargos();
+		}
+		return statusFinal;
+	}
+
 	public String AdicionarCargos() {
 		reset();
 		changeHeaderCadastrar();
 		this.tbCARGOS = new TbCARGOSEntity();
-		return "/trilhas/Cargos/AdicionarCargo.xhtml?faces-redirect=true";
+		return "/trilhas/Cadastro/Cadastrar.xhtml?faces-redirect=true&includeViewParams=true&viewPessoa=NAO";
 	}
 
 
@@ -555,7 +604,7 @@ public class TbCARGOSBean implements Serializable {
 		reset();
 		changeHeaderCadastrar();
 		this.tbCARGOS = new TbCARGOSEntity();
-		return "/trilhas/Pessoas/AdicionarPessoas.xhtml?faces-redirect=true";
+		return "/trilhas/Cadastro/Cadastrar.xhtml?faces-redirect=true&includeViewParams=true&viewPessoa=SIM";
 	}
 
 	public void SelecionaPessoasAT() {
@@ -661,6 +710,12 @@ public class TbCARGOSBean implements Serializable {
 	public List<TbGRADECARGOSEntity> InicializaTabelasAuxiliaresGR(TbCARGOSEntity tbCARGOS) {
 		this.tbCARGOS = tbCARGOS;
 		tbGRADESCARGOSs = tbGRADESCARGOSService.findTbGRADECARGOSsByIdCARGOS(this.tbCARGOS);
+		return tbGRADESCARGOSs;
+	}
+	
+	public List<TbGRADECARGOSEntity> InicializaTabelasAuxiliaresGRIni(TbCARGOSEntity tbCARGOS) {
+		this.tbCARGOS = tbCARGOS;
+		tbGRADESCARGOSs = tbGRADESCARGOSService.findTbGRADECARGOSsByIdCARGOSIni(this.tbCARGOS);
 		return tbGRADESCARGOSs;
 	}
 
@@ -842,13 +897,14 @@ public class TbCARGOSBean implements Serializable {
 						if(gapDeParaCE==0) {
 
 						}else {
-							gapdePARA = gapDeParaCE * listCECARGOSDe.get(i).getIdCONHECESP().getPenalidadeConhecBas();	
+							gapdePARA= gapDeParaCE * listCECARGOSDe.get(i).getIdCONHECESP().getPenalidadeConhecBas();	
 						}
 						gap.setPoNTUACAOCONESP(gapdePARA);
 						listGapCE.add(gap);
 					}
 
 					somaListaGap += gapdePARA;
+					System.out.println(somaListaGap);
 
 				}
 
@@ -1370,6 +1426,8 @@ public class TbCARGOSBean implements Serializable {
 			aderenciaPE = 0.0;
 		} else {
 
+
+
 			aderenciaFinal = ((pesoCO * aderencia) + (pesoNH * aderenciaGR) + (pesoPE * aderenciaPE)
 					+ (pesoCB * aderenciaCB) + (pesoCE * aderenciaCE)) / 100;
 
@@ -1431,17 +1489,36 @@ public class TbCARGOSBean implements Serializable {
 		return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 	}
 
+	public void PersistCadastro() {
+		if(flagPessoa.equals("SIM")) {
+			persistPessoas();
+		}else if(flagPessoa.equals("NAO")) {
+			persistCargos();
+		}
+	}
+
+
+	public void persistCargos() {
+		tbCARGOS.setFlagPessoa("NAO");
+		persist();
+	}
+
+	public void persistPessoas() {
+		tbCARGOS.setFlagPessoa("SIM");
+		persist();
+	}
+
+
 	public String persist() {
-
 		tbCARGOS.setDeSCCARGO(removerAcentos(tbCARGOS.getDeSCCARGO()));
-
 		tbCARGOS.setDeSCCARGO(tbCARGOS.getDeSCCARGO().trim().toUpperCase());
 		String message="";
 		String duplicado="";
 		try {
 			allIdCARGOSsList = tbCARGOSService.AllTbCARGOSEntities();
 			for (int i =0; i<allIdCARGOSsList.size();i++) {
-				if(tbCARGOS.getDeSCCARGO().equals(allIdCARGOSsList.get(i).getDeSCCARGO())) {
+				if(tbCARGOS.getDeSCCARGO().equals(allIdCARGOSsList.get(i).getDeSCCARGO())
+						&&  (tbCARGOS.getId()==null)) {
 					duplicado = "S";
 					this.tbCARGOS =null;
 					break;
@@ -1451,13 +1528,9 @@ public class TbCARGOSBean implements Serializable {
 				}
 			}
 
-			if(duplicado.equals("S")) {
+			if((duplicado.equals("S") && (tbCARGOS.getId()==null))) {
 
 			}else {
-
-
-
-
 
 				if (tbCARGOS.getId() != null) {
 					tbCARGOS = tbCARGOSService.update(tbCARGOS);
@@ -1493,8 +1566,6 @@ public class TbCARGOSBean implements Serializable {
 			flagCultura = 1;
 			setFlagCultura(1);
 		}
-
-
 		FacesMessage facesMessage = MessageFactory.getMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
@@ -1534,6 +1605,7 @@ public class TbCARGOSBean implements Serializable {
 		}
 
 		tbCARGOSList = null;
+		tbCADASTRO = null;
 		FacesMessage facesMessage = MessageFactory.getMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
@@ -1547,14 +1619,13 @@ public class TbCARGOSBean implements Serializable {
 		try {
 			tbCARGOSService.delete(tbCARGOS);
 			message = "message_successfully_deleted";
-			reset();
+			 reset();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Error occured", e);
 			message = "message_delete_exception";
 			// Set validationFailed to keep the dialog open
 			FacesContext.getCurrentInstance().validationFailed();
 		}
-		tbCARGOSList = null;
 		FacesContext.getCurrentInstance().addMessage(null, MessageFactory.getMessage(message));
 
 		return null;
@@ -1568,6 +1639,7 @@ public class TbCARGOSBean implements Serializable {
 		allIdCURSOSsList = null;
 		allIdDEPTOsList = null;
 		allIdNOsList = null;
+		tbCADASTRO= null;
 
 	}
 
@@ -1587,6 +1659,19 @@ public class TbCARGOSBean implements Serializable {
 
 		}
 		return this.allIdDEPTOsList;
+	}
+
+	public void idDEPTOsArea() {
+		this.allIdDEPTOsList = tbDEPTOSerivce.findTbDEPTOsByIdAREA(this.tbAREA);
+	}
+
+	// Get a List of all idArea
+	public List<TbAREAEntity> getIdAREAs() {
+		if (this.allIdAREAsList == null) {
+			this.allIdAREAsList = tbAREAService.findAllTbAREAEntities();
+
+		}
+		return this.allIdAREAsList;
 	}
 
 	// Get a List of all idNO
@@ -1639,6 +1724,11 @@ public class TbCARGOSBean implements Serializable {
 		}
 		return tbCARGOSList;
 	}
+	
+
+	
+	
+	
 
 	public void setTbCARGOSList(List<TbCARGOSEntity> tbCARGOSList) {
 		this.tbCARGOSList = tbCARGOSList;
@@ -2451,6 +2541,44 @@ public class TbCARGOSBean implements Serializable {
 
 	public void setSelector(boolean selector) {
 		this.selector = selector;
+	}
+
+
+	public TbAREAEntity getTbAREA() {
+		return tbAREA;
+	}
+
+
+	public void setTbAREA(TbAREAEntity tbAREA) {
+		this.tbAREA = tbAREA;
+	}
+
+
+	public String getFlagPessoa() {
+		System.out.println(flagPessoa);
+		return flagPessoa;
+	}
+
+
+	public void setFlagPessoa(String flagPessoa) {
+		this.flagPessoa = flagPessoa;
+	}
+
+	
+	public List<TbCARGOSEntity> getTbCADASTRO() {
+		if (tbCADASTRO == null) {
+			if(flagPessoa.equals("SIM")) {
+				tbCADASTRO = tbCARGOSService.findAllTbPESSOASEntities();
+			}else if(flagPessoa.equals("NAO")) {
+				tbCADASTRO = tbCARGOSService.findAllTbCARGOSEntities();
+			}
+		}
+		return tbCADASTRO;
+	}
+
+
+	public void setTbCADASTRO(List<TbCARGOSEntity> tbCADASTRO) {
+		this.tbCADASTRO = tbCADASTRO;
 	}
 
 }

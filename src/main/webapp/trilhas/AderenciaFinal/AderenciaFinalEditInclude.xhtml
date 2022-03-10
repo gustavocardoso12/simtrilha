@@ -12,7 +12,9 @@
               <p:panelGrid columns="3" styleClass="dialog"  columnClasses="col1,col2,col3"  >
               
               	<h:outputLabel value="Fator:" for="IDPONTCARGOSEditInput" />
-                <p:inputText value="#{tbPONTCARGOSBean.tbPONTCARGOS.descricaoCompleta}" id="IDPONTCARGOSEditInput"  />
+                <p:inputText
+                required="true" requiredMessage="Campo obrigatório!"
+                 value="#{tbPONTCARGOSBean.tbPONTCARGOS.descricaoCompleta}" id="IDPONTCARGOSEditInput"  />
                 <p:message for="IDPONTCARGOSEditInput" display="icon" />
             
                 <h:outputLabel value="Peso para cálculo de aderência final:" for="deSCPONTCARGOSEditInput" />

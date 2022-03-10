@@ -34,7 +34,9 @@
               
                 
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_poNTUACAOCONBAS}:" for="poNTUACAOCONBASEditInput" />
-                <p:inputText value="#{tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOS.poNTUACAOCONBAS}" id="poNTUACAOCONBASEditInput" label="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_poNTUACAOCONBAS}" >
+                <p:inputText value="#{tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOS.poNTUACAOCONBAS}" 
+                   required="true" requiredMessage="Pontuação é obrigatória!"
+                id="poNTUACAOCONBASEditInput" label="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_poNTUACAOCONBAS}" >
                     <f:convertNumber />
                 </p:inputText>
                 <p:message for="poNTUACAOCONBASEditInput" display="icon" />

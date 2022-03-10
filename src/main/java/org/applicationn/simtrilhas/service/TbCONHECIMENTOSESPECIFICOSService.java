@@ -24,6 +24,13 @@ public class TbCONHECIMENTOSESPECIFICOSService extends BaseService<TbCONHECIMENT
         return getEntityManager().createQuery("SELECT o FROM TbCONHECIMENTOSESPECIFICOS o ", TbCONHECIMENTOSESPECIFICOSEntity.class).getResultList();
     }
     
+    
+    @Transactional
+    public List<TbCONHECIMENTOSESPECIFICOSEntity> findAllTbCONHECIMENTOSESPECIFICOSEntitiesAlfa() {
+        
+        return getEntityManager().createQuery("SELECT o FROM TbCONHECIMENTOSESPECIFICOS o ORDER BY o.deSCCONHECIMENTOSESPECIFICOS", TbCONHECIMENTOSESPECIFICOSEntity.class).getResultList();
+    }
+    
     @Transactional
     public List<TbCONHECIMENTOSESPECIFICOSEntity> findAllTbCONHECIMENTOSESPECIFICOSEntitiesCE() {
         

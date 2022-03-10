@@ -114,12 +114,24 @@ public class BaseService<T extends BaseEntity> {
 	public T update(T entity) {
 		return this.getEntityManager() .merge(entity);
 	}
+	
+	@Transactional
+	public T updateMatriz(T entity) {
+		return this.getEntityManagerMatriz() .merge(entity);
+	}
 
 	@Transactional
 	public T find(Long id) {
 		if (id == null) return null;
 		return this.getEntityManager() .find(this.type, id);
 	}
+	
+	@Transactional
+	public T findMatriz(Long id) {
+		if (id == null) return null;
+		return this.getEntityManagerMatriz() .find(this.type, id);
+	}
+
 
 	@Transactional
 	public T find(Class<T> type, Object id) {

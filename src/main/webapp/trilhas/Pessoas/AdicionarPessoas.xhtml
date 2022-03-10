@@ -106,23 +106,11 @@
 
 			</p:selectOneMenu>
 			
-			<p:message for="idpessoaSelectInput" display="icon" />
-		<h:outputLabel value="Cargo ou pessoa?"
- 			for="idpessoaSelectInput" />  
-		
-			<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.flagPessoa}"
-				id="idpessoaSelectInput">
-				<f:selectItem noSelectionOption="true" itemLabel="" />
-            	<f:selectItem itemLabel="Pessoa" itemValue="SIM" />
-            	<f:selectItem itemLabel="Cargo" itemValue="NAO" />
-
-			</p:selectOneMenu>
-			
 		<p:message for="idSaveSelectInput" display="icon" />
 		<h:outputLabel value=""
  			for="idSaveSelectInput" />  
 			<p:commandButton value="Salvar" resetValues="true" id="idSaveSelectInput"
-									actionListener="#{tbCARGOSBean.persist}"
+									actionListener="#{tbCARGOSBean.persistPessoas}"
 								 update="tbCARGOSDataForm 
 									 DSPE DSGR DSCO DSCB DSCE 
 									 " process="tbCARGOSDataForm DSPE DSGR DSCO DSCB DSCE"

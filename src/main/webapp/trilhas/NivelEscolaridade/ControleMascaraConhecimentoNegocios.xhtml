@@ -42,12 +42,12 @@
 		</p:dialog>	
 		
 		
-    <h:form prependId="false" id="tbNODataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+    <h:form prependId="false" id="tbNEDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
 
-			<p:dataTable id="tbNOTable"
+			<p:dataTable id="tbNETable"
 				styleClass="barraCargosPessoas"
-				value="#{tbNOBean.tbNOList}" var="tbNO"
-				widgetVar="tbNOTable"
+				value="#{tbNEBean.tbNEListGrupo7}" var="tbNE"
+				widgetVar="tbNETable"
 				emptyMessage="#{messages.label_no_records_found}" >
 
 
@@ -60,14 +60,14 @@
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-					headerText="Nível">
+					headerText="ID: ">
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
 							letter-spacing: 0px;
 							color: #000000;
 							opacity: 1;"
-							value="#{tbNO.idNivel}" />
+							value="#{tbNE.idFormacao}" />
 					</p:column>
 				
 				
@@ -80,49 +80,48 @@
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-					headerText="#{messages.field_label_tbAREA_deSCNO}">
+					headerText="Conhecimento de negócio">
 						<h:outputText style="
 						text-align: left;
 							font: 14px/18px Montserrat;
 							letter-spacing: 0px;
 							color: #000000;
 							opacity: 1;"
-							value="#{tbNO.deSCNivel}" />
+							value="#{tbNE.descFormacao}" />
 					</p:column>
+					
+					
 
 		
 
-						
-				<p:column styleClass="barraCargosPessoas"
-						style="
-					top: 416px;
-					width:70%;
+					<p:column styleClass="barraCargosPessoas"
+							style="
+					width:30%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-				
+					
 					opacity: 1;">
-
 
 						<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 					
 					
-						<p:commandButton styleClass="botaoPessoas" 
-						style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="DDD"
+						<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
 								icon="img-button-edit"
-								rendered="#{tbNOBean.isPermitted(tbNO, 'tbNO:update')}"
-									action="#{tbNOBean.onDialogOpen(tbNO)}"
-								update=":editTbNODialog"
-								oncomplete="PF('editTbNODialogWidget').show()"/>
+								rendered="#{tbNEBean.isPermitted(tbNO, 'tbNO:update')}"
+									action="#{tbNEBean.onDialogOpen(tbNE)}"
+								update=":edittbNEDialog"
+								oncomplete="PF('edittbNEDialogWidget').show()"/>
 				
 						<p:commandButton
-							rendered="#{tbNOBean.isPermitted(tbNO, 'tbNO:delete')}"
-								oncomplete="PF('deleteTbNODialogWidget').show()"
+							
+							rendered="true"
+								oncomplete="PF('deletetbNEDialogWidget').show()"
 								styleClass="botaoPessoas"
-								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="DD"
+								style="background:none;width:40px; height:40px;font-size:12px" value=""
 								icon="img-button-delete">
-								<f:setPropertyActionListener value="#{tbNO}"
-							target="#{tbNOBean.tbNO}" />
+								<f:setPropertyActionListener value="#{tbNE}"
+							target="#{tbNEBean.tbNE}" />
 							</p:commandButton>
 
 				</p:panelGrid>
@@ -130,11 +129,11 @@
 				</p:column>
 				
 			<f:facet name="footer">
-				<p:commandButton value="Cadastrar Novo Nível Organizacional"
-						action="#{tbNOBean.prepareNewTbNO()}"
-						resetValues="true" update=":editTbNODialog"
-						oncomplete="PF('editTbNODialogWidget').show()"
-						rendered="#{tbNOBean.isPermitted('tbNO:create')}"
+				<p:commandButton value="Cadastrar Rótulo de Certificação"
+						action="#{tbNEBean.prepareNewtbNE()}"
+						resetValues="true" update=":edittbNEDialog"
+						oncomplete="PF('edittbNEDialogWidget').show()"
+						rendered="#{tbNEBean.isPermitted('tbNO:create')}"
 						style="background:#ED6D09;width:25.0%"
 						 />
 		 
@@ -143,49 +142,46 @@
 			</p:dataTable>
         
     </h:form>
+    
+    
+    
+    
+    
+    
+    
 
-    <p:confirmDialog id="deleteTbNODialog" showEffect="explode" hideEffect="fade" widgetVar="deleteTbNODialogWidget"
-        rendered="#{tbNOBean.isPermitted(tbNOBean.tbNO, 'tbNO:delete')}" header="#{messages.label_confirm_deletion}"
+    <p:confirmDialog id="deletetbNEDialog" showEffect="explode" hideEffect="fade" widgetVar="deletetbNEDialogWidget"
+        rendered="#{tbNEBean.isPermitted(tbNEBean.tbNE, 'tbNO:delete')}" header="#{messages.label_confirm_deletion}"
         severity="alarm">
         <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
         <p:outputPanel>
           <h:form>
            <p:panelGrid   columns="2" style="margin:auto"  >
-              <p:commandButton value="#{messages.label_yes}" action="#{tbNOBean.delete}" update=":tbNODataForm :growlForm:growl" oncomplete="PF('deleteTbNODialogWidget').hide()" />
-              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbNODialogWidget').hide()" type="button" />
+              <p:commandButton value="#{messages.label_yes}" action="#{tbNEBean.delete}" update=":tbNEDataForm :growlForm:growl" oncomplete="PF('deletetbNEDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deletetbNEDialogWidget').hide()" type="button" />
             </p:panelGrid>
           </h:form>
         </p:outputPanel>
     </p:confirmDialog>
     
-    <p:dialog dynamic="true" id="editTbNODialog" header="#{tbNOBean.dialogHeader}"
+    <p:dialog dynamic="true" id="edittbNEDialog" header="#{tbNEBean.dialogHeader}"
       responsive="true" resizable="false"
-            modal="false" widgetVar="editTbNODialogWidget" maximizable="false">
-        <p:ajax event="close" listener="#{tbNOBean.reset}"/>
-        <h:form id="editTbNOForm" >
-            <p:outputPanel id="tbNOEditPanel">
-                <ui:include src="/trilhas/NivelOrganizacional/tbNOEditInclude.xhtml"/>
+            modal="false" widgetVar="edittbNEDialogWidget" maximizable="false">
+        <p:ajax event="close" listener="#{tbNEBean.reset}"/>
+        <h:form id="edittbNEForm" >
+            <p:outputPanel id="tbNEEditPanel">
+                <ui:include src="/trilhas/NivelEscolaridade/EditarMascaraTecnicos.xhtml"/>
                 <div style="text-align: center; margin:10px">
                     <p:commandButton value="#{messages.label_save}"
-                            action="#{tbNOBean.persist}"
-                            update=":editTbNOForm:tbNOEditPanel :tbNODataForm :growlForm:growl"
-                            oncomplete="if(!args.validationFailed) PF('editTbNODialogWidget').hide()" />
+                            action="#{tbNEBean.persistGRP7}"
+                            update=":edittbNEForm:tbNEEditPanel :tbNEDataForm :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('edittbNEDialogWidget').hide()" />
                 </div>
             </p:outputPanel>
         </h:form>
     </p:dialog>
 
-		<p:dialog dynamic="true" id="viewTbNODialog"
-			header="#{messages.label_tbNO_caption}" modal="true"
-			maximizable="false"
-			
-			resizable="false" responsive="true"
-			widgetVar="viewTbNODialogWidget">
-			<p:ajax event="close" listener="#{tbNOBean.reset}" />
-			<h:form id="viewTbNOForm">
-				<ui:include src="/trilhas/NivelOrganizacional/tbNOViewInclude.xhtml" />
-			</h:form>
-		</p:dialog>
+	
 
 	
     

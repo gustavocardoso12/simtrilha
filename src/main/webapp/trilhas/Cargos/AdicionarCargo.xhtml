@@ -44,93 +44,188 @@
 			</h:panelGrid>
 		</p:dialog>
 
-
-		<h:form prependId="false" id="tbCARGOSDataForm"
+		<p:panel header="Cadastrar Cargo" styleClass="userForm" style="position: relative;
+    left: 6px;" >
+		
+		
+		<h:form prependId="false" id="tbCARGOSDataForm" 
+		styleClass="userForm"
+		style="width:100% important"
 			onkeypress="if (event.keyCode == 13) {return false; }">
 
 
 			<p:outputPanel styleClass="ui-fluid">
 
-				<p:panelGrid columns="3" styleClass="dialog"
-					columnClasses="col1,col2,col3">
-
-
-
-
-					<h:outputLabel value="#{messages.field_label_tbCARGOS_deSCCARGO}:"
-						for="deSCCARGOEditInput" />
+				<p:panelGrid columns="1" styleClass="dialog"
+					>
+					
+					<h:outputLabel value="#{messages.field_label_tbCARGOS_deSCCARGO}:" style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;" for="deSCCARGOEditInput" />
+															
+					<p:spacer></p:spacer>			
+					
 					<p:inputText value="#{tbCARGOSBean.tbCARGOS.deSCCARGO}"
-						id="deSCCARGOEditInput"
-						label="#{messages.field_label_tbCARGOS_deSCCARGO}" />
+						required="true" requiredMessage=" Nome do cargo é obrigatória" 
+						id="deSCCARGOEditInput" 
+						style="border: 1px solid #666 !important;background:white !important;  "
+						label="" />
 					<p:message for="deSCCARGOEditInput" display="icon" />
 
-					<h:outputLabel value="#{messages.field_label_tbCARGOS_miSSAO}:"
-						for="miSSAOEditInput" />
+				<p:spacer></p:spacer>		
+				<h:outputLabel value="#{messages.field_label_tbCARGOS_miSSAO}:" style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;" for="miSSAOEditInput" />
+															
+					<p:spacer></p:spacer>			
+					
 					<p:inputText value="#{tbCARGOSBean.tbCARGOS.miSSAO}"
-						id="miSSAOEditInput"
-						label="#{messages.field_label_tbCARGOS_miSSAO}" />
+						id="miSSAOEditInput" 
+						style="border: 1px solid #666 !important;background:white !important;  "
+						label="#{messages.field_label_tbCARGOS_miSSAO}"  />
 					<p:message for="miSSAOEditInput" display="icon" />
 
-					<h:outputLabel
-						value="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}:"
-						for="reSPONSABILIDADESEditInput" />
-					<p:inputTextarea value="#{tbCARGOSBean.tbCARGOS.reSPONSABILIDADES}"
-						id="reSPONSABILIDADESEditInput" rows="1" cols="33" />
+
+
+				<p:spacer></p:spacer>		
+				<h:outputLabel value="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}:" style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;" for="reSPONSABILIDADESEditInput" />
+															
+					<p:spacer></p:spacer>			
+					
+					<p:inputTextarea  value="#{tbCARGOSBean.tbCARGOS.reSPONSABILIDADES}"
+						id="reSPONSABILIDADESEditInput" 
+						 rows="1" cols="33"
+						style="border: 1px solid #666 !important;background:white !important;  "
+						label="#{messages.field_label_tbCARGOS_reSPONSABILIDADES}:"  />
 					<p:message for="reSPONSABILIDADESEditInput" display="icon" />
+					
+					
+					
+					
+					<p:spacer></p:spacer>		
+					
+					<h:outputLabel value="Família:"
+					style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;" 
+						for="idAREASelectInput" />
+					<p:spacer></p:spacer>		
+					<p:selectOneMenu
+							required="true" requiredMessage=" Família é obrigatória" 
+							style="border: 1px solid #666 !important;background:white !important;  " 
+							styleClass="menuCriarUsuarios"
+					  value="#{tbCARGOSBean.tbAREA}"
+						id="idAREASelectInput">
+						<f:selectItem noSelectionOption="true" itemLabel="" />
+					<f:selectItems value="#{tbCARGOSBean.idAREAs}" var="tbAREA"
+							itemLabel="Família: #{tbAREA.deSCAREA}"
+							itemValue="#{tbAREA}" />
+							<o:converter converterId="omnifaces.SelectItemsConverter"
+							list="#{tbCARGOSBean.idAREAs}" />
+							
+							 <p:ajax event="change" listener="#{tbCARGOSBean.idDEPTOsArea}" update="idDEPTOSelectInput" />
 
-
-
-
+					</p:selectOneMenu>
+					<p:spacer></p:spacer>	
+					<p:message for="idAREASelectInput" display="icon" />
+					
+					
+					
+					<p:spacer></p:spacer>		
+					
 					<h:outputLabel value="#{messages.field_label_tbCARGOS_idDEPTO}:"
+					style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;" 
 						for="idDEPTOSelectInput" />
-
-					<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.idDEPTO}"
+					<p:spacer></p:spacer>		
+					<p:selectOneMenu
+							required="true" requiredMessage=" SubFamília é obrigatório" 
+							style="border: 1px solid #666 !important;background:white !important;  " 
+							styleClass="menuCriarUsuarios"
+					  value="#{tbCARGOSBean.tbCARGOS.idDEPTO}"
 						id="idDEPTOSelectInput">
 						<f:selectItem noSelectionOption="true" itemLabel="" />
-						<f:selectItems value="#{tbCARGOSBean.idDEPTOs}" var="tbDEPTO"
-							itemLabel="Sub-Família: #{tbDEPTO.deSCDEPTO} Família: #{tbDEPTO.idAREA.deSCAREA}"
+					<f:selectItems value="#{tbCARGOSBean.idDEPTOs}" var="tbDEPTO"
+							itemLabel="Sub-Família: #{tbDEPTO.deSCDEPTO}"
 							itemValue="#{tbDEPTO}" />
-						<o:converter converterId="omnifaces.SelectItemsConverter"
+							<o:converter converterId="omnifaces.SelectItemsConverter"
 							list="#{tbCARGOSBean.idDEPTOs}" />
 
 					</p:selectOneMenu>
-					<p:message for="reSPONSABILIDADESEditInput" display="icon" />
+					<p:spacer></p:spacer>	
+					<p:message for="idDEPTOSelectInput" display="icon" />
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					<p:spacer></p:spacer>		
+					
 					<h:outputLabel value="#{messages.field_label_tbCARGOS_idNO}:"
+					style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;" 
 						for="idNOSelectInput" />
-
-					<p:selectOneMenu required="true" requiredMessage="Nível organizacional é obrigatório" value="#{tbCARGOSBean.tbCARGOS.idNO}"
+					<p:spacer></p:spacer>		
+					<p:selectOneMenu
+							 
+							style="border: 1px solid #666 !important;background:white !important;  " 
+							styleClass="menuCriarUsuarios"
+					  value="#{tbCARGOSBean.tbCARGOS.idNO}"
 						id="idNOSelectInput">
-						<f:selectItem itemLabel="" />
-						<f:selectItems value="#{tbCARGOSBean.idNOs}" var="tbNO"
+						<f:selectItem noSelectionOption="true" itemLabel="" />
+					<f:selectItems value="#{tbCARGOSBean.idNOs}" var="tbNO"
 							itemLabel=" Nível Organizacional: #{tbNO.deSCNivel}"
 							itemValue="#{tbDEPTO}" />
 						<o:converter converterId="omnifaces.SelectItemsConverter"
 							list="#{tbCARGOSBean.idNOs}" />
 
 					</p:selectOneMenu>
+					<p:spacer></p:spacer>	
+					<p:message for="idNOSelectInput" display="icon" />
+					
 
-					<p:message for="idpessoaSelectInput" display="icon" />
-					<h:outputLabel value="Cargo ou pessoa?" for="idpessoaSelectInput" />
-
-					<p:selectOneMenu value="#{tbCARGOSBean.tbCARGOS.flagPessoa}"
-						id="idpessoaSelectInput">
-						<f:selectItem noSelectionOption="true" itemLabel="" />
-						<f:selectItem itemLabel="Pessoa" itemValue="SIM" />
-						<f:selectItem itemLabel="Cargo" itemValue="NAO" />
-
-					</p:selectOneMenu>
-
-					<p:message for="idSaveSelectInput" display="icon" />
+					<p:panelGrid>
 					<h:outputLabel value="" for="idSaveSelectInput" />
 					<p:commandButton value="Salvar" resetValues="true"
-						id="idSaveSelectInput" actionListener="#{tbCARGOSBean.persist}"
+						id="idSaveSelectInput" actionListener="#{tbCARGOSBean.persistCargos}"
 						update="tbCARGOSDataForm 
 									 DSPE DSGR DSCO DSCB DSCE  :growlForm:growl
 									 "
 						process="tbCARGOSDataForm DSPE DSGR DSCO DSCB DSCE"
 						style="width:29.5%" />
 
-
+					
+					
+						<h:outputLabel value="" for="idNewSelectInput" />
+					<p:commandButton value="Adicionar novo cargo" resetValues="true"
+									onclick="location.reload();"
+									style="width:29.5%" />
+					
+					</p:panelGrid>
 
 				</p:panelGrid>
 
@@ -142,6 +237,7 @@
 
 
 		</h:form>
+		</p:panel>
 		<!--  PERFIL -->
 
 
@@ -186,12 +282,13 @@
 							<p:column
 								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"
 								headerText="Pontuação">
-								<h:outputText value="#{tbPERFILCARGOS.poNTUACAOPERFIL}">
+								<h:outputText value="#{tbPERFILCARGOS.poNTUACAOPERFIL}" >
 									<f:convertNumber />
 								</h:outputText>
+
 							</p:column>
 
-
+							
 
 
 
@@ -336,16 +433,6 @@
 							value="#{tbCARGOSBean.InicializaTabelasAuxiliaresGR_ED(tbCARGOSBean.tbCARGOS)}"
 							var="tbGRADECARGOS" widgetVar="tbGRADECARGOSTable"
 							emptyMessage="#{messages.label_no_records_found}">
-
-							<f:facet name="header">
-
-								<p:commandButton value="Cadastrar Avaliação do Cargo"
-									action="#{tbGRADECARGOSBean.prepareNewTbGRADESCARGOS(tbCARGOSBean.tbCARGOS)}"
-									resetValues="true" update=":editTbGRADECARGOSDialog"
-									oncomplete="if(!args.validationFailed) PF('editTbGRADECARGOSDialogWidget').show()"
-									style="width:29.5%" />
-
-							</f:facet>
 
 							<p:column
 								style="width:60%;text-align:center;font-size:14px;color:white;font-weight:bold;"

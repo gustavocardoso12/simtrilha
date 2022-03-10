@@ -133,7 +133,7 @@ public class TbCONHECIMENTOSESPCARGOSBean extends TbCARGOSBean implements Serial
     public void filtraListas(TbCARGOSEntity tbCARGOS) {
 
     	tbCONHECIMENTOSESPCARGOSs = InicializaTabelasAuxiliaresCE(tbCARGOS);
-		allIdCONHECESPsList= tbCONHECIMENTOSESPECIFICOSService.findAllTbCONHECIMENTOSESPECIFICOSEntities();
+		allIdCONHECESPsList= tbCONHECIMENTOSESPECIFICOSService.findAllTbCONHECIMENTOSESPECIFICOSEntitiesAlfa();
 		for(int i=0;i<this.getTbCONHECIMENTOSESPCARGOSs().size();i++) {
 			for(int j=0;j<allIdCONHECESPsList.size();j++) {
 				if(tbCONHECIMENTOSESPCARGOSs.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().
@@ -244,7 +244,7 @@ public class TbCONHECIMENTOSESPCARGOSBean extends TbCARGOSBean implements Serial
     // Get a List of all idCONHECESP
     public List<TbCONHECIMENTOSESPECIFICOSEntity> getIdCONHECESPs() {
         if (this.allIdCONHECESPsList == null) {
-            this.allIdCONHECESPsList = tbCONHECIMENTOSESPECIFICOSService.findAllTbCONHECIMENTOSESPECIFICOSEntities();
+            this.allIdCONHECESPsList = tbCONHECIMENTOSESPECIFICOSService.findAllTbCONHECIMENTOSESPECIFICOSEntitiesAlfa();
         }
         return this.allIdCONHECESPsList;
     }

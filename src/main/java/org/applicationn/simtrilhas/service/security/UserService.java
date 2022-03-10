@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -47,15 +46,28 @@ public class UserService extends BaseService<UserEntity> implements Serializable
             throw new RuntimeException("Can not get authorized user name");
         }
     }
+    
+    @Transactional
+    public List<String> findAllThemes() {
+
+      return  getEntityManagerMatriz().createQuery("select distinct theme from User  o", String.class).getResultList();
+    }
+    
+    @Transactional
+    public List<String> findAllBD() {
+
+      return  getEntityManagerMatriz().createQuery("select distinct banco_dados from User  o", String.class).getResultList();
+    }
+    
 
     @Transactional
     public UserEntity findUserByUsername(String username) {
         UserEntity user;
         try {
             user =getEntityManagerMatriz().createQuery("SELECT o FROM User o WHERE o.username = :p", UserEntity.class)
-                    .setParameter("p", username).getSingleResult();
-        } catch (NoResultException e) {
-            logger.log(Level.INFO, "User with user name ''{0}'' does not exist.", username);
+                    .setParameter("p", username).setHint("javax.persistence.query.timeout", 10000).getSingleResult();
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Consulta cancelada", username);
             return null;
         }
         return user;
@@ -113,7 +125,11 @@ public class UserService extends BaseService<UserEntity> implements Serializable
         user.setPassword(SecurityWrapper.hashPassword(user.getPassword(), salt));
         
         user.setCreatedAt(new Date());
-        return super.save(user);
+        
+        this.getEntityManagerMatriz() .persist(user);
+		this.getEntityManagerMatriz() .flush();
+		this.getEntityManagerMatriz() .refresh(user);
+		return user;
     }
     
     @Override
@@ -230,7 +246,7 @@ public class UserService extends BaseService<UserEntity> implements Serializable
             if (!newPassword.equals("") && newPassword.equals(newPasswordRepeat)) {
                 user.setPassword(SecurityWrapper.hashPassword(newPassword, user.getSalt()));
 
-                this.update(user);
+                this.updateMatriz(user);
                 facesMessage = MessageFactory.getMessage("password_successfully_changed");
 
             } else {

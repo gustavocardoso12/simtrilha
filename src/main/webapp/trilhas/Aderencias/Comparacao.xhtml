@@ -60,7 +60,7 @@ styleClass="#{(tbCARGOSBean.selector==true) ? 'customSelectorStyle': 'customSele
 value="Cargo" />
   </p:commandLink>
 
-<p:commandLink rendered="#{userBean.user.flag_grade=='SIM'}"  id="btnPessoas" global="false" action="#{tbCARGOSBean.SelecionaPessoasComp}" update="paneCargos paneCargos2 panepessoasCargos2"  style="margin-right:20px;">
+<p:commandLink rendered="#{userBean.user.flag_pessoa=='SIM'}"  id="btnPessoas" global="false" action="#{tbCARGOSBean.SelecionaPessoasComp}" update="paneCargos paneCargos2 panepessoasCargos2"  style="margin-right:20px;">
 <h:outputLabel
 styleClass="#{(tbCARGOSBean.selector==true) ? 'customSelectorPessoasStyle': 'customSelectorStyle'}"
 					style="top: 135px;

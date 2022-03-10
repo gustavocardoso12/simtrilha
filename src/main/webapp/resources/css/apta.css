@@ -1,6 +1,3 @@
-* {
-	
-}
 
 @font-face {
 	font-family: 'Montserrat';
@@ -19,6 +16,9 @@
 		url(http://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf)
 		format('truetype');
 }
+
+
+
 
 body, div, td {
 	font-size: 12px;
@@ -59,9 +59,7 @@ a, img {
 	background: white !important;
 }
 
-.ui-state-active .ui-icon {
-	
-}
+
 
 .col1 {
 	font-weight: bold;
@@ -134,9 +132,7 @@ a, img {
 	width: 100px;
 }
 
-.ui-selectonemenu-trigger {
-	
-}
+
 
 /* Colunas das data tables */
 td {
@@ -233,6 +229,32 @@ th {
 	color: #FFFFFF;
 	opacity: 1;
 	border-radius: 0px !important;
+}
+
+.userForm .dialog {
+	width: 100% !important;
+}
+
+.userForm .ui-widget-content {
+	background: #f2f2f2 !important;
+}
+
+.userForm .ui-panel-titlebar {
+	text-align: left;
+	letter-spacing: 0px;
+	color: #FFFFFF;
+	opacity: 1;
+	border-radius: 0px !important;
+}
+
+.ui-corner-all{
+	border-radius: 0px !important;
+}
+
+.menuCriarUsuarios .ui-selectonemenu-label.ui-selectonemenu-label {
+    cursor: pointer;
+    background: white !important;
+    border-radius:0px !important;
 }
 
 .ui-panelgrid .ui-grid-responsive .ui-panelgrid-cell {
@@ -367,6 +389,14 @@ th {
 		url('#{request.contextPath}/javax.faces.resource/images/trash.png.xhtml')
 		!important;
 }
+
+	.img-button-edit {
+		width: 40px;
+		height: 40px;
+		background-image:
+			url('#{request.contextPath}/javax.faces.resource/images/edit.png.xhtml')
+			!important;
+	}
 
 .ui-widget-header .ui-icon {
 	background-image:
@@ -535,15 +565,7 @@ th {
 	background: white !important;
 }
 
-.ui-tree.ui-tree-horizontal .ui-treenode {
-	/*background-color:#f2f2f2 !important;*/
-	
-}
 
-.autoTrilhas.ui-widget-content {
-	/*background:#f2f2f2 !important;*/
-	
-}
 
 .autoTrilhasNo .ui-state-default {
 	background: #5C2B5F !important;
@@ -554,7 +576,7 @@ th {
 	background: #FFFFFF !important;
 }
 
-@media screen and (min-width: 40.063em) {
+
 	.ui-md-2 {
 		width: 40.66666667% !important;
 	}
@@ -804,13 +826,18 @@ th {
 		margin-top: -13px;
 		margin-left: 0px;
 	}
-	.img-button-edit {
-		width: 40px;
-		height: 40px;
-		background-image:
-			url('#{request.contextPath}/javax.faces.resource/images/edit.png.xhtml')
-			!important;
+	
+	.ControleCargosDesligado{
+	
+	margin-left:40px;visibility:hidden !important;
 	}
+	
+	.ControleCargosLigado{
+	
+	margin-left:40px;visibility:visible !important;
+	}
+	
+
 	.painelpessoas {
 		width: 15px !important;
 	}
@@ -835,4 +862,6 @@ th {
 		top: 10px;
 		overflow: visible;
 	}
-}
+	
+	
+	

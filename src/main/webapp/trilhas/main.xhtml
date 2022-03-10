@@ -8,6 +8,8 @@
 
 <meta http-equiv="CACHE-CONTROL"
 	content="no-cache, no-store, must-revalidate" />
+	
+	
 <ui:composition template="/templates/layout.xhtml">
 
 	<ui:define name="content">
@@ -127,9 +129,6 @@ height: 324px;"
                         value="#{loginBean.password}">
                     </p:password>
                     
-                    <h:outputLabel for="rememberMeMobile" value="Manter-me Conectado:" />
-                    <h:selectBooleanCheckbox id="rememberMeMobile" value="#{loginBean.remember}" />
-                    <h:panelGroup />
     
                     <f:facet name="footer">
                         <p:commandButton type="submit" id="loginMpbile" ajax="false"

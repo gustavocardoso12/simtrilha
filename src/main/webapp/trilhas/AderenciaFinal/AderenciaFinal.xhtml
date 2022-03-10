@@ -94,20 +94,20 @@
 							</h:outputText>
 					</p:column>
 				
-
 				<p:column styleClass="barraCargosPessoas"
-							style="
-					width:30%;
+						style="
+					top: 416px;
+					width:70%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
-					
+				
 					opacity: 1;">
 				
 				<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 
 				
-					<p:commandButton styleClass="botaoPessoas" value="" style="background:none;width:40px; height:40px;font-size:12px"
+					<p:commandButton styleClass="botaoPessoas" style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="DDD"
 								icon="img-button-edit"
 								rendered="#{tbPONTCARGOSBean.isPermitted(tbPONTCARGOS, 'tbPONTCARGOS:update')}"
 								action="#{tbPONTCARGOSBean.onDialogOpen(tbPONTCARGOS)}"

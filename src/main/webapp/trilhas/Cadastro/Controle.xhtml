@@ -11,11 +11,13 @@
 
 
 	<ui:define name="content">
-	
-	
-	
-	<p:panelGrid id="panelcarrega" style="margin-left: 40px;" >
-	<h:outputText id="statusMatriz"
+		<f:metadata>
+			<o:viewParam name="viewPessoa" value="#{tbCARGOSBean.flagPessoa}" />
+		</f:metadata>
+
+
+		<p:panelGrid id="panelcarrega" style="margin-left: 40px;">
+			<h:outputText id="statusMatriz"
 				style="top: 86px;
 left: 596px;
 width: 50%;
@@ -24,12 +26,12 @@ text-align: left;
 font: Bold 16px/16px Montserrat;
 letter-spacing: 0px;
 opacity: 1;"
-				escape="false"	value="Carregando Lista de Cargos.... " />
-	
-	</p:panelGrid>
-	
-	<p:spacer></p:spacer>
-		
+				escape="false" value="Carregando Lista de #{(tbCARGOSBean.flagPessoa=='NAO') ? 'Cargos....' : 'Pessoas....'}" />
+
+		</p:panelGrid>
+
+		<p:spacer></p:spacer>
+
 		<script language="javascript">
 
 		document.onreadystatechange = function () {
@@ -46,46 +48,49 @@ opacity: 1;"
 			}
 
 </script>
-		
-		
-		
-		
-	
-		
-		
-		
-		<h:form style="margin-left:40px;visibility:hidden" prependId="false"
-			id="tbCARGOSDataForm"
-			onkeypress="if (event.keyCode == 13) {return false; }">
-	<p:commandButton styleClass="botaoADDPessoas" value="Adicionar Cargos"
-									action="#{tbCARGOSBean.AdicionarCargos()}" style="
+
+<h:form>
+<p:commandButton styleClass="botaoADDPessoas"
+				value="#{(tbCARGOSBean.flagPessoa=='NAO') ? 'Adicionar Cargos': 'Adicionar Pessoas'}" 
+				action="#{tbCARGOSBean.Adicionar()}"
+				style="
 width: 144px;
 height: 40px;
 margin-bottom: 30px;" />
+</h:form>
+
+		<h:form 
+		
+			style="margin-left:40px;visibility:hidden" prependId="false"
+			id="tbCARGOSDataForm"
+			onkeypress="if (event.keyCode == 13) {return false; }">
 			
-			
-			
+
+
+
 			<p:spacer></p:spacer>
 			<p:spacer></p:spacer>
 			<p:spacer></p:spacer>
 			<p:spacer></p:spacer>
-			<p:panelGrid columns="1">
+			<p:panelGrid id="PANEL" columns="1">
 			
-			<p:dataTable id="tbCARGOSTable" 
-			 
-		rendered="#{not empty tbCARGOSBean.tbCARGOSList}"
-					 value="#{tbCARGOSBean.tbCARGOSList}" var="tbCARGOS"
-					 styleClass="barraCargosPessoas"
-					widgetVar="tbCARGOSTable" rowKey="#{tbCARGOS.id}"
+			
+			
+
+				<p:dataTable id="tbCARGOSTable"
+					rendered="#{not empty tbCARGOSBean.tbCADASTRO}"
+					value="#{tbCARGOSBean.tbCADASTRO}" var="tbCARGOS"
+					styleClass="barraCargosPessoas" widgetVar="tbCARGOSTable"
+					rowKey="#{tbCARGOS.id}"
 					emptyMessage="#{messages.label_no_records_found}">
-			
-				<p:column styleClass="te" style="width:10%;">
+
+					<p:column styleClass="te" style="width:10%;">
 						<svg class="Ret_ngulo_61"> <rect fill="#5C2B5F"
 							id="Ret_ngulo_61" rx="0" ry="0" x="0" y="0" width="9"
 							height="100"> </rect> </svg>
 					</p:column>
-			
-				<p:column styleClass="barraCargosPessoas"
+
+					<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
 					width:90%;
@@ -94,9 +99,10 @@ margin-bottom: 30px;" />
 					letter-spacing: 0px;
 					
 					opacity: 1;"
-						headerText="#{messages.field_label_tbCARGOS_deSCCARGO}"
-						 sortBy="#{tbCARGOS.deSCCARGO}">
-						<h:outputText style="
+						headerText="#{(tbCARGOSBean.flagPessoa=='NAO') ? 'Nome do Cargo': 'Nome da Pessoa'}"
+						sortBy="#{tbCARGOS.deSCCARGO}">
+						<h:outputText
+							style="
 						text-align: left;
 							font: 14px/18px Montserrat;
 							letter-spacing: 0px;
@@ -105,7 +111,7 @@ margin-bottom: 30px;" />
 							value="#{tbCARGOS.deSCCARGO}  " />
 					</p:column>
 
-				
+
 					<p:column styleClass="barraCargosPessoas"
 						style="
 						text-align: left;
@@ -116,7 +122,8 @@ margin-bottom: 30px;" />
 						opacity: 1;"
 						headerText="Família/Subfamília"
 						sortBy="#{tbCARGOS.idDEPTO.deSCDEPTO}">
-						<h:outputText style="font-family:Montserrat !important;
+						<h:outputText
+							style="font-family:Montserrat !important;
 						text-align: left;
 							font: 14px/18px Montserrat;
 							letter-spacing: 0px;
@@ -124,63 +131,62 @@ margin-bottom: 30px;" />
 							opacity: 1;"
 							value="#{tbCARGOS.idDEPTO.deSCDEPTO} - #{tbCARGOS.idDEPTO.idAREA.deSCAREA}" />
 					</p:column>
-				
-				
-				<p:column styleClass="barraCargosPessoas"
-							style="	width:50% !important;
+
+
+					<p:column styleClass="barraCargosPessoas"
+						style="	width:50% !important;
 							text-align: left;
 							font: Bold 15px/19px Montserrat;
 							letter-spacing: 0px;
 							
 							opacity: 1;"
-							headerText="Ultíma Edição"
-							sortBy="#{tbCARGOS.modifiedAt}">
-							<h:outputText style="font-family:Montserrat !important;
+						headerText="Ultíma Edição" sortBy="#{tbCARGOS.modifiedAt}">
+						<h:outputText
+							style="font-family:Montserrat !important;
 							text-align: left;
 							font: 14px/18px Montserrat;
 							letter-spacing: 0px;
 							color: #000000;
 							opacity: 1;"
-								value="#{tbCARGOS.modifiedAt}" />
-						</p:column>
-				
-				
-				
+							value="#{tbCARGOS.modifiedAt}" />
+					</p:column>
 
-<p:column styleClass="barraCargosPessoas"
+
+
+
+					<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
-					width:20%;
+					width:70%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
 				
 					opacity: 1;">
-					
-						<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
-							<p:commandButton styleClass="botaoPessoas" async="true" immediate="true" partialSubmit="true" 
-							style="background:none;width:40px; height:40px;font-size:12px"  value="DDD"
-								icon="img-button-edit"
-								
-								action="#{tbCARGOSBean.submit(tbCARGOS)}" />
+
+						<p:panelGrid columns="2"
+							columnClasses="painelpessoas,painelpessoas2">
+							<p:commandButton styleClass="botaoPessoas" async="true"
+								immediate="true" partialSubmit="true"
+								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="DDD"
+								icon="img-button-edit" action="#{tbCARGOSBean.submit(tbCARGOS)}" />
 
 
 							<p:commandButton
 								oncomplete="PF('deleteTbCARGOSDialogWidget').show()"
 								styleClass="botaoPessoas"
-								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="DD"
-								icon="img-button-delete">
+								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="DD" icon="img-button-delete">
 								<f:setPropertyActionListener value="#{tbCARGOS}"
 									target="#{tbCARGOSBean.tbCARGOS}" />
 							</p:commandButton>
-				</p:panelGrid>
-					
+						</p:panelGrid>
 
-				</p:column>
 
-		
-			</p:dataTable>
-				</p:panelGrid>
+					</p:column>
+
+
+				</p:dataTable>
+			</p:panelGrid>
 
 		</h:form>
 
@@ -197,7 +203,7 @@ margin-bottom: 30px;" />
 					<p:panelGrid columns="2" style="margin:auto">
 						<p:commandButton value="#{messages.label_yes}"
 							action="#{tbCARGOSBean.delete}"
-							update="tbCARGOSTable"
+							update=":PANEL :growlForm:growl"
 							oncomplete="PF('deleteTbCARGOSDialogWidget').hide()" />
 						<p:commandButton value="#{messages.label_no}"
 							onclick="PF('deleteTbCARGOSDialogWidget').hide()" type="button" />
@@ -206,7 +212,7 @@ margin-bottom: 30px;" />
 			</p:outputPanel>
 		</p:confirmDialog>
 
-	
+
 
 	</ui:define>
 

@@ -12,7 +12,9 @@
               <p:panelGrid columns="3" styleClass="dialog"  columnClasses="col1,col2,col3"  >
             
                 <h:outputLabel value="#{messages.field_label_tbDEPTO_deSCDEPTO}:" for="deSCDEPTOEditInput" />
-                <p:inputText value="#{tbDEPTOBean.tbDEPTO.deSCDEPTO}" id="deSCDEPTOEditInput"  />
+                <p:inputText 
+                required="true" requiredMessage="Campo obrigatório!"
+                value="#{tbDEPTOBean.tbDEPTO.deSCDEPTO}" id="deSCDEPTOEditInput"  />
                 <p:message for="deSCDEPTOEditInput" display="icon" />
 
                 <h:outputLabel value="#{messages.field_label_tbDEPTO_idAREA}:" for="idVPSelectInput" rendered="#{not hideIdVPSelectInput}"/>

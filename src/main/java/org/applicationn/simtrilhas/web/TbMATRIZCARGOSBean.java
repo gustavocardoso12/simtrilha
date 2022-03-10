@@ -3,6 +3,7 @@ package org.applicationn.simtrilhas.web;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCOMPETENCIASCARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
@@ -170,7 +174,6 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 	public TbMATRIZCARGOSBean() {
 
 	}
-
 
 
 	public void filtraMatriz(String familiaDe, String familiaPara) {
@@ -618,14 +621,6 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 				cargoPara = listaCargos.get(j);
 
-				if((i==3) && (j==0)) {
-					System.out.println(cargoDe.getDeSCCARGO() + "De: \n" + cargoPara.getDeSCCARGO() + " Para: \n");
-					System.out.println("parada");
-				}
-
-				System.out.println(i);
-				System.out.println(j);
-
 				if(cargoDe.getId()==cargoPara.getId()) {
 					matrizItem.setAdERENCIAFINAL(100.0);
 					aderenciaFinal = 100.0;
@@ -641,19 +636,23 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 					}else {
 
+						if(cargoDe.getId()==23 && (cargoPara.getId()==446)){
+							System.out.println("odi");
+						}
 
 						calculaPerfilMatriz(cargoDe, cargoPara);
 
 						calculaCompetenciasMatriz(cargoDe, cargoPara);
 
 						calculaConhecimentosBasicosMatriz(cargoDe, cargoPara);
-
-						calculaConhecimentosEspecificosMatriz(cargoDe, cargoPara,i);
+						
+						calculaConhecimentosEspecificosMatrizArrumado(cargoDe, cargoPara);
 
 						calculaAderenciaFinal(cargoDe, cargoPara);
 
 						matrizItem.setIdCARGODE(cargoDe.getId());
 						matrizItem.setIdCARGOPARA(cargoPara.getId());
+						aderenciaFinal = round(aderenciaFinal,2);
 						matrizItem.setAdERENCIAFINAL(aderenciaFinal);
 						matrizItem.setCorAderencia(corFinal);
 						matrizItem.setEstaganado(flagEstaganado);
@@ -683,9 +682,10 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 		double percentageOfInserting = 0.0;
 		percentageOfInserting = 100.0 / matrizListaInsercao.size();
 
+		String username = SecurityWrapper.getUsername();
 		for(int i=0; i<matrizListaInsercao.size();i++) {
 
-			tbMATRIZCARGOSService.insertWithentityManager(matrizListaInsercao.get(i),i);
+			tbMATRIZCARGOSService.insertWithentityManager(matrizListaInsercao.get(i),i,username);
 
 
 			if(i % 100 == 0) {
@@ -707,6 +707,9 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 	public void calculaConhecimentosEspecificosMatriz(TbCARGOSEntity tbCARGOSDe,
 			TbCARGOSEntity tbCARGOSPara, int posicao) {
 
+		if((tbCARGOSDe.getId()==1) && (tbCARGOSPara.getId()==7)) {
+			System.out.println("oi");
+		}
 
 		List<TbCONHECIMENTOSESPCARGOSEntity> listCARGOSPara = new ArrayList<TbCONHECIMENTOSESPCARGOSEntity>();
 		List<TbCONHECIMENTOSESPCARGOSEntity> listDe = new ArrayList<TbCONHECIMENTOSESPCARGOSEntity>();
@@ -784,43 +787,59 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 				//Calcula a subtração entre cada pontuação de cada competência
 
 				double gapdePARA = 0;
-				if(listCARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp()==null) {
 
-				}else {
-					if(listCARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp().equals("SIM") &&
-							(listCARGOSPara.get(i).getPoNTUACAOCONESP() >=1) && 
-							(listDe.get(i).getPoNTUACAOCONESP()==0)) {
-						flagDowngrade = true;
-					}
+
+				if(listDe.get(i).getPoNTUACAOCONESP()==null) {
+					listDe.get(i).setPoNTUACAOCONESP(0.0);
 				}
 
-				if(listCARGOSPara.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().equals(listDe.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS())) {
-					if(listCARGOSPara.get(i).getPoNTUACAOCONESP()==null) {
-						listCARGOSPara.get(i).setPoNTUACAOCONESP(0.0);
-					}
+				if(listCARGOSPara.get(i).getPoNTUACAOCONESP()==null) {
+					listCARGOSPara.get(i).setPoNTUACAOCONESP(0.0);
+				}else {
 
-					if(listDe.get(i).getPoNTUACAOCONESP()==null) {
-						listDe.get(i).setPoNTUACAOCONESP(0.0);
-					}
+					if(listCARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp()==null) {
 
-					gapDeParaCE = listCARGOSPara.get(i).getPoNTUACAOCONESP()
-							- listDe.get(i).getPoNTUACAOCONESP();
-					if (gapDeParaCE < 0) {
-						gapDeParaCE = 0;
 					}else {
 
-						if (gapDeParaCE == 0) {
-						} else {
-							gapdePARA = gapDeParaCE * listDe.get(i).getIdCONHECESP().getPenalidadeConhecBas();
-						}
-						gap.setPoNTUACAOCONESP(gapdePARA);
-						listGapCE.add(gap);
-					}
-					somaListaGap += gapdePARA;
-				}
 
+
+						if(listCARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp().equals("SIM") &&
+								(listCARGOSPara.get(i).getPoNTUACAOCONESP() >=1) && 
+								(listDe.get(i).getPoNTUACAOCONESP()==0)) {
+							flagDowngrade = true;
+						}
+					}
+
+					if(listCARGOSPara.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().equals(listDe.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS())) {
+
+
+						if(listDe.get(i).getPoNTUACAOCONESP()==null) {
+							listDe.get(i).setPoNTUACAOCONESP(0.0);
+						}
+
+						gapDeParaCE = listCARGOSPara.get(i).getPoNTUACAOCONESP()
+								- listDe.get(i).getPoNTUACAOCONESP();
+						if (gapDeParaCE < 0) {
+							gapDeParaCE = 0;
+						}else {
+
+							if (gapDeParaCE == 0) {
+							} else {
+								gapdePARA = gapDeParaCE * listDe.get(i).getIdCONHECESP().getPenalidadeConhecBas();
+							}
+							gap.setPoNTUACAOCONESP(gapdePARA);
+							listGapCE.add(gap);
+						}
+						
+						somaListaGap += gapdePARA;
+						System.out.println(somaListaGap);
+					}
+					
+
+				}
 			}
 
+			somaListaGap = round(somaListaGap,2);
 			//calculo de aderência
 			aderenciaCE =  100 -somaListaGap;
 			//aderenciaCE = round(aderenciaCE,2);
@@ -838,6 +857,158 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 		}
 	}
 
+	public static double round(double value, int places) {
+		if (places < 0) throw new IllegalArgumentException();
+
+		BigDecimal bd = BigDecimal.valueOf(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+	
+	public void calculaConhecimentosEspecificosMatrizArrumado(TbCARGOSEntity tbCARGOSDe,
+			TbCARGOSEntity tbCARGOSPara) {
+		List<TbCONHECIMENTOSESPCARGOSEntity> listCARGOSPara = new ArrayList<TbCONHECIMENTOSESPCARGOSEntity>();
+		List<TbCONHECIMENTOSESPCARGOSEntity> listDe = new ArrayList<TbCONHECIMENTOSESPCARGOSEntity>();
+		String controle = "";
+		String controle2 = "";
+		int n = 0;
+		int n2 = 0;
+		for (int k =0 ; k<listConhecimentosEspecificos.size();k++) {
+
+			if(listConhecimentosEspecificos.get(k).getIdCARGOS().getDeSCCARGO().equals(tbCARGOSPara.getDeSCCARGO())) {
+				listCARGOSPara.add(listConhecimentosEspecificos.get(k));
+				controle="S";
+				n++;
+			}else {
+				controle="N";
+			}
+
+			if(controle.equals("N") && (n>0)) {
+				break;
+			}
+
+		}
+
+
+			listCECARGOSDe.clear();
+			for (int k =0 ; k<listConhecimentosEspecificos.size();k++) {
+
+				if(listConhecimentosEspecificos.get(k).getIdCARGOS().getDeSCCARGO().equals(tbCARGOSDe.getDeSCCARGO())) {
+					listCECARGOSDe.add(listConhecimentosEspecificos.get(k));
+					controle2="S";
+					n2++;
+
+				}
+				else {
+					controle2="N";
+				}
+				if(controle2.equals("N") && (n2>0)) {
+					break;
+				}
+
+			}
+
+		for(int i=0; i<listCARGOSPara.size();i++) {
+			String teste="";
+			TbCONHECIMENTOSESPCARGOSEntity gap = new TbCONHECIMENTOSESPCARGOSEntity();
+
+			gap.setIdCARGOS(tbCARGOSDe);
+			gap.setIdCONHECESP(listCARGOSPara.get(i).getIdCONHECESP());
+
+			for(int j = 0; j<listCECARGOSDe.size();j++) {
+				teste = "N";
+				if(gap.getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().equals(listCECARGOSDe.get(j).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS())) {
+					teste ="S";
+					gap.setPoNTUACAOCONESP(listCECARGOSDe.get(j).getPoNTUACAOCONESP());
+					break;
+				}
+			}
+			if(teste.equals("N")) {
+				gap.setPoNTUACAOCONESP(0.0);
+			}
+			listDe.add(gap);
+
+
+		}
+		listGapCE.clear();
+		Double somaListaGap =0.0;
+
+		try {
+			for(int i=0; i<listCARGOSPara.size();i++) {
+				TbCONHECIMENTOSESPCARGOSEntity gap = new TbCONHECIMENTOSESPCARGOSEntity();
+				//Calcula a subtração entre cada pontuação de cada competência
+				double gapdePARA =0;
+				
+				if( listCARGOSPara.get(i).getPoNTUACAOCONESP()==null) {
+					listCARGOSPara.get(i).setPoNTUACAOCONESP(0.0);
+				}
+
+				if( listDe.get(i).getPoNTUACAOCONESP()==null) {
+					listDe.get(i).setPoNTUACAOCONESP(0.0);
+				}
+				
+				
+				if(listCARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp()==null) {
+
+				}else {
+					if(listCARGOSPara.get(i).getIdCONHECESP().getBloqueiaMovConhecEsp().equals("SIM") &&
+							(listCARGOSPara.get(i).getPoNTUACAOCONESP() >=1) && 
+							(listDe.get(i).getPoNTUACAOCONESP()==0)) {
+						flagDowngrade = true;
+					}
+				}
+
+
+
+				if(listCARGOSPara.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS().equals(listDe.get(i).getIdCONHECESP().getDeSCCONHECIMENTOSESPECIFICOS())) {
+
+					if( listCARGOSPara.get(i).getPoNTUACAOCONESP()==null) {
+						listCARGOSPara.get(i).setPoNTUACAOCONESP(0.0);
+					}
+
+					if( listDe.get(i).getPoNTUACAOCONESP()==null) {
+						listDe.get(i).setPoNTUACAOCONESP(0.0);
+					}
+
+					gapDeParaCE = listCARGOSPara.get(i).getPoNTUACAOCONESP()
+							- listDe.get(i).getPoNTUACAOCONESP();
+					if (gapDeParaCE < 0) {
+						gapDeParaCE = 0;
+					}else {
+
+						if (gapDeParaCE == 0) {
+						} else {
+							gapdePARA = gapDeParaCE * listDe.get(i).getIdCONHECESP().getPenalidadeConhecBas();
+						}
+					}
+					gap.setPoNTUACAOCONESP(gapdePARA);
+					listGapCE.add(gap);
+				}
+
+
+				somaListaGap+=gapdePARA;
+			}
+
+
+			//calculo de aderência
+			
+			somaListaGap = round(somaListaGap,2);
+
+			aderenciaCE =  100 -(somaListaGap);
+			//aderenciaCB = round(aderenciaCB,2);
+
+			//Se aderencia maior que 100%, força o valor
+			if(aderenciaCE > 100) {
+				aderenciaCE =100.0;
+			}
+			//Se aderência menor que 0%, força o valor 
+			else if (aderenciaCE <-100) {
+				aderenciaCE =-100.0;
+			}
+		}catch(IndexOutOfBoundsException ex) {
+
+		}
+	}
 
 	public void calculaConhecimentosBasicosMatriz(TbCARGOSEntity tbCARGOSDe,
 			TbCARGOSEntity tbCARGOSPara) {
@@ -957,6 +1128,9 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 
 			//calculo de aderência
+
+			somaListaGap = round(somaListaGap,2);
+
 			aderenciaCB =  100 -(somaListaGap);
 			//aderenciaCB = round(aderenciaCB,2);
 
@@ -1095,6 +1269,10 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 			}
 
 			//calculo de aderência
+
+
+			somaListaGap = round(somaListaGap,2);
+
 			aderencia =  100 -somaListaGap;
 			//aderencia = round(aderencia,2);
 
@@ -1227,6 +1405,9 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 			}
 
 			// calculo de aderência
+
+			somaListaGapGR = round(somaListaGapGR,2);
+
 			aderenciaGR = 100 - (somaListaGapGR);
 			// aderenciaGR = round(aderenciaGR,2);
 
@@ -1369,6 +1550,9 @@ public class TbMATRIZCARGOSBean extends TbCARGOSBean implements Serializable {
 
 
 			//calculo de aderência
+
+			somaListaGapPE = round(somaListaGapPE,2);
+
 			aderenciaPE =  100 -somaListaGapPE;
 			//aderenciaPE = round(aderenciaPE,2);
 

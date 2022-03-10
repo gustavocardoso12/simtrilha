@@ -59,11 +59,11 @@ public class TbGRADECARGOSBean extends TbCARGOSBean  implements Serializable {
     }
 
     public void changeHeaderCadastrar() {
-        setDialogHeader("Cadastrar Competências");
+        setDialogHeader("Cadastrar Avaliação de Cargo");
     }
     
     public void changeHeaderEditar() {
-        setDialogHeader("Editar Competências");
+        setDialogHeader("Editar Avaliação de Cargo");
     }
     
     
@@ -79,7 +79,7 @@ public class TbGRADECARGOSBean extends TbCARGOSBean  implements Serializable {
     
     public void filtraListas(TbCARGOSEntity tbCARGOS) {
 
-    	tbGRADESCARGOSs = InicializaTabelasAuxiliaresGR(tbCARGOS);
+    	tbGRADESCARGOSs = InicializaTabelasAuxiliaresGRIni(tbCARGOS);
 		allIdGRADEsList= tbGRADEService.findAllTbGRADEEntities();
 		for(int i=0;i<this.getTbGRADESCARGOSs().size();i++) {
 			for(int j=0;j<allIdGRADEsList.size();j++) {

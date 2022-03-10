@@ -24,7 +24,16 @@ a, img {
     outline:none
 }
 
-
+	.ControleCargosDesligado{
+	
+	margin-left:40px;visibility:hidden !important;
+	}
+	
+	.ControleCargosLigado{
+	
+	margin-left:40px;visibility:visible !important;
+	}
+	
 
 .button{
 	/* Overwrite this behavior: http://forum.primefaces.org/viewtopic.php?t=43754 */
@@ -621,6 +630,32 @@ color: #A8413E;
 
 .loginForm.ui-panel-content .ui-widget-content{
 	background:white !important;
+}
+
+.userForm .dialog {
+	width: 100% !important;
+}
+
+.userForm .ui-widget-content {
+	background: white !important;
+}
+
+.userForm .ui-panel-titlebar {
+	text-align: left;
+	letter-spacing: 0px;
+	color: #FFFFFF;
+	opacity: 1;
+	border-radius: 0px !important;
+}
+
+.ui-corner-all{
+	border-radius: 0px !important;
+}
+
+.menuCriarUsuarios .ui-selectonemenu-label.ui-selectonemenu-label {
+    cursor: pointer;
+    background: white !important;
+    border-radius:0px !important;
 }
 
 .DataTableFormacao.ui-datatable .ui-datatable-header .ui-datatable .ui-datatable-footer {

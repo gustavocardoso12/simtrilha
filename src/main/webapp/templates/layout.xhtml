@@ -26,7 +26,7 @@
     
     <h:form prependId="false" id="idleForm" rendered="#{not empty request.remoteUser}">
 			<!-- timeout de sessão  3600000ms = 1:00h-->
-			<p:idleMonitor timeout="850000">
+			<p:idleMonitor timeout="900000">
 				<p:ajax event="idle" listener="#{loginBean.logout1}" oncomplete="PF('idleDialog').show();" />
 			</p:idleMonitor>
 

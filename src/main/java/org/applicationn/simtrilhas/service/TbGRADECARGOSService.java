@@ -80,7 +80,10 @@ public class TbGRADECARGOSService extends BaseService<TbGRADECARGOSEntity> imple
         return getEntityManager().createQuery("SELECT o FROM TbGRADECARGOS o WHERE o.idCARGOS = :tbCARGOS AND o.poNTUACAOGRADE >0 ORDER BY o.id", TbGRADECARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
     }
     
-    
+    @Transactional
+    public List<TbGRADECARGOSEntity> findTbGRADECARGOSsByIdCARGOSIni(TbCARGOSEntity tbCARGOS) {
+        return getEntityManager().createQuery("SELECT o FROM TbGRADECARGOS o WHERE o.idCARGOS = :tbCARGOS ORDER BY o.id", TbGRADECARGOSEntity.class).setParameter("tbCARGOS", tbCARGOS).getResultList();
+    }
     
     @SuppressWarnings("unchecked")
     public List<TbGRADECARGOSEntity> findTbGRADECARGOSsByIdCARGOS(TbCARGOSEntity tbCARGOS, TbCARGOSEntity tbCARGOSPARA) {

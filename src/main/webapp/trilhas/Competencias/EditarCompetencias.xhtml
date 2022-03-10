@@ -13,12 +13,24 @@
             
             
                 <h:outputLabel value="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}:" for="deSCCOMPETENCIAEditInput" />
-                <p:inputText value="#{tbCOMPETENCIASBean.tbCOMPETENCIAS.deSCCOMPETENCIA}" id="deSCCOMPETENCIAEditInput" 
+                <p:inputText
+                required="true" requiredMessage="Campo obrigatório!"
+                 value="#{tbCOMPETENCIASBean.tbCOMPETENCIAS.deSCCOMPETENCIA}" id="deSCCOMPETENCIAEditInput" 
                     label="#{messages.field_label_tbCOMPETENCIAS_deSCCOMPETENCIA}" />
                 <p:message for="deSCCOMPETENCIAEditInput" display="icon" />
                 
                 <h:outputLabel value="#{messages.field_label_tbPERFIL_bloqueia}:" for="deSCCOMPETENCIASBLOQUEIAEditInput" />
-                <p:selectBooleanCheckbox value="#{tbCOMPETENCIASBean.flagBloqueio}"  id="deSCCOMPETENCIASBLOQUEIAEditInput"/>
+                <p:selectBooleanCheckbox
+                style="    border: 1px solid #495057;
+    border-width: 2px;
+    background: #ffffff;
+    width: 1.0rem;
+    height: 1.0rem;
+    text-align: center;
+    position: relative;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;"
+                 value="#{tbCOMPETENCIASBean.flagBloqueio}"  id="deSCCOMPETENCIASBLOQUEIAEditInput"/>
                 <p:message for="deSCCOMPETENCIASBLOQUEIAEditInput" display="icon" />
                 
                  <h:outputLabel value="#{messages.field_label_tbPERFIL_penalidade}:" for="deSCCOMPETENCIASPENALIDADEEditInput" />

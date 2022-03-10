@@ -26,7 +26,7 @@
                                     var="tbGRADES" 
                                     itemLabel="#{tbGRADES.deSCGRADE}"
                                     itemValue="#{tbGRADES}" />
-                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbGRADECARGOSBean.idGRADE}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{tbGRADECARGOSBean.idGRADEs}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
                
@@ -35,7 +35,9 @@
               
                 
                 <h:outputLabel value="Pontuação:" for="poNTUACAOCOMPETENCIAEditInput" />
-                <p:inputText value="#{tbGRADECARGOSBean.tbGRADECARGOS.poNTUACAOGRADE}" id="poNTUACAOCOMPETENCIAEditInput" label="Pontuação" >
+                <p:inputText value="#{tbGRADECARGOSBean.tbGRADECARGOS.poNTUACAOGRADE}"
+                   required="true" requiredMessage="Pontuação é obrigatória!"
+                 id="poNTUACAOCOMPETENCIAEditInput" label="Pontuação" >
                     <f:convertNumber />
                 </p:inputText>
                 <p:message for="poNTUACAOCOMPETENCIAEditInput" display="icon" />

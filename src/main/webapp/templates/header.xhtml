@@ -14,8 +14,9 @@
   <h:outputStylesheet rendered="#{userBean.user.theme=='CIEE'}" library="css" name="ciee.css" />
   <h:outputStylesheet rendered="#{userBean.user.theme=='BRB'}" library="css" name="brb.css" />
    <h:outputStylesheet rendered="#{userBean.user.theme=='HP'}" library="css" name="hp.css" />
+      <h:outputStylesheet rendered="#{userBean.user.theme==null}" library="css" name="w3.css" />
   <h:outputStylesheet rendered="#{userBean.user.theme=='APTA' or userBean.user.theme==null}" library="css" name="apta.css" />
-   <h:outputStylesheet rendered="#{userBean.user.theme==null}" library="css" name="w3.css" />
+
   
   
 </ui:composition>
