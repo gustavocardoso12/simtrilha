@@ -19,9 +19,11 @@
             
                 <h:outputLabel value="Grades:" for="idGRADESSelectInput" rendered="#{not hideIdGRADESSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdGRADESSelectInput}">
-                    <p:selectOneMenu value="#{tbGRADECARGOSBean.tbGRADECARGOS.idGRADE}"
+                    <p:selectOneMenu 
+                      required="true" requiredMessage="Campo obrigatório!"
+                    value="#{tbGRADECARGOSBean.tbGRADECARGOS.idGRADE}"
                                     id="idGRADESSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                                    <f:selectItem  itemLabel="" />
                         <f:selectItems value="#{tbGRADECARGOSBean.idGRADEs}" 
                                     var="tbGRADES" 
                                     itemLabel="#{tbGRADES.deSCGRADE}"

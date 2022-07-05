@@ -22,8 +22,9 @@
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSBASCARGOS_idCONHECBAS}:" for="idCONHECBASSelectInput" rendered="#{not hideIdCONHECBASSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCONHECBASSelectInput}">
                     <p:selectOneMenu style="width:400px !important" value="#{tbCONHECIMENTOSBASCARGOSBean.tbCONHECIMENTOSBASCARGOS.idCONHECBAS}"
-                                    id="idCONHECBASSelectInput">
-                        <f:selectItem  noSelectionOption="true" itemLabel="" />
+                                    id="idCONHECBASSelectInput"
+                                     required="true" requiredMessage="Campo obrigatório!">
+                        <f:selectItem  itemLabel="" />
                         <f:selectItems  value="#{tbCONHECIMENTOSBASCARGOSBean.idCONHECBASs}" 
                                     var="tbCONHECIMENTOSBASICOS" 
                                     itemLabel="#{tbCONHECIMENTOSBASICOS.deSCCONHECIMENTOSBASICOS}"

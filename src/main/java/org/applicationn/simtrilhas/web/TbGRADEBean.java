@@ -1,6 +1,7 @@
 package org.applicationn.simtrilhas.web;
 
 import java.io.Serializable;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,17 +15,15 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
-import org.applicationn.simtrilhas.domain.TbCOMPETENCIASEntity;
+
 import org.applicationn.simtrilhas.domain.TbGRADECARGOSEntity;
 import org.applicationn.simtrilhas.domain.TbGRADEEntity;
-import org.applicationn.simtrilhas.domain.TbPERFILEntity;
 import org.applicationn.simtrilhas.domain.TbPONTCARGOSEntity;
 import org.applicationn.simtrilhas.service.TbGRADECARGOSService;
 import org.applicationn.simtrilhas.service.TbGRADEService;
 import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
-import org.primefaces.event.SlideEndEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
@@ -39,15 +38,15 @@ public class TbGRADEBean implements Serializable {
 	private List<TbGRADEEntity> tbGRADEList;
 
 	private TbGRADEEntity tbGRADE;
-	
+
 	private TbPONTCARGOSEntity tbPONTCARGOSEntity;
 
 	@Inject
 	private TbGRADEService tbGRADEService;
 
-	   @Inject
-	    private TbPONTCARGOSService tbPONTCARGOSService;
-	
+	@Inject
+	private TbPONTCARGOSService tbPONTCARGOSService;
+
 	@Inject
 	private TbGRADECARGOSService tbGRADECARGOSService;
 
@@ -72,27 +71,27 @@ public class TbGRADEBean implements Serializable {
 
 
 
-	
-public void onSelect() {
-		
-		flagEdit = false;
-		
-			for (TbGRADEEntity tbGRADEEntity : tbGRADEList) {
 
-				if(tbGRADEList.size()==1) {
+	public void onSelect() {
+
+		flagEdit = false;
+
+		for (TbGRADEEntity tbGRADEEntity : tbGRADEList) {
+
+			if(tbGRADEList.size()==1) {
+				tbGRADEEntity.setPenalidadeConhecGrade( gapVarGR);
+				persist(tbGRADEEntity);
+
+			}else {
+				if(tbGRADEEntity.getConhecGradeCustom()==null) {
 					tbGRADEEntity.setPenalidadeConhecGrade( gapVarGR);
 					persist(tbGRADEEntity);
 
-				}else {
-					if(tbGRADEEntity.getConhecGradeCustom()==null) {
-						tbGRADEEntity.setPenalidadeConhecGrade( gapVarGR);
-						persist(tbGRADEEntity);
-
-					}
 				}
-
 			}
-		
+
+		}
+
 	}
 
 
@@ -117,20 +116,20 @@ public void onSelect() {
 		this.tbGRADE = new TbGRADEEntity();
 
 	}
-	
+
 	public void onDialogOpen(TbGRADEEntity tbGRADE) {
 		changeHeaderEditar();
 		this.setTbGRADE(tbGRADE);
 		pontuacaoOriginal = tbGRADE.getPenalidadeConhecGrade();
-        this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("GRADE");
-        flagEdit = true;
-        if(pontuacaoOriginal == tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
-        	flagCustom = false;
-        	
-        }else {
-        	flagCustom = true;
-        }
-		
+		this.tbPONTCARGOSEntity = tbPONTCARGOSService.findPONTCARGOSByRequisito("GRADE");
+		flagEdit = true;
+		if(pontuacaoOriginal == tbPONTCARGOSEntity.getPoNTUACAOORIGINAL()) {
+			flagCustom = false;
+
+		}else {
+			flagCustom = true;
+		}
+
 	}
 
 	public String persist(TbGRADEEntity tbGRADE) {
@@ -163,12 +162,41 @@ public void onSelect() {
 						}
 					}
 				}
-				 tbPONTCARGOSEntity = tbPONTCARGOSService.update(tbPONTCARGOSEntity);
+				tbPONTCARGOSEntity = tbPONTCARGOSService.update(tbPONTCARGOSEntity);
 				tbGRADE = tbGRADEService.update(tbGRADE);
 				message = "message_successfully_updated";
 			} else {
-				tbGRADE = tbGRADEService.save(tbGRADE);
-				message = "message_successfully_created";
+
+
+				String duplicado="";
+				String grade="";
+
+				grade = tbGRADE.getDeSCGRADE();
+
+				tbGRADE.setDeSCGRADE(removerAcentos(tbGRADE.getDeSCGRADE()));
+				tbGRADE.setDeSCGRADE(tbGRADE.getDeSCGRADE().trim().toUpperCase());
+
+				tbGRADEList = tbGRADEService.findAllTbGRADEEntities();
+				for (int i =0; i<tbGRADEList.size();i++) {
+					tbGRADEList.get(i).setDeSCGRADE(removerAcentos(tbGRADEList.get(i).getDeSCGRADE()));
+					tbGRADEList.get(i).setDeSCGRADE((tbGRADEList.get(i).getDeSCGRADE().trim().toUpperCase()));
+					if(tbGRADE.getDeSCGRADE().equals(tbGRADEList.get(i).getDeSCGRADE())) {
+						duplicado = "S";
+						this.tbGRADE =null;
+						break;
+					}
+					else {
+						duplicado="N";
+					}
+				}
+
+				if((duplicado.equals("S"))){
+					message = "messageduplicado";
+				}else {
+					tbGRADE.setDeSCGRADE(grade);
+					tbGRADE = tbGRADEService.save(tbGRADE);
+					message = "message_successfully_created";
+				}
 			}
 		} catch (OptimisticLockException e) {
 			logger.log(Level.SEVERE, "Error occured", e);
@@ -188,6 +216,10 @@ public void onSelect() {
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
 		return null;
+	}
+	
+	public static String removerAcentos(String str) {
+		return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 	}
 
 	public void persist() {
@@ -399,7 +431,7 @@ public void onSelect() {
 	}
 
 	public boolean isFlagCustom() {
-		
+
 
 		return flagCustom;
 	}

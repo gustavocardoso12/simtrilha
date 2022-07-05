@@ -204,7 +204,7 @@
 						<p:panelGrid columns="2" columnClasses="painelpessoas,painelpessoas2">
 					
 					
-					<p:commandButton styleClass="botaoPessoas"  value="DDD" 
+					<p:commandButton styleClass="botaoPessoas"  value="&#8205;" escape="true" 
 					style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" 
 								icon="img-button-edit"
 								rendered="#{tbPERFILBean.isPermitted(tbPERFIL, 'tbPERFIL:update')}"
@@ -213,7 +213,7 @@
 								oncomplete="PF('editTbPERFILDialogWidget').show()"/>
 
 						<p:commandButton
-						value="DD"
+						value="&#8205;" escape="true"
 							rendered="#{tbPERFILBean.isPermitted(tbPERFIL, 'tbPERFIL:delete')}"
 								oncomplete="PF('deleteTbPERFILDialogWidget').show()"
 								styleClass="botaoPessoas"

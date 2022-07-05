@@ -1,6 +1,7 @@
 package org.applicationn.simtrilhas.web;
 
 import java.io.Serializable;
+import java.text.Normalizer;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
@@ -156,8 +157,39 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
 				tbPONTCARGOSEntity = tbPONTCARGOSService.update(tbPONTCARGOSEntity);
 				message = "message_successfully_updated";
 			} else {
-				tbCONHECIMENTOSESPECIFICOS = tbCONHECIMENTOSESPECIFICOSService.save(tbCONHECIMENTOSESPECIFICOS);
-				message = "message_successfully_created";
+				
+				String duplicado="";
+				String conhecimentoEsp="";
+				
+				conhecimentoEsp = tbCONHECIMENTOSESPECIFICOS.getDeSCCONHECIMENTOSESPECIFICOS();
+				
+				tbCONHECIMENTOSESPECIFICOS.setDeSCCONHECIMENTOSESPECIFICOS(removerAcentos(tbCONHECIMENTOSESPECIFICOS.getDeSCCONHECIMENTOSESPECIFICOS()));
+				tbCONHECIMENTOSESPECIFICOS.setDeSCCONHECIMENTOSESPECIFICOS(tbCONHECIMENTOSESPECIFICOS.getDeSCCONHECIMENTOSESPECIFICOS().trim().toUpperCase());
+				
+				tbCONHECIMENTOSESPECIFICOSList = tbCONHECIMENTOSESPECIFICOSService.findAllTbCONHECIMENTOSESPECIFICOSEntities();
+				for (int i =0; i<tbCONHECIMENTOSESPECIFICOSList.size();i++) {
+					tbCONHECIMENTOSESPECIFICOSList.get(i).setDeSCCONHECIMENTOSESPECIFICOS(removerAcentos(tbCONHECIMENTOSESPECIFICOSList.get(i).getDeSCCONHECIMENTOSESPECIFICOS()));
+					tbCONHECIMENTOSESPECIFICOSList.get(i).setDeSCCONHECIMENTOSESPECIFICOS((tbCONHECIMENTOSESPECIFICOSList.get(i).getDeSCCONHECIMENTOSESPECIFICOS().trim().toUpperCase()));
+					if(tbCONHECIMENTOSESPECIFICOS.getDeSCCONHECIMENTOSESPECIFICOS().equals(tbCONHECIMENTOSESPECIFICOSList.get(i).getDeSCCONHECIMENTOSESPECIFICOS())) {
+						duplicado = "S";
+						this.tbCONHECIMENTOSESPECIFICOS =null;
+						break;
+					}
+					else {
+						duplicado="N";
+					}
+				}
+
+				if((duplicado.equals("S"))){
+					message = "messageduplicado";
+				}else {
+					tbCONHECIMENTOSESPECIFICOS.setDeSCCONHECIMENTOSESPECIFICOS(conhecimentoEsp);
+					tbCONHECIMENTOSESPECIFICOS = tbCONHECIMENTOSESPECIFICOSService.save(tbCONHECIMENTOSESPECIFICOS);
+					message = "message_successfully_created";
+				}
+				
+				
+				
 			}
 		} catch (OptimisticLockException e) {
 			logger.log(Level.SEVERE, "Error occured", e);
@@ -179,6 +211,11 @@ public class TbCONHECIMENTOSESPECIFICOSBean implements Serializable {
 		return null;
 	}
 
+	public static String removerAcentos(String str) {
+		return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+	}
+	
+	
 	public void persist() {
 		if(validacao())
 			persist(tbCONHECIMENTOSESPECIFICOS);

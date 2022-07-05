@@ -183,7 +183,7 @@
 							
 							
 							<p:commandButton styleClass="botaoPessoas"
-							style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="DDD"
+							style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="&#8205;" escape="true"
 								icon="img-button-edit"
 								
 								update=":editTbCOMPETENCIASDialog"
@@ -196,7 +196,7 @@
 							rendered="#{tbCOMPETENCIASBean.isPermitted(tbCOMPETENCIAS, 'tbCOMPETENCIAS:delete')}"
 								oncomplete="PF('deleteTbCOMPETENCIASDialogWidget').show()"
 								styleClass="botaoPessoas"
-								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="DD"
+								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="&#8205;" escape="true"
 								icon="img-button-delete">
 							<f:setPropertyActionListener value="#{tbCOMPETENCIAS}"
 							target="#{tbCOMPETENCIASBean.tbCOMPETENCIAS}" />

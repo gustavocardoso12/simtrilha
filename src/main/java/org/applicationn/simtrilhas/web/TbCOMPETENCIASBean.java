@@ -1,6 +1,7 @@
 package org.applicationn.simtrilhas.web;
 
 import java.io.Serializable;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -40,12 +41,12 @@ public class TbCOMPETENCIASBean implements Serializable {
 	private List<TbCOMPETENCIASEntity> tbCOMPETENCIASList;
 
 	private TbCOMPETENCIASEntity tbCOMPETENCIAS;
-	
+
 	private List<TbCARGOSEntity> listaCargos = new ArrayList<TbCARGOSEntity>();
 
 	@Inject
 	private TbCOMPETENCIASService tbCOMPETENCIASService;
-	
+
 	@Inject
 	private TbCARGOSService tbCARGOSService;
 
@@ -70,29 +71,29 @@ public class TbCOMPETENCIASBean implements Serializable {
 	private boolean flagCustom;
 
 	private boolean flagEdit;
-	
+
 	private Double eventSlider;
 
 	private String dialogHeader;
 
 
-	
+
 	public void onSelect() {
-		
+
 		flagEdit = false;
-		
-		
 
-			for (TbCOMPETENCIASEntity tbCOMPETENCIASEntity : tbCOMPETENCIASList) {
 
-				if(tbCOMPETENCIASEntity.getCompetenciasCustom()==null) {
-					tbCOMPETENCIASEntity.setPenalidadeCompetencias(gapVarCO);
-					persist(tbCOMPETENCIASEntity);
 
-				}
+		for (TbCOMPETENCIASEntity tbCOMPETENCIASEntity : tbCOMPETENCIASList) {
+
+			if(tbCOMPETENCIASEntity.getCompetenciasCustom()==null) {
+				tbCOMPETENCIASEntity.setPenalidadeCompetencias(gapVarCO);
+				persist(tbCOMPETENCIASEntity);
 
 			}
-		
+
+		}
+
 	}
 
 	public void setDialogHeader(final String dialogHeader) { 
@@ -151,14 +152,43 @@ public class TbCOMPETENCIASBean implements Serializable {
 				tbPONTCARGOSEntity = tbPONTCARGOSService.update(tbPONTCARGOSEntity);
 				message = "message_successfully_updated";
 			} else {
-				tbCOMPETENCIAS = tbCOMPETENCIASService.save(tbCOMPETENCIAS);
-				message = "message_successfully_created";
-			}
-			
 
-			
-			
-			
+
+				String duplicado="";
+				String competencia="";
+				
+				competencia = tbCOMPETENCIAS.getDeSCCOMPETENCIA();
+				
+				tbCOMPETENCIAS.setDeSCCOMPETENCIA(removerAcentos(tbCOMPETENCIAS.getDeSCCOMPETENCIA()));
+				tbCOMPETENCIAS.setDeSCCOMPETENCIA(tbCOMPETENCIAS.getDeSCCOMPETENCIA().trim().toUpperCase());
+				
+				tbCOMPETENCIASList = tbCOMPETENCIASService.findAllTbCOMPETENCIASEntities();
+				for (int i =0; i<tbCOMPETENCIASList.size();i++) {
+					tbCOMPETENCIASList.get(i).setDeSCCOMPETENCIA(removerAcentos(tbCOMPETENCIASList.get(i).getDeSCCOMPETENCIA()));
+					tbCOMPETENCIASList.get(i).setDeSCCOMPETENCIA((tbCOMPETENCIASList.get(i).getDeSCCOMPETENCIA().trim().toUpperCase()));
+					if(tbCOMPETENCIAS.getDeSCCOMPETENCIA().equals(tbCOMPETENCIASList.get(i).getDeSCCOMPETENCIA())) {
+						duplicado = "S";
+						this.tbCOMPETENCIAS =null;
+						break;
+					}
+					else {
+						duplicado="N";
+					}
+				}
+
+				if((duplicado.equals("S"))){
+					message = "messageduplicado";
+				}else {
+					tbCOMPETENCIAS.setDeSCCOMPETENCIA(competencia);
+					tbCOMPETENCIAS = tbCOMPETENCIASService.save(tbCOMPETENCIAS);
+					message = "message_successfully_created";
+				}
+			}
+
+
+
+
+
 		} catch (OptimisticLockException e) {
 			logger.log(Level.SEVERE, "Error occured", e);
 			message = "message_optimistic_locking_exception";
@@ -179,6 +209,11 @@ public class TbCOMPETENCIASBean implements Serializable {
 		return null;
 	}
 
+	public static String removerAcentos(String str) {
+		return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+	}
+	
+	
 	public void persist() {
 		persist(tbCOMPETENCIAS);
 	}
@@ -205,7 +240,7 @@ public class TbCOMPETENCIASBean implements Serializable {
 
 		tbCOMPETENCIASList = null;
 		FacesContext.getCurrentInstance().addMessage(null, MessageFactory.getMessage(message));
-		
+
 		return null;
 	}
 
@@ -379,20 +414,20 @@ public class TbCOMPETENCIASBean implements Serializable {
 
 		}else {
 			if(tbCOMPETENCIAS.getBloqueiaMovCompetencias()==null) {
-				
+
 			}else {
-			if(tbCOMPETENCIAS.getBloqueiaMovCompetencias().equals("SIM")) {
-				flagBloqueio = true;
-			}else {
-				flagBloqueio = false;
-			}
+				if(tbCOMPETENCIAS.getBloqueiaMovCompetencias().equals("SIM")) {
+					flagBloqueio = true;
+				}else {
+					flagBloqueio = false;
+				}
 			}
 		}
 		return flagBloqueio;
 	}
 
 	public void setFlagBloqueio(boolean flagBloqueio) {
-		
+
 		this.flagBloqueio = flagBloqueio;
 		if(flagBloqueio==true) {
 			tbCOMPETENCIAS.setBloqueiaMovCompetencias("SIM");

@@ -1,5 +1,9 @@
 * {
 }
+
+
+
+
 @font-face {
   font-family: 'Montserrat';
   font-style: normal;
@@ -528,7 +532,6 @@ th {
 
 
 
-
 .barraProgressoAmarela2.ui-panel{
 	background: #DD8C00 !important;
 }
@@ -547,6 +550,46 @@ th {
 
 .barraProgressoVerde .ui-widget-header{
 	background: #16600A !important;
+}
+
+.barraCompatibilidade {
+	background:none !important;
+}
+
+.barraCompatibilidade .th {
+	background:none !important;
+}
+
+.barraCompatibilidade.th {
+	background:none !important;
+}
+
+.jqplot-point-label{
+    color: white !important;
+    z-index: 2 !important;
+    position: absolute;
+    left: 95.1px !important;
+    top: 110.1333px !important;
+}
+
+
+.barraCargosPessoas.ui-widget-content {
+    border: none;
+    color: black !important;
+    background: transparent !important;
+}
+
+.barraCargosPessoas .ui-widget-content {
+    border: none;
+    color: black !important;
+    background: transparent !important;
+}
+
+.jqplot-title {
+    top: -11px !important;
+    font-size: 13px !important;
+    color: black;
+    font-weight: bold;
 }
 
 .panel.ui-selectonemenu-list .ui-selectonemenu-trigger

@@ -18,9 +18,11 @@
             
                 <h:outputLabel value="#{messages.field_label_tbCOMPETENCIASCARGOS_idCOMPETENCIAS}:" for="idCOMPETENCIASSelectInput" rendered="#{not hideIdCOMPETENCIASSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCOMPETENCIASSelectInput}">
-                    <p:selectOneMenu value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.idCOMPETENCIAS}"
+                    <p:selectOneMenu
+                     required="true" requiredMessage="Campo obrigatório!"
+                     value="#{tbCOMPETENCIASCARGOSBean.tbCOMPETENCIASCARGOS.idCOMPETENCIAS}"
                                     id="idCOMPETENCIASSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItem  itemLabel="" />
                         <f:selectItems value="#{tbCOMPETENCIASCARGOSBean.idCOMPETENCIASs}" 
                                     var="tbCOMPETENCIAS" 
                                     itemLabel="#{tbCOMPETENCIAS.deSCCOMPETENCIA}"

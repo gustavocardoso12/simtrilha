@@ -179,7 +179,7 @@
 					
 					
 						<p:commandButton styleClass="botaoPessoas"
-					style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="DDD"
+					style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="&#8205;" escape="true"
 								icon="img-button-edit"
 								rendered="#{tbGRADEBean.isPermitted(tbGRADE, 'tbGRADE:update')}"
 								action="#{tbGRADEBean.onDialogOpen(tbGRADE)}"
@@ -190,7 +190,7 @@
 							rendered="#{tbGRADEBean.isPermitted(tbGRADE, 'tbGRADE:delete')}"
 								oncomplete="PF('deleteTbGRADEDialogWidget').show()"
 								styleClass="botaoPessoas"
-								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="DD"
+								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="&#8205;" escape="true"
 								icon="img-button-delete">
 							<f:setPropertyActionListener value="#{tbGRADE}"
 							target="#{tbGRADEBean.tbGRADE}" />

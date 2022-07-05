@@ -13,6 +13,34 @@
   src: local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf) format('truetype');
 }
 
+.barraCompatibilidade {
+	background:none !important;
+}
+
+.barraCompatibilidade .th {
+	background:none !important;
+}
+
+.barraCompatibilidade.th {
+	background:none !important;
+}
+
+.jqplot-point-label{
+    color: white !important;
+    z-index: 2 !important;
+    position: absolute;
+    left: 95.1px !important;
+    top: 110.1333px !important;
+}
+
+
+
+
+.jqplot-title{
+	top: -11px !important;
+}
+
+
 body,div,td {
   
     font-size: 12px;

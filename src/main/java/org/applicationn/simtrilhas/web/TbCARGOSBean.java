@@ -1,6 +1,8 @@
 package org.applicationn.simtrilhas.web;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
@@ -67,8 +69,13 @@ import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.service.security.UserService;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 import org.primefaces.PrimeFaces;
+import org.primefaces.component.barchart.BarChart;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
 
 @Named("tbCARGOSBean")
 @ViewScoped
@@ -83,7 +90,7 @@ public class TbCARGOSBean implements Serializable {
 	protected List<TbCARGOSEntity> tbCARGOSList;
 
 	protected List<TbCARGOSEntity> tbPESSOASList;
-	
+
 	protected List<TbCARGOSEntity> tbCADASTRO;
 
 
@@ -358,6 +365,8 @@ public class TbCARGOSBean implements Serializable {
 
 	protected boolean selector;
 
+	private BarChartModel barModel;
+
 	public String submit(TbCARGOSEntity cargo) {
 		String statusFinal = "";
 		if(flagPessoa.equals("SIM")) {
@@ -367,8 +376,8 @@ public class TbCARGOSBean implements Serializable {
 		}
 		return statusFinal;
 	}
-	
-	
+
+
 	public String submitCargos(TbCARGOSEntity cargo) {
 		id = cargo.getId().intValue();
 		flagPessoa = cargo.getFlagPessoa().toString();
@@ -381,10 +390,10 @@ public class TbCARGOSBean implements Serializable {
 		flagPessoa = cargo.getFlagPessoa().toString();
 		return "/trilhas/Cadastro/Editar.xhtml?faces-redirect=true&includeViewParams=true";
 	}
-	
-	
 
-/*	public String Adicionar() {
+
+
+	/*	public String Adicionar() {
 		String statusFinal = "";
 		if(flagPessoa.equals("SIM")) {
 			statusFinal = AdicionarPessoas();
@@ -471,6 +480,9 @@ public class TbCARGOSBean implements Serializable {
 			pesoCE = tbPesos.get(4).getPeso();
 
 			selector = true;
+
+
+
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -712,7 +724,7 @@ public class TbCARGOSBean implements Serializable {
 		tbGRADESCARGOSs = tbGRADESCARGOSService.findTbGRADECARGOSsByIdCARGOS(this.tbCARGOS);
 		return tbGRADESCARGOSs;
 	}
-	
+
 	public List<TbGRADECARGOSEntity> InicializaTabelasAuxiliaresGRIni(TbCARGOSEntity tbCARGOS) {
 		this.tbCARGOS = tbCARGOS;
 		tbGRADESCARGOSs = tbGRADESCARGOSService.findTbGRADECARGOSsByIdCARGOSIni(this.tbCARGOS);
@@ -1410,7 +1422,60 @@ public class TbCARGOSBean implements Serializable {
 			} else {
 				calculaAderenciaFinal(tbCARGOSDe, tbCARGOSPara);
 			}
+
+			createBarModel();
 		}
+	}
+
+	private BarChartModel initBarModel() {
+		BarChartModel model = new BarChartModel();
+
+		ChartSeries boys = new ChartSeries();
+		boys.set("", aderenciaFinal);
+		model.addSeries(boys);
+
+		return model;
+	}
+
+	public static double round(double value, int places) {
+		if (places < 0) throw new IllegalArgumentException();
+
+		BigDecimal bd = BigDecimal.valueOf(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+	private void createBarModel() {
+		barModel = initBarModel();
+		if(aderenciaFinal==0.0) {
+			barModel.setTitle("Nível de Compatibilidade: " + avisoDowngrade );	
+		}else {
+			barModel.setTitle("Nível de Compatibilidade: " + aderenciaFinal.intValue() + "%");
+		}
+		System.out.println(corFinal.replace("#", ""));
+
+		if(aderenciaFinal<30.0) {
+			barModel.setSeriesColors("A8413E");
+		}else {
+
+			if(aderenciaFinal>80.0) {
+				barModel.setSeriesColors("1E9151");
+			}
+			else {
+				barModel.setSeriesColors(corFinal.replace("#", ""));
+			}
+		}
+
+		barModel.setExtender("chartExtender");
+		barModel.setShadow(true);
+
+		Axis yAxis = barModel.getAxis(AxisType.Y);
+		yAxis.setMin(0);
+		yAxis.setMax(100);
+		yAxis.setLabel(" ");
+
+		Axis xAxis = barModel.getAxis(AxisType.X);
+		xAxis.setLabel("");
+
 	}
 
 	public void calculaAderenciaFinal(TbCARGOSEntity tbCARGOSDe, TbCARGOSEntity tbCARGOSPara) {
@@ -1510,32 +1575,39 @@ public class TbCARGOSBean implements Serializable {
 
 
 	public String persist() {
-		tbCARGOS.setDeSCCARGO(removerAcentos(tbCARGOS.getDeSCCARGO()));
-		tbCARGOS.setDeSCCARGO(tbCARGOS.getDeSCCARGO().trim().toUpperCase());
-		String message="";
-		String duplicado="";
+		String message;
 		try {
-			allIdCARGOSsList = tbCARGOSService.AllTbCARGOSEntities();
-			for (int i =0; i<allIdCARGOSsList.size();i++) {
-				if(tbCARGOS.getDeSCCARGO().equals(allIdCARGOSsList.get(i).getDeSCCARGO())
-						&&  (tbCARGOS.getId()==null)) {
-					duplicado = "S";
-					this.tbCARGOS =null;
-					break;
+			if (tbCARGOS.getId() != null) {
+				tbCARGOS = tbCARGOSService.update(tbCARGOS);
+				message = "message_successfully_updated";
+			} else {
+
+				String duplicado="";
+				String cargo="";
+
+				cargo = tbCARGOS.getDeSCCARGO();
+
+				tbCARGOS.setDeSCCARGO(removerAcentos(tbCARGOS.getDeSCCARGO()));
+				tbCARGOS.setDeSCCARGO(tbCARGOS.getDeSCCARGO().trim().toUpperCase());
+
+				tbCARGOSList = tbCARGOSService.AllTbCARGOSEntities();
+				for (int i =0; i<tbCARGOSList.size();i++) {
+					tbCARGOSList.get(i).setDeSCCARGO(removerAcentos(tbCARGOSList.get(i).getDeSCCARGO()));
+					tbCARGOSList.get(i).setDeSCCARGO((tbCARGOSList.get(i).getDeSCCARGO().trim().toUpperCase()));
+					if(tbCARGOS.getDeSCCARGO().equals(tbCARGOSList.get(i).getDeSCCARGO())) {
+						duplicado = "S";
+						this.tbCARGOS =null;
+						break;
+					}
+					else {
+						duplicado="N";
+					}
 				}
-				else {
-					duplicado="N";
-				}
-			}
 
-			if((duplicado.equals("S") && (tbCARGOS.getId()==null))) {
+				if((duplicado.equals("S"))){
+					message = "messageduplicado";
+				}else {
 
-			}else {
-
-				if (tbCARGOS.getId() != null) {
-					tbCARGOS = tbCARGOSService.update(tbCARGOS);
-					message = "message_successfully_updated";
-				} else {
 					tbCARGOS = tbCARGOSService.save(tbCARGOS);
 					message = "message_successfully_created";
 					TbGRADECARGOSEntity gradesCargos = new TbGRADECARGOSEntity();
@@ -1545,6 +1617,7 @@ public class TbCARGOSBean implements Serializable {
 					gradesCargos = tbGRADESCARGOSService.save(gradesCargos);
 				}
 			}
+
 
 		} catch (OptimisticLockException e) {
 			logger.log(Level.SEVERE, "Error occured", e);
@@ -1619,7 +1692,7 @@ public class TbCARGOSBean implements Serializable {
 		try {
 			tbCARGOSService.delete(tbCARGOS);
 			message = "message_successfully_deleted";
-			 reset();
+			reset();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Error occured", e);
 			message = "message_delete_exception";
@@ -1724,11 +1797,11 @@ public class TbCARGOSBean implements Serializable {
 		}
 		return tbCARGOSList;
 	}
-	
 
-	
-	
-	
+
+
+
+
 
 	public void setTbCARGOSList(List<TbCARGOSEntity> tbCARGOSList) {
 		this.tbCARGOSList = tbCARGOSList;
@@ -2564,7 +2637,7 @@ public class TbCARGOSBean implements Serializable {
 		this.flagPessoa = flagPessoa;
 	}
 
-	
+
 	public List<TbCARGOSEntity> getTbCADASTRO() {
 		if (tbCADASTRO == null) {
 			if(flagPessoa.equals("SIM")) {
@@ -2579,6 +2652,16 @@ public class TbCARGOSBean implements Serializable {
 
 	public void setTbCADASTRO(List<TbCARGOSEntity> tbCADASTRO) {
 		this.tbCADASTRO = tbCADASTRO;
+	}
+
+
+	public BarChartModel getBarModel() {
+		return barModel;
+	}
+
+
+	public void setBarModel(BarChartModel barModel) {
+		this.barModel = barModel;
 	}
 
 }

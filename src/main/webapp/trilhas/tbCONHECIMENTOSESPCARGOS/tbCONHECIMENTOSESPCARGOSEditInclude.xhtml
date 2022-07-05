@@ -19,8 +19,9 @@
                 <h:outputLabel value="#{messages.field_label_tbCONHECIMENTOSESPCARGOS_idCONHECESP}:" for="idCONHECESPSelectInput" rendered="#{not hideIdCONHECESPSelectInput}"/>
                 <h:panelGroup rendered="#{not hideIdCONHECESPSelectInput}">
                     <p:selectOneMenu style="width:400px !important" value="#{tbCONHECIMENTOSESPCARGOSBean.tbCONHECIMENTOSESPCARGOS.idCONHECESP}"
-                                    id="idCONHECESPSelectInput">
-                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                                    id="idCONHECESPSelectInput"  
+                                    required="true" requiredMessage="Campo obrigatório!">
+                        <f:selectItem  itemLabel="" />
                         <f:selectItems value="#{tbCONHECIMENTOSESPCARGOSBean.idCONHECESPs}" 
                                     var="tbCONHECIMENTOSESPECIFICOS" 
                                     itemLabel="#{tbCONHECIMENTOSESPECIFICOS.deSCCONHECIMENTOSESPECIFICOS}"

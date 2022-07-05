@@ -92,7 +92,7 @@
 				
 				
 						<p:commandButton styleClass="botaoPessoas"
-						style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="DDD"
+						style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="&#8205;" escape="true"
 								icon="img-button-edit"
 								rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:update')}"
 								action="#{tbAREABean.onDialogOpen(tbAREA)}"
@@ -105,7 +105,7 @@
 							rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:delete')}"
 									oncomplete="PF('deleteTbAREADialogWidget').show()"
 								styleClass="botaoPessoas"
-								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="DD"
+								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="&#8205;" escape="true"
 								icon="img-button-delete">
 						<f:setPropertyActionListener value="#{tbAREA}"
 							target="#{tbAREABean.tbAREA}" />

@@ -501,6 +501,36 @@ th {
 	height: 50px !important;
 }
 
+.barraCompatibilidade {
+	background:none !important;
+}
+
+.barraCompatibilidade .th {
+	background:none !important;
+}
+
+.barraCompatibilidade.th {
+	background:none !important;
+}
+
+.jqplot-point-label{
+    color: white !important;
+    z-index: 2 !important;
+    position: absolute;
+    left: 95.1px !important;
+    top: 110.1333px !important;
+}
+
+
+
+
+.jqplot-title {
+    top: -11px !important;
+    font-size: 13px !important;
+    color: black;
+    font-weight: bold;
+}
+
 .barraProgressoVerde2 .ui-panel {
 	background: #16600A !important;
 }
@@ -783,6 +813,9 @@ th {
 		background: #EEEEEE 0% 0% no-repeat padding-box !important;
 		border: none !important;
 	}
+	
+
+	
 	.barraCargosPessoas2 .th .ui-widget-content .ui-state-default {
 		/* color:#f2f2f2 !important; */
 		background: #5C2B5F 0% 0% no-repeat padding-box !important;
@@ -827,6 +860,7 @@ th {
 		margin-left: 0px;
 	}
 	
+	
 	.ControleCargosDesligado{
 	
 	margin-left:40px;visibility:hidden !important;
@@ -844,6 +878,20 @@ th {
 	.painelpessoas2 {
 		width: 25px !important;
 	}
+	
+	.painelpessoas2 .ui-widget-content {
+		border: transparent !important;
+	}
+	
+	
+	.ui-panelgrid-cell .painelpessoas2 .ui-widget-content {
+		background: transparent !important;
+	}
+	
+		.ui-panelgrid-cell .painelpessoas2{
+		background: transparent !important;
+	}
+	
 	button {
 		font-family: Montserrat;
 		font-size: 1em;
