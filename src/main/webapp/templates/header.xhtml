@@ -6,7 +6,7 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:p="http://primefaces.org/ui">
 <ui:composition>
-  <title>#{messages.application_name}</title>
+  <title>APTA XR New Comp System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <h:outputScript library="js" name="calendar.js" />
    <h:outputStylesheet library="css" name="theme.css" />
@@ -15,7 +15,8 @@
   <h:outputStylesheet rendered="#{userBean.user.theme=='BRB'}" library="css" name="brb.css" />
    <h:outputStylesheet rendered="#{userBean.user.theme=='HP'}" library="css" name="hp.css" />
       <h:outputStylesheet rendered="#{userBean.user.theme==null}" library="css" name="w3.css" />
-  <h:outputStylesheet rendered="#{userBean.user.theme=='APTA' or userBean.user.theme==null}" library="css" name="apta.css" />
+  <h:outputStylesheet rendered="#{(userBean.user.theme=='APTA' or userBean.user.theme==null) and (userBean.user.sistema=='Simulador' or userBean.user.sistema==null )}" library="css" name="apta.css" />
+ <h:outputStylesheet rendered="#{(userBean.user.theme=='APTA') and (userBean.user.sistema=='Pesquisa' )}" library="css" name="xr.css" />
 
   
   

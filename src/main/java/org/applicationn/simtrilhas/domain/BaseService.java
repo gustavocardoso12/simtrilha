@@ -130,13 +130,15 @@ public class BaseService<T extends BaseEntity> {
 
 	// This is the central method called by the DataTable
 	public List<T> findEntriesPagedAndFilteredAndSorted(int firstResult, int maxResults, String sortField, SortOrder sortOrder, Map<String, Object> columnFilters) throws RuntimeException {
+		return null;
 		// overwrite this method in extending class
-		throw new UnsupportedOperationException("Method findEntriesPagedAndFilteredAndSorted() not implemented for this entity service.");
+	
 	}
 
 	public long countAllEntries() {
+		return 0;
 		// overwrite this method in extending class
-		throw new UnsupportedOperationException("Method countAllEntries() not implemented for this entity service.");
+
 	}
 
 }

@@ -514,11 +514,13 @@ th {
 }
 
 .jqplot-point-label{
-    color: white !important;
+    color: black !important;
     z-index: 2 !important;
     position: absolute;
-    left: 95.1px !important;
-    top: 110.1333px !important;
+   /* left: 95.1px !important;
+    top: 110.1333px !important;*/
+    
+    font-size: 12px !important;
 }
 
 
@@ -843,6 +845,10 @@ th {
 	}
 	.CompetenciasAux.ui-datatable thead th, .ui-datatable tfoot th {
 		background: #5C2B5F !important;
+	padding-left: 5px;
+    padding-bottom: 10px;
+    padding-right: 5px;
+    padding-top: 10px;
 	}
 	.botaoPessoas.ui-button-text-icon-left .ui-button-text {
 		height: 30px !important;
@@ -860,6 +866,36 @@ th {
 		margin-left: 0px;
 	}
 	
+	.classeSlider .ui-slider .ui-slider-range {
+    background: #5C2B5F !important;
+}
+	
+	.classeSlider .ui-slider-horizontal .ui-slider-range {
+    top: 0 !important;
+    height: 100% !important;
+}
+	.classeSlider .ui-slider .ui-slider-range {
+    position: absolute !important;
+    z-index: 1 !important;
+    font-size: .7em !important;
+    display: block !important;
+    border: 0 !important;
+    background-position: 0 0 !important;
+}
+	
+	.classeSlider .ui-slider .ui-slider-handle {
+    width: 1.143rem  !important;
+    height: 1.143rem  !important;
+    background: #ffffff  !important;
+    border: 2px solid #5C2B5F  !important;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s  !important;
+    border-radius: 50%  !important;
+}
+	
+	.classeSlider .ui-slider.ui-slider-horizontal .ui-slider-handle {
+    top: -0.4285rem  !important;
+    margin-left: -0.5715rem  !important;
+}
 	
 	.ControleCargosDesligado{
 	
@@ -911,5 +947,36 @@ th {
 		overflow: visible;
 	}
 	
+	.parent {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.image1 {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.image2 {
+    position: absolute;
+    top: 120px;
+    left: 20px;
+}
 	
-	
+.jqplot-highlighter-tooltip, .jqplot-canvasOverlay-tooltip {
+    border: none !important;
+    font-size: .75em !important;
+    white-space: nowrap !important;
+    background: none !important;
+    padding: 1px !important;
+    z-index: 1 !important;
+    display: table !important;
+}
+
+.Derivado{
+	padding-left:510px !important;
+}
+
+.ILP{
+	padding-left:360px !important;
+}

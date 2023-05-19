@@ -3,6 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
@@ -167,7 +168,7 @@ margin-bottom: 30px;" />
 						<p:panelGrid  columns="2"
 							columnClasses="painelpessoas,painelpessoas2">
 							<p:commandButton styleClass="botaoPessoas" async="true"
-								immediate="true" partialSubmit="true"
+							process="@this"
 								style="background:white;width:40px; height:40px;font-size:12px;color: #FAA82D;"  value="&#8205;" escape="true"
 								icon="img-button-edit" action="#{tbCARGOSBean.submit(tbCARGOS)}" />
 

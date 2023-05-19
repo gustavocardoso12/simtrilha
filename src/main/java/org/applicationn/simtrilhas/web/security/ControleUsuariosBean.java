@@ -6,7 +6,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -16,6 +20,10 @@ import javax.mail.MessagingException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
+import org.applicationn.pesquisa.domain.TbEmpresa;
+import org.applicationn.pesquisa.domain.TbMercado;
+import org.applicationn.pesquisa.service.TbEmpresaService;
+import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
 import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.domain.security.UserRole;
 import org.applicationn.simtrilhas.domain.security.UserStatus;
@@ -23,9 +31,13 @@ import org.applicationn.simtrilhas.service.security.UserService;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 
 @Named("ControleUsuariosBean")
-@ViewScoped
+@RequestScoped
 public class ControleUsuariosBean implements Serializable {
 
+	public static int idUsuario;
+	private static String nomeUsuario;
+	private static String emailUsuario;
+	private static UserEntity nomeExcluirUsuario;
 	private static final long serialVersionUID = 1L;
 
 	protected List<UserEntity> tbUSUARIOSList;
@@ -33,13 +45,17 @@ public class ControleUsuariosBean implements Serializable {
 	@Inject
 	protected UserService userService;
 
+	@Inject
+	protected TbEmpresaService tbEmpresaService;
+
 	protected UserEntity user;
 
 	private List<String> themesList = null;
 
 	private List<String> BDList = null;
 	private List<UserRole> rolesList = new ArrayList<UserRole>();
-
+	private List<TbEmpresa> empresaList = new ArrayList<TbEmpresa>();
+	private List<String> mercadoList = new ArrayList<String>();
 	private String username;
 	private String senha;
 	private String email;
@@ -48,44 +64,155 @@ public class ControleUsuariosBean implements Serializable {
 	private String flagPessoa;
 	private String flagGrade;
 	private String nivelAcesso;
-	
+	private String sistema;
+	private String mercado;
+	private TbEmpresa tbEmpresa;
+
+
 	private UserEntity usuarioEdicao;
 
 
-	private int id;
 
-	public String AdicionarUsuarios() {
+
+	private int id;
+	private String sistemaAtual;
+
+
+	@PostConstruct
+	public void Init() {
+		empresaList = tbEmpresaService.findAllTbEmpresa();
+		mercadoList = tbEmpresaService.empresasDisponiveis();
+		nomeUsuario=null;
+		emailUsuario=null;
+	}
+
+	/*public void ExecutaList(TbEmpresa tbEmpresa) {
+		mercadoList = tbEmpresaService.empresasDisponiveis(tbEmpresa.getDescEmpresa());	
+	}
+
+	public void ExecutaListEdicao(TbEmpresa tbEmpresa) {
+		mercadoList = tbEmpresaService.empresasDisponiveis(usuarioEdicao.getIdEmpresa().getDescEmpresa());
+	}*/
+
+	public String AdicionarUsuarios(String sistema) {
 		reset();
 		this.user = new UserEntity();
-		return "/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+		this.sistema=sistema;
+		if(sistema.equals("Simulador")) {
+			return "/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+		}else {
+			return "/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
+		}
+
 	}
 
-	public String submit(UserEntity user) {
+	
+
+
+
+	public String submit(UserEntity user, String sistema) {
+		getTbUSUARIOSList();
 		id = user.getId().intValue();
+		this.sistema=sistema;
+		if(sistema.equals("Simulador")) {
+			return "/trilhas/usuario/EditarUsuario.xhtml?faces-redirect=true&includeViewParams=true";
+		}else {
+			return "/pesquisas/pesquisas/usuarios/EditarUsuario.xhtml?faces-redirect=true&includeViewParams=true";
+		}
 
-		return "/trilhas/usuario/EditarUsuario.xhtml?faces-redirect=true&includeViewParams=true";
 	}
-	
-	
+
+	public String qualSistema(UserEntity user) {
+		sistemaAtual = user.getSistema();
+		return "/trilhas/usuario/Controle_usuarios.xhtml?faces-redirect=true&includeViewParams=true";
+	}
+
+	public void VerificarSistema() {
+		if(sistema==null) {
+
+		}else {
+
+			if (sistema.equals("Pesquisa")){
+				bancoDados = "APTA";
+				tema = "APTA";
+				flagPessoa="NAO";
+				flagGrade="NAO";
+			}
+
+		}
+
+
+	}
+
+
+	public void VerificarSistema(UserEntity tbUSEREdicao) {
+
+	}
 
 	public String persistEdicao(UserEntity tbUSEREdicao) {
 		if(nivelAcesso.toUpperCase().equals("COLABORADOR")) {
 			tbUSEREdicao.setRoles(Arrays.asList(new UserRole[]{UserRole.Colaborador}));
 		}
-		
+
 		if(nivelAcesso.toUpperCase().equals("ADMINISTRATOR")) {
 			tbUSEREdicao.setRoles(Arrays.asList(new UserRole[]{UserRole.Administrator}));
 		}
-		
-		
+
+		if(tbUSEREdicao.getSistema()==null) {
+
+		}else if (tbUSEREdicao.getSistema().equals("Pesquisa")){
+			tbUSEREdicao.setBanco_dados("APTA");
+			tbUSEREdicao.setTheme("APTA");
+			tbUSEREdicao.setFlag_grade("NAO");
+			tbUSEREdicao.setFlag_pessoa("NAO");
+		}
 		String message="";
 		try {
 
 
 			if (tbUSEREdicao.getId() != null) {
+
+				if(tbUSEREdicao.getUsername().equals(nomeUsuario)) {
+
+				}else {
+
+					if (userService.findUserByUsername(tbUSEREdicao.getUsername()) != null) {
+						FacesMessage facesMessage = MessageFactory.getMessage(
+								"user_username_exists");
+						facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+						FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+
+						if(!tbUSEREdicao.getSistema().equals("Pesquisa")){
+							return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/EditarUsuario.xhtml?id="+idUsuario+"?faces-redirect=true";
+						}else {
+							return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/EditarUsuario.xhtml?id="+idUsuario+"?faces-redirect=true";
+						}
+
+
+						
+					}
+				}
+
+
+				if(tbUSEREdicao.getEmail().equals(emailUsuario)) {
+
+				}else {
+					if (userService.findUserByEmail(tbUSEREdicao.getEmail()) != null) {
+						FacesMessage facesMessage = MessageFactory.getMessage(
+								"user_email_exists");
+						facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+						FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+						if(!tbUSEREdicao.getSistema().equals("Pesquisa")){
+							return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+						}else {
+							return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
+						}
+					}
+				}
+
 				tbUSEREdicao = userService.updateMatriz(tbUSEREdicao);
 				message = "message_successfully_updated";
-				this.usuarioEdicao = userService.findMatriz((long) id);
+				this.usuarioEdicao = userService.findMatriz((long) idUsuario);
 
 			} else {
 				tbUSEREdicao = userService.save(tbUSEREdicao);
@@ -109,20 +236,61 @@ public class ControleUsuariosBean implements Serializable {
 		return null;
 	}
 
-	
-	
+
+	public String delete() {
+
+		String message;
+
+		try {
+
+			UserEntity userAtual = userService.getCurrentUser();
+			usuarioEdicao = nomeExcluirUsuario;
+			if(usuarioEdicao.getUsername().equals(userAtual.getUsername())) {
+				message = "message_delete_current_user";
+				FacesContext.getCurrentInstance().validationFailed();
+				reset();
+			}else {
+				userService.delete(usuarioEdicao);
+				message = "message_successfully_deleted";
+				getTbUSUARIOSList();
+			}
+		} catch (Exception e) {
+			message = "message_delete_exception";
+			FacesContext.getCurrentInstance().validationFailed();
+		}
+		FacesContext.getCurrentInstance().addMessage(null, MessageFactory.getMessage(message));
+
+		return null;
+	}
+
 
 	public UserEntity getUsuarioEdicao() {
 		if(this.usuarioEdicao==null) {
-			this.usuarioEdicao = userService.findMatriz((long) id);
+			if(id!=0) {
+				idUsuario = id;
+
+			}
+			this.usuarioEdicao = userService.findMatriz((long) idUsuario);
+
+			if(nomeUsuario==null) {
+				nomeUsuario = usuarioEdicao.getUsername();
+			}
+			if(emailUsuario==null) {
+				emailUsuario= usuarioEdicao.getEmail();
+			}
 			this.nivelAcesso = this.usuarioEdicao.getRoles().get(0).name();
-			System.out.println("ID do usuario" + id);
+			if(usuarioEdicao.getIdEmpresa()!=null){
+				mercadoList = tbEmpresaService.empresasDisponiveis(usuarioEdicao.getIdEmpresa().getDescEmpresa());	
+			}
+
+			System.out.println("ID do usuario" + idUsuario);
 		}
 		return usuarioEdicao;
 	}
 
 	public void setUsuarioEdicao(UserEntity usuarioEdicao) {
 		this.usuarioEdicao = usuarioEdicao;
+		nomeExcluirUsuario = usuarioEdicao;
 	}
 
 	public void reset() {
@@ -135,13 +303,36 @@ public class ControleUsuariosBean implements Serializable {
 		flagPessoa = null;
 		flagGrade=null;
 		nivelAcesso = null;
-		}
+		sistema=null;
+		tbEmpresa=null;
+	}
 
 
 	public String Tryit() throws IOException {
 
 		try {
 			UserEntity user = new UserEntity();
+			UserEntity userAtual = userService.getCurrentUser();
+			sistema = userAtual.getSistema();
+
+			if(sistema==null) {
+
+			}else {
+
+				if (sistema.equals("Pesquisa")){
+					bancoDados ="APTA";
+					tema ="APTA";
+					flagGrade = "NAO";
+					flagPessoa = "NAO";
+				}
+			}
+
+
+			if(tbEmpresa==null) {
+
+			}else {
+				user.setIdEmpresa(tbEmpresa);
+			}
 
 
 			user.setBanco_dados(bancoDados);
@@ -151,13 +342,24 @@ public class ControleUsuariosBean implements Serializable {
 			user.setUsername(username);
 			user.setTheme(tema);
 			user.setPassword(senha);
+			user.setSistema(sistema);
+			user.setMercado(mercado);
+
+
 
 			if (userService.findUserByUsername(user.getUsername()) != null) {
 				FacesMessage facesMessage = MessageFactory.getMessage(
 						"user_username_exists");
 				facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-				return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+
+				if(!user.getSistema().equals("Pesquisa")){
+					return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+				}else {
+					return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
+				}
+
+
 			}
 
 			if (userService.findUserByEmail(user.getEmail()) != null) {
@@ -165,18 +367,22 @@ public class ControleUsuariosBean implements Serializable {
 						"user_email_exists");
 				facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-				return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+				if(!user.getSistema().equals("Pesquisa")){
+					return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+				}else {
+					return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
+				}
 			}
-			
+
 			if(nivelAcesso.toUpperCase().equals("COLABORADOR")) {
 				user.setRoles(Arrays.asList(new UserRole[]{UserRole.Colaborador}));
 			}
-			
+
 			if(nivelAcesso.toUpperCase().equals("ADMINISTRATOR")) {
 				user.setRoles(Arrays.asList(new UserRole[]{UserRole.Administrator}));
 			}
-			
-			
+
+
 			user.setStatus(UserStatus.Active);
 			user.setAtivo("NAO");
 
@@ -215,7 +421,15 @@ public class ControleUsuariosBean implements Serializable {
 
 	public List<UserEntity> getTbUSUARIOSList() {
 		if (tbUSUARIOSList == null) {
-			tbUSUARIOSList = userService.findAllUserEntities();
+
+			if(this.sistemaAtual==null) {
+				UserEntity user = userService.getCurrentUser();
+				tbUSUARIOSList = userService.findAllUserEntitiesBySistema(user.getSistema());
+			}else {
+				tbUSUARIOSList = userService.findAllUserEntitiesBySistema(sistemaAtual);
+			}
+
+
 		}
 		return tbUSUARIOSList;
 	}
@@ -367,6 +581,66 @@ public class ControleUsuariosBean implements Serializable {
 
 	public void setNivelAcesso(String nivelAcesso) {
 		this.nivelAcesso = nivelAcesso;
+	}
+
+	public String getSistema() {
+		return sistema;
+	}
+
+	public void setSistema(String sistema) {
+		this.sistema = sistema;
+	}
+
+	public String getMercado() {
+		return mercado;
+	}
+
+	public void setMercado(String mercado) {
+		this.mercado = mercado;
+	}
+
+	public TbEmpresa getTbEmpresa() {
+		return tbEmpresa;
+	}
+
+	public void setTbEmpresa(TbEmpresa tbEmpresa) {
+		this.tbEmpresa = tbEmpresa;
+	}
+
+	public List<TbEmpresa> getEmpresaList() {
+
+
+		return empresaList;
+	}
+
+
+	public List<String> getMercadoList() {
+
+
+
+		return mercadoList;
+	}
+
+
+
+	public void setMercadoList(List<String> mercadoList) {
+		this.mercadoList = mercadoList;
+	}
+
+
+	public void setEmpresaList(List<TbEmpresa> empresaList) {
+		this.empresaList = empresaList;
+	}
+
+
+
+
+	public String getSistemaAtual() {
+		return sistemaAtual;
+	}
+
+	public void setSistemaAtual(String sistemaAtual) {
+		this.sistemaAtual = sistemaAtual;
 	}
 
 }

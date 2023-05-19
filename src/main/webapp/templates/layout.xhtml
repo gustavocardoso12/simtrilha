@@ -54,15 +54,42 @@
     </div>
 
     <div class="ui-fluid">
-        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid">
-            <ui:insert name="menu">
-              <ui:include src="menu.xhtml" />
+        <p:panelGrid 
+       
+        columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid">
+          
+            <p:panelGrid  rendered="#{(userBean.user.sistema == 'Simulador' ? true :false)}">
+            <ui:insert  name="menu">
+              <ui:include  src="menu.xhtml" />
             </ui:insert>
+            </p:panelGrid>
+            
+          
+                      
+            
+           <p:panelGrid class="parent" rendered="#{(userBean.user.sistema == 'Simulador' ? false :true)
+             and fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Windows')
+             }" >
+           
 
+            
+           <h:graphicImage   rendered="#{(userBean.user.sistema == 'Simulador' ? false :true)
+             and fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Windows')
+             }" width="100%" class="image1"  height="100%"  name="images/Sidebar.png" />
+			<h:graphicImage  rendered="#{(userBean.user.sistema == 'Simulador' ? false :true)
+             and fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Windows')
+             }" width="140px" style="    position: sticky;
+    left: 3%;
+    bottom: 55%;" height="140px"  name="images/Logo_XR_completo.png" />
+
+		</p:panelGrid>
             <h:panelGroup>
                 <ui:insert name="content" />
             </h:panelGroup>
         </p:panelGrid>
+        
+
+       
     </div>
 </h:body>
 </f:view>

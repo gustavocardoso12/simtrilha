@@ -14,6 +14,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.applicationn.simtrilhas.domain.TbAREAEntity;
 import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.domain.security.UserStatus;
 import org.applicationn.simtrilhas.service.BaseService;
@@ -36,6 +37,14 @@ public class UserService extends BaseService<UserEntity> implements Serializable
     public List<UserEntity> findAllUserEntities() {
         return getEntityManagerMatriz().createQuery("SELECT o FROM User o", UserEntity.class).getResultList();
     }
+    
+
+    @Transactional
+    public List<UserEntity> findAllUserEntitiesBySistema(String sistema) {
+        return getEntityManagerMatriz().createQuery("SELECT o FROM User o where o.sistema = :sistema", UserEntity.class)
+        		.setParameter("sistema", sistema).getResultList();
+    }
+    
     
     @Transactional
     public UserEntity getCurrentUser() {
@@ -73,7 +82,7 @@ public class UserService extends BaseService<UserEntity> implements Serializable
         return user;
     }
     
-    
+
 
     
     @Transactional
@@ -81,9 +90,14 @@ public class UserService extends BaseService<UserEntity> implements Serializable
         UserEntity user;
         try {
             user =  getEntityManagerMatriz().createQuery("SELECT o FROM User o WHERE o.email = :p", UserEntity.class)
-                    .setParameter("p", email).getSingleResult();
-        } catch (NoResultException e) {
-            logger.log(Level.INFO, "User with email ''{0}'' does not exist.", email);
+                    .setParameter("p", email).setMaxResults(1).getSingleResult();
+        }
+        catch (NoResultException ex) {
+        	logger.log(Level.INFO, "Email não encontrado", email);
+        	return null;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         return user;
@@ -141,10 +155,19 @@ public class UserService extends BaseService<UserEntity> implements Serializable
     @Override
     protected void handleDependenciesBeforeDelete(UserEntity user) {
         
-        /* This is called before a User is deleted. Place here all the
-           steps to cut dependencies to other entities */
+    	this.cutAllIdUSUARIOAssignments(user);
+
         
     }
+    
+	// Remove all assignments from all TBUSUARIOROLES
+	@Transactional
+	private void cutAllIdUSUARIOAssignments(UserEntity user) {
+		getEntityManager()
+		.createNativeQuery("DELETE FROM USER_ROLES WHERE USER_ID = :user")
+		.setParameter("user", user.getId()).executeUpdate();
+	}
+
     
     @Override
     @Transactional

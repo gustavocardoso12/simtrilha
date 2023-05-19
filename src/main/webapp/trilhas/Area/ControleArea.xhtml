@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:o="http://omnifaces.org/ui">
@@ -102,7 +103,11 @@
 					
 					
 						<p:commandButton
-							rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:delete')}"
+							rendered="#{tbAREABean.isPermitted(tbAREA, 'tbAREA:delete') and (userBean.user.username=='apta11'
+		or userBean.user.username=='gustavo.dev'
+		 or  userBean.user.username=='leonardo.lapa'
+		or userBean.user.username=='denise.apta'
+		or userBean.user.username=='denise.ciee')}"
 									oncomplete="PF('deleteTbAREADialogWidget').show()"
 								styleClass="botaoPessoas"
 								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;" value="&#8205;" escape="true"

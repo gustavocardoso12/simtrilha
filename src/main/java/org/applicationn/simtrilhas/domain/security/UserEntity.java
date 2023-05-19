@@ -12,6 +12,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,6 +20,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.applicationn.pesquisa.domain.TbEmpresa;
+import org.applicationn.pesquisa.domain.TbPesquisa;
 import org.applicationn.simtrilhas.domain.BaseEntity;
 
 @Entity(name="User")
@@ -65,6 +68,12 @@ public class UserEntity extends BaseEntity implements Serializable {
     @Column(name = "user_role")
     private List<UserRole> roles;
     
+
+    @ManyToOne(optional=true)
+    @JoinColumn(name = "id_empresa", referencedColumnName = "id")
+    private TbEmpresa idEmpresa;
+
+    
     @Enumerated(EnumType.STRING)
     @NotNull
     private UserStatus status;
@@ -88,6 +97,11 @@ public class UserEntity extends BaseEntity implements Serializable {
     @Size(max=50)
     private String ativo;
     
+    @Size(max=50)
+    private String sistema;
+    
+    @Size(max=50)
+    private String mercado;
     
     public String getUsername() {
         return this.username;
@@ -207,6 +221,30 @@ public class UserEntity extends BaseEntity implements Serializable {
 
 	public void setAtivo(String ativo) {
 		this.ativo = ativo;
+	}
+
+	public String getSistema() {
+		return sistema;
+	}
+
+	public void setSistema(String sistema) {
+		this.sistema = sistema;
+	}
+
+	public String getMercado() {
+		return mercado;
+	}
+
+	public void setMercado(String mercado) {
+		this.mercado = mercado;
+	}
+
+	public TbEmpresa getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(TbEmpresa idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
 
 }

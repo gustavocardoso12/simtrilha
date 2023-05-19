@@ -3,6 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
@@ -11,7 +12,9 @@
 
 
 	<ui:define name="content">
-
+	<f:metadata>
+			<f:viewParam  name="Sistema" value="#{ControleUsuariosBean.sistemaAtual}" />
+		</f:metadata>
 
 
 		<p:panelGrid id="panelcarrega" style="margin-left: 40px;">
@@ -60,12 +63,14 @@
 			onkeypress="if (event.keyCode == 13) {return false; }">
 			<p:commandButton rendered="#{not empty ControleUsuariosBean.tbUSUARIOSList}"
 				styleClass="botaoADDPessoas" value="Adicionar Usuário"
-				action="#{ ControleUsuariosBean.AdicionarUsuarios()}"
+				action="#{ ControleUsuariosBean.AdicionarUsuarios(ControleUsuariosBean.sistemaAtual)}"
 				style="
 				width: 144px;
 				height: 40px;
 				margin-bottom: 30px;" />
 
+	
+		
 
 
 			<p:spacer></p:spacer>
@@ -90,7 +95,7 @@
 					<p:column styleClass="barraCargosPessoas"
 						style="
 					top: 416px;
-					width:90%;
+					width:40%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
@@ -112,7 +117,7 @@
 					<p:column styleClass="barraCargosPessoas"
 						style="
 						text-align: left;
-						width:90%;
+						width:50%;
 						font: Bold 15px/19px Montserrat;
 						letter-spacing: 0px;
 						
@@ -131,7 +136,7 @@
 
 
 					<p:column styleClass="barraCargosPessoas"
-						style="	width:50% !important;
+						style="	width:30% !important;
 							text-align: left;
 							font: Bold 15px/19px Montserrat;
 							letter-spacing: 0px;
@@ -148,12 +153,48 @@
 							value="#{tbUSUARIOS.theme}" />
 					</p:column>
 
-
+					
+					
+					<p:column styleClass="barraCargosPessoas"
+						style="	width:30% !important;
+							text-align: left;
+							font: Bold 15px/19px Montserrat;
+							letter-spacing: 0px;
+							
+							opacity: 1;"
+						headerText="Sistema: " sortBy="#{tbUSUARIOS.sistema}">
+						<h:outputText
+							style="font-family:Montserrat !important;
+							text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{tbUSUARIOS.sistema eq 'Pesquisa' ?  'Dashboard' : 'Simulador'}" />
+					</p:column>
+					
+					<p:column styleClass="barraCargosPessoas"
+						style="	width:50% !important;
+							text-align: left;
+							font: Bold 15px/19px Montserrat;
+							letter-spacing: 0px;
+							
+							opacity: 1;"
+						headerText="Mercado: " sortBy="#{tbUSUARIOS.mercado}">
+						<h:outputText
+							style="font-family:Montserrat !important;
+							text-align: left;
+							font: 14px/18px Montserrat;
+							letter-spacing: 0px;
+							color: #000000;
+							opacity: 1;"
+							value="#{!tbUSUARIOS.sistema eq 'Pesquisa' ?  'Não se Aplica' : tbUSUARIOS.mercado}" />
+					</p:column>
 
 
 					<p:column styleClass="barraCargosPessoas"
 						style="
-					width:30%;
+					width:40%;
 					text-align: left;
 					font: Bold 15px/19px Montserrat;
 					letter-spacing: 0px;
@@ -165,9 +206,18 @@
 							<p:commandButton styleClass="botaoPessoas" async="true"
 								immediate="true" partialSubmit="true" value=""
 								style="background:none;width:40px; height:40px;font-size:12px"
-								icon="img-button-edit" action="#{ControleUsuariosBean.submit(tbUSUARIOS)}" />
+								icon="img-button-edit" action="#{ControleUsuariosBean.submit(tbUSUARIOS,ControleUsuariosBean.sistemaAtual)}" />
 
+							<p:commandButton
+								 rendered="#{p:ifAnyGranted('Administrator')}"
+								oncomplete="PF('deleteTbUSUARIODialogWidget').show()"
+								styleClass="botaoPessoas"
+								actionListener="#{ControleUsuariosBean.setUsuarioEdicao(tbUSUARIOS)}"
+								style="background:none;width:40px; height:40px;font-size:12px;color: #FAA82D;"
+								value="&#8205;" escape="true"
+								icon="img-button-delete">
 
+							</p:commandButton>
 							
 						</p:panelGrid>
 
@@ -179,6 +229,44 @@
 			</p:panelGrid>
 
 		</h:form>
+		
+	<!-- 	<p:confirmDialog id="deleteTbUSUARIODialog"
+			widgetVar="deleteTbUSUARIODialogWidget"  showEffect="explode"
+			hideEffect="fade" header="#{messages.label_confirm_deletion}"
+			severity="alarm">
+			<f:facet name="message">
+				<h:outputText value="#{messages.label_delete_record}" escape="false" />
+			</f:facet>
+			<p:outputPanel>
+				<h:form>
+					<p:panelGrid columns="2" style="margin:auto">
+						<p:commandButton value="#{messages.label_yes}"
+							action="#{ControleUsuariosBean.delete}"
+							update=":tbUSUARIOSDataForm :growlForm:growl"
+							oncomplete="PF('deleteTbUSUARIODialogWidget').hide()" />
+						<p:commandButton value="#{messages.label_no}"
+							onclick="PF('deleteTbUSUARIODialogWidget').hide()" type="button" />
+					</p:panelGrid>
+				</h:form>
+			</p:outputPanel>
+		</p:confirmDialog> -->
+		
+		
+		
+		   <p:confirmDialog id="deleteTbUSUARIODialog" showEffect="explode"  rendered="#{p:ifAnyGranted('Administrator')}" 
+		   hideEffect="fade" widgetVar="deleteTbUSUARIODialogWidget"
+         header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+           <p:panelGrid  rendered="#{p:ifAnyGranted('Administrator')}" columns="2" style="margin:auto"  >
+              <p:commandButton value="#{messages.label_yes}" action="#{ControleUsuariosBean.delete}" update="tbUSUARIOSTable" oncomplete="PF('deleteTbUSUARIODialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteTbUSUARIODialogWidget').hide()" type="button" />
+            </p:panelGrid>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
 
 
 	</ui:define>

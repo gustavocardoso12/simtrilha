@@ -39,14 +39,17 @@
               <ui:include src="menu.xhtml" />
             </ui:insert>
 
-<h:graphicImage width="100%" height="100%" name="images/Sidebar.png" />
+<h:graphicImage width="100%" class="image1"  height="100%"  name="images/Sidebar.png" />
+<h:graphicImage width="130px" style="position: absolute;left:30px;top:100px" height="130px"  name="images/Logo_XR_completo.png" />
+
 </div>
+
 
 
 
     <p:toolbar styleClass="toolbar_login">
       <f:facet name="left">
-       <h:outputText value="#{messages.application_name}" style="font-size:18px;color:black;font-family: 'Montserrat';    position: absolute;
+       <h:outputText value="APTA XR New Comp System" style="font-size:18px;color:black;font-family: 'Montserrat';    position: absolute;
     top: 15px;"/> 
        <!--   <p:button styleClass="button" style="background:#9C1E02;" outcome="/trilhas/main" value="#{messages.toolbar_home}" />-->
       </f:facet>
@@ -63,9 +66,14 @@
                  
                   
         <p:button  style="font-size:14px" value="#{userBean.user.theme}"
-                           rendered="#{not empty request.remoteUser}" /> 
+                           rendered="#{not empty request.remoteUser and userBean.user.sistema eq 'Simulador'}" /> 
                   
-        <p:button outcome="/trilhas/user/profile" style="font-size:14px" value="#{request.remoteUser}" icon="fa fa-user"
+        <p:button  style="font-size:14px" value="#{userBean.user.idEmpresa.descEmpresa}"
+                           rendered="#{not empty request.remoteUser and userBean.user.sistema eq 'Pesquisa'}" />           
+                  
+                  
+        <p:button outcome="/trilhas/usuario/Controle_usuarios" style="font-size:14px" 
+        value="#{request.remoteUser}" icon="fa fa-user"
                            rendered="#{not empty request.remoteUser}" />
         <p:commandButton action="#{loginBean.logout}" style="font-size:14px"  value="#{messages.toolbar_logout}" icon="fa fa-key"
                       rendered="#{not empty request.remoteUser}" ajax="false"/>
@@ -94,9 +102,14 @@
       <h:graphicImage name="images/moura.PNG" alt="logo" height="48px" style="margin-right:10px"/>
     </h:link>
     
-    <h:link rendered="#{userBean.user.theme=='APTA' or userBean.user.theme==null}" outcome="/trilhas/main" style="float:left">
-      <h:graphicImage name="images/logoAPTA.PNG" alt="logo" height="48px" style="margin-right:10px"/>
+     <h:link rendered="#{(userBean.user.theme=='APTA' or userBean.user.theme==null)  and userBean.user.sistema eq 'Simulador' }" outcome="/trilhas/main" style="float:left">
+      <h:graphicImage name="images/LogoAPT.PNG" alt="logo" height="48px" style="margin-right:10px"/>
     </h:link>
+    
+     <h:link rendered="#{(userBean.user.theme=='APTA' or userBean.user.theme==null)  and userBean.user.sistema eq 'Pesquisa' }" outcome="/pesquisas/pesquisas/Comparacao" style="float:left">
+      <h:graphicImage name="images/LogoAPT.PNG" alt="logo" height="48px" style="margin-right:10px"/>
+    </h:link>
+    
     
     <h:link rendered="#{userBean.user.theme=='BRB'}" outcome="/trilhas/main" style="float:left">
       <h:graphicImage name="images/logoBRB.png" alt="logo" height="48px" style="margin-right:10px"/>
@@ -126,11 +139,20 @@
                   style="margin-right:10px"/>-->
                  
                   
-        <p:button  style="font-size:14px" value="#{userBean.user.theme}"
+        <p:button  style="font-size:14px" value="#{userBean.user.theme}" 
                            rendered="#{not empty request.remoteUser}" /> 
                   
-        <p:button outcome="/trilhas/user/profile" style="font-size:14px" value="#{request.remoteUser}" icon="fa fa-user"
-                           rendered="#{not empty request.remoteUser}" />
+       <p:button outcome="/trilhas/usuario/Controle_usuarios.xhtml?Sistema=#{userBean.user.sistema}" 
+        style="font-size:14px" value="Usuários" icon="fa fa-user"
+                           rendered="#{not empty request.remoteUser 
+                           and p:ifAnyGranted('Administrator')}" />
+                           
+      <p:button outcome="/trilhas/user/profile" style="font-size:14px" value="#{request.remoteUser}" icon="fa fa-user"
+                           rendered="#{not empty request.remoteUser 
+                           and p:ifAnyGranted('Colaborador')}" />  
+                           
+                           
+                           
         <p:commandButton action="#{loginBean.logout}" style="font-size:14px"  value="#{messages.toolbar_logout}" icon="fa fa-key"
                       rendered="#{not empty request.remoteUser}" ajax="false"/>
         

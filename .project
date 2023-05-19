@@ -76,36 +76,25 @@
 			<location>C:/Users/Gustavo Peixinho/Pictures/ArtigoML/icon-user-4.jpg.png</location>
 		</link>
 		<link>
-			<name>src/main/webapp/resources/images/logoAPTA.PNG</name>
+			<name>src/main/webapp/resources/images/logoBRB.PNG</name>
 			<type>1</type>
-			<location>C:/Users/Gustavo Peixinho/Desktop/Gráficos/Capturar.PNG</location>
+			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/logoBRB.png</location>
+		</link>
+		<link>
+			<name>src/main/webapp/resources/images/logoCIEE.PNG</name>
+			<type>1</type>
+			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/logoCIEE.png</location>
+		</link>
+		<link>
+			<name>src/main/webapp/resources/images/logoHP.PNG</name>
+			<type>1</type>
+			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/logoHP.png</location>
 		</link>
 		<link>
 			<name>src/main/webapp/resources/images/moura.PNG</name>
 			<type>1</type>
 			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/moura.PNG</location>
 		</link>
-		
-		<link>
-			<name>src/main/webapp/resources/images/logoHP.PNG</name>
-			<type>1</type>
-			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/logoHP.png</location>
-		</link>
-		
-		<link>
-			<name>src/main/webapp/resources/images/logoBRB.PNG</name>
-			<type>1</type>
-			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/logoBRB.png</location>
-		</link>
-		
-		<link>
-			<name>src/main/webapp/resources/images/logoCIEE.PNG</name>
-			<type>1</type>
-			<location>C:/Users/Gustavo Peixinho/git/simtrilhas/src/main/webapp/resources/images/logoCIEE.png</location>
-		</link>
-		
-		
-		
 		<link>
 			<name>src/main/webapp/resources/images/trash.png</name>
 			<type>1</type>

@@ -3,6 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
@@ -53,14 +54,12 @@
 			onkeypress="if (event.keyCode == 13) {return false; }">
 
 
-			<p:outputPanel styleClass="ui-fluid">
+			<p:outputPanel id="panel3" styleClass="ui-fluid">
 
-				<p:panelGrid columns="1" styleClass="dialog"
+				<p:panelGrid id="panel2" columns="1" styleClass="dialog"
 					>
 
-
-
-
+					
 					<h:outputLabel value="Nome de usuário: " style="text-align: left;
 															 font: normal normal normal 14px/18px Montserrat;
 															 letter-spacing: 0px;
@@ -131,6 +130,7 @@
 						
 						<p:spacer></p:spacer>		
 					<p:inputText value="#{ControleUsuariosBean.email}"
+					
 					required="true"
 					requiredMessage="Insira o email"
 					style="border: 1px solid #666 !important;background:white !important;  " 
@@ -143,10 +143,8 @@
 						
 					<p:message for="EmailEditInput" display="icon" />
 
-				
 
-
-					<h:outputLabel value="Tema Visual:"
+					<h:outputLabel id="tema" value="Tema Visual:"
 					style="text-align: left;
 															 font: normal normal normal 14px/18px Montserrat;
 															 letter-spacing: 0px;
@@ -154,8 +152,8 @@
 															 opacity: 1;" 
 						for="idTEMASelectInput" />
 						
-						<p:spacer></p:spacer>		
-
+						<p:spacer></p:spacer>
+					
 					<p:selectOneMenu
 							style="border: 1px solid #666 !important;background:white !important;  " 
 							styleClass="menuCriarUsuarios"
@@ -174,9 +172,10 @@
 
 					</p:selectOneMenu>
 					
-					<p:spacer></p:spacer>		
+						<p:spacer></p:spacer>
 					
-					<h:outputLabel value="Banco de dados: "
+					<h:outputLabel
+					 value="Banco de dados: "
 					style="text-align: left;
 															 font: normal normal normal 14px/18px Montserrat;
 															 letter-spacing: 0px;
@@ -201,22 +200,17 @@
 							list="#{ControleUsuariosBean.BDList}" />
 
 					</p:selectOneMenu>
-					<p:spacer></p:spacer>	
-					
-					
-					
-					
-					
-					
-					
-					<h:outputLabel value="Permissão para ver Pessoas cadastradas:  "
+
+						<p:spacer></p:spacer>
+					<h:outputLabel
+					 value="Permissão para ver Pessoas cadastradas:  "
 					style="text-align: left;
 															 font: normal normal normal 14px/18px Montserrat;
 															 letter-spacing: 0px;
 															color: #000000;
 															 opacity: 1;" 
 						for="idPESSOASelectInput" />
-					<p:spacer></p:spacer>		
+							<p:spacer></p:spacer>
 					<p:selectOneMenu
 							style="border: 1px solid #666 !important;background:white !important;  " 
 							styleClass="menuCriarUsuarios"
@@ -229,7 +223,9 @@
 						<f:selectItem itemValue="SIM" itemLabel="SIM"/>
 						<f:selectItem itemValue="NAO" itemLabel="NAO"/>
 					</p:selectOneMenu>
-					<p:spacer></p:spacer>		
+					
+					
+						<p:spacer></p:spacer>
 					
 									<h:outputLabel value="Permissão para ver Grades:  "
 					style="text-align: left;
@@ -238,8 +234,11 @@
 															color: #000000;
 															 opacity: 1;" 
 						for="idGRADESelectInput" />
-					<p:spacer></p:spacer>		
+					
+						<p:spacer></p:spacer>
+
 					<p:selectOneMenu
+
 							style="border: 1px solid #666 !important;background:white !important;  " 
 							styleClass="menuCriarUsuarios"
 					 value="#{ControleUsuariosBean.flagGrade}"
@@ -251,10 +250,9 @@
 						<f:selectItem itemValue="SIM" itemLabel="SIM"/>
 						<f:selectItem itemValue="NAO" itemLabel="NAO"/>
 					</p:selectOneMenu>
-					<p:spacer></p:spacer>		
-						
-
 					
+					
+						<p:spacer></p:spacer>
 					
 					<h:outputLabel value="Nível de acesso: "
 					style="text-align: left;
@@ -263,7 +261,9 @@
 															color: #000000;
 															 opacity: 1;" 
 						for="idNIVELelectInput" />
-					<p:spacer></p:spacer>		
+					<p:spacer
+					
+					></p:spacer>		
 					<p:selectOneMenu
 							style="border: 1px solid #666 !important;background:white !important;  " 
 							styleClass="menuCriarUsuarios"

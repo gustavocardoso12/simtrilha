@@ -67,6 +67,7 @@ import org.applicationn.simtrilhas.service.TbPERFILCARGOSService;
 import org.applicationn.simtrilhas.service.TbPONTCARGOSService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.service.security.UserService;
+import org.applicationn.simtrilhas.web.security.ControleUsuariosBean;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.barchart.BarChart;
@@ -93,7 +94,7 @@ public class TbCARGOSBean implements Serializable {
 
 	protected List<TbCARGOSEntity> tbCADASTRO;
 
-
+	private int flagEsconderCargo = 0;
 
 	protected TbCARGOSEntity tbCARGOSEdicao;
 
@@ -304,6 +305,10 @@ public class TbCARGOSBean implements Serializable {
 	List<TbCONHECIMENTOSESPCARGOSEntity> listCECARGOSDe = new ArrayList<TbCONHECIMENTOSESPCARGOSEntity>();
 
 	List<TbCOMPETENCIASCARGOSEntity> listCOCARGOSPara = new ArrayList<TbCOMPETENCIASCARGOSEntity>();
+	
+	List<TbCARGOSEntity> listSumarioDe = new ArrayList<TbCARGOSEntity>();
+	
+	List<TbCARGOSEntity> listSumarioPara = new ArrayList<TbCARGOSEntity>();
 
 	List<TbCOMPETENCIASCARGOSEntity> listCOCARGOSDe = new ArrayList<TbCOMPETENCIASCARGOSEntity>();
 
@@ -366,6 +371,12 @@ public class TbCARGOSBean implements Serializable {
 	protected boolean selector;
 
 	private BarChartModel barModel;
+	
+	private int mostraGraficoAderencia = 0;
+	
+	private String URLCargoDe;
+	
+	private String URLCargoPara;
 
 	public String submit(TbCARGOSEntity cargo) {
 		String statusFinal = "";
@@ -1110,6 +1121,19 @@ public class TbCARGOSBean implements Serializable {
 
 		}
 	}
+	
+	public void calculaSumarioCargo(TbCARGOSEntity tbCARGOSDe, TbCARGOSEntity tbCARGOSPara) {
+		if(listSumarioDe.size()>0) {
+			listSumarioDe.clear();
+		}
+		
+		if(listSumarioPara.size()>0) {
+			listSumarioPara.clear();
+		}
+		
+		listSumarioDe.add(tbCARGOSDe);
+		listSumarioPara.add(tbCARGOSPara);
+	}
 
 	// 100% - ((Cargo Para - Cargo De) * Variação no GAP)
 	public void calculaCompetenciasDEPARA(TbCARGOSEntity tbCARGOSDe, TbCARGOSEntity tbCARGOSPara) {
@@ -1388,15 +1412,30 @@ public class TbCARGOSBean implements Serializable {
 	}
 
 	public void calculaAderenciasParciais(TbCARGOSEntity tbCARGOSDe, TbCARGOSEntity tbCARGOSPara) {
-
-		if ((tbCARGOSDe == null) || (tbCARGOSPara == null)) {
+		this.flagEsconderCargo=0;
+		if ((tbCARGOSDe == null)) {
 
 		} else {
+			
+			if(tbCARGOSPara==null) {
+				tbCARGOSPara = tbCARGOSDe;
+				this.flagEsconderCargo=1;
+			}
 
 			if (tbCARGOSDe.getId() == tbCARGOSPara.getId()) {
 				corFinal = "#16600A";
 			}
+			id = tbCARGOSDe.getId().intValue();
 
+			
+			
+			String teste = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			URLCargoDe = teste+"/trilhas/Cadastro/Editar.xhtml?faces-redirect=true&id="+tbCARGOSDe.getId()+"&viewPessoa="+tbCARGOSDe.getFlagPessoa()+"&includeViewParams=true";
+			URLCargoPara = teste+ "/trilhas/Cadastro/Editar.xhtml?faces-redirect=true&id="+tbCARGOSPara.getId()+"&viewPessoa="+tbCARGOSDe.getFlagPessoa()+"&includeViewParams=true";
+			
+			System.out.println(URLCargoDe);
+			calculaSumarioCargo(tbCARGOSDe, tbCARGOSPara);
+			
 			calculaGRADESDEPARA(tbCARGOSDe, tbCARGOSPara);
 
 			calculaCompetenciasDEPARA(tbCARGOSDe, tbCARGOSPara);
@@ -1422,8 +1461,11 @@ public class TbCARGOSBean implements Serializable {
 			} else {
 				calculaAderenciaFinal(tbCARGOSDe, tbCARGOSPara);
 			}
-
+			if(flagEsconderCargo==1) {
+				
+			}else {
 			createBarModel();
+			}
 		}
 	}
 
@@ -1433,7 +1475,7 @@ public class TbCARGOSBean implements Serializable {
 		ChartSeries boys = new ChartSeries();
 		boys.set("", aderenciaFinal);
 		model.addSeries(boys);
-
+		mostraGraficoAderencia = 1;
 		return model;
 	}
 
@@ -2640,10 +2682,14 @@ public class TbCARGOSBean implements Serializable {
 
 	public List<TbCARGOSEntity> getTbCADASTRO() {
 		if (tbCADASTRO == null) {
+			if(flagPessoa==null) {
+				
+			}else {
 			if(flagPessoa.equals("SIM")) {
 				tbCADASTRO = tbCARGOSService.findAllTbPESSOASEntities();
 			}else if(flagPessoa.equals("NAO")) {
 				tbCADASTRO = tbCARGOSService.findAllTbCARGOSEntities();
+			}
 			}
 		}
 		return tbCADASTRO;
@@ -2662,6 +2708,66 @@ public class TbCARGOSBean implements Serializable {
 
 	public void setBarModel(BarChartModel barModel) {
 		this.barModel = barModel;
+	}
+
+
+	public int getFlagEsconderCargo() {
+		return flagEsconderCargo;
+	}
+
+
+	public void setFlagEsconderCargo(int flagEsconderCargo) {
+		this.flagEsconderCargo = flagEsconderCargo;
+	}
+
+
+	public List<TbCARGOSEntity> getListSumarioDe() {
+		return listSumarioDe;
+	}
+
+
+	public void setListSumarioDe(List<TbCARGOSEntity> listSumarioDe) {
+		this.listSumarioDe = listSumarioDe;
+	}
+
+
+	public List<TbCARGOSEntity> getListSumarioPara() {
+		return listSumarioPara;
+	}
+
+
+	public void setListSumarioPara(List<TbCARGOSEntity> listSumarioPara) {
+		this.listSumarioPara = listSumarioPara;
+	}
+
+
+	public int getMostraGraficoAderencia() {
+		return mostraGraficoAderencia;
+	}
+
+
+	public void setMostraGraficoAderencia(int mostraGraficoAderencia) {
+		this.mostraGraficoAderencia = mostraGraficoAderencia;
+	}
+
+
+	public String getURLCargoDe() {
+		return URLCargoDe;
+	}
+
+
+	public void setURLCargoDe(String uRLCargoDe) {
+		URLCargoDe = uRLCargoDe;
+	}
+
+
+	public String getURLCargoPara() {
+		return URLCargoPara;
+	}
+
+
+	public void setURLCargoPara(String uRLCargoPara) {
+		URLCargoPara = uRLCargoPara;
 	}
 
 }

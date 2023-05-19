@@ -86,7 +86,21 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 
 		}
 		}
-		return "/trilhas/Aderencias/Comparacao?faces-redirect=true";
+		
+		String sistema ="";
+		
+		if(user.getSistema()==null) {
+			sistema= "/trilhas/Aderencias/Comparacao?faces-redirect=true";
+		}else {
+			if(user.getSistema().equals("Simulador")){
+				sistema= "/trilhas/Aderencias/Comparacao?faces-redirect=true";
+			}else if (user.getSistema().equals("Pesquisa")){
+				sistema= "/pesquisas/pesquisas/Comparacao?faces-redirect=true";
+			}
+		}
+		
+		
+		return sistema;
 	}
 
 

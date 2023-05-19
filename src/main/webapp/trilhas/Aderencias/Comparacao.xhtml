@@ -183,12 +183,13 @@ opacity: 1;"
 								<p:ajax event="change" global="true" partialSubmit="true"
 									listener="#{tbCARGOSBean.calculaAderenciasParciais(tbCARGOSBean.cargoDe,
                     								   tbCARGOSBean.cargoPara)}"
-									update="paneCargos2 DSCO 
+									update="paneCargos2 DSCO DSSUMARIO
 								 DSGR	
 								 DSPE 
 								 DSCB 
 								 DSCE 
 								paneAderenciaFinal DSAF
+								paneBotoes
 								" />
 								<o:converter converterId="omnifaces.SelectItemsConverter"
 									list="#{tbCARGOSBean.distinctCargos}" />
@@ -291,11 +292,13 @@ opacity: 1;"
 										listener="#{tbCARGOSBean.calculaAderenciasParciais(tbCARGOSBean.cargoDe,
                     								   tbCARGOSBean.cargoPara)}"
 										update="paneCargoPara DSCO 
+										DSSUMARIO
 								 DSGR	
 								 DSPE 
 								 DSCB 
 								 DSCE 
 								paneAderenciaFinal DSAF
+								paneBotoes
 								" />
 									<o:converter converterId="omnifaces.SelectItemsConverter"
 										list="#{tbCARGOSBean.distinctCargosPara}" />
@@ -312,16 +315,17 @@ opacity: 1;"
 			
 			<p:panel style="color:black" id="DSAF">
 
+
+
 			<h:panelGrid id="paneAderenciaFinal">
 				<h:panelGrid
-					rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
+					rendered="#{ not empty tbCARGOSBean.cargoDe}"
 					styleClass="dialog" style="width: 200px; height: 50px;"
 					columnClasses="col1" columns="1">
 					
-					
-					
+				
 
-					<p:chart type="bar" showDataLabels="true"
+					<p:chart type="bar" rendered="#{tbCARGOSBean.mostraGraficoAderencia == 1}" showDataLabels="true"
 						model="#{tbCARGOSBean.barModel}"
 						styleClass="#{tbCARGOSBean.corBarraAderenciaFinal}"
 						style="height:270px;background:none !important">
@@ -367,9 +371,159 @@ opacity: 1;"
 			
 
 		</div>
-
+		
+		
 		
 
+		
+<!-- Sumário do Cargo -->
+
+
+
+		<p:panel style="color:black" styleClass="Competencia" id="DSSUMARIO">
+
+
+			<p:panel id="toggleable170"
+				rendered="#{ not empty tbCARGOSBean.cargoDe}"
+				styleClass="panelMain" toggleable="true" widgetVar="panel90"
+				collapsed="true">
+
+				<f:facet name="header">
+
+					<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
+						style="				
+    white-space: nowrap;
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);"
+						value="Sumário do Cargo:" />
+						
+						
+							<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==1}" 
+						style="				
+    white-space: nowrap;
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);"
+						value="Sumário do Cargo" />
+					<svg class="plus"> <rect fill="rgba(119,69,122,1)" id="plus"
+						rx="0" ry="0" x="0" y="0" width="40" height="40"> </rect> </svg>
+
+					<span class="plussign">
+
+
+
+						<button class="openbtn" onclick="PF('panel90').toggle();">+</button>
+
+					</span>
+
+				</f:facet>
+
+				<h:panelGrid id="paneSUMARIO">
+
+
+
+
+					<p:spacer></p:spacer>
+					<h:form id="tbSUMARIODataForm"
+						onkeypress="if (event.keyCode == 13) {return false; }">
+
+						<h:panelGrid id="paneCargosSumario"
+							style="width: auto !important;
+							font-family: Calibri;"
+							columns="4">
+
+
+							<p:dataTable id="tbCONHECIMENTOBASTable"
+								styleClass="CompetenciasAux" style="width:auto"
+								value="#{tbCARGOSBean.listSumarioPara}"
+								var="tbSUMARIOCARGOS"
+								widgetVar="tbSUMARIOCARGOSTable" rowIndexVar="row"
+								emptyMessage="Registros não encontrados">
+
+
+
+
+
+
+
+								<p:column styleClass="barraCargosPessoas"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:25%;
+    line-height: 20px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+									headerText="#{tbCARGOSBean.flagEsconderCargo==1 ? tbCARGOSBean.listSumarioDe.get(0).deSCCARGO
+									:  'Cargo De: '.concat(tbCARGOSBean.listSumarioDe.get(0).deSCCARGO)}">
+									<h:outputText
+										value="#{
+										tbCARGOSBean.listSumarioDe.get(row).miSSAO.concat(
+										tbCARGOSBean.listSumarioDe.get(row).reSPONSABILIDADES)
+										}" />
+								</p:column>
+
+
+
+
+
+								<p:column
+								rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
+								 styleClass="barraCargosPessoas"
+									style="				
+    top: 51px;
+    overflow: visible;
+    width:25%;
+    line-height: 20px;
+    margin-top: -13px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,1);"
+									headerText="#{tbCARGOSBean.flagEsconderCargo==1 ? tbCARGOSBean.listSumarioPara.get(0).deSCCARGO
+									:  'Cargo Para: '.concat(tbCARGOSBean.listSumarioPara.get(0).deSCCARGO)}">
+									<h:outputText
+										value="#{tbSUMARIOCARGOS.miSSAO.concat(tbSUMARIOCARGOS.reSPONSABILIDADES)}" />
+								</p:column>
+								
+								
+								
+							
+
+
+
+
+
+							</p:dataTable>
+
+
+
+
+						</h:panelGrid>
+
+
+					</h:form>
+				</h:panelGrid>
+			</p:panel>
+		</p:panel>
 
 
 
@@ -382,13 +536,14 @@ opacity: 1;"
 
 
 			<p:panel id="toggleable17"
-				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
+				rendered="#{ not empty tbCARGOSBean.cargoDe}"
 				styleClass="panelMain" toggleable="true" widgetVar="panel18"
 				collapsed="true">
 
 				<f:facet name="header">
 
 					<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
 						style="				
     white-space: nowrap;
     line-height: 40px;
@@ -399,6 +554,20 @@ opacity: 1;"
     font-size: 14px;
     color: rgba(1);"
 						value="Competências: #{tbCARGOSBean.aderencia.intValue()}%" />
+						
+						
+							<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==1}" 
+						style="				
+    white-space: nowrap;
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);"
+						value="Competências" />
 					<svg class="plus"> <rect fill="rgba(119,69,122,1)" id="plus"
 						rx="0" ry="0" x="0" y="0" width="40" height="40"> </rect> </svg>
 
@@ -479,7 +648,9 @@ opacity: 1;"
 
 
 
-								<p:column styleClass="barraCargosPessoas"
+								<p:column
+								rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
+								 styleClass="barraCargosPessoas"
 									style="				
     top: 51px;
     overflow: visible;
@@ -496,8 +667,14 @@ opacity: 1;"
 									<h:outputText
 										value="#{tbCONHECIMENTOBASCARGOS.poNTUACAOCOMPETENCIA.intValue()}" />
 								</p:column>
+								
+								
+								
+							
 
-								<p:column styleClass="barraCargosPessoas"
+								<p:column
+								rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
+								 styleClass="barraCargosPessoas"
 									style="				
     top: 51px;
     overflow: visible;
@@ -544,7 +721,7 @@ opacity: 1;"
 		<!-- Grades-->
 		<p:panel style="color:black" styleClass="Grade" id="DSGR">
 			<p:panel id="toggleable14"
-				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
+				rendered="#{ not empty tbCARGOSBean.cargoDe}"
 				styleClass="panelMain"
 				toggleable="#{userBean.user.flag_grade=='SIM'}" widgetVar="panel16"
 				collapsed="true">
@@ -553,6 +730,7 @@ opacity: 1;"
 				<f:facet name="header">
 
 					<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
 						style="				
     line-height: 40px;
     text-align: left;
@@ -562,6 +740,19 @@ opacity: 1;"
     font-size: 14px;
     color: rgba(1);"
 						value="Avaliação do Cargo: #{tbCARGOSBean.aderenciaGR.intValue()}%" />
+						
+						
+						<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==1}" 
+						style="				
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);"
+						value="Avaliação do Cargo " />
 					<svg class="plus"> <rect fill="rgba(60,165,107,1)" id="plus"
 						rx="0" ry="0" x="0" y="0" width="40" height="40"> </rect> </svg>
 
@@ -636,6 +827,7 @@ opacity: 1;"
 
 
 								<p:column styleClass="barraCargosPessoasGR"
+								rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
 									style="				
     top: 51px;
     overflow: visible;
@@ -654,9 +846,13 @@ opacity: 1;"
 									<h:outputText
 										value="#{tbCONHECIMENTOBASCARGOS.poNTUACAOGRADE.intValue()}" />
 								</p:column>
-
-
-								<p:column styleClass="barraCargosPessoasGR"
+								
+								
+								
+							
+								<p:column
+								rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
+								 styleClass="barraCargosPessoasGR"
 									style="				
     top: 51px;
     overflow: visible;
@@ -681,7 +877,7 @@ opacity: 1;"
 
 									</h:outputText>
 								</p:column>
-
+						
 
 							</p:dataTable>
 
@@ -701,7 +897,7 @@ opacity: 1;"
 		<!-- Perfil -->
 		<p:panel style="color:black" styleClass="Perfil" id="DSPE">
 			<p:panel id="toggleable13"
-				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
+				rendered="#{ not empty tbCARGOSBean.cargoDe}"
 				styleClass="panelMain" toggleable="true" widgetVar="panel14"
 				collapsed="true">
 
@@ -709,6 +905,7 @@ opacity: 1;"
 				<f:facet name="header">
 
 					<p:outputLabel
+						rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
 						style="				
     line-height: 40px;
     text-align: left;
@@ -718,6 +915,19 @@ opacity: 1;"
     font-size: 14px;
     color: rgba(1);"
 						value="Perfil: #{tbCARGOSBean.aderenciaPE.intValue()}%" />
+						
+						
+						<p:outputLabel
+						rendered="#{tbCARGOSBean.flagEsconderCargo==1}" 
+						style="				
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);"
+						value="Perfil" />
 					<svg class="plus"> <rect fill="rgba(113,203,242,1)" id="plus"
 						rx="0" ry="0" x="0" y="0" width="40" height="40"> </rect> </svg>
 
@@ -798,7 +1008,9 @@ opacity: 1;"
 
 
 
-								<p:column styleClass="barraCargosPessoasPE"
+								<p:column
+								rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
+								 styleClass="barraCargosPessoasPE"
 									style="				
     top: 51px;
     overflow: visible;
@@ -818,9 +1030,14 @@ opacity: 1;"
 										#{tbCONHECIMENTOBASCARGOS.mascara} : 
 										#{tbCONHECIMENTOBASCARGOS.poNTUACAOPERFIL.intValue()}" />
 								</p:column>
+								
+								
+			
 
 
-								<p:column styleClass="barraCargosPessoasPE"
+								<p:column
+									rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
+								 styleClass="barraCargosPessoasPE"
 									style="				
     top: 51px;
     overflow: visible;
@@ -846,6 +1063,8 @@ opacity: 1;"
 
 									</h:outputText>
 								</p:column>
+								
+						
 
 
 							</p:dataTable>
@@ -866,7 +1085,7 @@ opacity: 1;"
 		<!--  Conhecimentos Básicos -->
 		<p:panel style="color:black" styleClass="Basicos" id="DSCB">
 			<p:panel id="toggleable11"
-				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
+				rendered="#{ not empty tbCARGOSBean.cargoDe}"
 				styleClass="panelMain" toggleable="true" widgetVar="panel11"
 				collapsed="true">
 
@@ -875,6 +1094,7 @@ opacity: 1;"
 				<f:facet name="header">
 
 					<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==0}" 
 						style="				
     line-height: 40px;
     text-align: left;
@@ -884,6 +1104,20 @@ opacity: 1;"
     font-size: 14px;
     color: rgba(1);"
 						value="Formação e Experiências: #{tbCARGOSBean.aderenciaCB.intValue()}%" />
+						
+						
+						
+					<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==1}" 
+						style="				
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);"
+						value="Formação e Experiências" />
 					<svg class="plus"> <rect fill="rgba(198,101,98,1)" id="plus"
 						rx="0" ry="0" x="0" y="0" width="40" height="40"> </rect> </svg>
 
@@ -938,7 +1172,9 @@ opacity: 1;"
 								</p:column>
 
 
-								<p:column styleClass="barraCargosPessoasCB"
+								<p:column
+								
+								 styleClass="barraCargosPessoasCB"
 									style="				
     top: 51px;
     overflow: visible;
@@ -965,7 +1201,7 @@ opacity: 1;"
 
 								</p:column>
 
-								<p:column styleClass="barraCargosPessoasCB"
+								<p:column rendered="#{tbCARGOSBean.flagEsconderCargo==0}" styleClass="barraCargosPessoasCB"
 									style="				
     top: 51px;
     overflow: visible;
@@ -988,8 +1224,12 @@ opacity: 1;"
 										#{tbCONHECIMENTOBASCARGOS.mascara} : 
 										#{tbCONHECIMENTOBASCARGOS.poNTUACAOCONBAS.intValue()}" />
 								</p:column>
+								
+								
+						
 
 								<p:column styleClass="barraCargosPessoasCB"
+								rendered="#{tbCARGOSBean.flagEsconderCargo==0}"
 									style="				
     top: 51px;
     overflow: visible;
@@ -1014,6 +1254,10 @@ opacity: 1;"
 
 									</h:outputText>
 								</p:column>
+								
+								
+						
+								
 
 
 							</p:dataTable>
@@ -1051,14 +1295,27 @@ opacity: 1;"
 		<!--  Conhecimentos Específicos -->
 		<p:panel style="color:black" styleClass="Especificos" id="DSCE">
 			<p:panel id="toggleable12"
-				rendered="#{not empty tbCARGOSBean.cargoPara and not empty tbCARGOSBean.cargoDe}"
+				rendered="#{ not empty tbCARGOSBean.cargoDe}"
 				styleClass="panelMain" toggleable="true" widgetVar="panel12"
 				collapsed="true">
 
 
 				<f:facet name="header">
 
+	<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==1}"
+						style="				
+    line-height: 40px;
+    text-align: left;
+    font-family: Montserrat;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px;
+    color: rgba(1);"
+						value="Conhecimentos Técnicos " />
+
 					<p:outputLabel
+					rendered="#{tbCARGOSBean.flagEsconderCargo==0}"
 						style="				
     line-height: 40px;
     text-align: left;
@@ -1148,8 +1405,10 @@ opacity: 1;"
 
 									</h:outputText>
 								</p:column>
-
-								<p:column styleClass="barraCargosPessoasCE"
+								
+								<p:column 
+								rendered="#{tbCARGOSBean.flagEsconderCargo==0}"
+								 styleClass="barraCargosPessoasCE"
 									style="				
     top: 51px;
     overflow: visible;
@@ -1169,8 +1428,12 @@ opacity: 1;"
 										#{tbCONHECIMENTOBASCARGOS.mascara} :  
 										#{tbCONHECIMENTOBASCARGOS.poNTUACAOCONESP.intValue()}" />
 								</p:column>
+								
 
-								<p:column styleClass="barraCargosPessoasCE"
+
+								<p:column
+								rendered="#{tbCARGOSBean.flagEsconderCargo==0}"
+								 styleClass="barraCargosPessoasCE"
 									style="				
     top: 51px;
     overflow: visible;
@@ -1196,6 +1459,10 @@ opacity: 1;"
 
 									</h:outputText>
 								</p:column>
+								
+								
+								
+					
 
 
 							</p:dataTable>
@@ -1213,7 +1480,32 @@ opacity: 1;"
 
 		</p:panel>
 
+	<h:panelGrid id="paneBotoes">
+<h:panelGrid
+					rendered="#{ not empty tbCARGOSBean.cargoDe and p:ifAnyGranted('Administrator')}"
+					styleClass="dialog" style="width: 200px; height: 50px;"
+					columnClasses="col1,col2" columns="2">
+	<p:button global="false"
+					style="background:#FAA82D;width:150px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 2px;"
+					ajax="false" value="Editar Cargo De:"  
+					href="#{tbCARGOSBean.URLCargoDe}" target="_blank">
+				</p:button> 
+					
+					
+						<p:button rendered="#{ not empty tbCARGOSBean.cargoPara and p:ifAnyGranted('Administrator')}" global="false"
+					style="background:#FAA82D;width:150px; 
+    text-align: center;
+    font-size: 14px;
+    margin-top: 2px;"
+					ajax="false" value="Editar Cargo Para:"  
+					href="#{tbCARGOSBean.URLCargoPara}" target="_blank">
+				</p:button> 
 
+</h:panelGrid>
+</h:panelGrid>
 
 
 

@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 <ui:composition template="/templates/layout.xhtml">
@@ -200,7 +201,28 @@
 						</p:selectOneMenu>
 						<p:spacer></p:spacer>
 
-
+						<h:outputLabel value="Sistema: "
+							style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;"
+							for="idNIVELelectInput" />
+						<p:spacer></p:spacer>
+						<p:selectOneMenu
+							style="border: 1px solid #666 !important;background:white !important;  "
+							styleClass="menuCriarUsuarios"
+							value="#{ControleUsuariosBean.usuarioEdicao.sistema}"
+							required="true"
+							requiredMessage="Insira qual sistema o usuário irá interagir: "
+							id="idNILelectInput">
+							<f:selectItem noSelectionOption="false" itemLabel="" />
+							<f:selectItem itemValue="Pesquisa" itemLabel="Dashboard" />
+							<f:selectItem itemValue="Simulador" itemLabel="Simulador" />
+	<p:ajax update="tbUSUARIOSDataForm" event="change" listener="#{ControleUsuariosBean.VerificarSistema(ControleUsuariosBean.usuarioEdicao)}">
+					</p:ajax>
+						</p:selectOneMenu>
+						<p:spacer></p:spacer>
 
 
 						<p:message for="idSaveSelectInput" display="icon" />

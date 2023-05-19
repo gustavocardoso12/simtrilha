@@ -1,0 +1,982 @@
+
+@font-face {
+	font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Montserrat-Regular'),
+		url(http://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYC3USBnSvpkopQaUR-2r7iU.ttf)
+		format('truetype');
+}
+
+@font-face {
+	font-family: 'Montserrat';
+	font-style: bold;
+	font-weight: 700;
+	src: local('Montserrat-Bold'),
+		url(http://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf)
+		format('truetype');
+}
+
+
+
+
+body, div, td {
+	font-size: 12px;
+	word-wrap: break-word;
+}
+
+a, img {
+	border: none;
+	outline: none
+}
+
+.button {
+	/* Overwrite this behavior: http://forum.primefaces.org/viewtopic.php?t=43754 */
+	width: auto !important;
+	background: #9C1E02;
+	color: #FBA82E;
+	min-width: 25px;
+	font-family: Calibri;
+}
+
+.action-column {
+	text-align: center;
+}
+
+.column-header {
+	white-space: pre-line;
+	font-family: Calibri;
+}
+
+.dialog {
+	width: auto;
+	font-family: Calibri;
+}
+
+.dialogAT {
+	width: auto;
+	font-family: Calibri;
+	background: white !important;
+}
+
+
+
+.col1 {
+	font-weight: bold;
+	font-family: Calibri;
+	font-size: 12px;
+	padding-bottom: 10px !important;
+}
+
+.col1DT {
+	font-weight: bold;
+	font-family: Calibri;
+	font-size: 12px;
+	padding-bottom: 10px !important;
+	width: 60%
+}
+
+.ui-selectonemenu {
+	min-width: 100% !important;
+}
+
+.col2 {
+	vertical-align: top;
+	font-family: Calibri;
+	padding-bottom: 10px !important
+}
+
+.colParaDetalhe {
+	vertical-align: top;
+	font-family: Calibri;
+	padding-bottom: 10px !important;
+	width: 10% !important;
+}
+
+.colParaValores {
+	vertical-align: top;
+	font-family: Calibri;
+	padding-bottom: 10px !important;
+	width: 80% !important;
+}
+
+.colPanelAderencia {
+	vertical-align: top;
+	font-family: Calibri;
+	padding-bottom: 10px !important;
+	font-weight: bold;
+}
+
+.col3 {
+	margin: auto !important;
+}
+
+.ellipsis {
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 50px;
+	vertical-align: bottom;
+}
+
+.ui-grid-content, .ui-grid {
+	border: none;
+}
+
+.ui-fluid .ui-selectonemenu .ui-selectonemenu-trigger {
+	/* Overwrite scary ui-fluid selectmenu style of PrimeFaces 5.2 */
+	box-sizing: border-box;
+	padding: 0 3px;
+	background-color: green;
+	width: 100px;
+}
+
+
+
+/* Colunas das data tables */
+td {
+	color: black !important;
+	color: black !important;
+	border: none !important;
+}
+
+th {
+	color: #f2f2f2 !important;
+	background: #6C376E !important;
+	border: none !important;
+}
+
+.toolbar_login {
+	margin-top: 5px;
+	background: white !important;
+	margin-left: 18% !important;
+	width: 100%;
+	height: 50px !important;
+}
+
+.toolbar {
+	margin-top: 5px;
+	background: #6C376E;
+	width: 100%;
+}
+
+.ui-dialog {
+	width: auto !important;
+	background: #f2f2f2 !important;
+}
+
+.ui-confirm-dialog-message {
+	display: inline-block;
+	margin-top: 1px;
+	color: black !important;
+}
+
+/*Barra de título do dialog primefaces*/
+.ui-draggable .ui-dialog-titlebar {
+	cursor: move;
+	background: #6C376E;
+	text-align: left !important;
+}
+
+/*Footer da datatable*/
+.ui-datatable .ui-datatable-footer {
+	border-top: 0 none;
+	text-align: left !important;
+	background: #6C376E !important;
+}
+
+.ui-datatable .ui-datatable-header {
+	background: #6C376E !important;
+}
+
+.ui-button .ui-button-text {
+	display: block;
+	line-height: normal;
+	background: #FF5250;
+}
+
+.ui-fluid .ui-menu {
+	width: 100%;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	background: #f2f2f2;
+	-moz-box-sizing: border-box;
+	text-align: center;
+}
+
+.ui-carousel .ui-carousel-viewport .ui-carousel-items .ui-carousel-item
+	{
+	border: none;
+}
+
+.ui-panelgrid .ui-grid-responsive {
+	/*  border-width: 1px;
+    border-style: solid;
+    border-color: inherit;*/
+	padding: 1px 1px;
+	background: #f2f2f2;
+}
+
+.loginForm .ui-widget-content {
+	background: #f2f2f2 !important;
+}
+
+.loginForm .ui-panel-titlebar {
+	text-align: left;
+	font: normal normal bold 18px/22px Montserrat;
+	letter-spacing: 0px;
+	color: #FFFFFF;
+	opacity: 1;
+	border-radius: 0px !important;
+}
+
+.userForm .dialog {
+	width: 100% !important;
+}
+
+.userForm .ui-widget-content {
+	background: #f2f2f2 !important;
+}
+
+.userForm .ui-panel-titlebar {
+	text-align: left;
+	letter-spacing: 0px;
+	color: #FFFFFF;
+	opacity: 1;
+	border-radius: 0px !important;
+}
+
+.ui-corner-all{
+	border-radius: 0px !important;
+}
+
+.menuCriarUsuarios .ui-selectonemenu-label.ui-selectonemenu-label {
+    cursor: pointer;
+    background: white !important;
+    border-radius:0px !important;
+}
+
+.ui-panelgrid .ui-grid-responsive .ui-panelgrid-cell {
+	border: 0 none;
+	padding: 0px;
+}
+
+.ui-panel .ui-panel-titlebar {
+	padding: .5em 1em .3em;
+	background: #6C376E;
+	font-size: 14px;
+}
+
+.Competencia.ui-panel .ui-panel-titlebar {
+	background: #5C2B5F !important;
+}
+
+.Grade.ui-panel .ui-panel-titlebar {
+	background: #1E9151 !important;
+}
+
+.GradeAux.ui-datatable .ui-datatable-header {
+	background: #1E9151 !important;
+}
+
+.GradeAux.ui-datatable thead th, .ui-datatable tfoot th {
+	background: #1E9151 !important;
+}
+
+.GradeAux.ui-datatable thead th, .ui-datatable tfoot th {
+	background: #1E9151 !important;
+}
+
+.Perfil.ui-panel .ui-panel-titlebar {
+	background: #14A1DD !important;
+}
+
+.PerfilAux.ui-datatable .ui-datatable-header {
+	background: #14A1DD !important;
+}
+
+.PerfilAux.ui-datatable thead th, .ui-datatable tfoot th {
+	background: #14A1DD !important;
+}
+
+.PerfilAux.ui-datatable thead th, .ui-datatable tfoot th {
+	background: #14A1DD !important;
+}
+
+.Basicos.ui-panel .ui-panel-titlebar {
+	background: #A8413E !important;
+}
+
+.BasicosAux.ui-datatable .ui-datatable-header th {
+	background: #A8413E !important;
+}
+
+.BasicosAux.ui-datatable thead th, .ui-datatable tfoot th {
+	background: #A8413E !important;
+}
+
+.BasicosAux.ui-datatable thead th, .ui-datatable tfoot th {
+	background: #A8413E !important;
+}
+
+.ui-datatable-odd {
+	background: #F8F8F8 !important;
+}
+
+.ui-datatable-even {
+	background: white !important;
+}
+
+.Especificos.ui-panel .ui-panel-titlebar {
+	background: #a7298d !important;
+}
+
+.EspecificosAux.ui-datatable .ui-datatable-header {
+	background: #a7298d !important;
+}
+
+.ui-selectonemenu .ui-selectonemenu-label {
+	white-space: pre-line !important;
+}
+
+.EspecificosAux.ui-datatable thead th, .ui-datatable tfoot th {
+	background: #a7298d !important;
+}
+
+.EspecificosAux.ui-datatable thead th, .ui-datatable tfoot th {
+	background: #a7298d !important;
+}
+
+.EspecificosAuxTH.th {
+	background: #A8413E !important;
+}
+
+.ui-chkbox-icon {
+	background: white;
+}
+
+.ui-icon-check {
+	color: #A8413E !important;
+}
+
+.customPenStyle {
+	font-size: 20px !important;
+}
+
+.customPenHidden {
+	visibility: collapse;
+}
+
+.customPenShow {
+	visibility: visible;
+}
+
+.ui-inputfield {
+	box-shadow: none !important;
+}
+
+.MenuLinguagem.ui-selectonemenu .ui-selectonemenu-label {
+	background: white !important;
+	font-weight: bold;
+	color: black;
+}
+
+.img-button-delete {
+	width: 40px;
+	height: 40px;
+	background-image:
+		url('#{request.contextPath}/javax.faces.resource/images/trash.png.xhtml')
+		!important;
+}
+
+	.img-button-edit {
+		width: 40px;
+		height: 40px;
+		background-image:
+			url('#{request.contextPath}/javax.faces.resource/images/edit.png.xhtml')
+			!important;
+	}
+
+.ui-widget-header .ui-icon {
+	background-image:
+		url("/javax.faces.resource/images/ui-icons_ffffff_256x240.png.xhtml?ln=primefaces-ui-darkness")
+		!important;
+}
+
+:host .ui-menuitem li:not(:first-child) {
+	margin-top: 20px;
+}
+
+.fa {
+	color: white;
+}
+
+.ui-panel {
+	padding: .0em !important;
+	background: none !important;
+}
+
+.ui-fluid .ui-menu {
+	width: 100%;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border-style: none;
+	-moz-box-sizing: border-box;
+}
+
+.ui-widget-content {
+	border: none;
+	color: black !important;
+	background: white;
+}
+
+.ui-menu .ui-menuitem-text {
+	float: left;
+	color: black;
+	font-weight: bold;
+	font-family: Calibri;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item {
+	border: 0 none;
+	margin: 1px 0;
+	padding: 3px 5px;
+	text-align: left;
+	white-space: pre-line !important;
+}
+
+.ui-carousel .ui-carousel-header {
+	margin: 0 1px;
+	overflow: hidden;
+	padding-top: 7px;
+	padding-bottom: 8px;
+	padding-right: 10px;
+	padding-left: 10px;
+	background: white;
+	border-style: none;
+}
+
+.ui-menu .ui-menu-list .ui-widget-header {
+	clear: both;
+	float: left;
+	width: 100%;
+	margin: 1px 0;
+	background: #410D34;
+	border: none;
+	text-align: center;
+}
+
+.ui-fluid .ui-menu {
+	background: white;
+}
+
+.ui-panel .ui-panel-content {
+	border: 0;
+	background: none !important;
+	padding: .5em 1em;
+}
+
+.ui-progressbar-label {
+	margin-top: 5%;
+	font-size: 20px;
+}
+
+.ui-progressbar-value .ui-widget-header .ui-corner-all {
+	display: block;
+	width: 74%;
+}
+
+.ui-progressbar .ui-widget .ui-widget-content .ui-corner-all .ui-progressbar-determinate
+	{
+	height: 50px !important;
+	background: #f2f2f2 !important
+}
+
+.ui-progressbar-label {
+	color: white !important;
+}
+
+.ui-progressbar {
+	height: 50px !important;
+}
+
+.barraCompatibilidade {
+	background:none !important;
+}
+
+.barraCompatibilidade .th {
+	background:none !important;
+}
+
+.barraCompatibilidade.th {
+	background:none !important;
+}
+
+.jqplot-point-label{
+    color: black !important;
+    z-index: 2 !important;
+    position: absolute;
+   /* left: 95.1px !important;
+    top: 110.1333px !important;*/
+    
+    font-size: 12px !important;
+}
+
+
+
+
+.jqplot-title {
+    top: -11px !important;
+    font-size: 13px !important;
+    color: black;
+    font-weight: bold;
+}
+
+.barraProgressoVerde2 .ui-panel {
+	background: #16600A !important;
+}
+
+.barraProgressoVermelha2.ui-panel {
+	background: #CC0D00 !important;
+}
+
+.barraProgressoAmarelaVerde2.ui-panel {
+	background: #869E00 !important;
+}
+
+.dataTableAderencia .ui-widget-header {
+	border: none !important;
+	height: 15px !important;
+}
+
+.barraProgressoVermelha .ui-widget-header {
+	background: #CC0D00 !important;
+}
+
+.barraProgressoAmarelaVerde .ui-widget-header {
+	background: #869E00 !important;
+}
+
+.barraProgressoVermelha2.ui-panel {
+	background: #CC0D00 !important;
+}
+
+.barraProgressoAmarelaVerde2.ui-panel {
+	background: #869E00 !important;
+}
+
+.barraProgressoCinza2.ui-panel {
+	background: #F2F2F2 !important;
+	color: #F2F2F2 !important;
+}
+
+.barraProgressoAmarela2.ui-panel {
+	background: #DD8C00 !important;
+}
+
+.dataTableAderencia .ui-widget-header {
+	border: none !important;
+	height: 15px !important;
+}
+
+.barraProgressoAmarelaVermelha .ui-widget-header {
+	background: #D83C11 !important;
+}
+
+.barraProgressoAmarela .ui-widget-header {
+	background: #DD8C00 !important;
+}
+
+.barraProgressoVerde .ui-widget-header {
+	background: #16600A !important;
+}
+
+.panel.ui-selectonemenu-list .ui-selectonemenu-trigger
+ .ui-state-default {
+	background: white !important;
+}
+
+
+
+.autoTrilhasNo .ui-state-default {
+	background: #5C2B5F !important;
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield
+	{
+	background: #FFFFFF !important;
+}
+
+
+	.ui-md-2 {
+		width: 40.66666667% !important;
+	}
+	.menuAT .ui-inputfield, .ui-widget-content .ui-inputfield,
+		.ui-widget-header .ui-inputfield {
+		background: #EEEEEE !important;
+	}
+	.menuAT .ui-selectonemenu-trigger {
+		background: #EEEEEE !important;
+	}
+	.menuAT .ui-state-default, .ui-widget-content .ui-state-default,
+		.ui-widget-header .ui-state-default {
+		border: none !important
+	}
+	.menuAT .ui-icon {
+		background-image:
+			url('#{request.contextPath}/javax.faces.resource/images/icons.png.xhtml')
+			!important;
+	}
+	.statusMatrizAtualizada.ui-button .ui-button-text {
+		background: green !important;
+	}
+	.statusMatrizDesatualizada.ui-button .ui-button-text {
+		background: #A8413E !important;
+	}
+	.statusMatrizAtualizada {
+		color: green;
+	}
+	.statusMatrizDesatualizada {
+		color: #A8413E;
+	}
+	.matrizTable.ui-datatable table {
+		table-layout: auto !important;
+	}
+	.ui-state-disabled, .ui-widget-content .ui-state-disabled,
+		.ui-widget-header .ui-state-disabled {
+		opacity: .35;
+		filter: Alpha(Opacity = 35);
+		background-image: none;
+		display: none;
+	}
+	.customSelectorStyle {
+		color: #5C2C5B !important;
+		font-weight: bold !important;
+	}
+	.customSelectorPessoasStyle {
+		color: #B4B4B4 !important;
+		font-weight: bold !important;
+	}
+	.ui-paginator, .ui-paginator-top .ui-widget-header, .ui-corner-top {
+		background: #6C376E !important;
+	}
+	.ui-datatable-tablewrapper {
+		overflow: hidden !important;
+	}
+	.loginForm.ui-panel-content .ui-widget-content {
+		background: white !important;
+	}
+	.DataTableFormacao.ui-datatable .ui-datatable-header .ui-datatable .ui-datatable-footer
+		{
+		text-align: center;
+		padding: 0px 0px !important;
+	}
+	.ui-widget-header {
+		border: none !important;
+		color: #ffffff;
+		font-weight: normal;
+	}
+	.ui-dialog .ui-dialog-buttonpane {
+		text-align: left;
+		background-image: none;
+		background: no-repeat;
+		margin: .20em 0 0 0;
+		padding: .5em 5em .5em .5em;
+	}
+	.ui-paginator {
+		text-align: left ! important;
+	}
+	.ui-diagram-element {
+		/* border:0.1em dotted #d4e06b; */
+		width: 14em;
+		height: 4em;
+		line-height: 4em;
+		text-align: center;
+	}
+	.ui-sticky {
+		top: 70px !important;
+	}
+	@media ( max-width : 960px) {
+		.ui-sticky {
+			top: 110px !important;
+		}
+	}
+	td.foo {
+		background-color: red;
+	}
+	.ui-confirm-dialog-message {
+		font-weight: bold;
+		font-size: 14px;
+	}
+	.ui-dialog .ui-dialog-titlebar {
+		padding: .4em .4em .4em 1em;
+		position: relative;
+		border: 0;
+		background: #6C376E;
+	}
+	.Ret_ngulo_61 {
+		overflow: visible;
+		width: 9px;
+		height: 100px;
+	}
+	.plus {
+		right: 30px;
+		position: absolute;
+		overflow: visible;
+		width: 40px;
+		height: 40px;
+	}
+	.plusND {
+		right: 30px;
+		position: absolute;
+		overflow: visible;
+		width: 40px;
+		height: 40px;
+		display: none
+	}
+	.plussign {
+		right: 25px;
+		top: auto;
+		position: absolute;
+		overflow: visible;
+		width: 40px;
+		height: 40px;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 27px;
+		color: rgba(255, 255, 255, 1);
+	}
+	.plussignND {
+		right: 25px;
+		top: auto;
+		position: absolute;
+		overflow: visible;
+		display: none;
+		width: 40px;
+		height: 40px;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 27px;
+		color: rgba(255, 255, 255, 1);
+	}
+	.openbtn {
+		font-size: 27px !important;
+		cursor: pointer;
+		background-color: #77457a;
+		color: white;
+		border: none;
+	}
+	.openbtnGR {
+		font-size: 27px !important;
+		cursor: pointer;
+		background-color: #3CA56B;
+		color: white;
+		border: none;
+	}
+	.openbtnPE {
+		font-size: 27px !important;
+		cursor: pointer;
+		background-color: #71cbf2;
+		color: white;
+		border: none;
+	}
+	.openbtnCB {
+		font-size: 27px !important;
+		cursor: pointer;
+		background-color: #C66562;
+		color: white;
+		border: none;
+	}
+	.openbtnCE {
+		font-size: 27px !important;
+		cursor: pointer;
+		background-color: #f791f4;
+		color: white;
+		border: none;
+	}
+	.panelMain .ui-icon-minusthick {
+		background-position: -64px -128px;
+		display: none !important;
+	}
+	.panelMain .ui-icon-plusthick {
+		background-position: -64px -128px;
+		display: none !important;
+	}
+	.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td,
+		.ui-datatable tfoot th {
+		/* padding: 4px 10px; */
+		overflow: hidden;
+		/* border-width: 1px; */
+		/* border-style: solid; */
+	}
+	.barraCargosPessoas .th {
+		/* color:#f2f2f2 !important; */
+		background: #EEEEEE 0% 0% no-repeat padding-box !important;
+		border: none !important;
+	}
+	
+
+	
+	.barraCargosPessoas2 .th .ui-widget-content .ui-state-default {
+		/* color:#f2f2f2 !important; */
+		background: #5C2B5F 0% 0% no-repeat padding-box !important;
+		border: none !important;
+	}
+	.barraCargosPessoasGR .th .ui-widget-content .ui-state-default {
+		/* color:#f2f2f2 !important; */
+		background: #1E9151 0% 0% no-repeat padding-box !important;
+		border: none !important;
+	}
+	.barraCargosPessoasPE .th .ui-widget-content .ui-state-default {
+		/* color:#f2f2f2 !important; */
+		background: #1E9151 0% 0% no-repeat padding-box !important;
+		border: none !important;
+	}
+	.barraCargosPessoasCB .th .ui-widget-content .ui-state-default {
+		/* color:#f2f2f2 !important; */
+		background: #A8413E 0% 0% no-repeat padding-box !important;
+		border: none !important;
+	}
+	.barraCargosPessoasCE .th .ui-widget-content .ui-state-default {
+		/* color:#f2f2f2 !important; */
+		background: #a7298d 0% 0% no-repeat padding-box !important;
+		border: none !important;
+	}
+	.CompetenciasAux.ui-datatable thead th, .ui-datatable tfoot th {
+		background: #5C2B5F !important;
+	padding-left: 5px;
+    padding-bottom: 10px;
+    padding-right: 5px;
+    padding-top: 10px;
+	}
+	.botaoPessoas.ui-button-text-icon-left .ui-button-text {
+		height: 30px !important;
+	}
+	.botaoADDPessoas.ui-button-text .ui-c {
+		height: 30px !important;
+	}
+	.botaoADDPessoas.ui-button-text-only .ui-button-text {
+		padding: .9em 1em !important;
+	}
+	.botaoPessoas.ui-button-text-icon-left .ui-icon {
+		position: absolute;
+		top: 50%;
+		margin-top: -13px;
+		margin-left: 0px;
+	}
+	
+	.classeSlider .ui-slider .ui-slider-range {
+    background: #FF5250 !important;
+}
+	
+	.classeSlider .ui-slider-horizontal .ui-slider-range {
+    top: 0 !important;
+    height: 100% !important;
+}
+	.classeSlider .ui-slider .ui-slider-range {
+    position: absolute !important;
+    z-index: 1 !important;
+    font-size: .7em !important;
+    display: block !important;
+    border: 0 !important;
+    background-position: 0 0 !important;
+}
+	
+	.classeSlider .ui-slider .ui-slider-handle {
+    width: 1.143rem  !important;
+    height: 1.143rem  !important;
+    background: #ffffff  !important;
+    border: 2px solid #5C2B5F  !important;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s  !important;
+    border-radius: 50%  !important;
+}
+	
+	.classeSlider .ui-slider.ui-slider-horizontal .ui-slider-handle {
+    top: -0.4285rem  !important;
+    margin-left: -0.5715rem  !important;
+}
+	
+	.ControleCargosDesligado{
+	
+	margin-left:40px;visibility:hidden !important;
+	}
+	
+	.ControleCargosLigado{
+	
+	margin-left:40px;visibility:visible !important;
+	}
+	
+
+	.painelpessoas {
+		width: 15px !important;
+	}
+	.painelpessoas2 {
+		width: 25px !important;
+	}
+	
+	.painelpessoas2 .ui-widget-content {
+		border: transparent !important;
+	}
+	
+	
+	.ui-panelgrid-cell .painelpessoas2 .ui-widget-content {
+		background: transparent !important;
+	}
+	
+		.ui-panelgrid-cell .painelpessoas2{
+		background: transparent !important;
+	}
+	
+	button {
+		font-family: Montserrat;
+		font-size: 1em;
+	}
+	.BG_k {
+		overflow: visible;
+		width: 40px;
+		height: 40px;
+		left: 0px;
+		top: 0px;
+	}
+	#Plus {
+		width: 40px;
+		height: 40px;
+		left: 1004px;
+		top: 10px;
+		overflow: visible;
+	}
+	
+	.parent {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.image1 {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.image2 {
+    position: absolute;
+    top: 120px;
+    left: 20px;
+}
+	
+.jqplot-highlighter-tooltip, .jqplot-canvasOverlay-tooltip {
+    border: none !important;
+    font-size: .75em !important;
+    white-space: nowrap !important;
+    background: none !important;
+    padding: 1px !important;
+    z-index: 1 !important;
+    display: table !important;
+}
+
+.Derivado{
+	padding-left:510px !important;
+}
+
+.ILP{
+	padding-left:360px !important;
+}
