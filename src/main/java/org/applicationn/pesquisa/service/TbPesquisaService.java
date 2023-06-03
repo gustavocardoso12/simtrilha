@@ -154,7 +154,36 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 				setParameter("gradeMaximo",gradeMaximo).
 				getFirstResult();
 		}
-	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<TbPesquisa>  findDescricaoCargo(String nmFamilia, String nmSubFamilia,
+			String nmCargo) {
+		List<TbPesquisa> listaFinal = new ArrayList<TbPesquisa>();
+		 List<Object> lista =  getEntityManagerMatriz().
+				 createNativeQuery("select descricao_completa_cargos, nome_cargo, count(1) qtd"
+				 		+ "  from tb_pesquisa \n"
+				+ "where nm_familia =:descFamilia\n"
+				+ "and nm_subfamilia =:descSubFamilia \n"
+				+ "and nome_cargo =:descCargo \n"
+				+ " group by descricao_completa_cargos, nome_cargo").
+				setParameter("descFamilia",nmFamilia).
+				setParameter("descSubFamilia",nmSubFamilia).
+				setParameter("descCargo",nmCargo).getResultList();
+			
+		 
+		   for(Object record: lista) {
+				Object[] linha = (Object[]) record; 
+				TbPesquisa pesquisa = new TbPesquisa();
+				pesquisa.setNomeCargo((String) linha[1]);
+				pesquisa.setDescricao_completa_cargos((String) linha[0]);
+
+				listaFinal.add(pesquisa);
+			}
+			
+		 
+		 
+		 return listaFinal;
+	}
 
 	@Transactional
 	@SuppressWarnings("unchecked")

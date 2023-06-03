@@ -88,7 +88,8 @@ public class TbPesquisa extends BaseEntity implements Serializable {
     @Digits(integer = 10, fraction = 2)
     private Double medianailp;
     
-    
+    @Column(name="descricao_completa_cargos")
+    private String descricao_completa_cargos;
     
     public void updateAuditInformation(String username) {
         if (this.getId() != null) {
@@ -341,6 +342,18 @@ public class TbPesquisa extends BaseEntity implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+
+
+	public String getDescricao_completa_cargos() {
+		return descricao_completa_cargos;
+	}
+
+
+
+	public void setDescricao_completa_cargos(String descricao_completa_cargos) {
+		this.descricao_completa_cargos = descricao_completa_cargos;
 	}
 
    

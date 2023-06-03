@@ -116,6 +116,9 @@ public class TbPesquisaBean implements Serializable {
 	protected UserEntity user;
 
 	private String descEmpresaExibir;
+	
+	
+	List<TbPesquisa> listSumario = new ArrayList<TbPesquisa>();
 
 	public void prepareNewTbAREA() {
 		reset();
@@ -794,6 +797,9 @@ public class TbPesquisaBean implements Serializable {
 					findDistinctTbPesquisaGrade(familiaEscolhida, subFamiliaEscolhida, cargoEscolhido, mercadoEscolhido);
 
 			if (this.distinctGrade!=null) {
+				
+				
+				this.listSumario = tbPesquisaService.findDescricaoCargo(familiaEscolhida, subFamiliaEscolhida, cargoEscolhido);
 
 				if(this.distinctGrade.size()==0) {
 					mensagem="Filtro";
@@ -1323,6 +1329,14 @@ public class TbPesquisaBean implements Serializable {
 
 	public static void setOS(String oS) {
 		OS = oS;
+	}
+
+	public List<TbPesquisa> getListSumario() {
+		return listSumario;
+	}
+
+	public void setListSumario(List<TbPesquisa> listSumario) {
+		this.listSumario = listSumario;
 	}
 
 
