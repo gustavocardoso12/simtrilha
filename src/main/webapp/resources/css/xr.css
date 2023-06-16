@@ -86,6 +86,12 @@ a, img {
 	padding-bottom: 10px !important
 }
 
+.colExtra {
+	vertical-align: top;
+	font-family: Calibri;
+	padding-bottom: 0px !important
+}
+
 .colParaDetalhe {
 	vertical-align: top;
 	font-family: Calibri;
@@ -158,7 +164,8 @@ th {
 .toolbar {
 	margin-top: 5px;
 	background: #6C376E;
-	width: 100%;
+	width: 102vw;
+	margin-left:-4%;
 }
 
 .ui-dialog {
@@ -172,7 +179,7 @@ th {
 	color: black !important;
 }
 
-/*Barra de título do dialog primefaces*/
+/*Barra de tï¿½tulo do dialog primefaces*/
 .ui-draggable .ui-dialog-titlebar {
 	cursor: move;
 	background: #6C376E;
@@ -956,6 +963,8 @@ th {
   position: relative;
   top: 0;
   left: 0;
+  margin-left: -6%;
+  margin-top: -1.4%;
 }
 .image2 {
     position: absolute;
@@ -980,3 +989,5 @@ th {
 .ILP{
 	padding-left:360px !important;
 }
+
+

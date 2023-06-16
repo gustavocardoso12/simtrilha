@@ -176,7 +176,7 @@ opacity: 1;"
 		<div class="ui-g">
 			<div>
 				<h:panelGrid id="paneCargos" styleClass="dialogAT"
-					columnClasses="col2,col2,col3" style="margin-left: 10px;"
+					columnClasses="col2,col2,col3" style="margin-left: 10px; padding-bottom: #{tbPesquisaBean.gradeMinimoEmpresa ne 0 ? '12px' : '0px'} !important"
 					columns="3">
 
 					<h:form>
@@ -192,7 +192,7 @@ opacity: 1;"
 								<p:spacer></p:spacer>
 
 								<p:selectOneMenu styleClass="menuAT"
-									style="border: 1px solid #666 !important;background:white !important;  width:250px"
+									style="border: none !important;background:white !important;  width:250px"
 									value="#{tbPesquisaBean.familiaEscolhida}"
 									id="idAREASelectInput">
 									<f:selectItem noSelectionOption="true" itemLabel="" />
@@ -220,7 +220,7 @@ opacity: 1;"
 								<p:spacer></p:spacer>
 
 								<p:selectOneMenu styleClass="menuAT"
-									style="border: 1px solid #666 !important;background:white !important;  width:300px"
+									style="border: none !important;background:white !important;  width:300px"
 									value="#{tbPesquisaBean.subFamiliaEscolhida}"
 									id="idDEPTOSelectInput">
 									<f:selectItem noSelectionOption="true" itemLabel="" />
@@ -242,7 +242,7 @@ opacity: 1;"
 								value="Cargo" for="idCARGOSSelectInput" />
 							<p:spacer></p:spacer>
 							<p:selectOneMenu styleClass="menuAT"
-								style="border: 1px solid #666 !important;background:white !important;  width:300px"
+								style="border: none !important;background:white !important;  width:300px"
 								autoWidth="false" value="#{tbPesquisaBean.cargoEscolhido}"
 								id="idCARGOSSelectInput">
 								<f:selectItem noSelectionOption="true" itemLabel="" />
@@ -251,8 +251,9 @@ opacity: 1;"
 
 								<p:ajax event="change" global="true" partialSubmit="true"
 									listener="#{tbPesquisaBean.getDistinctGrade(true)}"
-									update="paneCargos2 paneCargos3 DSCO DSSUMARIO  DSGRAPH :growlForm:growl" />
+									update="paneCargos paneCargos2 paneCargos3 DSCO DSSUMARIO  DSGRAPH :growlForm:growl" />
 							</p:selectOneMenu>
+							<h:outputLabel value="" style="font-size:1px" />
 							<h:outputLabel value="" style="font-size:1px" />
 						</h:panelGrid>
 					</h:form>
@@ -280,7 +281,7 @@ opacity: 1;"
 							<p:spacer></p:spacer>
 							<div style="width: 100%">
 								<p:selectOneMenu styleClass="menuAT"
-									style="border: 1px solid #666 !important;background:white !important;  width:300px"
+									style="border: none !important;background:white !important;  width:300px"
 									autoWidth="false" value="#{tbPesquisaBean.mercadoEscolhido}"
 									id="idAREASelectInput">
 									<f:selectItem itemValue="Mercado AptaXR"
@@ -302,7 +303,7 @@ opacity: 1;"
 															 letter-spacing: 0px;
 															color: #000000;
 															 opacity: 1;"
-								value="Grade" for="idDEPTOSelectInput" />
+								value="Filtrar Grade" for="idDEPTOSelectInput" />
 							<p:spacer></p:spacer>
 							<div style="width: 100%">
 								<h:panelGrid styleClass="classeSlider" columns="1"
@@ -324,67 +325,76 @@ opacity: 1;"
 								<h:inputHidden id="txt7" value="#{tbPesquisaBean.gradeMaximo}" />
 							</div>
 							
-							<h:outputLabel/>
-							<h:outputLabel/>
-							<h:outputLabel/>
-							<h:outputLabel/>
-							<h:outputLabel/>
-							<h:outputLabel/>
-							<h:outputLabel/>
+						<h:outputLabel/>
+							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
+							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
+							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
+							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
+							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
+							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
+							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
+					
+					
+					
+	
+					
 					
 				
-							<ui:remove>
-					<p:commandButton id="btnexport"
-						onclick="PF('statusDialog2').show();PrimeFaces.monitorDownload(null, stop);"
-						global="false"
-						style="background:#FF5250;width:150px;    height: 35px;
-    text-align: center;
-    font-size: 14px;
-    margin-top: 10px;"
-						ajax="false" value="Exportar Excel">
-						<p:dataExporter type="csv" encoding="ISO-8859-1"
-							options="#{tbPesquisaBean.csvOptions}"
-							fileName="RELATORIO REMUNERACAO - #{tbPesquisaBean.cargoEscolhido.trim()}"
-							target="tbCOMPETENCIASCARGOSDataForm:tbCONHECIMENTOBASTable" />
-					</p:commandButton>
-					</ui:remove>
-
-				
-				<p:commandButton id="btnexport2"
-                 value="Exportar Excel"
-                 style="background:#FF5250;width:150px;height: 35px;text-align: center;font-size: 14px;margin-top: 10px;"
-                 onclick="PF('exportDialog').show();" />
-
-						
-							<ui:remove><h:outputLabel
-								style="text-align: left;font: normal normal normal 14px/18px Montserrat;
-							letter-spacing: 0px;color: #000000;opacity: 1;"
-								value="Ano" for="idCARGOSSelectInput" />
-
-							<p:spacer></p:spacer>
-							<div style="width: 100%">
-								<p:selectOneMenu autoWidth="false" styleClass="menuAT"
-									style="border: 1px solid #666 !important;background:white !important;  width:300px"
-									value="#{tbPesquisaBean.anoEscolhido}" id="idCARGOSSelectInput">
-									<f:selectItem noSelectionOption="true" itemLabel="2021"
-										itemValue="2021" />
-									<p:ajax event="change"
-										global="#{ not empty tbPesquisaBean.cargoEscolhido ? 'true':'false'}"
-										process="@this" partialSubmit="true" update=" DSCO DSGRAPH DSSUMARIO " />
-									<o:converter converterId="omnifaces.SelectItemsConverter"
-										list="#{tbCARGOSBean.distinctCargosPara}" />
-								</p:selectOneMenu>
-							</div>
-							</ui:remove>
-
+					
 						</h:panelGrid>
 					</h:form>
+					
+					
+					
+											
+	<div class="ui-g">
+				<h:panelGrid id="paneCargos3"   styleClass="dialogAT"
+					columnClasses="colExtra,colExtra" style="margin-left: 10px; padding-bottom:  #{tbPesquisaBean.gradeMinimoEmpresa ne 0 ? '0px' : '12px'} !important; width:315px;" columns="2">
+
+					<h:form>
+
+						<h:panelGrid id="paneCargoGrades" style="padding-bottom: #{tbPesquisaBean.gradeMinimoEmpresa ne 0 ? '0px' : '12px'} !important;">
+<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0}"
+
+								style="text-align: left; font: normal normal normal 14px/18px Montserrat;
+							letter-spacing: 0px;color: #000000;  opacity: 1;"
+								value="Grade do Cargo "/>
+
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0 and tbPesquisaBean.mostrarembarras==true}"
+								style="text-align: left; font: normal normal normal 18px Montserrat Light;
+							letter-spacing: 0px;color: #000000; opacity: 1;"
+								value="Grade #{userBean.user.idEmpresa.descEmpresa} : #{tbPesquisaBean.gradeMinimoEmpresa} / #{tbPesquisaBean.gradeMaximoEmpresa}"/>
+							
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0 and tbPesquisaBean.mostrarembarras==false}"
+								style="text-align: left; margin-left:0px; font: normal normal normal 14px Montserrat Light;
+							letter-spacing: 0px;color: #000000; opacity: 1;"
+								value="Grade #{userBean.user.idEmpresa.descEmpresa} : #{tbPesquisaBean.gradeMinimoEmpresa}"/>
+							
+
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0}"
+								style="text-align: left; font: normal normal normal 14px Montserrat Light;
+							letter-spacing: 0px;color: #000000; opacity: 1;"
+								value="Grade XR : #{tbPesquisaBean.gradeXR}"/>
+</h:panelGrid>
+						
+					</h:form>
+
+
+			</h:panelGrid>
+
+</div>
+					
+					
 				</h:panelGrid>
 
 
 			</div>
 
 			<div></div>
+
 
 
 			<p:spacer></p:spacer>
@@ -418,7 +428,11 @@ opacity: 1;"
 					ajax="false" value="Metodologia">
 					<p:fileDownload value="#{tbPesquisaBean.file}" />
 				</p:commandButton>
-				
+					
+				<p:commandButton id="btnexport2"
+                 value="Exportar Excel"
+                 style="background:#FF5250;width:150px;height: 35px;text-align: center;font-size: 14px;margin-top: 3px;"
+                 onclick="PF('exportDialog').show();" />
 
 				</h:panelGrid>
 
@@ -436,41 +450,6 @@ opacity: 1;"
 
 		</div>
 
-	<div class="ui-g">
-				<h:panelGrid id="paneCargos3"   styleClass="dialogAT"
-					columnClasses="col2,col2" style="margin-left: 10px; width:315px;" columns="2">
-
-					<h:form>
-
-						<h:panelGrid id="paneCargoGrades">
-<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0}"
-
-								style="text-align: left; font: normal normal normal 14px/18px Montserrat;
-							letter-spacing: 0px;color: #000000;  opacity: 1;"
-								value="Grade: "/>
-
-							<h:outputLabel
-								rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0 and tbPesquisaBean.mostrarembarras==true}"
-								style="text-align: left; font: normal normal normal 14px/18px Montserrat;
-							letter-spacing: 0px;color: #000000; opacity: 1;"
-								value="#{tbPesquisaBean.gradeMinimoEmpresa} / #{tbPesquisaBean.gradeMaximoEmpresa}"/>
-							<p:spacer></p:spacer>
-							
-							
-							<h:outputLabel
-								rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0 and tbPesquisaBean.mostrarembarras==false}"
-								style="text-align: left; margin-left:3px; font: normal normal normal 14px/18px Montserrat;
-							letter-spacing: 0px;color: #000000; opacity: 1;"
-								value="  #{tbPesquisaBean.gradeMinimoEmpresa}"/>
-							<p:spacer></p:spacer>
-</h:panelGrid>
-						
-					</h:form>
-
-
-			</h:panelGrid>
-
-</div>
 
 
 
@@ -600,7 +579,7 @@ opacity: 1;"
     font-family: Montserrat;
     font-style: normal !important;
     font-weight: normal !important;
-    font-size: 12px;
+    font-size: 14px;
     color: rgba(1);"
 						value="Gráfico de Remuneração" />
 					<svg class="plus"> <rect fill="rgba(119,69,122,1)" id="plus"

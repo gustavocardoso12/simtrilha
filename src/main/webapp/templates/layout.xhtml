@@ -67,7 +67,7 @@
           
                       
             
-           <p:panelGrid class="parent" rendered="#{(userBean.user.sistema == 'Simulador' ? false :true)
+         <p:panelGrid class="parent" rendered="#{(userBean.user.sistema == 'Simulador' ? false :true)
              and fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Windows')
              }" >
            
@@ -78,9 +78,12 @@
              }" width="100%" class="image1"  height="100%"  name="images/Sidebar.png" />
 			<h:graphicImage  rendered="#{(userBean.user.sistema == 'Simulador' ? false :true)
              and fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Windows')
-             }" width="140px" style="    position: sticky;
-    left: 3%;
-    bottom: 55%;" height="140px"  name="images/Logo_XR_completo.png" />
+             }" width="150vw" style="    position: sticky;
+    left: 2%;
+    top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 34vw;" height="150vw"  name="images/Logo_XR_completo.png" />
 
 		</p:panelGrid>
             <h:panelGroup>

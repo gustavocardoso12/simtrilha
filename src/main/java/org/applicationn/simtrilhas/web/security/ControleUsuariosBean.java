@@ -113,7 +113,7 @@ public class ControleUsuariosBean implements Serializable {
 	public String submit(UserEntity user, String sistema) {
 		getTbUSUARIOSList();
 		id = user.getId().intValue();
-		this.sistema=sistema;
+		sistema = user.getSistema();
 		if(sistema.equals("Simulador")) {
 			return "/trilhas/usuario/EditarUsuario.xhtml?faces-redirect=true&includeViewParams=true";
 		}else {

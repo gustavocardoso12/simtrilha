@@ -110,6 +110,17 @@ public class TbPesquisaBean implements Serializable {
 	private boolean RenderizaICPA = false;
 	private boolean RenderizaILP = false;
 	private int exportOption=0;
+	
+	private String gradeXR;
+	
+	public String getGradeXR() {
+		return gradeXR;
+	}
+
+	public void setGradeXR(String gradeXR) {
+		this.gradeXR = gradeXR;
+	}
+
 	@Inject
 	protected UserService userService;
 
@@ -849,10 +860,19 @@ public class TbPesquisaBean implements Serializable {
 
 							List<GradeVO> listaGradesEmpresas = tbPesquisaService
 									.findGradeSuaEmpresaPres(user.getIdEmpresa().getDescEmpresa().toUpperCase(), cargoEscolhido);
+							
+						
 							if(listaGradesEmpresas.size()>0) {
 								gradeMinimoEmpresa = listaGradesEmpresas.get(0).getGradeMinimoEmpresa();
 								gradeMaximoEmpresa= listaGradesEmpresas.get(0).getGradeMaximoEmpresa();
 
+								
+								gradeXR = tbPesquisaService
+										.findGradeXR(user.getIdEmpresa().getDescEmpresa().toUpperCase(),
+												cargoEscolhido,
+												gradeMaximoEmpresa);
+								
+								
 								if (gradeMinimoEmpresa== gradeMaximoEmpresa) {
 									mostrarembarras=false;
 								}else {

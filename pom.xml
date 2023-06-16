@@ -135,7 +135,7 @@
 	</dependencies>
 
 	<build>
-		 <finalName>DEV</finalName>
+		 <finalName>ROOT</finalName>
 		<!--  <finalName>DEV</finalName> -->
 		<plugins>
 			<plugin>

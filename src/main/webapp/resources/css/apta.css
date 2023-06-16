@@ -18,7 +18,22 @@
 }
 
 
+.sidebar-with-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    position: sticky;
+    top: 0;
+    background-color: #f1f1f1;
+    z-index: 1;
+}
 
+.logo-xr {
+    position: sticky;
+    top: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 body, div, td {
 	font-size: 12px;
@@ -172,7 +187,7 @@ th {
 	color: black !important;
 }
 
-/*Barra de título do dialog primefaces*/
+/*Barra de tï¿½tulo do dialog primefaces*/
 .ui-draggable .ui-dialog-titlebar {
 	cursor: move;
 	background: #6C376E;
