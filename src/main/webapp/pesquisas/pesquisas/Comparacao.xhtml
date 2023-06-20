@@ -133,8 +133,9 @@ function myExtender(){
 		<p:ajaxStatus onstart="PF('statusDialog').show()"
 			onsuccess="PF('statusDialog').hide()" />
 
-		<p:dialog  id="dialog"  widgetVar="statusDialog" modal="true" draggable="false"
-			closable="false" resizable="false" showHeader="false">
+		<p:dialog id="dialog" widgetVar="statusDialog" modal="true"
+			draggable="false" closable="false" resizable="false"
+			showHeader="false">
 			<h:panelGrid columns="2">
 				<h:outputLabel style="font-size:12px;font-weight:bold"
 					value="Carregando..." />
@@ -176,7 +177,8 @@ opacity: 1;"
 		<div class="ui-g">
 			<div>
 				<h:panelGrid id="paneCargos" styleClass="dialogAT"
-					columnClasses="col2,col2,col3" style="margin-left: 10px; padding-bottom: #{tbPesquisaBean.gradeMinimoEmpresa ne 0 ? '12px' : '0px'} !important"
+					columnClasses="col2,col2,col3"
+					style="margin-left: 10px; padding-bottom: #{tbPesquisaBean.gradeMinimoEmpresa ne 0 ? '12px' : '0px'} !important"
 					columns="3">
 
 					<h:form>
@@ -286,13 +288,13 @@ opacity: 1;"
 									id="idAREASelectInput">
 									<f:selectItem itemValue="Mercado AptaXR"
 										itemLabel="Mercado AptaXR" />
-										
+
 									<f:selectItem itemValue="#{tbPesquisaBean.user.mercado}"
 										itemLabel="#{tbPesquisaBean.user.mercado}" />
-										
+
 									<p:ajax event="change" global="true" partialSubmit="true"
 										listener="#{tbPesquisaBean.getDistinctGrade(true)}"
-										update="paneCargos2 paneCargos3 DSCO  DSGRAPH  DSSUMARIO :growlForm:growl"  />
+										update="paneCargos2 paneCargos3 DSCO  DSGRAPH  DSSUMARIO :growlForm:growl" />
 								</p:selectOneMenu>
 
 							</div>
@@ -318,76 +320,100 @@ opacity: 1;"
 										<p:ajax event="slideEnd" process="@this, txt6, txt7"
 											update="paneCargos2 DSCO DSGRAPH DSSUMARIO :growlForm:growl"
 											listener="#{tbPesquisaBean.onSlideEnd}" />
-											
+
 									</p:slider>
 								</h:panelGrid>
 								<h:inputHidden id="txt6" value="#{tbPesquisaBean.gradeMinimo}" />
 								<h:inputHidden id="txt7" value="#{tbPesquisaBean.gradeMaximo}" />
 							</div>
-							
-						<h:outputLabel/>
-							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
-							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
-							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
-							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
-							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
-							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
-							<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}"/>
-					
-					
-					
-	
-					
-					
-				
-					
+
+							<h:outputLabel />
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}" />
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}" />
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}" />
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}" />
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}" />
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}" />
+							<h:outputLabel
+								rendered="#{tbPesquisaBean.gradeMinimoEmpresa eq 0}" />
+
+
+
+
+
+
+
+
 						</h:panelGrid>
 					</h:form>
-					
-					
-					
-											
-	<div class="ui-g">
-				<h:panelGrid id="paneCargos3"   styleClass="dialogAT"
-					columnClasses="colExtra,colExtra" style="margin-left: 10px; padding-bottom:  #{tbPesquisaBean.gradeMinimoEmpresa ne 0 ? '0px' : '12px'} !important; width:315px;" columns="2">
 
-					<h:form>
 
-						<h:panelGrid id="paneCargoGrades" style="padding-bottom: #{tbPesquisaBean.gradeMinimoEmpresa ne 0 ? '0px' : '12px'} !important;">
-<h:outputLabel rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0}"
 
-								style="text-align: left; font: normal normal normal 14px/18px Montserrat;
+
+					<div class="ui-g">
+						<h:panelGrid id="paneCargos3" styleClass="dialogAT"
+							columnClasses="colExtra,colExtra"
+							style="margin-left: 10px; padding-bottom:  #{tbPesquisaBean.gradeMinimoEmpresa ne 0 ? '0px' : '12px'} !important; width:315px;"
+							columns="2">
+
+							<h:form>
+
+								<h:panelGrid id="paneCargoGrades"
+								
+									style="padding-bottom: #{tbPesquisaBean.gradeMinimoEmpresa ne 0 ? '0px' : '12px'} !important;">
+									<h:outputLabel
+										rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0}"
+										style="text-align: left; font: normal normal normal 14px/18px Montserrat;
 							letter-spacing: 0px;color: #000000;  opacity: 1;"
-								value="Grade do Cargo "/>
+										value="Grade do cargo na sua empresa " />
+										
+										
+										<h:outputLabel
+										rendered="#{tbPesquisaBean.empresaInsuficiente eq '1'}"
+										style="text-align: left; font: normal normal normal 14px/18px Montserrat;
+							letter-spacing: 0px;color: #000000;  opacity: 1;"
+										>
+										Cargo sem frequência na sua empresa :<br />
+										ou cargo não informado
+										</h:outputLabel>
 
-							<h:outputLabel
-								rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0 and tbPesquisaBean.mostrarembarras==true}"
-								style="text-align: left; font: normal normal normal 18px Montserrat Light;
+									<h:outputLabel
+										rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0 and tbPesquisaBean.mostrarembarras==true}"
+										style="text-align: left; font: normal normal normal 14px Montserrat Light;
 							letter-spacing: 0px;color: #000000; opacity: 1;"
-								value="Grade #{userBean.user.idEmpresa.descEmpresa} : #{tbPesquisaBean.gradeMinimoEmpresa} / #{tbPesquisaBean.gradeMaximoEmpresa}"/>
-							
-							<h:outputLabel
-								rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0 and tbPesquisaBean.mostrarembarras==false}"
-								style="text-align: left; margin-left:0px; font: normal normal normal 14px Montserrat Light;
+										value="Grade XR : #{tbPesquisaBean.gradeMinimoEmpresa} / #{tbPesquisaBean.gradeMaximoEmpresa}" />
+
+									<h:outputLabel
+										rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0 and tbPesquisaBean.mostrarembarras==false}"
+										style="text-align: left; margin-left:0px; font: normal normal normal 14px Montserrat Light;
 							letter-spacing: 0px;color: #000000; opacity: 1;"
-								value="Grade #{userBean.user.idEmpresa.descEmpresa} : #{tbPesquisaBean.gradeMinimoEmpresa}"/>
-							
-
-							<h:outputLabel
-								rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0}"
-								style="text-align: left; font: normal normal normal 14px Montserrat Light;
-							letter-spacing: 0px;color: #000000; opacity: 1;"
-								value="Grade XR : #{tbPesquisaBean.gradeXR}"/>
-</h:panelGrid>
-						
-					</h:form>
+										value="Grade XR : #{tbPesquisaBean.gradeMinimoEmpresa}" />
 
 
-			</h:panelGrid>
+									<h:outputLabel
+										rendered="#{tbPesquisaBean.gradeMinimoEmpresa ne 0}"
+										style="text-align: left; font: normal normal normal 14px Montserrat Light;
+           letter-spacing: 0px; color: #000000; opacity: 1;">
+    Grade #{userBean.user.idEmpresa.descEmpresa} :<br />
+    #{tbPesquisaBean.gradeXR}
+</h:outputLabel>
 
-</div>
-					
-					
+								</h:panelGrid>
+
+							</h:form>
+
+
+						</h:panelGrid>
+
+					</div>
+
+
 				</h:panelGrid>
 
 
@@ -406,33 +432,32 @@ opacity: 1;"
 				<h:panelGrid>
 
 
-					
-					
+
+
 					<p:button global="false"
-					style="background:#FF5250;width:150px;    height: 35px;
+						style="background:#FF5250;width:150px;    height: 35px;
     text-align: center;
     font-size: 14px;
     margin-top: 2px;"
-					ajax="false" value="Pesquisa Qualitativa"  
-					href="#{tbPesquisaBean.URLpesquisa}" target="_blank">
-				</p:button> 
-				
-				<p:remoteCommand name="stop" global="false" update="dialog2"
-					action="PF('statusDialog2').hide()" />
+						ajax="false" value="Pesquisa Qualitativa"
+						href="#{tbPesquisaBean.URLpesquisa}" target="_blank">
+					</p:button>
 
-				<p:commandButton global="false"
-					style="background:#FF5250;width:150px;    height: 35px;
+					<p:remoteCommand name="stop" global="false" update="dialog2"
+						action="PF('statusDialog2').hide()" />
+
+					<p:commandButton global="false"
+						style="background:#FF5250;width:150px;    height: 35px;
     text-align: center;
     font-size: 14px;
     margin-top: 10px;"
-					ajax="false" value="Metodologia">
-					<p:fileDownload value="#{tbPesquisaBean.file}" />
-				</p:commandButton>
-					
-				<p:commandButton id="btnexport2"
-                 value="Exportar Excel"
-                 style="background:#FF5250;width:150px;height: 35px;text-align: center;font-size: 14px;margin-top: 3px;"
-                 onclick="PF('exportDialog').show();" />
+						ajax="false" value="Metodologia">
+						<p:fileDownload value="#{tbPesquisaBean.file}" />
+					</p:commandButton>
+
+					<p:commandButton id="btnexport2" value="Exportar Excel"
+						style="background:#FF5250;width:150px;height: 35px;text-align: center;font-size: 14px;margin-top: 3px;"
+						onclick="PF('exportDialog').show();" />
 
 				</h:panelGrid>
 
@@ -440,9 +465,7 @@ opacity: 1;"
 
 
 
-			<div>
-
-		</div>
+				<div></div>
 
 
 			</h:form>
@@ -458,24 +481,23 @@ opacity: 1;"
 
 
 
-<p:panel style="color:black" styleClass="Competencia" id="DSSUMARIO">
+		<p:panel style="color:black" styleClass="Competencia" id="DSSUMARIO">
 
 
 
 
-<p:panel id="toggleable170"
+			<p:panel id="toggleable170"
 				rendered="#{not empty tbPesquisaBean.listaDeMedias}"
 				styleClass="panelMain" toggleable="true" widgetVar="panel90"
 				collapsed="true">
 
 
 
-<f:facet name="header">
+				<f:facet name="header">
 
 
 
-		<p:outputLabel
-					
+					<p:outputLabel
 						style="				
     white-space: nowrap;
     line-height: 40px;
@@ -498,8 +520,8 @@ opacity: 1;"
 					</span>
 
 				</f:facet>
-				
-				
+
+
 				<h:panelGrid id="paneSUMARIO">
 
 
@@ -517,12 +539,11 @@ opacity: 1;"
 
 							<p:dataTable id="tbCONHECIMENTOBASTable"
 								styleClass="CompetenciasAux" style="width:auto"
-								value="#{tbPesquisaBean.listSumario}"
-								var="tbSUMARIOCARGOS"
+								value="#{tbPesquisaBean.listSumario}" var="tbSUMARIOCARGOS"
 								widgetVar="tbSUMARIOCARGOSTable" rowIndexVar="row"
 								emptyMessage="Registros não encontrados">
-				
-				<p:column styleClass="barraCargosPessoas"
+
+								<p:column styleClass="barraCargosPessoas"
 									style="				
     top: 51px;
     overflow: visible;
@@ -543,7 +564,7 @@ opacity: 1;"
 
 
 
-</p:dataTable>
+							</p:dataTable>
 
 
 
@@ -563,8 +584,7 @@ opacity: 1;"
 
 
 		<p:panel style="color:black" styleClass="Competencia" id="DSGRAPH">
-			<p:panel id="toggleable18"
-			style="background:white !important"
+			<p:panel id="toggleable18" style="background:white !important"
 				rendered="#{not empty tbPesquisaBean.listaDeMedias}"
 				styleClass="panelMain" toggleable="true" widgetVar="panel19"
 				collapsed="false">
@@ -593,87 +613,101 @@ opacity: 1;"
 
 				</f:facet>
 
-				
-
-				
-				
-				<div class='my-legend' style="left:300px">
-<div class='legend-title'></div>
-<div class='legend-scale'>
-  <ul class='legend-labels'>
-    <li><span style='background:#FF5250;'></span>Sua empresa: #{tbPesquisaBean.descEmpresaExibir== null ? '' : tbPesquisaBean.descEmpresaExibir}</li>
-    <li><span style='background:#AE78D6;'></span>Percentil 25 (P25)</li>
-    <li><span style='background:#7030A0;'></span>Percentil 50 (P50)</li>
-     <li><span style='background:#3C1A56;'></span>Percentil 75 (P75)</li>
-  </ul>
-</div>
-</div>
 
 
-<style type='text/css'>
-  .my-legend .legend-title {
-    text-align: left;
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 90%;
-    }
-  .my-legend .legend-scale ul {
-    margin: 0;
-    padding-left: 35%;
-    float: left;
-    list-style: none;
-    }
-  .my-legend .legend-scale ul li {
-    display: block;
-    float: left;
-    width: 90px;
-    margin-bottom: 6px;
-    text-align: center;
-    font-size: 100%;
-    font-weight: bold;
-    list-style: none;
-    }
-  .my-legend ul.legend-labels li span {
-    display: block;
-    float: left;
-    height: 15px;
-    width: 90px;
-    }
-  .my-legend .legend-source {
-    font-size: 100%;
-    color: #999;
-    clear: both;
-    }
-  .my-legend a {
-    color: #777;
-    }
+
+
+				<div class='my-legend' style="left: 300px">
+					<div class='legend-title'></div>
+					<div class='legend-scale'>
+						<ul class='legend-labels'>
+							<li><span style='background: #FF5250;'></span>Sua empresa:
+								#{tbPesquisaBean.descEmpresaExibir== null ? '' :
+								tbPesquisaBean.descEmpresaExibir}</li>
+							<li><span style='background: #AE78D6;'></span>Percentil 25
+								(P25)</li>
+							<li><span style='background: #7030A0;'></span>Percentil 50
+								(P50)</li>
+							<li><span style='background: #3C1A56;'></span>Percentil 75
+								(P75)</li>
+						</ul>
+					</div>
+				</div>
+
+
+				<style type='text/css'>
+.my-legend .legend-title {
+	text-align: left;
+	margin-bottom: 8px;
+	font-weight: bold;
+	font-size: 90%;
+}
+
+.my-legend .legend-scale ul {
+	margin: 0;
+	padding-left: 35%;
+	float: left;
+	list-style: none;
+}
+
+.my-legend .legend-scale ul li {
+	display: block;
+	float: left;
+	width: 90px;
+	margin-bottom: 6px;
+	text-align: center;
+	font-size: 100%;
+	font-weight: bold;
+	list-style: none;
+}
+
+.my-legend ul.legend-labels li span {
+	display: block;
+	float: left;
+	height: 15px;
+	width: 90px;
+}
+
+.my-legend .legend-source {
+	font-size: 100%;
+	color: #999;
+	clear: both;
+}
+
+.my-legend a {
+	color: #777;
+}
 </style>
-					
+
 
 				<h:panelGrid id="paneGRAPH" columns="4">
 
 
 
-					<p:chart rendered="#{tbPesquisaBean.renderizaSB}" type="bar" model="#{tbPesquisaBean.barModel}"
+					<p:chart rendered="#{tbPesquisaBean.renderizaSB}" type="bar"
+						model="#{tbPesquisaBean.barModel}"
 						style="width:300px;height:300px;    margin-bottom: 10px;
     margin-top: 15px;" />
 
-					<p:chart type="bar" rendered="#{tbPesquisaBean.renderizaICP}"  model="#{tbPesquisaBean.barModelILP}"
+					<p:chart type="bar" rendered="#{tbPesquisaBean.renderizaICP}"
+						model="#{tbPesquisaBean.barModelILP}"
 						style="width:300px;height:300px;    margin-bottom: 10px;
     margin-top: 15px;" />
 
-					<p:chart type="bar" rendered="#{tbPesquisaBean.renderizaICPA}"  model="#{tbPesquisaBean.barModelCPA}"
+					<p:chart type="bar" rendered="#{tbPesquisaBean.renderizaICPA}"
+						model="#{tbPesquisaBean.barModelCPA}"
 						style="width:300px;height:300px;    margin-bottom: 10px;
     margin-top: 15px;" />
 
-					<p:chart type="bar" rendered="#{tbPesquisaBean.renderizaILP}"  model="#{tbPesquisaBean.barModelLongo}"
+					<p:chart type="bar" rendered="#{tbPesquisaBean.renderizaILP}"
+						model="#{tbPesquisaBean.barModelLongo}"
 						style="width:300px;height:300px;    margin-bottom: 10px;
     margin-top: 15px;" />
 
 				</h:panelGrid>
-				
-				<p class="#{tbPesquisaBean.classe}" style="text-align: center;min-width: 350px;  font-size: 13px; font-weight: bold;
-				color: #888787; margin-top: 0px; font-style: italic;">(Incentivos
+
+				<p class="#{tbPesquisaBean.classe}"
+					style="text-align: center; min-width: 350px; font-size: 13px; font-weight: bold; color: #888787; margin-top: 0px; font-style: italic;">(Incentivos
 					em Múltiplos do Salário Base Mensal)</p>
 
 			</p:panel>
@@ -701,7 +735,7 @@ opacity: 1;"
     font-family: Montserrat;
     font-style: normal !important;
     font-weight: normal !important;
-    font-size: 12px;
+    font-size: 14px;
     color: rgba(1);"
 						value="Relatório de Remuneração" />
 					<svg class="plus"> <rect fill="rgba(119,69,122,1)" id="plus"
@@ -718,21 +752,18 @@ opacity: 1;"
 
 				<h:panelGrid id="paneCO">
 					<p:spacer></p:spacer>
-					<h:form id="tbCOMPETENCIASCARGOSDataForm"
-					style="min-width:1000px"
+					<h:form id="tbCOMPETENCIASCARGOSDataForm" style="min-width:1000px"
 						onkeypress="if (event.keyCode == 13) {return false; }">
 
 						<h:panelGrid id="paneCargos8"
 							style="
-							font-family: Calibri;"
-							columns="4">
+							font-family: Calibri;" columns="4">
 
 
 							<p:dataTable id="tbCONHECIMENTOBASTable"
 								styleClass="CompetenciasAux" style="width:auto"
 								value="#{tbPesquisaBean.listaDeMedias}"
 								var="tbCONHECIMENTOBASCARGOS"
-								
 								widgetVar="tbCONHECIMENTOBASCARGOSTable" rowIndexVar="row"
 								emptyMessage="#{messages.label_no_records_found}">
 
@@ -765,7 +796,7 @@ opacity: 1;"
 								</p:column>
 
 
-	<p:column styleClass="barraCargosPessoas"
+								<p:column styleClass="barraCargosPessoas"
 									style="				
     top: 51px;
     overflow: visible;
@@ -786,13 +817,13 @@ opacity: 1;"
 
 									</f:facet>
 
-									
+
 									<h:outputText
 										value="#{tbCONHECIMENTOBASCARGOS.sua_empresa==0 ? '': tbCONHECIMENTOBASCARGOS.sua_empresa}">
 										<f:convertNumber pattern="R$ ###,###.###" />
 									</h:outputText>
 								</p:column>
-								
+
 
 								<p:column styleClass="barraCargosPessoas"
 									style="				
@@ -1020,13 +1051,14 @@ opacity: 1;"
 									<h:outputText
 										value="#{tbCONHECIMENTOBASCARGOS.num_participantes}" />
 								</p:column>
-								
-								
-								
-								
-								
-								
-								<p:column visible="false" exportable="true" styleClass="barraCargosPessoas"
+
+
+
+
+
+
+								<p:column visible="false" exportable="true"
+									styleClass="barraCargosPessoas"
 									style="				
     top: 51px;
     overflow: visible;
@@ -1050,7 +1082,7 @@ opacity: 1;"
 									<h:outputText
 										value="#{tbCONHECIMENTOBASCARGOS.descricaoDoFiltro}" />
 								</p:column>
-								
+
 
 							</p:dataTable>
 
@@ -1079,26 +1111,24 @@ opacity: 1;"
 		</p:dialog>
 
 
-<p:dialog id="exportDialog"
-          header="Exportar Excel"
-          widgetVar="exportDialog"
-          modal="true"
-          resizable="false"
-          closable="false">
+		<p:dialog id="exportDialog" header="Exportar Excel"
+			widgetVar="exportDialog" modal="true" resizable="false"
+			closable="false">
 
-    <h:form>
-        <h:outputLabel for="exportOptions" value="Selecione a opção de exportação: " />
-        <p:selectOneRadio id="exportOptions" value="#{tbPesquisaBean.exportOption}">
-            <f:selectItem itemLabel="Exportar apenas o cargo" itemValue="1" />
-            <f:selectItem itemLabel="Exportar a subfamília" itemValue="2" />
-        </p:selectOneRadio>
-        <p:commandButton value="Exportar"
-                         actionListener="#{tbPesquisaBean.ExportarExcel}"
-                         ajax="false"
-                         onclick="PF('exportDialog').hide();" />
-    </h:form>
+			<h:form>
+				<h:outputLabel for="exportOptions"
+					value="Selecione a opção de exportação: " />
+				<p:selectOneRadio id="exportOptions"
+					value="#{tbPesquisaBean.exportOption}">
+					<f:selectItem itemLabel="Exportar apenas o cargo" itemValue="1" />
+					<f:selectItem itemLabel="Exportar a subfamília" itemValue="2" />
+				</p:selectOneRadio>
+				<p:commandButton value="Exportar"
+					actionListener="#{tbPesquisaBean.ExportarExcel}" ajax="false"
+					update="statusDialog" onclick="PF('exportDialog').hide();" />
+			</h:form>
 
-</p:dialog>
+		</p:dialog>
 
 
 	</ui:define>

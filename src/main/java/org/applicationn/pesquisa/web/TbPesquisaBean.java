@@ -29,6 +29,7 @@ import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.service.security.UserService;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.export.CSVOptions;
 import org.primefaces.component.export.ExporterOptions;
 import org.primefaces.event.SlideEndEvent;
@@ -80,6 +81,8 @@ public class TbPesquisaBean implements Serializable {
 	private List<String> distinctCargos;
 	private List<String> distinctMercado;
 	private List<Integer> distinctGrade;
+	
+	private String empresaInsuficiente = "";
 
 	private List<MediasVO> listaDeMedias;
 
@@ -129,6 +132,14 @@ public class TbPesquisaBean implements Serializable {
 	private String descEmpresaExibir;
 	
 	
+	public String getEmpresaInsuficiente() {
+		return empresaInsuficiente;
+	}
+
+	public void setEmpresaInsuficiente(String empresaInsuficiente) {
+		this.empresaInsuficiente = empresaInsuficiente;
+	}
+
 	List<TbPesquisa> listSumario = new ArrayList<TbPesquisa>();
 
 	public void prepareNewTbAREA() {
@@ -136,6 +147,8 @@ public class TbPesquisaBean implements Serializable {
 	}
 
 	public void ExportarExcel() {
+		PrimeFaces current = PrimeFaces.current();
+		current.executeScript("PF('statusDialog').show();");
 		if(listaDeMedias==null) {
 
 		}else {
@@ -149,6 +162,8 @@ public class TbPesquisaBean implements Serializable {
 							mercadoEscolhido,gradeMinimoPadrao,gradeMaximoPadrao,user,
 							tbPesquisaService);
 				
+					current.executeScript("PF('statusDialog').hide();");
+					
 
 			}
 
@@ -870,6 +885,7 @@ public class TbPesquisaBean implements Serializable {
 								gradeXR = tbPesquisaService
 										.findGradeXR(user.getIdEmpresa().getDescEmpresa().toUpperCase(),
 												cargoEscolhido,
+												gradeMinimoEmpresa,
 												gradeMaximoEmpresa);
 								
 								
@@ -947,12 +963,16 @@ public class TbPesquisaBean implements Serializable {
 					FacesContext.getCurrentInstance().addMessage(null, message);
 					this.distinctGrade =null;
 					listaDeMedias = null;
-
+					
 					return null;
 				}else {
 					createBarModels();
 				}
-
+				
+				if(gradeMinimoEmpresa==0) {
+					empresaInsuficiente = "1";
+				}
+				
 			}
 		}else {
 			this.distinctGrade =null;

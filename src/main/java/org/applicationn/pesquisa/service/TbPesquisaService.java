@@ -216,28 +216,34 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 
 	@Transactional
 	@SuppressWarnings("unchecked")
-	public String findGradeXR(String nomeEmpresa, String nomeCargo, int gradeMaximo) {
-		String gradeXR = "";
+	public String findGradeXR(String nomeEmpresa, String nomeCargo, 
+			int gradeMinimo, int gradeMaximo) {
+
 		List<Object> lista = getEntityManagerMatriz().
 				createNativeQuery("select grade_xr from TB_PESQUISA tp "
 						+ "  where 1=1 "
 						+ "  AND nome_cargo = :nomeCargo "
 						+ "  AND nome_empresa = :nomeEmpresa "
-						+  " and GRADE = :gradeMaximo"
-						+ "  and grade_xr is not null ").
+						+  " and GRADE  >= :gradeMinimo "
+						+ "  and  GRADE <= :gradeMaximo"
+						+ "  and grade_xr is not null"
+						+ " order by grade_xr ").
 				setParameter("nomeEmpresa", nomeEmpresa).
 				setParameter("nomeCargo", nomeCargo).
+				setParameter("gradeMinimo", gradeMinimo).
 				setParameter("gradeMaximo", gradeMaximo)
 				.getResultList();
 
-		for(Object record: lista) {
-
-			 gradeXR = (String) record;
-
+		StringBuilder sb = new StringBuilder();
+		for (Object valor : lista) {
+		    sb.append(valor).append(" / ");
 		}
 
-
-		return gradeXR ;
+		String resultado = sb.toString();
+		if (resultado.endsWith(" / ")) {
+		    resultado = resultado.substring(0, resultado.length() - 3);
+		}
+		return resultado ;
 	}
 
 	@Transactional
