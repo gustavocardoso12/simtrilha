@@ -73,7 +73,7 @@ public class Exportar {
 
 	private static void removeGridlines(Sheet sheet) {
 		sheet.setDisplayGridlines(false);
-		
+
 	}
 
 	private static void addImage(Sheet sheet, String imagePath) throws IOException {
@@ -96,7 +96,7 @@ public class Exportar {
 		anchor.setRow2(2); // Solta a imagem na sexta linha
 		anchor.setAnchorType(ClientAnchor.AnchorType.DONT_MOVE_AND_RESIZE); 
 		Picture picture = drawing.createPicture(anchor, pictureIndex);
-		picture.resize(0.7, 1);
+		picture.resize(0.6, 1);
 	}
 
 
@@ -178,7 +178,7 @@ public class Exportar {
 		return style;
 	}
 
-	
+
 	private static XSSFCellStyle createXSSFStyleBordasEscuras (Sheet sheet,Workbook workbook, VerticalAlignment alinhamentoVertical,
 			HorizontalAlignment alinhamentoHorizontal,Font fonte, XSSFColor color, FillPatternType padrao,
 			int quebra ) {
@@ -205,7 +205,7 @@ public class Exportar {
 		return style;
 	}
 
-	
+
 	public static XSSFColor rgbToXSSFColor(int red, float green, float blue) {
 		// Converter a cor RGB para valores de ponto flutuante de 0 a 1
 		float r = red / 255f;
@@ -231,11 +231,11 @@ public class Exportar {
 		Cell cellA5 =null;
 		// criar a primeira linha
 		if(ExportOption==2) {
-			 cellA5 = createCells(sheet, 0, Subfamilia + " X Mercado", row4);
+			cellA5 = createCells(sheet, 0, Subfamilia + " X Mercado", row4);
 		}else {
-			 cellA5 = createCells(sheet, 0, cargoEscolhido + " X Mercado", row4);
+			cellA5 = createCells(sheet, 0, cargoEscolhido + " X Mercado", row4);
 		}
-		
+
 		addMergeRegion(sheet, new CellRangeAddress(4, 4, 0, 28));
 		Font fontA5 = createFont(sheet, "Helvetica", (short) 12, true, (short) 0);
 		createStyle(sheet, VerticalAlignment.CENTER, HorizontalAlignment.LEFT, fontA5, cellA5);
@@ -333,6 +333,12 @@ public class Exportar {
 		cellD25.setCellStyle(style);
 
 
+		color =  rgbToXSSFColor(83, 186, 69);
+		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
+				fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
+		Cell cellD26 = createCells(sheet, 31, "ILP - Incentivo de Longo Prazo", row8);
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 31, 34));
+		cellD26.setCellStyle(style);
 
 
 
@@ -371,7 +377,7 @@ public class Exportar {
 		// nona linha segundo header (SBA)
 		String[] headerSBA = { "Sua empresa", "Percentil 25 (P25)",
 				"Percen"
-				+ "til 50 (P50)", "Percentil 75 (P75)" };
+						+ "til 50 (P50)", "Percentil 75 (P75)" };
 
 		for (int i = 0; i < headerSBA.length; i++) {
 			if(headerSBA[i]=="Sua empresa") {
@@ -502,19 +508,62 @@ public class Exportar {
 			cell.setCellStyle(style);
 			sheet.autoSizeColumn(cell.getColumnIndex());
 		}
+
+
+
+		//nona linha quarto header (ILP)
+
+
+		String[] headerILP = { "Sua empresa", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)" };
+
+		for (int i = 0; i < headerILP.length; i++) {
+			if(headerILP[i]=="Sua empresa") {
+				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, true,
+						IndexedColors.BLACK.getIndex());
+				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
+						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
+			}else {
+				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
+						IndexedColors.BLACK.getIndex());
+				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
+						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
+			}
+			Cell cell = createCells(sheet, i+headerTitles.length+ headerSBA.length 
+					+headerICPA.length + headerTDA.length + headerTD.length
+					+headerRDA.length +  headerRD.length, headerILP[i], row9);
+			cell.setCellStyle(style);
+			sheet.autoSizeColumn(cell.getColumnIndex());
+		}
+
 	}
 
 	public static String formatarMonetario (double valor) {
 		NumberFormat formato = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 		String valorFormatado = formato.format(valor);
+		if(valorFormatado==null) {
+			valorFormatado="N/D";
+		}else if (valorFormatado.equals("R$ 0,00")) {
+			valorFormatado =  "N/D";
+		}
 		return valorFormatado;
 	}
 
 	public static String doubleToString(double number) {
-	    DecimalFormat decimalFormat = new DecimalFormat("#.#");
-	    return decimalFormat.format(number);
+		DecimalFormat decimalFormat = new DecimalFormat("#.#");
+		String valor =  decimalFormat.format(number);
+		valor = valor.replace(".", ",");
+		if(valor==null) {
+			valor="N/D";
+		}else if (valor.equals("0")) {
+			valor = valor.replace("0", "N/D");	
+		}else if (valor.equals("0,0")) {
+			valor = valor.replace("0.0", "N/D");
+		}
+
+		return valor;
 	}
-	
+
 	public static void addConteudo (List<MediasVO> dados, 
 			String cargoEscolhido,
 			String SubFamilia,
@@ -532,127 +581,166 @@ public class Exportar {
 		descRenumMap.put("TD - Total em Dinheiro", 5);
 		descRenumMap.put("RDA - Remuneração Direta Alvo", 6);
 		descRenumMap.put("RD - Remuneração Direta", 7);
+		descRenumMap.put("ILP - Incentivos de Longo Prazo", 8);
 
-
-		// Remova os objetos com valores nulos no atributo DescRenum
-		dados.removeIf(c -> c.getDescRenum().equals("ILP - Incentivos de Longo Prazo"));
 		dados.removeIf(c -> c.getDescRenum().equals("SBA - Salário Base Anual"));
 
-		// Classifique o ArrayList usando uma expressão lambda e o método Comparator.comparing()
 		dados.sort(Comparator.comparing(c -> descRenumMap.get(c.getDescRenum())));
+
+
+		for (Map.Entry<String, Integer> entry : descRenumMap.entrySet()) {
+			String description = entry.getKey();
+			boolean found = false;
+
+			// Verificar se a descrição já existe em mediasVOList
+			for (MediasVO mediasVO : dados) {
+				if (mediasVO.getDescRenum().equals(description)) {
+					found = true;
+					break;
+				}
+			}
+
+			// Se não encontrado, adicionar um novo objeto a mediasVOList
+			if (!found) {
+				MediasVO newMediasVO = new MediasVO();
+				newMediasVO.setDescRenum(description);
+				newMediasVO.setDescricaoDoFiltro("");
+				newMediasVO.setMedia(0);
+				newMediasVO.setNomeCargo(cargoEscolhido);
+				newMediasVO.setNum_participantes(0);
+				newMediasVO.setP10(0);
+				newMediasVO.setP25(0);
+				newMediasVO.setP50(0);
+				newMediasVO.setP75(0);
+				newMediasVO.setP90(0);
+				newMediasVO.setQtd_empresas(1);
+				newMediasVO.setSua_empresa(0);
+				newMediasVO.setVersion(0);
+				dados.add(newMediasVO);
+			}
+		}
+
 		int tamanhoAnterior = 0;
 		String[] header= {};
 		int posicaoSBM = 0;
-		
+
 		for(int k=0; k<dados.size();k++) {
 
-			 String descRenum = dados.get(k).getDescRenum();
-			
-			 switch (descRenum) {
-				case "SBM - Salário Base Mensal":
-					header = new String[] { familia,SubFamilia,dados.get(k).getNomeCargo(), 
-							formatarMonetario(dados.get(k).getSua_empresa()),
+			String descRenum = dados.get(k).getDescRenum();
+
+			switch (descRenum) {
+			case "SBM - Salário Base Mensal":
+				header = new String[] { familia,SubFamilia,dados.get(k).getNomeCargo(), 
+						formatarMonetario(dados.get(k).getSua_empresa()),
+						formatarMonetario(dados.get(k).getP25()),
+						formatarMonetario(dados.get(k).getP50()),
+						formatarMonetario(dados.get(k).getP75())};
+				posicaoSBM = k;
+				break;
+
+			case "ICPA - Incentivo de Curto Prazo Alvo (Bônus + PLR)":
+				double v = dados.get(k).getSua_empresa();
+				double v2 = dados.get(posicaoSBM).getSua_empresa();
+
+				double suaEmpresa = (v2 != 0) ? v : 0;
+
+				double p25 = dados.get(k).getP25();
+				double p25v2 = dados.get(posicaoSBM).getP25();
+
+				double p25Final = (p25v2 != 0) ? p25  : 0;
+
+				double p50 = dados.get(k).getP50();
+				double p50v2 = dados.get(posicaoSBM).getP50();
+
+				double p50Final = (p50v2 != 0) ? p50 : 0;
+
+				double p75 = dados.get(k).getP75();
+				double p75v2 = dados.get(posicaoSBM).getP75();
+
+				double p75Final = (p75v2 != 0) ? p75 : 0;
+
+				header = new String[] { 
+						formatarMonetario(suaEmpresa),
+						formatarMonetario(p25Final),
+						formatarMonetario(p50Final),
+						formatarMonetario(p75Final) };
+				break;	
+			case "ICP - Incentivo de Curto Prazo Pago (Bônus + PLR)":
+				double vICP = dados.get(k).getSua_empresa();
+				double v2ICP = dados.get(posicaoSBM).getSua_empresa();
+
+				double suaEmpresaICP = (v2ICP != 0) ? vICP  : 0;
+
+				double p25ICP = dados.get(k).getP25();
+				double p25v2ICP = dados.get(posicaoSBM).getP25();
+
+				double p25FinalICP = (p25v2ICP != 0) ? p25ICP  : 0;
+
+				double p50ICP = dados.get(k).getP50();
+				double p50v2ICP = dados.get(posicaoSBM).getP50();
+
+				double p50FinalICP = (p50v2ICP != 0) ? p50ICP : 0;
+
+				double p75ICP = dados.get(k).getP75();
+				double p75v2ICP = dados.get(posicaoSBM).getP75();
+
+				double p75FinalICP = (p75v2ICP != 0) ? p75ICP  : 0;
+
+				header = new String[] { 
+						formatarMonetario(suaEmpresaICP),
+						formatarMonetario(p25FinalICP),
+						formatarMonetario(p50FinalICP),
+						formatarMonetario(p75FinalICP) };
+				break;
+
+
+
+			case "TD - Total em Dinheiro":
+				header = new String[] { 
+						formatarMonetario(dados.get(k).getSua_empresa()),
+						formatarMonetario(dados.get(k).getP25()),
+						formatarMonetario(dados.get(k).getP50()),
+						formatarMonetario(dados.get(k).getP75()) };
+				break;
+
+			case "TDA - Total em Dinheiro Alvo":
+				header = new String[] { 
+						formatarMonetario(dados.get(k).getSua_empresa()),
+						formatarMonetario(dados.get(k).getP25()),
+						formatarMonetario(dados.get(k).getP50()),
+						formatarMonetario(dados.get(k).getP75()) };
+				break;
+			case "RDA - Remuneração Direta Alvo":
+				header = new String[] { 
+						formatarMonetario(dados.get(k).getSua_empresa()),
+						formatarMonetario(dados.get(k).getP25()),
+						formatarMonetario(dados.get(k).getP50()),
+						formatarMonetario(dados.get(k).getP75()) };
+				break;
+			case "RD - Remuneração Direta":
+				header = new String[] { 
+						formatarMonetario(dados.get(k).getSua_empresa()),
+						formatarMonetario(dados.get(k).getP25()),
+						formatarMonetario(dados.get(k).getP50()),
+						formatarMonetario(dados.get(k).getP75()) };
+				break;
+			case "ILP - Incentivos de Longo Prazo":
+				header = new String[] { 
+						formatarMonetario(dados.get(k).getSua_empresa()),
 							formatarMonetario(dados.get(k).getP25()),
 							formatarMonetario(dados.get(k).getP50()),
-							formatarMonetario(dados.get(k).getP75())};
-					posicaoSBM = k;
-					break;
-					
-				case "ICPA - Incentivo de Curto Prazo Alvo (Bônus + PLR)":
-					double v = dados.get(k).getSua_empresa();
-					double v2 = dados.get(posicaoSBM).getSua_empresa();
-
-					double suaEmpresa = (v2 != 0) ? v / v2 : 0;
-
-					double p25 = dados.get(k).getP25();
-					double p25v2 = dados.get(posicaoSBM).getP25();
-
-					double p25Final = (p25v2 != 0) ? p25 / p25v2 : 0;
-
-					double p50 = dados.get(k).getP50();
-					double p50v2 = dados.get(posicaoSBM).getP50();
-
-					double p50Final = (p50v2 != 0) ? p50 / p50v2 : 0;
-
-					double p75 = dados.get(k).getP75();
-					double p75v2 = dados.get(posicaoSBM).getP75();
-
-					double p75Final = (p75v2 != 0) ? p75 / p75v2 : 0;
-					
-					header = new String[] { 
-							doubleToString(suaEmpresa),
-							doubleToString(p25Final),
-							doubleToString(p50Final),
-							doubleToString(p75Final) };
+							formatarMonetario(dados.get(k).getP75()) 
+						};
 					break;	
-				case "ICP - Incentivo de Curto Prazo Pago (Bônus + PLR)":
-					double vICP = dados.get(k).getSua_empresa();
-					double v2ICP = dados.get(posicaoSBM).getSua_empresa();
 
-					double suaEmpresaICP = (v2ICP != 0) ? vICP / v2ICP : 0;
+			}
 
-					double p25ICP = dados.get(k).getP25();
-					double p25v2ICP = dados.get(posicaoSBM).getP25();
-
-					double p25FinalICP = (p25v2ICP != 0) ? p25ICP / p25v2ICP : 0;
-
-					double p50ICP = dados.get(k).getP50();
-					double p50v2ICP = dados.get(posicaoSBM).getP50();
-
-					double p50FinalICP = (p50v2ICP != 0) ? p50ICP / p50v2ICP : 0;
-
-					double p75ICP = dados.get(k).getP75();
-					double p75v2ICP = dados.get(posicaoSBM).getP75();
-
-					double p75FinalICP = (p75v2ICP != 0) ? p75ICP / p75v2ICP : 0;
-					
-					header = new String[] { 
-							doubleToString(suaEmpresaICP),
-							doubleToString(p25FinalICP),
-							doubleToString(p50FinalICP),
-							doubleToString(p75FinalICP) };
-					break;
-					
-					
-			
-				case "TD - Total em Dinheiro":
-					header = new String[] { 
-							formatarMonetario(dados.get(k).getSua_empresa()),
-							formatarMonetario(dados.get(k).getP25()),
-							formatarMonetario(dados.get(k).getP50()),
-							formatarMonetario(dados.get(k).getP75()) };
-					break;
-					
-				case "TDA - Total em Dinheiro Alvo":
-					header = new String[] { 
-							formatarMonetario(dados.get(k).getSua_empresa()),
-							formatarMonetario(dados.get(k).getP25()),
-							formatarMonetario(dados.get(k).getP50()),
-							formatarMonetario(dados.get(k).getP75()) };
-					break;
-				case "RDA - Remuneração Direta Alvo":
-					header = new String[] { 
-							formatarMonetario(dados.get(k).getSua_empresa()),
-							formatarMonetario(dados.get(k).getP25()),
-							formatarMonetario(dados.get(k).getP50()),
-							formatarMonetario(dados.get(k).getP75()) };
-					break;
-				case "RD - Remuneração Direta":
-					header = new String[] { 
-							formatarMonetario(dados.get(k).getSua_empresa()),
-							formatarMonetario(dados.get(k).getP25()),
-							formatarMonetario(dados.get(k).getP50()),
-							formatarMonetario(dados.get(k).getP75()) };
-					break;
-				
-			 }
-			
 			Font fontA10 = createFont(sheet, "Helvetica", (short) 12, true, IndexedColors.BLACK.getIndex());
 			XSSFColor color = new XSSFColor(new byte[]{(byte) 162, 50, 50}, new DefaultIndexedColorMap());
 			XSSFCellStyle  style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER,
 					HorizontalAlignment.CENTER, 
 					fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-		
+
 			for (int i = 0; i < header.length; i++) {
 				if(header.length==7) {
 					if(i==3) {
@@ -660,27 +748,26 @@ public class Exportar {
 						color =  rgbToXSSFColor(242,242,242);
 						style = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
 								fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-						}else {
-							fontA10 = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
-							color =  rgbToXSSFColor(255,255,255);
-							style = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-									fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-						}
+					}else {
+						fontA10 = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
+						color =  rgbToXSSFColor(255,255,255);
+						style = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
+								fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
+					}
 				}else {
 					if(i==0) {
 						fontA10 = createFont(sheet, "Helvetica", (short) 12, true, IndexedColors.BLACK.getIndex());
 						color =  rgbToXSSFColor(242,242,242);
 						style = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
 								fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-						}else {
-							fontA10 = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
-							color =  rgbToXSSFColor(255,255,255);
-							style = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-									fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-						}
+					}else {
+						fontA10 = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
+						color =  rgbToXSSFColor(255,255,255);
+						style = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
+								fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
+					}
 				}
 				Cell cell = createCells(sheet, i+tamanhoAnterior, header[i], row10);
-				//System.out.println(header[i] + "indice  "+ i+ "tamanho" + tamanhoAnterior);
 				cell.setCellStyle(style);
 				sheet.autoSizeColumn(cell.getColumnIndex());
 			}
@@ -717,13 +804,13 @@ public class Exportar {
 			// Adiciona a imagem
 			addImage(sheet, imagePath);
 
-			
-			
+
+
 			// Adiciona o cabeçalho
 			addHeader(sheet, cargoEscolhido, nomeEmpresa,workbook, ExportOption,Subfamilia );
 			Row row10 = createRows(sheet, 10,(short) 400);
-			
-			
+
+
 			if(ExportOption==2) {
 				List<MediasVO> lista = new ArrayList<MediasVO>();
 				for(int i=0;i<distinctCargos.size();i++) {
@@ -735,15 +822,15 @@ public class Exportar {
 					row10 = createRows(sheet, i+10,(short) 400);
 					addConteudo(lista, distinctCargos.get(i), Subfamilia, Familia, sheet, workbook,row10);
 				}
-				
-				
-				
+
+
+
 			}else {
 				addConteudo(dados, cargoEscolhido, Subfamilia, Familia, sheet, workbook,row10);
 
 			}
-			
-		
+
+
 
 			// Escreve a planilha na resposta HTTP
 			OutputStream out = response.getOutputStream();
@@ -757,73 +844,84 @@ public class Exportar {
 		}
 	}
 
-	
+
 	public  List<MediasVO> getListaEmMassa(boolean UsaSlider, String cargoEscolhido,
 			String familiaEscolhida, String  subFamiliaEscolhida,
 			String mercadoEscolhido, int gradeMinimoPadrao,
 			int gradeMaximoPadrao, UserEntity user,TbPesquisaService tbPesquisaService
 			) {
+
+
+
+
 		List<Integer> distinctGrade = new ArrayList<Integer>();
 		List<MediasVO> listaDeMedias = new ArrayList<MediasVO>();
 		int gradeMinimo = 0;
 		int gradeMaximo = 0;
 		int gradeMinimoEmpresa = 0;
 		int gradeMaximoEmpresa = 0;
-			
 
-			if ((familiaEscolhida != null) &&  (subFamiliaEscolhida != null)
-					&& (cargoEscolhido!=null) && (mercadoEscolhido!=null)){
-				 distinctGrade = tbPesquisaService.
-						findDistinctTbPesquisaGrade(familiaEscolhida, subFamiliaEscolhida, cargoEscolhido, mercadoEscolhido);
 
-				if (distinctGrade!=null) {
+		if ((familiaEscolhida != null) &&  (subFamiliaEscolhida != null)
+				&& (cargoEscolhido!=null) && (mercadoEscolhido!=null)){
+			distinctGrade = tbPesquisaService.
+					findDistinctTbPesquisaGrade(familiaEscolhida, subFamiliaEscolhida, cargoEscolhido, mercadoEscolhido);
 
-					if(distinctGrade.size()==0) {
-					}else {
+			if (distinctGrade!=null) {
 
-						gradeMinimoPadrao = distinctGrade.get(0);
-						gradeMaximoPadrao = (Integer) (distinctGrade.get(distinctGrade.size()-1));
-					}
-					if((UsaSlider==true) && (distinctGrade.size()>0)) {
+				if(distinctGrade.size()==0) {
+				}else {
 
-						gradeMinimo= distinctGrade.get(0);
-						gradeMaximo= (Integer) (distinctGrade.get(distinctGrade.size()-1));
-					}else {
+					gradeMinimoPadrao = distinctGrade.get(0);
+					gradeMaximoPadrao = (Integer) (distinctGrade.get(distinctGrade.size()-1));
+				}
+				if((UsaSlider==true) && (distinctGrade.size()>0)) {
 
-					}
+					gradeMinimo= distinctGrade.get(0);
+					gradeMaximo= (Integer) (distinctGrade.get(distinctGrade.size()-1));
+				}else {
 
-					if(user==null) {
+				}
+
+				if(user==null) {
+					listaDeMedias.addAll(tbPesquisaService.findMedia(familiaEscolhida,
+							subFamiliaEscolhida,
+							cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo));
+				} else {
+					if(user.getIdEmpresa()==null) {
 						listaDeMedias.addAll(tbPesquisaService.findMedia(familiaEscolhida,
 								subFamiliaEscolhida,
 								cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo));
-					} else {
-						if(user.getIdEmpresa()==null) {
-							listaDeMedias.addAll(tbPesquisaService.findMedia(familiaEscolhida,
+					}else {
+
+						Integer existeEmpresaPres = 1;
+
+						if(cargoEscolhido.equals("PRESIDENTE / CEO") || cargoEscolhido.equals("PRESIDENTE DE SUBSIDIÁRIA")) {
+							existeEmpresaPres = tbPesquisaService
+									.findCountSuaEmpresaPres(user.getIdEmpresa().getDescEmpresa().toUpperCase()
+											,cargoEscolhido);
+						}
+
+						if(existeEmpresaPres==1) {
+
+
+
+							Integer MaiorGradeSuaEmpresa = tbPesquisaService.
+									findSuaEmpresaMaiorGrade(familiaEscolhida, subFamiliaEscolhida, cargoEscolhido, 
+											mercadoEscolhido, gradeMinimo, gradeMaximo, user.getIdEmpresa().getDescEmpresa().toUpperCase());
+
+							List<MediasVO> listaDeMediasRetorno = new ArrayList<MediasVO>();
+
+							listaDeMediasRetorno = tbPesquisaService.findMediaSuaEmpresa(familiaEscolhida,
 									subFamiliaEscolhida,
-									cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo));
-						}else {
-
-							Integer existeEmpresaPres = 1;
-
-							if(cargoEscolhido.equals("PRESIDENTE / CEO") || cargoEscolhido.equals("PRESIDENTE DE SUBSIDIÁRIA")) {
-								existeEmpresaPres = tbPesquisaService
-										.findCountSuaEmpresaPres(user.getIdEmpresa().getDescEmpresa().toUpperCase()
-												,cargoEscolhido);
-							}
-
-							if(existeEmpresaPres==1) {
-
-								Integer MaiorGradeSuaEmpresa = tbPesquisaService.
-										findSuaEmpresaMaiorGrade(familiaEscolhida, subFamiliaEscolhida, cargoEscolhido, 
-												mercadoEscolhido, gradeMinimo, gradeMaximo, user.getIdEmpresa().getDescEmpresa().toUpperCase());
+									cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo,
+									user.getIdEmpresa().getDescEmpresa().toUpperCase(),MaiorGradeSuaEmpresa);
 
 
+							if(listaDeMediasRetorno==null) {
 
-								listaDeMedias.addAll(tbPesquisaService.findMediaSuaEmpresa(familiaEscolhida,
-										subFamiliaEscolhida,
-										cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo,
-										user.getIdEmpresa().getDescEmpresa().toUpperCase(),MaiorGradeSuaEmpresa));
-
+							}else {
+								listaDeMedias.addAll(listaDeMediasRetorno);
 								List<GradeVO> listaGradesEmpresas = tbPesquisaService
 										.findGradeSuaEmpresaPres(user.getIdEmpresa().getDescEmpresa().toUpperCase(), cargoEscolhido);
 								if(listaGradesEmpresas.size()>0) {
@@ -831,16 +929,20 @@ public class Exportar {
 									gradeMaximoEmpresa= listaGradesEmpresas.get(0).getGradeMaximoEmpresa();
 
 								}
-
-
-								
-							}else {
 							}
+
+
+
+
+
+
+						}else {
 						}
 					}
+				}
 
 
-				
+
 			}else {
 			}
 		}

@@ -6,8 +6,10 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -20,7 +22,9 @@ import javax.inject.Named;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.poi.util.StringUtil;
+import org.applicationn.pesquisa.domain.TbDetalhesAcesso;
 import org.applicationn.pesquisa.domain.TbPesquisa;
+import org.applicationn.pesquisa.service.TbDetalheAcessoService;
 import org.applicationn.pesquisa.service.TbPesquisaService;
 import org.applicationn.pesquisa.vo.GradeVO;
 import org.applicationn.pesquisa.vo.MediasVO;
@@ -48,11 +52,14 @@ public class TbPesquisaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String URLpesquisa = "https://www.figma.com/proto/uGaH0lB5Hfo6FAdSfebvsb/Apresenta%C3%A7%C3%A3o---Apta-XR?page-id=41%3A60&node-id=79%3A680&starting-point-node-id=79%3A680&scaling=scale-down-width";
+	private final String URLpesquisa = "https://www.figma.com/proto/cD4OIlgiMRPPK77bGJzWSz/Apresenta%C3%A7%C3%A3o---Apta-XR-2023?page-id=41%3A60&type=design&node-id=3233-6671&viewport=7014%2C-21526%2C0.68&t=tZPQku4VytbW1f52-1&scaling=scale-down-width&starting-point-node-id=3233%3A6671";
 
 	@Inject
 	private TbPesquisaService tbPesquisaService;
 
+	@Inject
+	private TbDetalheAcessoService tbDetalheAcessoService;
+	
 	private List<TbPesquisa> tbPesquisaList;
 
 	private String familiaEscolhida;
@@ -61,6 +68,12 @@ public class TbPesquisaBean implements Serializable {
 	private String mercadoEscolhido= "Mercado AptaXR";
 	private int gradeEscolhida;
 	private int anoEscolhido = 2021;
+	 private String buttonTextSumario = "-";
+	 private boolean panelCollapsedSumario = false;
+	 public void togglePanel() {
+		 panelCollapsedSumario = !panelCollapsedSumario;
+	        buttonTextSumario = panelCollapsedSumario ? "+" : "-";
+	    }
 
 	private boolean mostrarembarras =false;
 
@@ -82,7 +95,17 @@ public class TbPesquisaBean implements Serializable {
 	private List<String> distinctMercado;
 	private List<Integer> distinctGrade;
 	
-	private String empresaInsuficiente = "";
+	private String empresaInsuficiente = "0";
+	
+	private String paddingBottom = "14px";
+
+	public String getPaddingBottom() {
+		return paddingBottom;
+	}
+
+	public void setPaddingBottom(String paddingBottom) {
+		this.paddingBottom = paddingBottom;
+	}
 
 	private List<MediasVO> listaDeMedias;
 
@@ -162,6 +185,23 @@ public class TbPesquisaBean implements Serializable {
 							mercadoEscolhido,gradeMinimoPadrao,gradeMaximoPadrao,user,
 							tbPesquisaService);
 				
+					String username = SecurityWrapper.getUsername();
+					UserEntity user = userService.findUserByUsername(username);
+					TbDetalhesAcesso vo = new TbDetalhesAcesso();
+					vo.setDataAcesso(new Date());
+					vo.setId_user(user.getId());
+					SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM");
+			        String dataFormatada = formato.format(new Date());
+					
+					vo.setMesAno(dataFormatada);
+					if(exportOption==1) {
+						vo.setTipoDeAtividade("ACESSO EXCEL CARGO");
+					}
+					if(exportOption==2) {
+						vo.setTipoDeAtividade("ACESSO EXCEL SUBFAMILIA");
+					}
+					
+					tbDetalheAcessoService.save(vo);
 					current.executeScript("PF('statusDialog').hide();");
 					
 
@@ -208,14 +248,10 @@ public class TbPesquisaBean implements Serializable {
 			System.out.println("This is Windows");
 			stream = new FileInputStream("C:/metodologia.pdf");
 		} else if (isMac()) {
-			System.out.println("This is MacOS");
 		} else if (isUnix()) {
-			System.out.println("This is Unix or Linux");
 			stream = new FileInputStream("/home/Simtrilhas/metodologia.pdf");
 		} else if (isSolaris()) {
-			System.out.println("This is Solaris");
 		} else {
-			System.out.println("Your OS is not supported!!");
 		}
 
 		file = new DefaultStreamedContent(stream, "application/pdf", "Metodologia.pdf");
@@ -971,6 +1007,10 @@ public class TbPesquisaBean implements Serializable {
 				
 				if(gradeMinimoEmpresa==0) {
 					empresaInsuficiente = "1";
+					paddingBottom= "0px";
+				}else {
+					empresaInsuficiente = "2";
+					paddingBottom= "9px";
 				}
 				
 			}
@@ -1377,6 +1417,30 @@ public class TbPesquisaBean implements Serializable {
 
 	public void setListSumario(List<TbPesquisa> listSumario) {
 		this.listSumario = listSumario;
+	}
+
+	public String getButtonTextSumario() {
+		return buttonTextSumario;
+	}
+
+	public void setButtonTextSumario(String buttonTextSumario) {
+		this.buttonTextSumario = buttonTextSumario;
+	}
+
+	public boolean isPanelCollapsedSumario() {
+		return panelCollapsedSumario;
+	}
+
+	public void setPanelCollapsedSumario(boolean panelCollapsedSumario) {
+		this.panelCollapsedSumario = panelCollapsedSumario;
+	}
+
+	public TbDetalheAcessoService getTbDetalheAcessoService() {
+		return tbDetalheAcessoService;
+	}
+
+	public void setTbDetalheAcessoService(TbDetalheAcessoService tbDetalheAcessoService) {
+		this.tbDetalheAcessoService = tbDetalheAcessoService;
 	}
 
 

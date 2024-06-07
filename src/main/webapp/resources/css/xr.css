@@ -186,6 +186,11 @@ th {
 	text-align: left !important;
 }
 
+.ui-dialog-title{
+	font-weight:bold;
+}
+
+
 /*Footer da datatable*/
 .ui-datatable .ui-datatable-footer {
 	border-top: 0 none;
@@ -769,10 +774,10 @@ th {
 	}
 	.openbtn {
 		font-size: 27px !important;
-		cursor: pointer;
-		background-color: #77457a;
-		color: white;
-		border: none;
+		cursor: pointer !important;
+		background-color: #77457a !important;
+		color: white !important;
+		border: none !important;
 	}
 	.openbtnGR {
 		font-size: 27px !important;

@@ -70,7 +70,13 @@
 				margin-bottom: 30px;" />
 
 	
-		
+		   <p:button outcome="/trilhas/usuario/RelatorioUsuarios" style="
+				width: 144px;
+				height: 40px;
+				background: #FF5250 !important;
+				margin-bottom: 30px;left: 10px;" value="Visualizar Acessos" 
+                           rendered="#{not empty request.remoteUser
+                           and p:ifAnyGranted('Administrator')}" />  
 
 
 			<p:spacer></p:spacer>

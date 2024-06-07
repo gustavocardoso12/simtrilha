@@ -6,11 +6,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -21,9 +18,10 @@ import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
 import org.applicationn.pesquisa.domain.TbEmpresa;
-import org.applicationn.pesquisa.domain.TbMercado;
+
+import org.applicationn.pesquisa.service.TbDetalheAcessoService;
 import org.applicationn.pesquisa.service.TbEmpresaService;
-import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
+import org.applicationn.pesquisa.vo.TbDetalhesAcessoVO;
 import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.domain.security.UserRole;
 import org.applicationn.simtrilhas.domain.security.UserStatus;
@@ -31,7 +29,7 @@ import org.applicationn.simtrilhas.service.security.UserService;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 
 @Named("ControleUsuariosBean")
-@RequestScoped
+@ViewScoped
 public class ControleUsuariosBean implements Serializable {
 
 	public static int idUsuario;
@@ -41,22 +39,31 @@ public class ControleUsuariosBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	protected List<UserEntity> tbUSUARIOSList;
+	
+	protected List<UserEntity> tbRelatorioList;
+	
+	private List<String>uniqueMonths;
 
 	@Inject
 	protected UserService userService;
 
 	@Inject
 	protected TbEmpresaService tbEmpresaService;
+	
+	@Inject 
+	protected TbDetalheAcessoService tbDetalheAcessoService;
 
 	protected UserEntity user;
 
 	private List<String> themesList = null;
 
 	private List<String> BDList = null;
+	private List<String> privilegiosList = new ArrayList<String>();
 	private List<UserRole> rolesList = new ArrayList<UserRole>();
 	private List<TbEmpresa> empresaList = new ArrayList<TbEmpresa>();
 	private List<String> mercadoList = new ArrayList<String>();
 	private String username;
+	private String privilegio_acesso;
 	private String senha;
 	private String email;
 	private String tema;
@@ -67,7 +74,18 @@ public class ControleUsuariosBean implements Serializable {
 	private String sistema;
 	private String mercado;
 	private TbEmpresa tbEmpresa;
+	
+	
+	private List<TbDetalhesAcessoVO> accessDataList;
 
+
+	public TbEmpresa getTbEmpresa() {
+		return tbEmpresa;
+	}
+
+	public void setTbEmpresa(TbEmpresa tbEmpresa) {
+		this.tbEmpresa = tbEmpresa;
+	}
 
 	private UserEntity usuarioEdicao;
 
@@ -77,14 +95,17 @@ public class ControleUsuariosBean implements Serializable {
 	private int id;
 	private String sistemaAtual;
 
-
 	@PostConstruct
 	public void Init() {
+		privilegiosList.add("Basic");
+		privilegiosList.add("Premium");
 		empresaList = tbEmpresaService.findAllTbEmpresa();
 		mercadoList = tbEmpresaService.empresasDisponiveis();
 		nomeUsuario=null;
 		emailUsuario=null;
 	}
+	
+	
 
 	/*public void ExecutaList(TbEmpresa tbEmpresa) {
 		mercadoList = tbEmpresaService.empresasDisponiveis(tbEmpresa.getDescEmpresa());	
@@ -106,8 +127,15 @@ public class ControleUsuariosBean implements Serializable {
 
 	}
 
-	
 
+	public int getAccessByMonth(String mesAno, String username) {
+	
+		UserEntity user = userService.findUserByUsername(username);
+		int result = tbDetalheAcessoService.findDistinctMeses(mesAno, String.valueOf(user.getId()));
+		return result;
+		
+		
+	}
 
 
 	public String submit(UserEntity user, String sistema) {
@@ -150,6 +178,22 @@ public class ControleUsuariosBean implements Serializable {
 	}
 
 	public String persistEdicao(UserEntity tbUSEREdicao) {
+		if(tbUSEREdicao.getPrivilegio_acesso()==null) {
+			
+		}else if(tbUSEREdicao.getPrivilegio_acesso().equals("Basic")) {
+			tbUSEREdicao.setIdEmpresa(tbEmpresaService.findTbEmpresaModelo());
+			nivelAcesso = "COLABORADOR";
+		}else if (tbUSEREdicao.getPrivilegio_acesso().equals("Premium")) {
+			if(tbUSEREdicao.getIdEmpresa()==null) {
+				FacesMessage facesMessage = MessageFactory.getMessage(
+						"erro_empresa_vazia");
+				facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+				return "";
+			}
+		}
+		
+		
 		if(nivelAcesso.toUpperCase().equals("COLABORADOR")) {
 			tbUSEREdicao.setRoles(Arrays.asList(new UserRole[]{UserRole.Colaborador}));
 		}
@@ -189,7 +233,7 @@ public class ControleUsuariosBean implements Serializable {
 						}
 
 
-						
+
 					}
 				}
 
@@ -236,6 +280,96 @@ public class ControleUsuariosBean implements Serializable {
 		return null;
 	}
 
+	
+	public String persistEdicaoSimulador(UserEntity tbUSEREdicao) {
+		
+		
+		
+		if(nivelAcesso.toUpperCase().equals("COLABORADOR")) {
+			tbUSEREdicao.setRoles(Arrays.asList(new UserRole[]{UserRole.Colaborador}));
+		}
+
+		if(nivelAcesso.toUpperCase().equals("ADMINISTRATOR")) {
+			tbUSEREdicao.setRoles(Arrays.asList(new UserRole[]{UserRole.Administrator}));
+		}
+
+		if(tbUSEREdicao.getSistema()==null) {
+
+		}else if (tbUSEREdicao.getSistema().equals("Pesquisa")){
+			tbUSEREdicao.setBanco_dados("APTA");
+			tbUSEREdicao.setTheme("APTA");
+			tbUSEREdicao.setFlag_grade("NAO");
+			tbUSEREdicao.setFlag_pessoa("NAO");
+		}
+		String message="";
+		try {
+
+
+			if (tbUSEREdicao.getId() != null) {
+
+				if(tbUSEREdicao.getUsername().equals(nomeUsuario)) {
+
+				}else {
+
+					if (userService.findUserByUsername(tbUSEREdicao.getUsername()) != null) {
+						FacesMessage facesMessage = MessageFactory.getMessage(
+								"user_username_exists");
+						facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+						FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+
+						if(!tbUSEREdicao.getSistema().equals("Pesquisa")){
+							return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/EditarUsuario.xhtml?id="+idUsuario+"?faces-redirect=true";
+						}else {
+							return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/EditarUsuario.xhtml?id="+idUsuario+"?faces-redirect=true";
+						}
+
+
+
+					}
+				}
+
+
+				if(tbUSEREdicao.getEmail().equals(emailUsuario)) {
+
+				}else {
+					if (userService.findUserByEmail(tbUSEREdicao.getEmail()) != null) {
+						FacesMessage facesMessage = MessageFactory.getMessage(
+								"user_email_exists");
+						facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+						FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+						if(!tbUSEREdicao.getSistema().equals("Pesquisa")){
+							return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+						}else {
+							return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
+						}
+					}
+				}
+
+				tbUSEREdicao = userService.updateMatriz(tbUSEREdicao);
+				message = "message_successfully_updated";
+				this.usuarioEdicao = userService.findMatriz((long) idUsuario);
+
+			} else {
+				tbUSEREdicao = userService.save(tbUSEREdicao);
+				message = "message_successfully_created";
+			}
+
+		} catch (OptimisticLockException e) {
+			message = "message_optimistic_locking_exception";
+			// Set validationFailed to keep the dialog open
+			FacesContext.getCurrentInstance().validationFailed();
+		} catch (PersistenceException e) {
+			message = "message_save_exception";
+			// Set validationFailed to keep the dialog open
+			FacesContext.getCurrentInstance().validationFailed();
+		}
+
+		tbUSUARIOSList = null;
+		FacesMessage facesMessage = MessageFactory.getMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+
+		return null;
+	}
 
 	public String delete() {
 
@@ -334,7 +468,22 @@ public class ControleUsuariosBean implements Serializable {
 				user.setIdEmpresa(tbEmpresa);
 			}
 
-
+			if(privilegio_acesso==null) {
+				
+			}else if(privilegio_acesso.equals("Basic")) {
+				user.setIdEmpresa(tbEmpresaService.findTbEmpresaModelo());
+				nivelAcesso = "COLABORADOR";
+			}else if (privilegio_acesso.equals("Premium")) {
+				if(tbEmpresa==null) {
+					FacesMessage facesMessage = MessageFactory.getMessage(
+							"erro_empresa_vazia");
+					facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+					FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+					return "";
+				}
+			}
+			
+			
 			user.setBanco_dados(bancoDados);
 			user.setEmail(email);
 			user.setFlag_grade(flagGrade);
@@ -344,7 +493,7 @@ public class ControleUsuariosBean implements Serializable {
 			user.setPassword(senha);
 			user.setSistema(sistema);
 			user.setMercado(mercado);
-
+			user.setPrivilegio_acesso(privilegio_acesso);
 
 
 			if (userService.findUserByUsername(user.getUsername()) != null) {
@@ -433,6 +582,8 @@ public class ControleUsuariosBean implements Serializable {
 		}
 		return tbUSUARIOSList;
 	}
+	
+
 
 	public UserService getUserService() {
 		return userService;
@@ -599,14 +750,7 @@ public class ControleUsuariosBean implements Serializable {
 		this.mercado = mercado;
 	}
 
-	public TbEmpresa getTbEmpresa() {
-		return tbEmpresa;
-	}
-
-	public void setTbEmpresa(TbEmpresa tbEmpresa) {
-		this.tbEmpresa = tbEmpresa;
-	}
-
+	
 	public List<TbEmpresa> getEmpresaList() {
 
 
@@ -641,6 +785,98 @@ public class ControleUsuariosBean implements Serializable {
 
 	public void setSistemaAtual(String sistemaAtual) {
 		this.sistemaAtual = sistemaAtual;
+	}
+
+	public List<String> getPrivilegiosList() {
+
+		return privilegiosList;
+	}
+
+	public void setPrivilegiosList(List<String> privilegiosList) {
+		this.privilegiosList = privilegiosList;
+	}
+
+	public static int getIdUsuario() {
+		return idUsuario;
+	}
+
+	public static void setIdUsuario(int idUsuario) {
+		ControleUsuariosBean.idUsuario = idUsuario;
+	}
+
+	public static String getNomeUsuario() {
+		return nomeUsuario;
+	}
+
+	public static void setNomeUsuario(String nomeUsuario) {
+		ControleUsuariosBean.nomeUsuario = nomeUsuario;
+	}
+
+	public static String getEmailUsuario() {
+		return emailUsuario;
+	}
+
+	public static void setEmailUsuario(String emailUsuario) {
+		ControleUsuariosBean.emailUsuario = emailUsuario;
+	}
+
+	public static UserEntity getNomeExcluirUsuario() {
+		return nomeExcluirUsuario;
+	}
+
+	public static void setNomeExcluirUsuario(UserEntity nomeExcluirUsuario) {
+		ControleUsuariosBean.nomeExcluirUsuario = nomeExcluirUsuario;
+	}
+
+	public TbEmpresaService getTbEmpresaService() {
+		return tbEmpresaService;
+	}
+
+	public void setTbEmpresaService(TbEmpresaService tbEmpresaService) {
+		this.tbEmpresaService = tbEmpresaService;
+	}
+
+	public String getPrivilegio_acesso() {
+		return privilegio_acesso;
+	}
+
+	public void setPrivilegio_acesso(String privilegio_acesso) {
+		this.privilegio_acesso = privilegio_acesso;
+	}
+
+
+	public List<TbDetalhesAcessoVO> getAccessDataList() {
+		if (accessDataList == null) {
+			accessDataList = tbDetalheAcessoService.findRelatorioUsuariosV2();
+		}
+		return accessDataList;
+	}
+
+	public void setAccessDataList(List<TbDetalhesAcessoVO> accessDataList) {
+		this.accessDataList = accessDataList;
+	}
+
+
+
+	public List<String> getUniqueMonths() {
+		
+		if (uniqueMonths == null) {
+			uniqueMonths = tbDetalheAcessoService.findDistinctMeses();
+		}
+		
+		return uniqueMonths;
+	}
+
+	public void setUniqueMonths(List<String> uniqueMonths) {
+		this.uniqueMonths = uniqueMonths;
+	}
+
+	public TbDetalheAcessoService getTbDetalheAcessoService() {
+		return tbDetalheAcessoService;
+	}
+
+	public void setTbDetalheAcessoService(TbDetalheAcessoService tbDetalheAcessoService) {
+		this.tbDetalheAcessoService = tbDetalheAcessoService;
 	}
 
 }

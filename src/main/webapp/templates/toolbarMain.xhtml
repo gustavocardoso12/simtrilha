@@ -59,8 +59,10 @@
                            rendered="#{not empty request.remoteUser 
                            and p:ifAnyGranted('Administrator')}" />
                            
+                           
+                           
       <p:button outcome="/trilhas/user/profile" style="font-size:14px" value="#{request.remoteUser}" icon="fa fa-user"
-                           rendered="#{not empty request.remoteUser 
+                           rendered="#{not empty request.remoteUser  and userBean.user.privilegio_acesso eq 'Premium'
                            and p:ifAnyGranted('Colaborador')}" />  
                            
         <p:commandButton action="#{loginBean.logout}" style="font-size:14px"  value="#{messages.toolbar_logout}" icon="fa fa-key"

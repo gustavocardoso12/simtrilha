@@ -29,6 +29,12 @@ public class TbEmpresaService extends BaseService<TbEmpresa> implements Serializ
 			return getEntityManagerMatriz().createQuery("SELECT o FROM TbEmpresa o ",
 					TbEmpresa.class).getResultList();
 	}
+	
+	@Transactional
+	public TbEmpresa findTbEmpresaModelo() {
+			return getEntityManagerMatriz().createQuery("SELECT o FROM TbEmpresa o where o.descEmpresa = 'EMPRESA MODELO' ",
+					TbEmpresa.class).getSingleResult();
+	}
 
 	@Override
 	@Transactional

@@ -3,6 +3,8 @@ package org.applicationn.simtrilhas.web.security;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -12,6 +14,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
+
+import org.applicationn.pesquisa.domain.TbDetalhesAcesso;
 import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.service.BaseService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
@@ -40,17 +44,17 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 	public void setUsuarios(List<String> usuarios) {
 		this.usuarios = usuarios;
 	}
-	
-	
-    public String findBrowserRenderMode() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        String userAgent = externalContext.getRequestHeaderMap().get("User-Agent");
-        return userAgent.toLowerCase().contains("mobile") ? "MOBILE" : "DESKTOP";
-    }
-	
-	
-	
+
+
+	public String findBrowserRenderMode() {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = facesContext.getExternalContext();
+		String userAgent = externalContext.getRequestHeaderMap().get("User-Agent");
+		return userAgent.toLowerCase().contains("mobile") ? "MOBILE" : "DESKTOP";
+	}
+
+
+
 
 	@Transactional
 	public String login() throws IOException {
@@ -61,34 +65,34 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return null;
 		}else {
-		if(user.getAtivo().equals("SIM")) {
-			FacesMessage message = MessageFactory.getMessage(
-					"login_sessaoativa");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return null;	
-		}else {
-
-			if (!SecurityWrapper.login(username, password, remember)) {
+			if(user.getAtivo().equals("SIM")) {
 				FacesMessage message = MessageFactory.getMessage(
-						"authentication_exception");
+						"login_sessaoativa");
 				FacesContext.getCurrentInstance().addMessage(null, message);
-				return null;
-			}
+				return null;	
+			}else {
 
-			
-			flag_ativo();
+				if (!SecurityWrapper.login(username, password, remember)) {
+					FacesMessage message = MessageFactory.getMessage(
+							"authentication_exception");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return null;
+				}
+
+
+				flag_ativo();
 
 
 				logged = true;
-			
-				usuario.add(username);
-			
 
+				usuario.add(username);
+
+
+			}
 		}
-		}
-		
+
 		String sistema ="";
-		
+
 		if(user.getSistema()==null) {
 			sistema= "/trilhas/Aderencias/Comparacao?faces-redirect=true";
 		}else {
@@ -98,8 +102,8 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 				sistema= "/pesquisas/pesquisas/Comparacao?faces-redirect=true";
 			}
 		}
-		
-		
+
+
 		return sistema;
 	}
 
@@ -108,8 +112,31 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 	public void flag_ativo() {
 		UserEntity user = userService.findUserByUsername(username);
 		user.setAtivo("SIM");
+		user.setModifiedAt(new Date());
 		getEntityManagerMatriz().merge(user);
 		getEntityManagerMatriz().flush();
+
+		if(user.getSistema()==null) {
+
+		}else {
+
+			TbDetalhesAcesso vo = new TbDetalhesAcesso();
+			vo.setDataAcesso(new Date());
+			vo.setId_user(user.getId());
+			
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM");
+	        String dataFormatada = formato.format(new Date());
+			
+			vo.setMesAno(dataFormatada);
+			if(user.getSistema().equals("Simulador")) {
+				vo.setTipoDeAtividade("ACESSO SIMULADOR");
+			}else if (user.getSistema().equals("Pesquisa")) {
+				vo.setTipoDeAtividade("ACESSO DASHBOARD");
+			}
+
+			getEntityManagerMatriz().persist(vo);
+			getEntityManagerMatriz().flush();
+		}
 	}
 
 	@Transactional
@@ -126,13 +153,13 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 				usuario.remove(i);
 			}
 		}
-		
+
 		SecurityWrapper.logout();
 		String path = FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath() + "/trilhas/main.xhtml";
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		FacesContext.getCurrentInstance().getExternalContext().redirect(path);
 	}
-	
+
 	@Transactional
 	public String logout1() throws IOException {
 		String username = SecurityWrapper.getUsername();
@@ -146,10 +173,10 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 				usuario.remove(i);
 			}
 		}
-        SecurityWrapper.logout();
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/trilhas/main.xhtml?faces-redirect=true";
-    }
+		SecurityWrapper.logout();
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "/trilhas/main.xhtml?faces-redirect=true";
+	}
 
 
 	public String getUsername() {

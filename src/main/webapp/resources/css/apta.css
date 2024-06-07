@@ -17,6 +17,11 @@
 		format('truetype');
 }
 
+.ui-dialog-title{
+	font-weight:bold;
+}
+
+
 
 .sidebar-with-logo {
     display: flex;

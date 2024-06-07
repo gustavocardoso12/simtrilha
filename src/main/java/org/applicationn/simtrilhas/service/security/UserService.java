@@ -1,6 +1,7 @@
 package org.applicationn.simtrilhas.service.security;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.applicationn.simtrilhas.domain.TbAREAEntity;
+import org.applicationn.pesquisa.vo.TbDetalhesAcessoVO;
 import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.domain.security.UserStatus;
 import org.applicationn.simtrilhas.service.BaseService;
@@ -31,6 +32,13 @@ public class UserService extends BaseService<UserEntity> implements Serializable
     public UserService(){
         super(UserEntity.class);
     }
+    
+	@Transactional
+	public List<UserEntity> findRelatorioUsuarios(){
+		 return getEntityManagerMatriz().createQuery(" select o from User o order by o.version desc ",UserEntity.class).
+				 getResultList();
+	}
+	
 
     @Named("users")
     @Transactional
@@ -38,7 +46,13 @@ public class UserService extends BaseService<UserEntity> implements Serializable
         return getEntityManagerMatriz().createQuery("SELECT o FROM User o", UserEntity.class).getResultList();
     }
     
+    
+    @Transactional
+    public List<String> findAllPrivilegios() {
 
+      return  getEntityManagerMatriz().createQuery("select distinct privilegio_acesso from User  o"
+      		+ " where o.privilegio_acesso is not null", String.class).getResultList();
+    }
     @Transactional
     public List<UserEntity> findAllUserEntitiesBySistema(String sistema) {
         return getEntityManagerMatriz().createQuery("SELECT o FROM User o where o.sistema = :sistema", UserEntity.class)

@@ -216,7 +216,8 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
       this.cutAllIdCARGOSTbONHECESPCARGOSsAssignments(tbCARGOS);
       
       this.cutAllIdCARGOSTbONHECBASCARGOSsAssignments(tbCARGOS);
-        
+       
+      this.cutAllIdCARGOSmatrizcargosAssignments(tbCARGOS);
         
     }
     
@@ -226,6 +227,18 @@ public class TbCARGOSService extends BaseService<TbCARGOSEntity> implements Seri
         getEntityManager()
                 .createQuery("DELETE FROM TbCONHECIMENTOSBASCARGOS c WHERE c.idCARGOS = :p")
                 .setParameter("p", tbCARGOS).executeUpdate();
+    }
+    
+    
+    @Transactional
+    private void cutAllIdCARGOSmatrizcargosAssignments(TbCARGOSEntity tbCARGOS) {
+        getEntityManager()
+                .createQuery("DELETE FROM TbMATRIZCARGOS c WHERE c.idCARGODE = :p")
+                .setParameter("p", tbCARGOS).executeUpdate();
+        
+        getEntityManager()
+        .createQuery("DELETE FROM TbMATRIZCARGOS c WHERE c.idCARGOPARA = :p")
+        .setParameter("p", tbCARGOS).executeUpdate();
     }
     
     // Remove all assignments from all tbCOMPETENCIASCARGOS a tbCARGOS. Called before delete a tbCARGOS.

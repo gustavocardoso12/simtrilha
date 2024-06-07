@@ -1,6 +1,8 @@
 package org.applicationn.pesquisa.service;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +27,14 @@ public class TbCurvaService extends BaseService<TbPesquisaCurva> implements Seri
 
 	private static final long serialVersionUID = 1L;
 
-	public static void main( String[] args ) {
-	}
+	public static void main(String[] args) throws NoSuchAlgorithmException {
+       
+
+		 String plainText = "936e7899d6d4aab6d56a0d2601f1d3e5068755fd61eba55de0477377c8710565ccedb36e02735acaecfb89514cc9b352ec2ec41f5443305fe355b7fcff83eb4f" 
+					+ "7upjj6c8h5djhvflvpro0jhq1sk05ebf86c64gcevckh415unk";
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
+        byte[] hash = messageDigest.digest( plainText.getBytes() );
+    }
 
 	public TbCurvaService(){
 		   super(TbPesquisaCurva.class);

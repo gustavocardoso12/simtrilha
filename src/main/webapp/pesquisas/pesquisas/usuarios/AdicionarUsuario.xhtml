@@ -144,35 +144,85 @@
 					
 					
 					
-					<h:outputLabel value="Empresa: "
-					style="text-align: left;
+					
+					
+					
+					
+					
+					
+					
+						<h:outputLabel value="Privlégio de acesso: "
+							style="text-align: left;
 															 font: normal normal normal 14px/18px Montserrat;
 															 letter-spacing: 0px;
 															color: #000000;
-															 opacity: 1;" 
-						for="idEmpresaelectInput" />
-					<p:spacer
-					
-					></p:spacer>		
-					<p:selectOneMenu
-							style="border: 1px solid #666 !important;background:white !important;  " 
+															 opacity: 1;"
+							for="idselectPrivInput" />
+						<p:spacer></p:spacer>
+
+						<p:selectOneMenu
+							style="border: 1px solid #666 !important;background:white !important;margin-bottom: 15px;  "
 							styleClass="menuCriarUsuarios"
-					 value="#{ControleUsuariosBean.tbEmpresa}"
-					  required="true"
-					 requiredMessage="Insira a empresa para o usuário"
-						id="idEmpresaelectInput">
-						<f:selectItem noSelectionOption="false" itemLabel="" />
-						<f:selectItems
-							
-						 value="#{ControleUsuariosBean.empresaList}" var="tbROLES"
-							itemLabel="#{tbROLES.descEmpresa}"
-							itemValue="#{tbROLES}" />
-						<o:converter converterId="omnifaces.SelectItemsConverter"
-							list="#{ControleUsuariosBean.empresaList}" />
-					</p:selectOneMenu>
-					<p:spacer></p:spacer>	
+							value="#{ControleUsuariosBean.privilegio_acesso}"
+							id="idselectPrivInput">
+							<f:selectItems value="#{ControleUsuariosBean.privilegiosList}"
+								var="tbROLES" itemLabel="#{tbROLES}" itemValue="#{tbROLES}" />
+							<o:converter converterId="omnifaces.SelectItemsConverter"
+								list="#{ControleUsuariosBean.privilegiosList}" />
+							<p:ajax update="empresaComponent nivelAcessoComponent" />
+							<!-- Adicionamos um ajax listener para atualizar o componente de descrição da empresa quando o valor do privilégio mudar -->
+						</p:selectOneMenu>
+
+						<p:spacer
+							rendered="#{ControleUsuariosBean.privilegio_acesso eq 'Premium'}"></p:spacer>
+
+						<h:panelGroup id="empresaComponent" style="margin-bottom:20px">
+
+
+							<h:outputLabel value="Empresa: " for="idEmpresaelectInput"
+								style="text-align: left;
+															 font: normal normal normal 14px/18px Montserrat;
+															 letter-spacing: 0px;
+															color: #000000;
+															 opacity: 1;
+															 margin-top:15px"
+								rendered="#{ControleUsuariosBean.privilegio_acesso eq 'Premium'}" />
+
+
+							<p:selectOneMenu
+								style="border: 1px solid #666 !important;background:white !important;  margin-top: 15px; "
+								styleClass="menuCriarUsuarios"
+								value="#{ControleUsuariosBean.tbEmpresa}"
+								id="idEmpresaelectInput"
+								rendered="#{ControleUsuariosBean.privilegio_acesso eq 'Premium'}">
+								<f:selectItem noSelectionOption="false" itemLabel="" />
+								<f:selectItems value="#{ControleUsuariosBean.empresaList}"
+									var="tbROLES" itemLabel="#{tbROLES.descEmpresa}"
+									itemValue="#{tbROLES}" />
+								<o:converter converterId="omnifaces.SelectItemsConverter"
+									list="#{ControleUsuariosBean.empresaList}" />
+							</p:selectOneMenu>
+
+							<p:spacer
+								rendered="#{ControleUsuariosBean.privilegio_acesso eq 'Premium'}"></p:spacer>
+
+						</h:panelGroup>
 					
-				
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					
 				<h:outputLabel value="Mercados Exclusivos: "
 					style="text-align: left;
@@ -202,8 +252,9 @@
 					
 					<p:spacer></p:spacer>	
 					
-					
-						<h:outputLabel value="Nível de acesso: "
+						<h:panelGroup id="nivelAcessoComponent" style="margin-bottom:20px">
+						<h:outputLabel rendered="#{ControleUsuariosBean.privilegio_acesso eq 'Premium'}"
+						 value="Nível de acesso: "
 					style="text-align: left;
 															 font: normal normal normal 14px/18px Montserrat;
 															 letter-spacing: 0px;
@@ -214,6 +265,7 @@
 					
 					></p:spacer>		
 					<p:selectOneMenu
+					 rendered="#{ControleUsuariosBean.privilegio_acesso eq 'Premium'}"
 							style="border: 1px solid #666 !important;background:white !important;  " 
 							styleClass="menuCriarUsuarios"
 					 value="#{ControleUsuariosBean.nivelAcesso}"
@@ -230,6 +282,9 @@
 							list="#{ControleUsuariosBean.rolesList}" />
 
 					</p:selectOneMenu>
+					
+					
+					</h:panelGroup>
 					<p:spacer></p:spacer>	
 					
 					<p:spacer

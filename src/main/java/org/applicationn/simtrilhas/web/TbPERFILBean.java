@@ -124,15 +124,12 @@ public class TbPERFILBean implements Serializable {
 
 
 	public void teste(String t) {
-		System.out.println(this.g);
-		System.out.println(t);
 	}
 
 	public void onSelect() {
 
 		flagEdit = false;
 
-		System.out.println(gapPE);
 
 		for (TbPERFILEntity tbPERFILEntity : tbPERFILList) {
 

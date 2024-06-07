@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import org.applicationn.pesquisa.domain.TbPesquisa;
 import org.applicationn.pesquisa.vo.GradeVO;
 import org.applicationn.pesquisa.vo.MediasVO;
+import org.applicationn.pesquisa.vo.RelatorioUsuariosVO;
 import org.applicationn.simtrilhas.service.BaseService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
@@ -33,6 +34,8 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 	public TbPesquisaService(){
 		super(TbPesquisa.class);
 	}
+	
+
 
 	@Transactional
 	public List<TbPesquisa> findAllTbPesquisa() {
@@ -2667,7 +2670,7 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 				mediasFinal.get(i).setP90(0);
 
 			}
-			//Informações do cargo em 4 empresas: o sistema calcula a média e o P50
+			//Informações do cargo entre 4 empresa e 5 empresas: o sistema calcula a média e o P50
 			else if (mediasFinal.get(i).getQtd_empresas()>=4 && 
 					mediasFinal.get(i).getQtd_empresas()<6) {
 				mediasFinal.get(i).setP10(0);
@@ -2676,20 +2679,24 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 				mediasFinal.get(i).setP90(0);
 
 			}
-			//Informações do cargo em 6 empresas: o sistema calcula a média, o P50 e P25 e P75.
+			//Informações do cargo entre 6 empresas e 7 empresas: o sistema calcula a média, o P50 e P25 e P75.
 			else if (
 					mediasFinal.get(i).getQtd_empresas()>=6
 					&& 
-					mediasFinal.get(i).getQtd_empresas()<8) {
+					mediasFinal.get(i).getQtd_empresas()<10) {
 				mediasFinal.get(i).setP10(0);
 				mediasFinal.get(i).setP90(0);	
 			}
-			//Informações do cargo em 8 empresas: o sistema calcula a média, o P50 e P25 e P75, P90 e P10
-			else if (mediasFinal.get(i).getQtd_empresas()>=8) {
+			//Informações do cargo em 8 ou mais empresas: o sistema calcula a média, o P50 e P25 e P75, P90 e P10
+			else if (mediasFinal.get(i).getQtd_empresas()>=10) {
 			}
 
 		}
 
+		if(mediasFinal.size()==0) {
+		}
+		
+		
 		return mediasFinal;
 
 	}

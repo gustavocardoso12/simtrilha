@@ -49,6 +49,9 @@ public class UserEntity extends BaseEntity implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifiedAt;
 
     // unique hash for account activation link
     @Size(max = 255)
@@ -102,6 +105,8 @@ public class UserEntity extends BaseEntity implements Serializable {
     
     @Size(max=50)
     private String mercado;
+    
+    private String privilegio_acesso;
     
     public String getUsername() {
         return this.username;
@@ -219,6 +224,22 @@ public class UserEntity extends BaseEntity implements Serializable {
 		return ativo;
 	}
 
+	public String getPrivilegio_acesso() {
+		return privilegio_acesso;
+	}
+
+	public void setPrivilegio_acesso(String privilegio_acesso) {
+		this.privilegio_acesso = privilegio_acesso;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setPasswordResetDate(Date passwordResetDate) {
+		this.passwordResetDate = passwordResetDate;
+	}
+
 	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
@@ -245,6 +266,14 @@ public class UserEntity extends BaseEntity implements Serializable {
 
 	public void setIdEmpresa(TbEmpresa idEmpresa) {
 		this.idEmpresa = idEmpresa;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
 
 }
