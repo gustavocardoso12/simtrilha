@@ -50,6 +50,7 @@ import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.applicationn.pesquisa.service.TbPesquisaService;
 import org.applicationn.pesquisa.vo.EmpresasDetalheVO;
+import org.applicationn.pesquisa.vo.FiltroVO;
 import org.applicationn.pesquisa.vo.GradeVO;
 import org.applicationn.pesquisa.vo.MediasNovaEmpresaVO;
 import org.applicationn.pesquisa.vo.MediasVO;
@@ -57,7 +58,7 @@ import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 
 
-public class Exportar {
+public class ExportarNew {
 
 
 	public static String formataCargo (String cargoEscolhido) {
@@ -226,322 +227,6 @@ public class Exportar {
 		return new XSSFColor(new byte[] { (byte) rValue, (byte) gValue, (byte) bValue }, new DefaultIndexedColorMap());
 	}
 
-	private static void addHeader(Sheet sheet, String cargoEscolhido, String nomeEmpresa, Workbook workbook,int ExportOption,
-			String Subfamilia) {
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		String formattedDate = formatter.format(new Date());
-
-		// criar a linha 4
-		Row row4 = createRows(sheet, 4, (short) 600);
-		Cell cellA5 =null;
-		// criar a primeira linha
-		if(ExportOption==2) {
-			cellA5 = createCells(sheet, 0, Subfamilia + " X Mercado", row4);
-		}else {
-			cellA5 = createCells(sheet, 0, cargoEscolhido + " X Mercado", row4);
-		}
-
-		addMergeRegion(sheet, new CellRangeAddress(4, 4, 0, 28));
-		Font fontA5 = createFont(sheet, "Helvetica", (short) 12, true, (short) 0);
-		createStyle(sheet, VerticalAlignment.CENTER, HorizontalAlignment.LEFT, fontA5, cellA5);
-
-		// criar a segunda linha
-		Row row5 = createRows(sheet, 5, (short) 600);
-		Cell cellA6 = createCells(sheet, 0, "" + nomeEmpresa + ", " + formattedDate, row5);
-		Font fontA6 = createFont(sheet, "Calibri", (short) 11, false, (short) 0);
-		createStyle(sheet, VerticalAlignment.CENTER, HorizontalAlignment.LEFT, fontA6, cellA6);
-
-
-
-
-		// criar a oitava linha
-		Row row8 = createRows(sheet, 8, (short) 600);
-
-		Cell cellD9 = createCells(sheet, 4, "SBM - Salário Base Mensal", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 4, 7));
-		Font fontA10 = createFont(sheet, "Helvetica", (short) 12, true, IndexedColors.WHITE.getIndex());
-		XSSFColor color = rgbToXSSFColor(170,123,187);
-		XSSFCellStyle style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, 
-				color, FillPatternType.SOLID_FOREGROUND,0);
-		cellD9.setCellStyle(style);
-
-		color =  rgbToXSSFColor(110,66,126);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontA10, color, FillPatternType.SOLID_FOREGROUND,1);
-
-		String textoApresentacao = "ICPA - Incentivo de Curto Prazo Alvo\n"
-				+ " Bônus + PLR - Em múltiplos do Salário Base";
-		XSSFRichTextString content = new XSSFRichTextString(textoApresentacao);
-		int quebraLinhaIndex = content.getString().indexOf('\n');
-		XSSFFont italicFont = (XSSFFont) workbook.createFont();
-		italicFont.setItalic(true);
-		color =  rgbToXSSFColor(255,255,255);
-		italicFont.setFontName("Helvetica");
-		italicFont.setColor(color);
-		content.applyFont(quebraLinhaIndex + 1, content.length(), italicFont);
-
-		Cell cellD20 = createCellsQuebra(sheet, 8, content, row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 8, 11));
-		cellD20.setCellStyle(style);
-
-
-		String textoApresentacaoICP = "ICP - Incentivo de Curto Prazo Pago \n"
-				+ " Bônus + PLR - Em múltiplos do Salário Base";
-		XSSFRichTextString contentICP = new XSSFRichTextString(textoApresentacaoICP);
-		int quebraLinhaIndexICP = contentICP.getString().indexOf('\n');
-		XSSFFont italicFontICP = (XSSFFont) workbook.createFont();
-		italicFontICP.setItalic(true);
-		color =  rgbToXSSFColor(255,255,255);
-		italicFontICP.setFontName("Helvetica");
-		italicFontICP.setColor(color);
-		contentICP.applyFont(quebraLinhaIndexICP + 1, contentICP.length(), italicFontICP);
-
-		Cell cellD21 = createCellsQuebra(sheet, 12, contentICP, row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 12, 15));
-		cellD21.setCellStyle(style);
-
-
-		color =  rgbToXSSFColor(255,82,80);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, 
-				color, FillPatternType.SOLID_FOREGROUND,0);
-		Cell cellD22 = createCells(sheet, 16, "TDA - Total em Dinheiro Alvo", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 16, 19));
-		cellD22.setCellStyle(style);
-
-
-
-
-		color =  rgbToXSSFColor(233,77,101);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, 
-				fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-		Cell cellD23 = createCells(sheet, 20, "TD - Total em Dinheiro", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 20, 23));
-		cellD23.setCellStyle(style);
-
-
-
-		color =  rgbToXSSFColor(128,128,128);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-		Cell cellD24 = createCells(sheet, 24, "RDA - Remuneração Direta Alvo", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 24, 27));
-		cellD24.setCellStyle(style);
-
-
-
-
-		color =  rgbToXSSFColor(89,89,89);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-		Cell cellD25 = createCells(sheet, 28, "RD - Remuneração Direta", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 28, 31));
-		cellD25.setCellStyle(style);
-
-
-		color =  rgbToXSSFColor(83, 186, 69);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-		Cell cellD26 = createCells(sheet, 32, "ILP - Incentivo de Longo Prazo", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 32, 35));
-		cellD26.setCellStyle(style);
-
-
-
-		// criar a nona linha (PRIMEIRO HEADER)
-		Row row9 = createRows(sheet, 9, (short) 400);
-		String[] headerTitles = { "Família", "Subfamilia", "Cargo AptaXR", "Cargo Empresa", "Sua empresa", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)"};
-		color =  rgbToXSSFColor(226,206,228);
-		Font fontBlackheader = createFont(sheet, "Helvetica", (short) 12, true, IndexedColors.BLACK.getIndex());
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-		for (int i = 0; i < headerTitles.length; i++) {
-			Cell cell = createCells(sheet, i, headerTitles[i], row9);
-
-			if (i < 3) {
-				sheet.setAutoFilter(new CellRangeAddress(9, sheet.getLastRowNum(), 0, i));
-			}
-
-			if((headerTitles[i]=="Sua empresa") || headerTitles[i]=="Família" 
-					|| headerTitles[i]=="Subfamilia" || headerTitles[i]=="Cargo"   || headerTitles[i]=="Cargo Empresa"	 	) {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}else {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}
-
-			cell.setCellStyle(style);
-			//sheet.autoSizeColumn(cell.getColumnIndex());
-		}
-
-		// nona linha segundo header (SBA)
-		String[] headerSBA = { "Sua empresa", "Percentil 25 (P25)",
-				"Percen"
-						+ "til 50 (P50)", "Percentil 75 (P75)" };
-
-		for (int i = 0; i < headerSBA.length; i++) {
-			if(headerSBA[i]=="Sua empresa") {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, true,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}else {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}
-			Cell cell = createCells(sheet, i+headerTitles.length, headerSBA[i], row9);
-
-			cell.setCellStyle(style);
-			//sheet.autoSizeColumn(cell.getColumnIndex());
-		}
-
-		// nona linha terceiro header (ICPA)
-		String[] headerICPA = { "Sua empresa", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)" };
-
-		for (int i = 0; i < headerICPA.length; i++) {
-			if(headerICPA[i]=="Sua empresa") {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, true,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}else {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}
-			Cell cell = createCells(sheet, i+headerTitles.length+ headerSBA.length, headerICPA[i], row9);
-			cell.setCellStyle(style);
-			//sheet.autoSizeColumn(cell.getColumnIndex());
-		}
-
-
-		// nona linha terceiro header (TDA)
-		String[] headerTDA = { "Sua empresa", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)" };
-
-		for (int i = 0; i < headerSBA.length; i++) {
-			if(headerTDA[i]=="Sua empresa") {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, true,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}else {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}
-			Cell cell = createCells(sheet, i+headerTitles.length+ headerSBA.length 
-					+headerICPA.length, headerTDA[i], row9);
-			cell.setCellStyle(style);
-			//sheet.autoSizeColumn(cell.getColumnIndex());
-		}
-
-
-		// nona linha terceiro header (TD)
-		String[] headerTD = { "Sua empresa", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)" };
-
-		for (int i = 0; i < headerTD.length; i++) {
-			if(headerTD[i]=="Sua empresa") {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, true,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}else {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}
-			Cell cell = createCells(sheet, i+headerTitles.length+ headerSBA.length 
-					+headerICPA.length + headerTDA.length, headerTD[i], row9);
-			cell.setCellStyle(style);
-			//sheet.autoSizeColumn(cell.getColumnIndex());
-		}
-
-		// nona linha terceiro header (RDA)
-		String[] headerRDA = { "Sua empresa", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)" };
-
-		for (int i = 0; i < headerRDA.length; i++) {
-			if(headerRDA[i]=="Sua empresa") {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, true,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}else {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}
-			Cell cell = createCells(sheet, i+headerTitles.length+ headerSBA.length 
-					+headerICPA.length + headerTDA.length + headerTD.length, headerRDA[i], row9);
-			cell.setCellStyle(style);
-			//sheet.autoSizeColumn(cell.getColumnIndex());
-		}
-
-		// nona linha terceiro header (RD)
-		String[] headerRD = { "Sua empresa", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)" };
-
-		for (int i = 0; i < headerRD.length; i++) {
-			if(headerRD[i]=="Sua empresa") {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, true,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}else {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}
-			Cell cell = createCells(sheet, i+headerTitles.length+ headerSBA.length 
-					+headerICPA.length + headerTDA.length + headerTD.length
-					+headerRDA.length, headerRD[i], row9);
-			cell.setCellStyle(style);
-			//sheet.autoSizeColumn(cell.getColumnIndex());
-		}
-
-
-
-		//nona linha quarto header (ILP)
-
-
-		String[] headerILP = { "Sua empresa", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)" };
-
-		for (int i = 0; i < headerILP.length; i++) {
-			if(headerILP[i]=="Sua empresa") {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, true,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}else {
-				fontBlackheader = createFont(sheet, "Helvetica", (short) 12, false,
-						IndexedColors.BLACK.getIndex());
-				style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-						fontBlackheader, color, FillPatternType.SOLID_FOREGROUND,0);
-			}
-			Cell cell = createCells(sheet, i+headerTitles.length+ headerSBA.length 
-					+headerICPA.length + headerTDA.length + headerTD.length
-					+headerRDA.length +  headerRD.length, headerILP[i], row9);
-			cell.setCellStyle(style);
-			//sheet.autoSizeColumn(cell.getColumnIndex());
-		}
-
-	}
 
 	public static String capitalizeWords(String str) {
 		String[] words = str.toLowerCase().split("\\s+");
@@ -574,6 +259,14 @@ public class Exportar {
 			descRel="Relatório Geral do Mercado: ";
 		}
 
+		if(ExportOption==2) {
+			descRel="Relatório Geral da SubFamilia - Empresa: " + capitalizeWords(cargoEscolhido);
+		}
+
+		if(ExportOption==1) {
+			descRel="Relatório Geral da Familia - Empresa: " + capitalizeWords(cargoEscolhido);
+		}
+
 		cellA5 = createCells(sheet, 1, descRel   , row4);
 
 
@@ -594,7 +287,7 @@ public class Exportar {
 
 		Cell cellI9 = createCells(sheet, 9, "SBA - Salário Base Anual\n"
 				+ "Salário + Adicionais mensais", row8); // Coluna alterada de 8 para 9
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 9, 14)); // 9-14
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 9, 16)); // 9-14
 		Font fontA10 = createFont(sheet, "Helvetica", (short) 12, true, IndexedColors.WHITE.getIndex());
 		XSSFColor color = rgbToXSSFColor(170, 123, 187);
 		XSSFCellStyle style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, 
@@ -616,8 +309,8 @@ public class Exportar {
 		italicFont.setColor(color);
 		content.applyFont(quebraLinhaIndex + 1, content.length(), italicFont);
 
-		Cell cellI20 = createCellsQuebra(sheet, 15, content, row8); // Ajuste para começar após a célula anterior
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 15, 20)); // 15-20
+		Cell cellI20 = createCellsQuebra(sheet, 17, content, row8); // Ajuste para começar após a célula anterior
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 17, 24)); // 15-20
 		cellI20.setCellStyle(style);
 
 		String textoApresentacaoICP = "ICP - Incentivo de Curto Prazo Pago \n"
@@ -631,47 +324,47 @@ public class Exportar {
 		italicFontICP.setColor(color);
 		contentICP.applyFont(quebraLinhaIndexICP + 1, contentICP.length(), italicFontICP);
 
-		Cell cellI21 = createCellsQuebra(sheet, 21, contentICP, row8); // Ajuste para começar após a célula anterior
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 21, 26)); // 21-26
+		Cell cellI21 = createCellsQuebra(sheet, 25, contentICP, row8); // Ajuste para começar após a célula anterior
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 25, 32)); // 21-26
 		cellI21.setCellStyle(style);
 
 		color = rgbToXSSFColor(255, 82, 80);
 		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, 
 				color, FillPatternType.SOLID_FOREGROUND, 1);
-		Cell cellI22 = createCells(sheet, 27, "TDA - Total em Dinheiro Alvo\n"
+		Cell cellI22 = createCells(sheet, 33, "TDA - Total em Dinheiro Alvo\n"
 				+ "Salário Base Anual + ICP Alvo", row8); // Ajuste para começar após a célula anterior
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 27, 32)); // 27-32
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 33, 40)); // 27-32
 		cellI22.setCellStyle(style);
 
 		color = rgbToXSSFColor(233, 77, 101);
 		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, 
 				fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
-		Cell cellI23 = createCells(sheet, 33, "TD - Total em Dinheiro\n"
+		Cell cellI23 = createCells(sheet, 41, "TD - Total em Dinheiro\n"
 				+ "Salário Base Anual + ICP Pago", row8); // Ajuste para começar após a célula anterior
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 33, 38)); // 33-38
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 41, 48)); // 33-38
 		cellI23.setCellStyle(style);
 
 		color = rgbToXSSFColor(83, 186, 69);
 		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
 				fontA10, color, FillPatternType.SOLID_FOREGROUND, 0);
-		Cell cellI24 = createCells(sheet, 39, "ILP - Incentivo de Longo Prazo", row8); // Ajuste para começar após a célula anterior
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 39, 44)); // 39-44
+		Cell cellI24 = createCells(sheet, 49, "ILP - Incentivo de Longo Prazo", row8); // Ajuste para começar após a célula anterior
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 49, 56)); // 39-44
 		cellI24.setCellStyle(style);
 
 		color = rgbToXSSFColor(128, 128, 128);
 		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
 				fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
-		Cell cellI25 = createCells(sheet, 45, "RDA - Remuneração Direta Alvo\n"
+		Cell cellI25 = createCells(sheet, 57, "RDA - Remuneração Direta Alvo\n"
 				+ "Total em Dinheiro Alvo + ILP", row8); // Ajuste para começar após a célula anterior
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 45, 50)); // 45-50
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 57, 64)); // 45-50
 		cellI25.setCellStyle(style);
 
 		color = rgbToXSSFColor(89, 89, 89);
 		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
 				fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
-		Cell cellI26 = createCells(sheet, 51, "RD - Remuneração Direta\n"
+		Cell cellI26 = createCells(sheet, 65, "RD - Remuneração Direta\n"
 				+ "Total em Dinheiro Pago + ILP", row8); // Ajuste para começar após a célula anterior
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 51, 56)); // 51-56
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 65, 72)); // 51-56
 		cellI26.setCellStyle(style);
 
 		// criar a nona linha (PRIMEIRO HEADER)
@@ -693,9 +386,11 @@ public class Exportar {
 				"Grade Empresa", // 9. Grade Empresa
 				"Sua empresa", // 10. Sua empresa
 				"Quantidade de Empresas", // 11. Quantidade de Empresas
+				"Percentil 10 (P10)",
 				"Percentil 25 (P25)", // 12. Percentil 25 (P25)
 				"Percentil 50 (P50)", // 13. Percentil 50 (P50)
 				"Percentil 75 (P75)", // 14. Percentil 75 (P75)
+				"Percentil 90 (P90)",
 				"Média" // 15. Média
 		};
 
@@ -729,8 +424,8 @@ public class Exportar {
 		}
 
 		// nona linha segundo header (SBA)
-		String[] headerSBA = { "Sua empresa", "Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerSBA = { "Sua empresa", "Quantidade de empresas","Percentil 10 (P25)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90 (P25)", "Média" };
 
 		for (int i = 0; i < headerSBA.length; i++) {
 			if(headerSBA[i]=="Sua empresa") {
@@ -751,8 +446,8 @@ public class Exportar {
 		}
 
 		// nona linha terceiro header (ICPA)
-		String[] headerICPA = { "Sua empresa", "Quantidade de empresas" , "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média"};
+		String[] headerICPA = { "Sua empresa", "Quantidade de empresas","Percentil 10 (P25)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90 (P25)", "Média"};
 
 		for (int i = 0; i < headerICPA.length; i++) {
 			if(headerICPA[i]=="Sua empresa") {
@@ -773,8 +468,8 @@ public class Exportar {
 
 
 		// nona linha terceiro header (TDA)
-		String[] headerTDA = { "Sua empresa","Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerTDA = { "Sua empresa", "Quantidade de empresas","Percentil 10 (P25)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90 (P25)", "Média"};
 
 		for (int i = 0; i < headerSBA.length; i++) {
 			if(headerTDA[i]=="Sua empresa") {
@@ -796,8 +491,8 @@ public class Exportar {
 
 
 		// nona linha terceiro header (TD)
-		String[] headerTD = { "Sua empresa", "Quantidade de empresas" , "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerTD = { "Sua empresa", "Quantidade de empresas","Percentil 10 (P25)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90 (P25)", "Média"};
 
 		for (int i = 0; i < headerTD.length; i++) {
 			if(headerTD[i]=="Sua empresa") {
@@ -818,8 +513,8 @@ public class Exportar {
 		}
 
 		// nona linha terceiro header (RDA)
-		String[] headerRDA = { "Sua empresa", "Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerRDA = { "Sua empresa", "Quantidade de empresas","Percentil 10 (P25)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90 (P25)", "Média"};
 
 		for (int i = 0; i < headerRDA.length; i++) {
 			if(headerRDA[i]=="Sua empresa") {
@@ -840,8 +535,8 @@ public class Exportar {
 		}
 
 		// nona linha terceiro header (RD)
-		String[] headerRD = { "Sua empresa", "Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerRD = { "Sua empresa", "Quantidade de empresas","Percentil 10 (P25)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90 (P25)", "Média"};
 
 		for (int i = 0; i < headerRD.length; i++) {
 			if(headerRD[i]=="Sua empresa") {
@@ -867,8 +562,8 @@ public class Exportar {
 		//nona linha quarto header (ILP)
 
 
-		String[] headerILP = { "Sua empresa","Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerILP = { "Sua empresa", "Quantidade de empresas","Percentil 10 (P25)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90 (P25)", "Média" };
 
 		for (int i = 0; i < headerILP.length; i++) {
 			if(headerILP[i]=="Sua empresa") {
@@ -890,18 +585,7 @@ public class Exportar {
 		}
 
 	}
-	public static void applyAutoFilterToAllColumns(Sheet sheet) {
-	    // Assume que a primeira linha contém os cabeçalhos e que queremos aplicar o filtro a todas as colunas usadas
-	    int lastRow = sheet.getLastRowNum(); // Última linha com conteúdo
-	    int lastColumn = sheet.getRow(0).getLastCellNum() - 1; // Última coluna com conteúdo (começando de 0)
 
-	    // Define o intervalo para o autofiltro (da primeira coluna à última coluna, primeira linha à última linha)
-	    String filterRange = "A1:" + (char) ('A' + lastColumn) + (lastRow + 1); // "A1:Z100" por exemplo
-	    sheet.setAutoFilter(CellRangeAddress.valueOf(filterRange));
-	}
-	
-	
-	
 	private static void addHeaderNewMerc(Sheet sheet, String cargoEscolhido, String nomeEmpresa, Workbook workbook,int ExportOption,
 			String Subfamilia) {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -934,25 +618,21 @@ public class Exportar {
 		createStyle(sheet, VerticalAlignment.CENTER, HorizontalAlignment.LEFT, fontA6, cellA6);
 
 
-
 		// criar a oitava linha
 		Row row8 = createRows(sheet, 8, (short) 600);
 
-		Cell cellI9 = createCells(sheet, 5, "SBA - Salário Base Anual\n"
-				+ "Salário + Adicionais mensais", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 5, 9)); // 9-14
+
+		Cell cellI10 = createCells(sheet, 6, "SBA - Salário Base Anual\n" + "Salário + Adicionais mensais", row8);
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 6, 12)); // 5-11 (ajustado)
 		Font fontA10 = createFont(sheet, "Helvetica", (short) 12, true, IndexedColors.WHITE.getIndex());
 		XSSFColor color = rgbToXSSFColor(170, 123, 187);
-		XSSFCellStyle style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10,
-				color, FillPatternType.SOLID_FOREGROUND, 1);
-		cellI9.setCellStyle(style);
+		XSSFCellStyle style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
+		cellI10.setCellStyle(style);
 
 		color = rgbToXSSFColor(110, 66, 126);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
+		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
 
-		String textoApresentacao = "ICPA - Incentivo de Curto Prazo Alvo\n"
-				+ " Bônus + PLR";
+		String textoApresentacao = "ICPA - Incentivo de Curto Prazo Alvo\n" + " Bônus + PLR";
 		XSSFRichTextString content = new XSSFRichTextString(textoApresentacao);
 		int quebraLinhaIndex = content.getString().indexOf('\n');
 		XSSFFont italicFont = (XSSFFont) workbook.createFont();
@@ -962,12 +642,12 @@ public class Exportar {
 		italicFont.setColor(color);
 		content.applyFont(quebraLinhaIndex + 1, content.length(), italicFont);
 
-		Cell cellI14 = createCellsQuebra(sheet, 10, content, row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 10, 14)); // 10-14
-		cellI14.setCellStyle(style);
+		// Ajuste inicial da coluna de 13 para 12
+		Cell cellI15 = createCellsQuebra(sheet, 13, content, row8); // Ajuste inicial da coluna
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 13, 19)); // 12-18 (ajustado)
+		cellI15.setCellStyle(style);
 
-		String textoApresentacaoICP = "ICP - Incentivo de Curto Prazo Pago \n"
-				+ " Bônus + PLR";
+		String textoApresentacaoICP = "ICP - Incentivo de Curto Prazo Pago \n" + " Bônus + PLR";
 		XSSFRichTextString contentICP = new XSSFRichTextString(textoApresentacaoICP);
 		int quebraLinhaIndexICP = contentICP.getString().indexOf('\n');
 		XSSFFont italicFontICP = (XSSFFont) workbook.createFont();
@@ -977,48 +657,45 @@ public class Exportar {
 		italicFontICP.setColor(color);
 		contentICP.applyFont(quebraLinhaIndexICP + 1, contentICP.length(), italicFontICP);
 
-		Cell cellI15 = createCellsQuebra(sheet, 15, contentICP, row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 15, 19)); // 15-19
-		cellI15.setCellStyle(style);
+		// Ajuste inicial da coluna de 21 para 20
+		Cell cellI16 = createCellsQuebra(sheet, 20, contentICP, row8); // Ajuste inicial da coluna
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 20, 26)); // 20-26 (ajustado)
+		cellI16.setCellStyle(style);
 
 		color = rgbToXSSFColor(255, 82, 80);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10,
-				color, FillPatternType.SOLID_FOREGROUND, 1);
-		Cell cellI20 = createCells(sheet, 20, "TDA - Total em Dinheiro Alvo\n"
-				+ "Salário Base Anual + ICP Alvo", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 20, 24)); // 20-25
-		cellI20.setCellStyle(style);
+		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
+		// Ajuste inicial da coluna de 29 para 28
+		Cell cellI21 = createCells(sheet, 27, "TDA - Total em Dinheiro Alvo\n" + "Salário Base Anual + ICP Alvo", row8);
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 27, 33)); // 28-34 (ajustado)
+		cellI21.setCellStyle(style);
 
 		color = rgbToXSSFColor(233, 77, 101);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
-		Cell cellI26 = createCells(sheet, 25, "TD - Total em Dinheiro\n"
-				+ "Salário Base Anual + ICP Pago", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 25, 29)); // 26-31
-		cellI26.setCellStyle(style);
+		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
+		// Ajuste inicial da coluna de 37 para 36
+		Cell cellI27 = createCells(sheet, 34, "TD - Total em Dinheiro\n" + "Salário Base Anual + ICP Pago", row8);
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 34, 40)); // 36-42 (ajustado)
+		cellI27.setCellStyle(style);
 
 		color = rgbToXSSFColor(83, 186, 69);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontA10, color, FillPatternType.SOLID_FOREGROUND, 0);
-		Cell cellI32 = createCells(sheet, 30, "ILP - Incentivo de Longo Prazo", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 30, 34)); // 32-37
-		cellI32.setCellStyle(style);
+		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, color, FillPatternType.SOLID_FOREGROUND, 0);
+		// Ajuste inicial da coluna de 45 para 44
+		Cell cellI33 = createCells(sheet, 41, "ILP - Incentivo de Longo Prazo", row8);
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 41, 47)); // 44-50 (ajustado)
+		cellI33.setCellStyle(style);
 
 		color = rgbToXSSFColor(128, 128, 128);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
-		Cell cellI38 = createCells(sheet, 35, "RDA - Remuneração Direta Alvo\n"
-				+ "Total em Dinheiro Alvo + ILP", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 35, 39)); // 38-43
-		cellI38.setCellStyle(style);
+		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
+		// Ajuste inicial da coluna de 53 para 52
+		Cell cellI39 = createCells(sheet, 48, "RDA - Remuneração Direta Alvo\n" + "Total em Dinheiro Alvo + ILP", row8);
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 48, 54)); // 52-58 (ajustado)
+		cellI39.setCellStyle(style);
 
 		color = rgbToXSSFColor(89, 89, 89);
-		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER,
-				fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
-		Cell cellI44 = createCells(sheet, 40, "RD - Remuneração Direta\n"
-				+ "Total em Dinheiro Pago + ILP", row8);
-		addMergeRegion(sheet, new CellRangeAddress(8, 8, 40, 44)); // 44-49
-		cellI44.setCellStyle(style);
+		style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10, color, FillPatternType.SOLID_FOREGROUND, 1);
+		// Ajuste inicial da coluna de 61 para 60
+		Cell cellI45 = createCells(sheet, 55, "RD - Remuneração Direta\n" + "Total em Dinheiro Pago + ILP", row8);
+		addMergeRegion(sheet, new CellRangeAddress(8, 8, 55, 61)); // 60-66 (ajustado)
+		cellI45.setCellStyle(style);
 
 
 		// criar a nona linha (PRIMEIRO HEADER)
@@ -1034,10 +711,13 @@ public class Exportar {
 				"Subfamilia", // 3. Subfamilia
 				"Cargo APTAXR", // 4. Cargo APTAXR
 				"Grade AptaXR", // 6. Grade XR (Grade AptaXR)
+				"Código Cargo APTAXR",
 				"Quantidade de Empresas", // 11. Quantidade de Empresas
+				"Percentil 10 (P10)",
 				"Percentil 25 (P25)", // 12. Percentil 25 (P25)
 				"Percentil 50 (P50)", // 13. Percentil 50 (P50)
 				"Percentil 75 (P75)", // 14. Percentil 75 (P75)
+				"Percentil 90 (P90",
 				"Média" // 15. Média
 		};
 
@@ -1071,8 +751,8 @@ public class Exportar {
 		}
 
 		// nona linha segundo header (SBA)
-		String[] headerSBA = { "Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerSBA = { "Quantidade de empresas","Percentil 10(P10)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90(P90)", "Média" };
 
 		for (int i = 0; i < headerSBA.length; i++) {
 			if(headerSBA[i]=="Sua empresa") {
@@ -1093,8 +773,8 @@ public class Exportar {
 		}
 
 		// nona linha terceiro header (ICPA)
-		String[] headerICPA = { "Quantidade de empresas" , "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média"};
+		String[] headerICPA = {"Quantidade de empresas","Percentil 10(P10)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90(P90)", "Média"};
 
 		for (int i = 0; i < headerICPA.length; i++) {
 			if(headerICPA[i]=="Sua empresa") {
@@ -1115,8 +795,8 @@ public class Exportar {
 
 
 		// nona linha terceiro header (TDA)
-		String[] headerTDA = { "Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerTDA = { "Quantidade de empresas","Percentil 10(P10)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90(P90)", "Média" };
 
 		for (int i = 0; i < headerSBA.length; i++) {
 			if(headerTDA[i]=="Sua empresa") {
@@ -1138,8 +818,8 @@ public class Exportar {
 
 
 		// nona linha terceiro header (TD)
-		String[] headerTD = {"Quantidade de empresas" , "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerTD = {"Quantidade de empresas","Percentil 10(P10)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90(P90)", "Média" };
 
 		for (int i = 0; i < headerTD.length; i++) {
 			if(headerTD[i]=="Sua empresa") {
@@ -1160,8 +840,8 @@ public class Exportar {
 		}
 
 		// nona linha terceiro header (RDA)
-		String[] headerRDA = {"Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerRDA = {"Quantidade de empresas","Percentil 10(P10)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90(P90)", "Média"};
 
 		for (int i = 0; i < headerRDA.length; i++) {
 			if(headerRDA[i]=="Sua empresa") {
@@ -1182,8 +862,8 @@ public class Exportar {
 		}
 
 		// nona linha terceiro header (RD)
-		String[] headerRD = { "Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerRD = {"Quantidade de empresas","Percentil 10(P10)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90(P90)", "Média" };
 
 		for (int i = 0; i < headerRD.length; i++) {
 			if(headerRD[i]=="Sua empresa") {
@@ -1209,8 +889,8 @@ public class Exportar {
 		//nona linha quarto header (ILP)
 
 
-		String[] headerILP = {"Quantidade de empresas", "Percentil 25 (P25)",
-				"Percentil 50 (P50)", "Percentil 75 (P75)", "Média" };
+		String[] headerILP = {"Quantidade de empresas","Percentil 10(P10)", "Percentil 25 (P25)",
+				"Percentil 50 (P50)", "Percentil 75 (P75)","Percentil 90(P90)", "Média"};
 
 		for (int i = 0; i < headerILP.length; i++) {
 			if(headerILP[i]=="Sua empresa") {
@@ -1234,6 +914,10 @@ public class Exportar {
 	}
 
 	public static String intToString(int valor) {
+
+		if(valor==999)
+			return "Todos";
+
 		return Integer.toString(valor);
 	}
 
@@ -1267,11 +951,6 @@ public class Exportar {
 	public static void addConteudoNew (List<MediasNovaEmpresaVO> dados, 
 			Sheet sheet, Workbook workbook, Row row10,Map<String, Integer> descRenumMap 
 			) {
-
-
-
-
-
 
 		dados.removeIf(c -> c.getDescRenum().equals("SBM - Salário Base Mensal"));
 
@@ -1342,9 +1021,11 @@ public class Exportar {
 						dados.get(k).getGradeEmpresa(), // Grade Empresa
 						formatarMonetario(dados.get(k).getSuaEmpresa()), // Sua empresa
 						intToString(dados.get(k).getQtdEmpresas()), // Quantidade de Empresas
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()), // Percentil 25 (P25)
 						formatarMonetario(dados.get(k).getP50()), // Percentil 50 (P50)
 						formatarMonetario(dados.get(k).getP75()), // Percentil 75 (P75)
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia()) // Média
 				};
 				posicaoSBM = k;
@@ -1355,6 +1036,11 @@ public class Exportar {
 				double v2 = dados.get(posicaoSBM).getSuaEmpresa();
 
 				double suaEmpresa = (v2 != 0) ? v : 0;
+				
+				double p10 = dados.get(k).getP10();
+				double p10v2 = dados.get(posicaoSBM).getP10();
+
+				double p10Final = (p10v2 != 0) ? p10  : 0;
 
 				double p25 = dados.get(k).getP25();
 				double p25v2 = dados.get(posicaoSBM).getP25();
@@ -1370,13 +1056,20 @@ public class Exportar {
 				double p75v2 = dados.get(posicaoSBM).getP75();
 
 				double p75Final = (p75v2 != 0) ? p75 : 0;
+				
+				double p90 = dados.get(k).getP75();
+				double p90v2 = dados.get(posicaoSBM).getP75();
+
+				double p90Final = (p90v2 != 0) ? p90 : 0;
 
 				header = new String[] { 
 						formatarMonetario(suaEmpresa),
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(p10Final),
 						formatarMonetario(p25Final),
 						formatarMonetario(p50Final),
 						formatarMonetario(p75Final),
+						formatarMonetario(p90Final),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;    
@@ -1386,6 +1079,11 @@ public class Exportar {
 				double v2ICP = dados.get(posicaoSBM).getSuaEmpresa();
 
 				double suaEmpresaICP = (v2ICP != 0) ? vICP  : 0;
+				
+				double p10ICP = dados.get(k).getP10();
+				double p10v2ICP = dados.get(posicaoSBM).getP10();
+
+				double p10FinalICP = (p10v2ICP != 0) ? p10ICP  : 0;
 
 				double p25ICP = dados.get(k).getP25();
 				double p25v2ICP = dados.get(posicaoSBM).getP25();
@@ -1401,13 +1099,21 @@ public class Exportar {
 				double p75v2ICP = dados.get(posicaoSBM).getP75();
 
 				double p75FinalICP = (p75v2ICP != 0) ? p75ICP  : 0;
+				
+
+				double p90ICP = dados.get(k).getP90();
+				double p90v2ICP = dados.get(posicaoSBM).getP90();
+
+				double p90FinalICP = (p90v2ICP != 0) ? p90ICP  : 0;
 
 				header = new String[] { 
 						formatarMonetario(suaEmpresaICP),
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(p10FinalICP),
 						formatarMonetario(p25FinalICP),
 						formatarMonetario(p50FinalICP),
 						formatarMonetario(p75FinalICP),
+						formatarMonetario(p90FinalICP),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1416,9 +1122,11 @@ public class Exportar {
 				header = new String[] { 
 						formatarMonetario(dados.get(k).getSuaEmpresa()),
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1427,9 +1135,11 @@ public class Exportar {
 				header = new String[] { 
 						formatarMonetario(dados.get(k).getSuaEmpresa()),
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1438,9 +1148,11 @@ public class Exportar {
 				header = new String[] { 
 						formatarMonetario(dados.get(k).getSuaEmpresa()),
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1449,9 +1161,11 @@ public class Exportar {
 				header = new String[] { 
 						formatarMonetario(dados.get(k).getSuaEmpresa()),
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1460,9 +1174,11 @@ public class Exportar {
 				header = new String[] { 
 						formatarMonetario(dados.get(k).getSuaEmpresa()),
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1566,11 +1282,15 @@ public class Exportar {
 						dados.get(k).getNmSubFamilia(), // Subfamilia
 						dados.get(k).getNomeCargoXr(), // Cargo APTAXR
 						intToString(dados.get(k).getGrade()),
+						dados.get(k).getCodigoCargo(),
 						intToString(dados.get(k).getQtdEmpresas()), // Quantidade de Empresas
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()), // Percentil 25 (P25)
 						formatarMonetario(dados.get(k).getP50()), // Percentil 50 (P50)
-						formatarMonetario(dados.get(k).getP75()), // Percentil 75 (P75)
-						formatarMonetario(dados.get(k).getMedia()) // Média
+						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),// Percentil 75 (P75)
+						formatarMonetario(dados.get(k).getMedia()
+								) // Média
 				};
 				posicaoSBM = k;
 				break;
@@ -1580,6 +1300,11 @@ public class Exportar {
 				double v2 = dados.get(posicaoSBM).getSuaEmpresa();
 
 				double suaEmpresa = (v2 != 0) ? v : 0;
+
+				double p10 = dados.get(k).getP10();
+				double p10v2 = dados.get(posicaoSBM).getP10();
+
+				double p10Final = (p10v2 != 0) ? p10  : 0;
 
 				double p25 = dados.get(k).getP25();
 				double p25v2 = dados.get(posicaoSBM).getP25();
@@ -1596,11 +1321,18 @@ public class Exportar {
 
 				double p75Final = (p75v2 != 0) ? p75 : 0;
 
+				double p90 = dados.get(k).getP90();
+				double p90v2 = dados.get(posicaoSBM).getP90();
+
+				double p90Final = (p90v2 != 0) ? p90 : 0;
+
 				header = new String[] { 
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(p10Final),
 						formatarMonetario(p25Final),
 						formatarMonetario(p50Final),
 						formatarMonetario(p75Final),
+						formatarMonetario(p90Final),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;    
@@ -1610,6 +1342,11 @@ public class Exportar {
 				double v2ICP = dados.get(posicaoSBM).getSuaEmpresa();
 
 				double suaEmpresaICP = (v2ICP != 0) ? vICP  : 0;
+
+				double p10ICP = dados.get(k).getP10();
+				double p10v2ICP = dados.get(posicaoSBM).getP10();
+
+				double p10FinalICP = (p10v2ICP != 0) ? p10ICP  : 0;
 
 				double p25ICP = dados.get(k).getP25();
 				double p25v2ICP = dados.get(posicaoSBM).getP25();
@@ -1626,11 +1363,18 @@ public class Exportar {
 
 				double p75FinalICP = (p75v2ICP != 0) ? p75ICP  : 0;
 
+				double p90ICP = dados.get(k).getP90();
+				double p90v2ICP = dados.get(posicaoSBM).getP90();
+
+				double p90FinalICP = (p90v2ICP != 0) ? p90ICP  : 0;
+
 				header = new String[] { 
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(p10FinalICP),
 						formatarMonetario(p25FinalICP),
 						formatarMonetario(p50FinalICP),
 						formatarMonetario(p75FinalICP),
+						formatarMonetario(p90FinalICP),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1638,9 +1382,11 @@ public class Exportar {
 			case "TD - Total em Dinheiro":
 				header = new String[] { 
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1648,9 +1394,11 @@ public class Exportar {
 			case "TDA - Total em Dinheiro Alvo":
 				header = new String[] { 
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1658,9 +1406,11 @@ public class Exportar {
 			case "RDA - Remuneração Direta Alvo":
 				header = new String[] { 
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1668,9 +1418,11 @@ public class Exportar {
 			case "RD - Remuneração Direta":
 				header = new String[] { 
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1678,9 +1430,11 @@ public class Exportar {
 			case "ILP - Incentivos de Longo Prazo":
 				header = new String[] { 
 						intToString(dados.get(k).getQtdEmpresas()),
+						formatarMonetario(dados.get(k).getP10()),
 						formatarMonetario(dados.get(k).getP25()),
 						formatarMonetario(dados.get(k).getP50()),
 						formatarMonetario(dados.get(k).getP75()),
+						formatarMonetario(dados.get(k).getP90()),
 						formatarMonetario(dados.get(k).getMedia())
 				};
 				break;
@@ -1699,7 +1453,7 @@ public class Exportar {
 			XSSFCellStyle styleWhiteCenter = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10Black, colorWhite, FillPatternType.SOLID_FOREGROUND, 0);
 
 			for (int i = 0; i < header.length; i++) {
-				if (header.length == 15) {
+				if (header.length == 16) {
 					if (i <= 8) {
 						style = styleGrayLeft;
 					} else {
@@ -1940,7 +1694,8 @@ public class Exportar {
 			String cargoEscolhido, String Familia, String Subfamilia, int ExportOption,
 			List<String> distinctCargos, String mercadoEscolhido,
 			Integer gradeMinimoPadrao, Integer gradeMaximoPadrao,
-			UserEntity user, TbPesquisaService tbPesquisaService, EntityManager em) {
+			UserEntity user, TbPesquisaService tbPesquisaService,
+			EntityManager em, FiltroVO filtro, int ExisteEmpresaPres) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
@@ -1972,8 +1727,24 @@ public class Exportar {
 			//List<MediasNovaEmpresaVO> lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa());
 			if(ExportOption==4) {
 				lista = tbPesquisaService.findExtracaoEmpresaMercado(user.getIdEmpresa().getDescEmpresa());
+				if (ExisteEmpresaPres == 0) {
+					 lista.removeIf(vo -> "PRESIDÊNCIA (CEO)".equals(vo.getNomeCargoXr()) 
+		                     || "PRESIDENTE DE SUBSIDIÁRIA".equals(vo.getNomeCargoXr())
+		                     || "PRESIDENTE / CEO".equals(vo.getNomeCargoXr()));
+				}
 			}else {
-			//	lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), Familia, Subfamilia);
+
+				if(ExportOption==1) {
+					//lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), Familia, null);
+				}
+
+				if(ExportOption==2) {
+					lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), Familia, Subfamilia, cargoEscolhido);
+				}
+
+				if(ExportOption==3) {
+					lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), null, null,null);
+				}
 			}
 
 			// Ordena a lista original por NomeCargo, NomeCargoXr, Matricula e Grade
@@ -2023,8 +1794,8 @@ public class Exportar {
 				rowIndex++;
 			}
 
-			for (int i = 0; i <= 57; i++) { 
-
+			for (int i = 0; i <= 72; i++) { 
+				//mercado
 				if(ExportOption==4) {
 					if (i >= 5) { // Verifica se a coluna é a partir da J (índice 9)
 						sheet.setColumnWidth(i, 7000);
@@ -2069,9 +1840,284 @@ public class Exportar {
 				}
 			}
 
-			applyAutoFilterToAllColumns(sheet);
-			
-			
+
+
+			if((ExportOption==3 || ExportOption==2 || ExportOption==1 )) {
+
+				
+				int[] colunasP10 = {11, 19, 27, 35, 43, 51, 59, 67};
+				int[] colunasP25 = {12, 20, 28, 36, 44, 52, 60, 68};
+				int[] colunasP50 = {13, 21, 29, 37, 45, 53, 61, 69};
+				int[] colunasP75 = {14, 22, 30, 38, 46, 54, 62, 70};
+				int[] colunasP90 = {15, 23, 31, 39, 47, 55, 63, 71};
+
+				if (!filtro.isP10()) {
+				    for (int col : colunasP10) {
+				        sheet.setColumnHidden(col, true);
+				    }
+				}
+
+				if (!filtro.isP25()) {
+				    for (int col : colunasP25) {
+				        sheet.setColumnHidden(col, true);
+				    }
+				}
+
+				if (!filtro.isP50()) {
+				    for (int col : colunasP50) {
+				        sheet.setColumnHidden(col, true);
+				    }
+				}
+
+				if (!filtro.isP75()) {
+				    for (int col : colunasP75) {
+				        sheet.setColumnHidden(col, true);
+				    }
+				}
+
+				if (!filtro.isP90()) {
+				    for (int col : colunasP90) {
+				        sheet.setColumnHidden(col, true);
+				    }
+				}
+
+				
+				
+				
+				if (!filtro.isSalarioBase()) {
+				    sheet.setColumnHidden(9, true);
+				    sheet.setColumnHidden(10, true);
+				    sheet.setColumnHidden(11, true);
+				    sheet.setColumnHidden(12, true);
+				    sheet.setColumnHidden(13, true);
+				    sheet.setColumnHidden(14, true);
+				    sheet.setColumnHidden(15, true);
+				    sheet.setColumnHidden(16, true);
+				}
+
+				if (!filtro.isTotalEmDinheiro()) {
+				    sheet.setColumnHidden(17, true);
+				    sheet.setColumnHidden(18, true);
+				    sheet.setColumnHidden(19, true);
+				    sheet.setColumnHidden(20, true);
+				    sheet.setColumnHidden(21, true);
+				    sheet.setColumnHidden(22, true);
+				    sheet.setColumnHidden(23, true);
+				    sheet.setColumnHidden(24, true);
+				}
+
+				if (!filtro.isTotalemDinheiroAlvo()) {
+				    sheet.setColumnHidden(25, true);
+				    sheet.setColumnHidden(26, true);
+				    sheet.setColumnHidden(27, true);
+				    sheet.setColumnHidden(28, true);
+				    sheet.setColumnHidden(29, true);
+				    sheet.setColumnHidden(30, true);
+				    sheet.setColumnHidden(31, true);
+				    sheet.setColumnHidden(32, true);
+				}
+
+				if (!filtro.isRenumeracaoDireta()) {
+				    sheet.setColumnHidden(33, true);
+				    sheet.setColumnHidden(34, true);
+				    sheet.setColumnHidden(35, true);
+				    sheet.setColumnHidden(36, true);
+				    sheet.setColumnHidden(37, true);
+				    sheet.setColumnHidden(38, true);
+				    sheet.setColumnHidden(39, true);
+				    sheet.setColumnHidden(40, true);
+				}
+
+				if (!filtro.isRenumeracaoDiretaAlvo()) {
+				    sheet.setColumnHidden(41, true);
+				    sheet.setColumnHidden(42, true);
+				    sheet.setColumnHidden(43, true);
+				    sheet.setColumnHidden(44, true);
+				    sheet.setColumnHidden(45, true);
+				    sheet.setColumnHidden(46, true);
+				    sheet.setColumnHidden(47, true);
+				    sheet.setColumnHidden(48, true);
+				}
+
+				if (!filtro.isIncentivoCurtoPrazo()) {
+				    sheet.setColumnHidden(49, true);
+				    sheet.setColumnHidden(50, true);
+				    sheet.setColumnHidden(51, true);
+				    sheet.setColumnHidden(52, true);
+				    sheet.setColumnHidden(53, true);
+				    sheet.setColumnHidden(54, true);
+				    sheet.setColumnHidden(55, true);
+				    sheet.setColumnHidden(56, true);
+				}
+
+				if (!filtro.isIncentivoCurtoPrazoAlvo()) {
+				    sheet.setColumnHidden(57, true);
+				    sheet.setColumnHidden(58, true);
+				    sheet.setColumnHidden(59, true);
+				    sheet.setColumnHidden(60, true);
+				    sheet.setColumnHidden(61, true);
+				    sheet.setColumnHidden(62, true);
+				    sheet.setColumnHidden(63, true);
+				    sheet.setColumnHidden(64, true);
+				}
+
+				if (!filtro.isIncentivoLongoPrazo()) {
+				    sheet.setColumnHidden(65, true);
+				    sheet.setColumnHidden(66, true);
+				    sheet.setColumnHidden(67, true);
+				    sheet.setColumnHidden(68, true);
+				    sheet.setColumnHidden(69, true);
+				    sheet.setColumnHidden(70, true);
+				    sheet.setColumnHidden(71, true);
+				    sheet.setColumnHidden(72, true);
+				}
+
+
+			}
+
+
+			if((ExportOption==4)) {
+
+				if(!filtro.isP10()) {
+					sheet.setColumnHidden(7, true);
+					sheet.setColumnHidden(14, true);
+					sheet.setColumnHidden(21, true);
+					sheet.setColumnHidden(28, true);
+					sheet.setColumnHidden(35, true);
+					sheet.setColumnHidden(42, true);
+					sheet.setColumnHidden(49, true);
+					sheet.setColumnHidden(56, true);
+				}
+				
+				if(!filtro.isP25()) {
+					sheet.setColumnHidden(8, true);
+					sheet.setColumnHidden(15, true);
+					sheet.setColumnHidden(22, true);
+					sheet.setColumnHidden(29, true);
+					sheet.setColumnHidden(36, true);
+					sheet.setColumnHidden(43, true);
+					sheet.setColumnHidden(50, true);
+					sheet.setColumnHidden(57, true);
+				}
+				
+				if(!filtro.isP50()) {
+					sheet.setColumnHidden(9, true);
+					sheet.setColumnHidden(16, true);
+					sheet.setColumnHidden(23, true);
+					sheet.setColumnHidden(30, true);
+					sheet.setColumnHidden(37, true);
+					sheet.setColumnHidden(44, true);
+					sheet.setColumnHidden(51, true);
+					sheet.setColumnHidden(58, true);
+				}
+				
+				if(!filtro.isP75()) {
+					sheet.setColumnHidden(10, true);
+					sheet.setColumnHidden(17, true);
+					sheet.setColumnHidden(24, true);
+					sheet.setColumnHidden(31, true);
+					sheet.setColumnHidden(38, true);
+					sheet.setColumnHidden(45, true);
+					sheet.setColumnHidden(52, true);
+					sheet.setColumnHidden(59, true);
+				}
+
+				if(!filtro.isP90()) {
+					sheet.setColumnHidden(11, true);
+					sheet.setColumnHidden(18, true);
+					sheet.setColumnHidden(25, true);
+					sheet.setColumnHidden(32, true);
+					sheet.setColumnHidden(39, true);
+					sheet.setColumnHidden(46, true);
+					sheet.setColumnHidden(53, true);
+					sheet.setColumnHidden(60, true);
+				}
+
+				if (!filtro.isSalarioBase()) {
+					sheet.setColumnHidden(6, true);
+					sheet.setColumnHidden(7, true);//p10
+					sheet.setColumnHidden(8, true);//p25
+					sheet.setColumnHidden(9, true);//p50
+					sheet.setColumnHidden(10, true);//p75
+					sheet.setColumnHidden(11, true);//p90
+					sheet.setColumnHidden(12, true);
+				}
+
+				if (!filtro.isIncentivoCurtoPrazoAlvo()) {
+					sheet.setColumnHidden(13, true);
+					sheet.setColumnHidden(14, true);
+					sheet.setColumnHidden(15, true);
+					sheet.setColumnHidden(16, true);
+					sheet.setColumnHidden(17, true);
+					sheet.setColumnHidden(18, true);
+					sheet.setColumnHidden(19, true);
+				}
+
+				if (!filtro.isIncentivoCurtoPrazo()) {
+					sheet.setColumnHidden(20, true);
+					sheet.setColumnHidden(21, true);
+					sheet.setColumnHidden(22, true);
+					sheet.setColumnHidden(23, true);
+					sheet.setColumnHidden(24, true);
+					sheet.setColumnHidden(25, true);
+					sheet.setColumnHidden(26, true);
+				}
+
+				if (!filtro.isTotalemDinheiroAlvo()) {
+					sheet.setColumnHidden(27, true);
+					sheet.setColumnHidden(28, true);
+					sheet.setColumnHidden(29, true);
+					sheet.setColumnHidden(30, true);
+					sheet.setColumnHidden(31, true);
+					sheet.setColumnHidden(32, true);
+					sheet.setColumnHidden(33, true);
+				}
+
+				if (!filtro.isTotalEmDinheiro()) {
+					sheet.setColumnHidden(34, true);
+					sheet.setColumnHidden(35, true);
+					sheet.setColumnHidden(36, true);
+					sheet.setColumnHidden(37, true);
+					sheet.setColumnHidden(38, true);
+					sheet.setColumnHidden(39, true);
+					sheet.setColumnHidden(40, true);
+				}
+
+				if (!filtro.isIncentivoLongoPrazo()) {
+					sheet.setColumnHidden(41, true);
+					sheet.setColumnHidden(42, true);
+					sheet.setColumnHidden(43, true);
+					sheet.setColumnHidden(44, true);
+					sheet.setColumnHidden(45, true);
+					sheet.setColumnHidden(46, true);
+					sheet.setColumnHidden(47, true);
+				}
+
+				if (!filtro.isRenumeracaoDiretaAlvo()) {
+					sheet.setColumnHidden(48, true);
+					sheet.setColumnHidden(49, true);
+					sheet.setColumnHidden(50, true);
+					sheet.setColumnHidden(51, true);
+					sheet.setColumnHidden(52, true);
+					sheet.setColumnHidden(53, true);
+					sheet.setColumnHidden(54, true);
+				}
+
+				if (!filtro.isRenumeracaoDireta()) {
+					sheet.setColumnHidden(55, true);
+					sheet.setColumnHidden(56, true);
+					sheet.setColumnHidden(57, true);
+					sheet.setColumnHidden(58, true);
+					sheet.setColumnHidden(59, true);
+					sheet.setColumnHidden(60, true);
+					sheet.setColumnHidden(61, true);
+				}
+
+
+			}
+
+			sheet.setAutoFilter(CellRangeAddress.valueOf("A10:BU10"));
+
 			// Escreve a planilha na resposta HTTP
 			try (OutputStream out = response.getOutputStream()) {
 				workbook.write(out);
@@ -2084,6 +2130,16 @@ public class Exportar {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void applyAutoFilterToAllColumns(Sheet sheet) {
+		// Assume que a primeira linha contém os cabeçalhos e que queremos aplicar o filtro a todas as colunas usadas
+		int lastRow = sheet.getLastRowNum(); // Última linha com conteúdo
+		int lastColumn = sheet.getRow(9).getLastCellNum() - 1; // Última coluna com conteúdo (começando de 0)
+
+		// Define o intervalo para o autofiltro (da primeira coluna à última coluna, primeira linha à última linha)
+		String filterRange = "A1:" + (char) ('A' + lastColumn) + (lastRow + 1); // "A1:Z100" por exemplo
+		sheet.setAutoFilter(CellRangeAddress.valueOf(filterRange));
 	}
 
 	public static void removeColumn(Sheet sheet, int columnIndexToRemove) {
@@ -2140,159 +2196,7 @@ public class Exportar {
 		}
 	}
 
-	public static void exportarPlanilhav2(List<MediasVO> dados, String nomeEmpresa,
-			String cargoEscolhido, String Familia, String Subfamilia, int ExportOption,
-			List<String> distinctCargos,
-			String mercadoEscolhido,
-			Integer gradeMinimoPadrao,
-			Integer gradeMaximoPadrao,
-			UserEntity user,
-			TbPesquisaService tbPesquisaService, EntityManager em) {
-		cargoEscolhido = formataCargo(cargoEscolhido);
-		nomeEmpresa = formataCargo(nomeEmpresa);
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
-		String imagePath = servletContext.getRealPath("/resources/images/logoplanilha.JPG");
 
-		response.setContentType("application/vnd.ms-excel");
-		response.setHeader("Content-disposition", "attachment; filename=planilha.xlsx");
-
-		try (Workbook workbook = new XSSFWorkbook()) {
-			Sheet sheet = workbook.createSheet("Planilha");
-
-			// Remove as gridlines da planilha
-			removeGridlines(sheet);
-
-			// Adiciona a imagem
-			addImage(sheet, imagePath);
-
-
-
-			// Adiciona o cabeçalho
-			addHeader(sheet, cargoEscolhido, nomeEmpresa,workbook, ExportOption,Subfamilia );
-			Row row10 = createRows(sheet, 10,(short) 400);
-
-
-			if(ExportOption==2) {
-				List<MediasVO> lista = new ArrayList<MediasVO>();
-				for(int i=0;i<lista.size();i++) {
-					Exportar ex = new 
-							Exportar();
-					lista = ex.getListaEmMassa(true, distinctCargos.get(i), Familia, 
-							Subfamilia, mercadoEscolhido,
-							gradeMinimoPadrao, gradeMaximoPadrao, user,tbPesquisaService,em);
-					row10 = createRows(sheet, i+10,(short) 400);
-					addConteudo(lista, distinctCargos.get(i), Subfamilia, Familia, sheet, workbook,row10);
-				}
-
-
-
-			}else {
-				addConteudo(dados, cargoEscolhido, Subfamilia, Familia, sheet, workbook,row10);
-
-			}
-
-
-
-			// Escreve a planilha na resposta HTTP
-			OutputStream out = response.getOutputStream();
-			workbook.write(out);
-			out.flush();
-			out.close();
-
-			context.responseComplete();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-
-	public static void exportarPlanilhav3(List<MediasVO> dados, String nomeEmpresa,
-			String cargoEscolhido, String Familia, String Subfamilia, int ExportOption,
-			List<String> distinctCargos,
-			UserEntity user,
-			TbPesquisaService tbPesquisaService,List<EmpresasDetalheVO> listDetalhes,
-			String mercadoEscolhido,
-			Integer gradeMinimoPadrao,
-			Integer gradeMaximoPadrao, EntityManager em) {
-		//cargoEscolhido = formataCargo(cargoEscolhido);
-		nomeEmpresa = formataCargo(nomeEmpresa);
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
-		String imagePath = servletContext.getRealPath("/resources/images/logoplanilha.JPG");
-
-		response.setContentType("application/vnd.ms-excel");
-		response.setHeader("Content-disposition", "attachment; filename=planilha.xlsx");
-
-		try (Workbook workbook = new XSSFWorkbook()) {
-			Sheet sheet = workbook.createSheet("Planilha");
-
-			// Remove as gridlines da planilha
-			removeGridlines(sheet);
-
-			// Adiciona a imagem
-			addImage(sheet, imagePath);
-
-			Exportar ex = new 
-					Exportar();
-
-			// Adiciona o cabeçalho
-			addHeader(sheet, nomeEmpresa, nomeEmpresa,workbook, ExportOption,Subfamilia );
-			Row row10 = createRows(sheet, 10,(short) 400);
-
-
-			Map<String, Integer> descRenumMap = UtilExcel.createDescRenumMap();
-			for(int i=0;i<listDetalhes.size();i++) {
-
-				long startTime = System.nanoTime();
-				dados.addAll(ex.getListaEmMassa(true,  
-						listDetalhes.get(i).getNomeCargoEmpresa(),
-						listDetalhes.get(i).getNmFamilia(), 
-						listDetalhes.get(i).getNmSubFam(), 
-						mercadoEscolhido,gradeMinimoPadrao,
-						gradeMaximoPadrao, user,tbPesquisaService,em));
-				long stopTime = System.nanoTime();
-
-
-
-				System.out.println((stopTime - startTime) / 1000000);
-
-
-
-				Map<String, List<MediasVO>> particoes = dados.stream()
-						.collect(Collectors.groupingBy(MediasVO::getNomeCargoEmpresa));
-
-
-				for (Map.Entry<String, List<MediasVO>> entry : particoes.entrySet()) {
-					String nomeCargoEmpresa = entry.getKey();
-					List<MediasVO> particao = entry.getValue();
-					dados = UtilExcel.processDados(particao, nomeCargoEmpresa, descRenumMap);
-				}
-				row10 = createRows(sheet, i + 10, (short) 400);
-				UtilExcel.addConteudo(dados, listDetalhes.get(i).getNomeCargoEmpresa(),
-						listDetalhes.get(i).getNmSubFam(),
-						listDetalhes.get(i).getNmFamilia(),
-						sheet, workbook, row10);
-				dados.clear();
-
-			}
-
-
-
-			// Escreve a planilha na resposta HTTP
-			OutputStream out = response.getOutputStream();
-			workbook.write(out);
-			out.flush();
-			out.close();
-
-			context.responseComplete();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 
 	public  List<MediasVO> getListaEmMassa(boolean UsaSlider, String cargoEscolhido,
@@ -2398,128 +2302,5 @@ public class Exportar {
 			}
 		}
 		return listaDeMedias;
-	}
-
-	public static void exportarPlanilha(List<MediasVO> dados, String nomeEmpresa, String cargoEscolhido) {
-		cargoEscolhido = formataCargo(cargoEscolhido);
-		nomeEmpresa = formataCargo(nomeEmpresa);
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
-		String imagePath = servletContext.getRealPath("/resources/images/logoplanilha.JPG");
-
-		response.setContentType("application/vnd.ms-excel");
-		response.setHeader("Content-disposition", "attachment; filename=planilha.xlsx");
-
-		try (Workbook workbook = new XSSFWorkbook()) {
-			Sheet sheet = workbook.createSheet("Planilha");
-			sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
-
-			// Remove as gridlines da planilha
-			sheet.setDisplayGridlines(false);
-
-			// Adiciona a imagem
-			Row row0 = sheet.createRow(0);
-			Cell cell0 = row0.createCell(0);
-			BufferedImage image = ImageIO.read(new File(imagePath));
-			int imageWidth = image.getWidth();
-			int imageHeight = (int) (image.getHeight());
-			sheet.getRow(0).setHeight((short) (imageHeight * 6));
-
-			byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
-			int pictureIndex = workbook.addPicture(imageBytes, Workbook.PICTURE_TYPE_PNG);
-			Drawing drawing = sheet.createDrawingPatriarch();
-			ClientAnchor anchor = drawing.createAnchor(0, 0, imageWidth, imageHeight, 0, 0, 3, 1);
-			Picture picture = drawing.createPicture(anchor, pictureIndex);
-			picture.resize(1,1.3);
-
-			// Adiciona o conteúdo da variável "cargoEscolhido" com o sufixo "X Mercado" na célula A5
-			Row row4 = sheet.createRow(4);
-			// Aumenta a altura da célula A5
-			row4.setHeight((short) 600);
-
-
-			Cell cellA5 = row4.createCell(0);
-			cellA5.setCellValue(cargoEscolhido + " X Mercado");
-
-			// Mescla as células A5 até AC5
-			CellRangeAddress mergedRegion = new CellRangeAddress(4, 4, 0, 28);
-			sheet.addMergedRegion(mergedRegion);
-
-			// Define a fonte como Helvetica tamanho 12 em negrito
-			CellStyle styleA5 = workbook.createCellStyle();
-			styleA5.setVerticalAlignment(VerticalAlignment.CENTER);
-			styleA5.setAlignment(HorizontalAlignment.LEFT);
-			Font fontA5 = workbook.createFont();
-			fontA5.setFontName("Helvetica");
-			fontA5.setFontHeightInPoints((short) 12);
-			fontA5.setBold(true);
-			styleA5.setFont(fontA5);
-
-			cellA5.setCellStyle(styleA5);
-
-			//sheet.autoSizeColumn(cellA5.getColumnIndex());
-
-
-			Row row5 = sheet.createRow(5);
-			row5.setHeight((short) 600);
-
-			Cell cellA6 = row5.createCell(0);
-			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			String formattedDate = formatter.format(new Date());
-
-			cellA6.setCellValue("" + nomeEmpresa + ", " + formattedDate);
-
-			// Define a fonte como Calibri tamanho 11
-			CellStyle styleA6 = workbook.createCellStyle();
-			styleA6.setVerticalAlignment(VerticalAlignment.CENTER);
-			styleA6.setAlignment(HorizontalAlignment.LEFT);
-			Font fontA6 = workbook.createFont();
-			fontA6.setFontName("Calibri");
-			fontA6.setFontHeightInPoints((short) 11);
-			styleA6.setFont(fontA6);
-			cellA6.setCellStyle(styleA6);
-			//sheet.autoSizeColumn(cellA6.getColumnIndex());
-			Row row9 = sheet.createRow(9);
-			row9.setHeight((short) 400);
-			Cell cellA10 = row9.createCell(0);
-			cellA10.setCellValue("Cargo Pesquisa ");
-
-			// Define a fonte como Helvetica tamanho 12
-			XSSFCellStyle  styleA10 =  (XSSFCellStyle) workbook.createCellStyle();
-			styleA10.setVerticalAlignment(VerticalAlignment.CENTER);
-			styleA10.setAlignment(HorizontalAlignment.LEFT);
-
-
-			XSSFColor color = new XSSFColor(new byte[]{(byte) 162, 50, 50}, new DefaultIndexedColorMap());
-			styleA10.setFillForegroundColor(color);
-			styleA10.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-			Font fontA10 = workbook.createFont();
-			fontA10.setFontName("Helvetica");
-			fontA10.setFontHeightInPoints((short) 12);
-			fontA10.setColor(IndexedColors.WHITE.getIndex());
-			fontA10.setBold(true);
-			styleA10.setFont(fontA10);
-
-			cellA10.setCellStyle(styleA10);
-
-			sheet.setAutoFilter(new CellRangeAddress(9, sheet.getLastRowNum(), 0, 0));
-			//sheet.autoSizeColumn(cellA10.getColumnIndex());
-
-			sheet.setColumnWidth(0, 6000); // A
-			sheet.setColumnWidth(1, 4000); // B
-			sheet.setColumnWidth(2, 4000); // C
-			sheet.setColumnWidth(3, 4000); // D
-
-
-			try (OutputStream out = response.getOutputStream()) {
-				workbook.write(out);
-				out.flush();
-			}
-
-			context.responseComplete();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

@@ -21,6 +21,7 @@ public class MediasVO extends BaseEntity implements Serializable {
     private int num_participantes;
     private int sua_empresa;
     private String descricaoDoFiltro;
+    private String nomeCargoEmpresa;
 	public String getDescRenum() {
 		return descRenum;
 	}
@@ -95,6 +96,12 @@ public class MediasVO extends BaseEntity implements Serializable {
 	}
 	public void setDescricaoDoFiltro(String descricaoDoFiltro) {
 		this.descricaoDoFiltro = descricaoDoFiltro;
+	}
+	public String getNomeCargoEmpresa() {
+		return nomeCargoEmpresa;
+	}
+	public void setNomeCargoEmpresa(String nomeCargoEmpresa) {
+		this.nomeCargoEmpresa = nomeCargoEmpresa;
 	}
 
     

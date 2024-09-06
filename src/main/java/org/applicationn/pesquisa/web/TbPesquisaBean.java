@@ -19,6 +19,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.poi.util.StringUtil;
@@ -26,6 +28,8 @@ import org.applicationn.pesquisa.domain.TbDetalhesAcesso;
 import org.applicationn.pesquisa.domain.TbPesquisa;
 import org.applicationn.pesquisa.service.TbDetalheAcessoService;
 import org.applicationn.pesquisa.service.TbPesquisaService;
+import org.applicationn.pesquisa.vo.EmpresasDetalheVO;
+import org.applicationn.pesquisa.vo.FiltroVO;
 import org.applicationn.pesquisa.vo.GradeVO;
 import org.applicationn.pesquisa.vo.MediasVO;
 import org.applicationn.simtrilhas.domain.TbCARGOSEntity;
@@ -48,8 +52,10 @@ import org.primefaces.model.chart.LegendPlacement;
 @Named("tbPesquisaBean")
 @ViewScoped
 public class TbPesquisaBean implements Serializable {
-
-
+	@PersistenceContext(unitName = "Moura")
+	private  EntityManager entityManager;
+	private FiltroVO filtroVO = new FiltroVO();
+	 private List<String> selectedFilters = new ArrayList<>();
 	private static final long serialVersionUID = 1L;
 
 	private final String URLpesquisa = "https://www.figma.com/proto/cD4OIlgiMRPPK77bGJzWSz/Apresenta%C3%A7%C3%A3o---Apta-XR-2023?page-id=41%3A60&type=design&node-id=3233-6671&viewport=7014%2C-21526%2C0.68&t=tZPQku4VytbW1f52-1&scaling=scale-down-width&starting-point-node-id=3233%3A6671";
@@ -64,6 +70,7 @@ public class TbPesquisaBean implements Serializable {
 
 	private String familiaEscolhida;
 	private String subFamiliaEscolhida;
+	private String empresaEscolhida;
 	private String cargoEscolhido;
 	private String mercadoEscolhido= "Mercado AptaXR";
 	private int gradeEscolhida;
@@ -74,7 +81,10 @@ public class TbPesquisaBean implements Serializable {
 		 panelCollapsedSumario = !panelCollapsedSumario;
 	        buttonTextSumario = panelCollapsedSumario ? "+" : "-";
 	    }
-
+	 private static int SBSuaEmpresa =0;
+	 private static double ICPSuaEmpresa =0;
+	 private static double ICPASuaEmpresa =0;
+	 private static double ILPSuaEmpresa=0;
 	private boolean mostrarembarras =false;
 
 	private Integer gradeMinimo = (Integer) 19;
@@ -92,6 +102,7 @@ public class TbPesquisaBean implements Serializable {
 	private List<String> distinctFamilia;
 	private List<String> distinctSubFamilia;
 	private List<String> distinctCargos;
+	private List<String> distinctCargosEmpresa;
 	private List<String> distinctMercado;
 	private List<Integer> distinctGrade;
 	
@@ -169,45 +180,85 @@ public class TbPesquisaBean implements Serializable {
 		reset();
 	}
 
-	public void ExportarExcel() {
+	public void ExportarExcel(int exportOption) {
 		PrimeFaces current = PrimeFaces.current();
 		current.executeScript("PF('statusDialog').show();");
+		
+		if(exportOption==3 || exportOption==4 || exportOption == 2 || exportOption== 1 ) {
+			
+			/*List<EmpresasDetalheVO> listDetalhes =tbPesquisaService.
+					findDistinctTbPesquisaNMEmpresa(user.getIdEmpresa().getDescEmpresa());
+			List<MediasVO> lista = new ArrayList<MediasVO>();
+			Exportar.exportarPlanilhav3(lista, user.getIdEmpresa().getDescEmpresa(), cargoEscolhido,
+					familiaEscolhida, subFamiliaEscolhida, exportOption,
+					distinctCargos, user, tbPesquisaService,listDetalhes,
+					mercadoEscolhido,gradeMinimoPadrao,gradeMaximoPadrao,entityManager);*/
+			filtroVO.setSalarioBase(selectedFilters.contains("salarioBase"));
+	        filtroVO.setTotalEmDinheiro(selectedFilters.contains("totalEmDinheiro"));
+	        filtroVO.setTotalemDinheiroAlvo(selectedFilters.contains("totalemDinheiroAlvo"));
+	        filtroVO.setRenumeracaoDireta(selectedFilters.contains("renumeracaoDireta"));
+	        filtroVO.setRenumeracaoDiretaAlvo(selectedFilters.contains("renumeracaoDiretaAlvo"));
+	        filtroVO.setIncentivoCurtoPrazo(selectedFilters.contains("incentivoCurtoPrazo"));
+	        filtroVO.setIncentivoCurtoPrazoAlvo(selectedFilters.contains("incentivoCurtoPrazoAlvo"));
+	        filtroVO.setIncentivoLongoPrazo(selectedFilters.contains("incentivoLongoPrazo"));
+	        filtroVO.setP25(selectedFilters.contains("p25"));
+	        filtroVO.setP50(selectedFilters.contains("p50"));
+	        filtroVO.setP75(selectedFilters.contains("p75"));
+	        filtroVO.setMedia(selectedFilters.contains("media"));
+	        filtroVO.setP10(selectedFilters.contains("p10"));
+	        filtroVO.setP90(selectedFilters.contains("p90"));
+			
+	        int existeEmpresaPres = tbPesquisaService
+					.findCounEmpresaPres(user.getIdEmpresa().getDescEmpresa().toUpperCase());
+	        
+	        
+			ExportarNew.exportarPlanilhav4(listaDeMedias, 
+					user.getIdEmpresa().getDescEmpresa(), cargoEscolhido,
+					familiaEscolhida, subFamiliaEscolhida,exportOption, distinctCargos,
+					mercadoEscolhido,gradeMinimoPadrao,gradeMaximoPadrao,user,
+					tbPesquisaService,entityManager,filtroVO,existeEmpresaPres);
+			
+				return;
+			}
 		if(listaDeMedias==null) {
 
 		}else {
 			if(listaDeMedias.size()==0) {
 			
 			}else {
-
-					Exportar.exportarPlanilhav2(listaDeMedias, 
-							descEmpresaExibir, cargoEscolhido,
-							familiaEscolhida, subFamiliaEscolhida,exportOption, distinctCargos,
-							mercadoEscolhido,gradeMinimoPadrao,gradeMaximoPadrao,user,
-							tbPesquisaService);
-				
-					String username = SecurityWrapper.getUsername();
-					UserEntity user = userService.findUserByUsername(username);
-					TbDetalhesAcesso vo = new TbDetalhesAcesso();
-					vo.setDataAcesso(new Date());
-					vo.setId_user(user.getId());
-					SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM");
-			        String dataFormatada = formato.format(new Date());
-					
-					vo.setMesAno(dataFormatada);
-					if(exportOption==1) {
-						vo.setTipoDeAtividade("ACESSO EXCEL CARGO");
-					}
-					if(exportOption==2) {
-						vo.setTipoDeAtividade("ACESSO EXCEL SUBFAMILIA");
-					}
-					
-					tbDetalheAcessoService.save(vo);
-					current.executeScript("PF('statusDialog').hide();");
-					
-
+						Exportar.exportarPlanilhav2(listaDeMedias, 
+								descEmpresaExibir, cargoEscolhido,
+								familiaEscolhida, subFamiliaEscolhida,exportOption, distinctCargos,
+								mercadoEscolhido,gradeMinimoPadrao,gradeMaximoPadrao,user,
+								tbPesquisaService,entityManager);
 			}
 
 		}
+		
+		String username = SecurityWrapper.getUsername();
+		UserEntity user = userService.findUserByUsername(username);
+		TbDetalhesAcesso vo = new TbDetalhesAcesso();
+		vo.setDataAcesso(new Date());
+		vo.setId_user(user.getId());
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM");
+        String dataFormatada = formato.format(new Date());
+		
+		vo.setMesAno(dataFormatada);
+		if(exportOption==1) {
+			vo.setTipoDeAtividade("ACESSO EXCEL CARGO");
+		}
+		if(exportOption==2) {
+			vo.setTipoDeAtividade("ACESSO EXCEL SUBFAMILIA");
+		}
+		if (exportOption==3) {
+			vo.setTipoDeAtividade("ACESSO EXCEL EMPRESA");
+		}
+		if (exportOption==4) {
+			vo.setTipoDeAtividade("ACESSO EXCEL MERCADO");
+		}
+		
+		tbDetalheAcessoService.save(vo);
+		current.executeScript("PF('statusDialog').hide();");
 	}
 
 	public static boolean isWindows() {
@@ -270,6 +321,19 @@ public class TbPesquisaBean implements Serializable {
 
 			this.distinctFamilia = tbPesquisaService.findDistinctTbPesquisaNMFamilia();
 			createBarModels();
+			
+			selectedFilters = new ArrayList<>();
+		    selectedFilters.add("salarioBase");
+		    selectedFilters.add("totalEmDinheiro");
+		    selectedFilters.add("totalemDinheiroAlvo");
+		    selectedFilters.add("renumeracaoDireta");
+		    selectedFilters.add("renumeracaoDiretaAlvo");
+		    selectedFilters.add("incentivoCurtoPrazo");
+		    selectedFilters.add("incentivoCurtoPrazoAlvo");
+		    selectedFilters.add("incentivoLongoPrazo");
+		    selectedFilters.add("p25");
+		    selectedFilters.add("p50");
+		    selectedFilters.add("p75");
 			user = userService.getCurrentUser();
 		}catch (Exception e) {
 		}
@@ -319,6 +383,12 @@ public class TbPesquisaBean implements Serializable {
 					mediana = listaDeMedias.get(i).getP50();
 					p75 = listaDeMedias.get(i).getP75();
 					sua_empresa = listaDeMedias.get(i).getSua_empresa();
+					if(SBSuaEmpresa==0) {
+						SBSuaEmpresa =  listaDeMedias.get(i).getSua_empresa();
+					}else {
+						sua_empresa = SBSuaEmpresa;
+					}
+					
 					break;
 				}
 			}
@@ -420,6 +490,9 @@ public class TbPesquisaBean implements Serializable {
 
 		int flagEncontrou = mediasEMedianas("SBM - Salário Base Mensal","ICP - Incentivo de Curto Prazo Pago (Bônus + PLR)");
 
+		if(ICPSuaEmpresa!=0) {
+			flagEncontrou =1;
+		}
 
 		if(flagEncontrou==0.0) {
 			medianaOutros=0.0;
@@ -448,9 +521,14 @@ public class TbPesquisaBean implements Serializable {
 		}
 
 		if(SuaEmpresaOutros==0.0) {
-			suaEmpresa=0.0;
+			suaEmpresa=ICPSuaEmpresa;
 		}else {
-			suaEmpresa = round(SuaEmpresaOutros / SuaEmpresa,1);
+			if(ICPSuaEmpresa==0) {
+				ICPSuaEmpresa =  round(SuaEmpresaOutros / SuaEmpresa,1);
+				suaEmpresa=ICPSuaEmpresa;
+			}else {
+				suaEmpresa = ICPSuaEmpresa;
+			}
 		}
 
 		if(p75Outros==0.0) {
@@ -512,6 +590,11 @@ public class TbPesquisaBean implements Serializable {
 		BarChartModel model = new BarChartModel();
 
 		int flagEncontrou = mediasEMedianas("SBM - Salário Base Mensal","ICPA - Incentivo de Curto Prazo Alvo (Bônus + PLR)");
+		
+		if(ICPASuaEmpresa!=0) {
+			flagEncontrou =1;
+		}
+		
 		if(flagEncontrou==0.0) {
 			medianaOutros=0.0;
 			p25Outros=0.0;
@@ -539,10 +622,16 @@ public class TbPesquisaBean implements Serializable {
 			p25Resultado = round(p25Outros / p25,1);
 		}
 
+
 		if(SuaEmpresaOutros==0.0) {
-			suaEmpresa=0.0;
+			suaEmpresa=ICPASuaEmpresa;
 		}else {
-			suaEmpresa = round(SuaEmpresaOutros / SuaEmpresa,1);
+			if(ICPASuaEmpresa==0) {
+				ICPASuaEmpresa =  round(SuaEmpresaOutros / SuaEmpresa,1);
+				suaEmpresa=ICPASuaEmpresa;
+			}else {
+				suaEmpresa = ICPASuaEmpresa;
+			}
 		}
 
 		if(p75Outros==0.0) {
@@ -605,7 +694,11 @@ public class TbPesquisaBean implements Serializable {
 		BarChartModel model = new BarChartModel();
 
 		int flagEncontrou = mediasEMedianas("SBM - Salário Base Mensal","ILP - Incentivos de Longo Prazo");
-
+		
+		if(ILPSuaEmpresa!=0) {
+			flagEncontrou =1;
+		}
+		
 		if(flagEncontrou==0.0) {
 			medianaOutros=0.0;
 			p25Outros=0.0;
@@ -634,9 +727,14 @@ public class TbPesquisaBean implements Serializable {
 		}
 
 		if(SuaEmpresaOutros==0.0) {
-			suaEmpresa=0.0;
+			suaEmpresa=ILPSuaEmpresa;
 		}else {
-			suaEmpresa = round(SuaEmpresaOutros / SuaEmpresa,1);
+			if(ILPSuaEmpresa==0) {
+				ILPSuaEmpresa =  round(SuaEmpresaOutros / SuaEmpresa,1);
+				suaEmpresa=ILPSuaEmpresa;
+			}else {
+				suaEmpresa = ILPSuaEmpresa;
+			}
 		}
 
 		if(p75Outros==0.0) {
@@ -774,7 +872,7 @@ public class TbPesquisaBean implements Serializable {
 
 	public void onSlideEnd(SlideEndEvent event) {
 		this.gradeSlide = (int) event.getValue();
-		getDistinctGrade(false);
+		getDistinctGrade(false,false);
 	}
 
 
@@ -848,8 +946,10 @@ public class TbPesquisaBean implements Serializable {
 		}
 		return distinctCargos;
 	}
-
-	public List<Integer> getDistinctGrade(boolean UsaSlider) {
+	
+	
+	
+	public List<Integer> getDistinctGrade(boolean UsaSlider, boolean primeiraExecucao) {
 		String mensagem="";
 
 
@@ -871,9 +971,28 @@ public class TbPesquisaBean implements Serializable {
 					this.gradeMaximoPadrao = (Integer) (distinctGrade.get(distinctGrade.size()-1));
 				}
 				if((UsaSlider==true) && (distinctGrade.size()>0)) {
-
-					this.gradeMinimo= distinctGrade.get(0);
-					this.gradeMaximo= (Integer) (distinctGrade.get(distinctGrade.size()-1));
+					
+					if(primeiraExecucao) {
+						SBSuaEmpresa=0;
+						ICPASuaEmpresa=0;
+						ICPSuaEmpresa=0;
+						ILPSuaEmpresa=0;
+						//int grade  = tbPesquisaService.findGradeInicioMenu(user.getIdEmpresa().getDescEmpresa(),cargoEscolhido);
+						/*if(grade==0) {
+							this.gradeMinimo= distinctGrade.get(0);
+							this.gradeMaximo= (Integer) (distinctGrade.get(distinctGrade.size()-1));
+						}else {
+							
+						}*/
+						
+						this.gradeMinimo= distinctGrade.get(0);
+						this.gradeMaximo= (Integer) (distinctGrade.get(distinctGrade.size()-1));
+						
+					}else {
+						this.gradeMinimo= distinctGrade.get(0);
+						this.gradeMaximo= (Integer) (distinctGrade.get(distinctGrade.size()-1));
+					}
+					
 				}else {
 
 				}
@@ -907,7 +1026,7 @@ public class TbPesquisaBean implements Serializable {
 
 							listaDeMedias = tbPesquisaService.findMediaSuaEmpresa(familiaEscolhida,
 									subFamiliaEscolhida,
-									cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo,user.getIdEmpresa().getDescEmpresa().toUpperCase(),MaiorGradeSuaEmpresa);
+									cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo,user.getIdEmpresa().getDescEmpresa().toUpperCase(),MaiorGradeSuaEmpresa,entityManager);
 
 							List<GradeVO> listaGradesEmpresas = tbPesquisaService
 									.findGradeSuaEmpresaPres(user.getIdEmpresa().getDescEmpresa().toUpperCase(), cargoEscolhido);
@@ -1441,6 +1560,48 @@ public class TbPesquisaBean implements Serializable {
 
 	public void setTbDetalheAcessoService(TbDetalheAcessoService tbDetalheAcessoService) {
 		this.tbDetalheAcessoService = tbDetalheAcessoService;
+	}
+
+	public String getEmpresaEscolhida() {
+		return empresaEscolhida;
+	}
+
+	public void setEmpresaEscolhida(String empresaEscolhida) {
+		this.empresaEscolhida = empresaEscolhida;
+	}
+
+
+
+	public void setDistinctCargosEmpresa(List<String> distinctCargosEmpresa) {
+		this.distinctCargosEmpresa = distinctCargosEmpresa;
+	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	public FiltroVO getFiltroVO() {
+		return filtroVO;
+	}
+
+	public void setFiltroVO(FiltroVO filtroVO) {
+		this.filtroVO = filtroVO;
+	}
+
+	public List<String> getDistinctCargosEmpresa() {
+		return distinctCargosEmpresa;
+	}
+
+	public List<String> getSelectedFilters() {
+		return selectedFilters;
+	}
+
+	public void setSelectedFilters(List<String> selectedFilters) {
+		this.selectedFilters = selectedFilters;
 	}
 
 

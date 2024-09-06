@@ -13,7 +13,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.applicationn.pesquisa.domain.TbPesquisa;
 import org.applicationn.pesquisa.service.TbPesquisaService;
@@ -28,7 +29,8 @@ import org.primefaces.event.SlideEndEvent;
 @Named("tbPesquisaBeanLote")
 @ViewScoped
 public class TbPesquisaBeanLote implements Serializable {
-
+	@PersistenceContext(unitName = "Moura")
+	private  EntityManager entityManager;
 
 	private static final long serialVersionUID = 1L;
 
@@ -255,7 +257,7 @@ public class TbPesquisaBeanLote implements Serializable {
 
 							listaDeMedias = tbPesquisaService.findMediaSuaEmpresa(familiaEscolhida,
 									subFamiliaEscolhida,
-									cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo,user.getIdEmpresa().getDescEmpresa().toUpperCase(),MaiorGradeSuaEmpresa);
+									cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo,user.getIdEmpresa().getDescEmpresa().toUpperCase(),MaiorGradeSuaEmpresa,entityManager);
 
 							List<GradeVO> listaGradesEmpresas = tbPesquisaService
 									.findGradeSuaEmpresaPres(user.getIdEmpresa().getDescEmpresa().toUpperCase(), cargoEscolhido);
