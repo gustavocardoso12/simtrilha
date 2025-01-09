@@ -2,6 +2,7 @@ package org.applicationn.pesquisa.service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,9 +88,10 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 	
 	@SuppressWarnings("unchecked")
     @Transactional
-    public List<MediasNovaEmpresaVO> findExtracaoEmpresaMercado(String nomeEmpresa) {
+    public List<MediasNovaEmpresaVO> findExtracaoEmpresaMercado(String nomeEmpresa, String nomeCargo, String mercado ) {
         List<MediasNovaEmpresaVO> extracoes = new ArrayList<>();
-        List<Object> resultList = getEntityManagerMatriz().createNativeQuery(
+        
+        StringBuilder query = new StringBuilder(
                 " SELECT * \n"
                 + "FROM (\n"
                 + "    SELECT \n"
@@ -107,31 +109,19 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
                 + "        avg_media,\n"
                 + "        total_qtd_empresas, codigo_cargo\n"
                 + "    FROM tb_pesquisa_extracao_mercado\n"
-                + "    UNION ALL \n"
-                + "    SELECT \n"
-                + "        999 AS grade,\n"
-                + "        mercado,\n"
-                + "        nm_familia,\n"
-                + "        nm_subfamilia,\n"
-                + "        nome_cargo_xr,\n"
-                + "        desc_renum_new,\n"
-                + "        AVG(avg_p10) AS avg_p10,\n"
-                + "        AVG(avg_p25) AS avg_p25,\n"
-                + "        AVG(avg_p50) AS avg_p50,\n"
-                + "        AVG(avg_p75) AS avg_p75,\n"
-                + "        AVG(avg_p90) AS avg_p90,\n"
-                + "        AVG(avg_media) AS avg_media,\n"
-                + "        SUM(total_qtd_empresas) AS total_qtd_empresas,codigo_cargo\n"
-                + "    FROM \n"
-                + "        SimTrilhas.dbo.tb_pesquisa_extracao_mercado\n"
-                + "    GROUP BY \n"
-                + "        nm_familia,\n"
-                + "        mercado,\n"
-                + "        nm_subfamilia,\n"
-                + "        nome_cargo_xr,\n"
-                + "        desc_renum_new,codigo_cargo\n"
                 + ") AS combined_results\n"
-                + "ORDER BY \n"
+                + "WHERE 1=1 "
+        );
+        
+        // Verifica se o parâmetro nomeCargo foi passado
+        if (nomeCargo != null && !nomeCargo.isEmpty()) {
+            query.append(" AND nome_cargo_xr = :nomeCargo");
+        }
+        
+        query.append(" AND mercado = :mercado");
+        
+        query.append(
+                " ORDER BY \n"
                 + "    nm_familia, \n"
                 + "    nm_subfamilia,\n"
                 + "    nome_cargo_xr,\n"
@@ -147,8 +137,19 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
                 + "        WHEN desc_renum_new = 'RDA - Remuneração Direta Alvo' THEN 8\n"
                 + "        WHEN desc_renum_new = 'RD - Remuneração Direta' THEN 9\n"
                 + "        ELSE 10 \n"
-                + "    END")
-            .getResultList();
+                + "    END"
+        );
+
+        // Cria a query e define os parâmetros
+        Query nativeQuery = getEntityManagerMatriz().createNativeQuery(query.toString());
+        System.out.println(query.toString());
+        if (nomeCargo != null && !nomeCargo.isEmpty()) {
+            nativeQuery.setParameter("nomeCargo", nomeCargo);
+        }
+        
+        nativeQuery.setParameter("mercado", mercado);
+        
+        List<Object> resultList = nativeQuery.getResultList();
 
         for (Object record : resultList) {
             Object[] linha = (Object[]) record;
@@ -241,11 +242,11 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 	@SuppressWarnings("unchecked")
     @Transactional
     public List<MediasNovaEmpresaVO> findExtracaoEmpresaPorNome(String nomeEmpresa, String nomeFamilia, String nomeSubfamilia,
-    		String nomeCargo) {
+    		String nomeCargo, String mercado) {
         List<MediasNovaEmpresaVO> extracoes = new ArrayList<>();
         
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("SELECT \n")
+        queryBuilder.append("SELECT tpd.id,\n")
             .append("    tee.nome_cargo_xr,\n")
             .append("    tee.nome_cargo,\n")
             .append("    CASE\n")
@@ -260,7 +261,18 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             .append("        WHEN desc_renum = '9 - RD - Remuneração Direta' THEN 'RD - Remuneração Direta'\n")
             .append("        ELSE desc_renum\n")
             .append("    END AS desc_renum_new,\n")
-            .append("    sua_empresa,\n")
+            .append("    (CASE  \n"
+            		+ "					    WHEN desc_renum = '1 - SBM - Salário Base Mensal' THEN cast(tpd.valor_sb /13.33 as int)\n"
+            		+ "					    WHEN desc_renum = '2 - SBM - Salário Base Anual' THEN cast(tpd.valor_sb as int)\n"
+            		+ "					    WHEN desc_renum = '3 ICPA - Incentivo de Curto Prazo Alvo (Bônus + PLR)'  THEN cast(tpd.valor_cp_aliv  as int)\n"
+            		+ "					    WHEN desc_renum = '4 TDA - Total em Dinheiro Alvo' THEN cast(tpd.valor_tda  as int)\n"
+            		+ "					    WHEN desc_renum = '5 - ICP - Incentivo de Curto Prazo Pago (Bônus + PLR)' THEN cast(tpd.valor_cp_pg  as int)\n"
+            		+ "					    WHEN desc_renum = '6 - TD - Total em Dinheiro' THEN cast(tpd.valor_td  as int)\n"
+            		+ "					    WHEN desc_renum = '7 - ILP - Incentivos de Longo Prazo' THEN cast(tpd.valor_ilp  as int)\n"
+            		+ "					    WHEN desc_renum = '8 - RDA - Remuneração Direta Alvo' THEN cast(tpd.valor_rda  as int)\n"
+            		+ "					    WHEN desc_renum = '9 - RD - Remuneração Direta'THEN cast(tpd.valor_rd  as int)\n"
+            		+ "					    ELSE NULL \n"
+            		+ "					END) AS sua_empresa ,\n")
             .append("    p10,\n")
             .append("    P25,\n")
             .append("    P50,\n")
@@ -276,7 +288,7 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             .append("    tpd.matricula,\n")
             .append("    tpd.grade AS grade_empresa,\n")
             .append("    tpd.codigo_cargo, \n")
-            .append("    'Mercado APTA XR' AS mercado\n")
+            .append("    tm.dsMercado AS mercado\n")
             .append("FROM \n")
             .append("    TB_EXTRACAO_EMPRESA tee\n")
             .append("INNER JOIN \n")
@@ -284,6 +296,8 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             .append("    ON tp.codigo_cargo = tee.codigo_cargo\n")
             .append("    AND tp.grade = tee.grade\n")
             .append("    AND tp.nome_empresa = tee.nome_empresa\n")
+            .append("     INNER JOIN TB_PESQUISA_MERCADO tpm ON (tp.codigo_empresa = tpm.cd_empresa) "
+            		+ "   INNER JOIN tb_mercado tm ON (tpm.cd_mercado = tm.id)  ")
             .append("INNER JOIN \n")
             .append("    TB_PESQUISA_DETALHE tpd \n")
             .append("    ON tee.codigo_cargo = tpd.codigo_cargo \n")
@@ -292,7 +306,7 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             .append("    AND tp.nome_cargo = tpd.nome_cargo_XR\n")
             .append("    AND TEE.nome_cargo = TPD.nome_cargo_empresa \n")
             .append("WHERE \n")
-            .append("    tp.nome_empresa = :nomeEmpresa\n");
+            .append("    tp.nome_empresa = :nomeEmpresa \n");
 
         if (nomeFamilia != null && !nomeFamilia.isEmpty()) {
             queryBuilder.append("AND tp.nm_familia = :nomeFamilia\n");
@@ -304,9 +318,12 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
         if (nomeCargo != null && !nomeCargo.isEmpty()) {
             queryBuilder.append("AND tp.nome_cargo = :nomeCargo\n");
         }
+        if (mercado != null && !mercado.isEmpty()) {
+            queryBuilder.append("AND tm.dsMercado = :mercado\n");
+        }
         
 
-        queryBuilder.append("ORDER BY \n")
+        queryBuilder.append("ORDER BY TPD.ID,\n")
             .append("    grade, \n")
             .append("    matricula, \n")
             .append("    tp.nome_empresa, \n")
@@ -325,32 +342,41 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
         if (nomeCargo != null && !nomeCargo.isEmpty()) {
         	 query.setParameter("nomeCargo", nomeCargo);
         }
-
+        if (mercado != null && !mercado.isEmpty()) {
+        	 query.setParameter("mercado", mercado);
+        }
         List<Object> resultList = query.getResultList();
 
         for (Object record : resultList) {
             Object[] linha = (Object[]) record;
             MediasNovaEmpresaVO extracao = new MediasNovaEmpresaVO();
-            extracao.setNomeCargoXr((String) linha[0]);
-            extracao.setNomeCargo((String) linha[1]);
-            extracao.setDescRenum((String) linha[2]);
-            extracao.setSuaEmpresa((int) linha[3]);
-            extracao.setP10((int) linha[4]);
-            extracao.setP25((int) linha[5]);
-            extracao.setP50((int) linha[6]);
-            extracao.setP75((int) linha[7]);
-            extracao.setP90((int) linha[8]);
-            extracao.setMedia((int) linha[9]);
-            extracao.setQtdEmpresas((int) linha[10]);
-            extracao.setNumParticipantes((int) linha[11]);
-            extracao.setNomeEmpresa((String) linha[12]);
-            extracao.setGrade((int) linha[13]);
-            extracao.setNmFamilia((String)linha[14]);
-            extracao.setNmSubFamilia((String) linha[15]);
-            extracao.setMatricula((String) linha[16]);
-            extracao.setGradeEmpresa((String) linha[17]) ;
-            extracao.setCodigoCargo((String) linha[18]);
-            extracao.setMercado((String) linha[19]);
+            extracao.setId((BigInteger) linha[0]);
+            extracao.setNomeCargoXr((String) linha[1]);
+            extracao.setNomeCargo((String) linha[2]);
+            extracao.setDescRenum((String) linha[3]);
+
+            if (linha[4] == null) {
+                extracao.setSuaEmpresa(0);
+            } else {
+                extracao.setSuaEmpresa((int) linha[4]);
+            }
+
+            extracao.setP10((int) linha[5]);
+            extracao.setP25((int) linha[6]);
+            extracao.setP50((int) linha[7]);
+            extracao.setP75((int) linha[8]);
+            extracao.setP90((int) linha[9]);
+            extracao.setMedia((int) linha[10]);
+            extracao.setQtdEmpresas((int) linha[11]);
+            extracao.setNumParticipantes((int) linha[12]);
+            extracao.setNomeEmpresa((String) linha[13]);
+            extracao.setGrade((int) linha[14]);
+            extracao.setNmFamilia((String) linha[15]);
+            extracao.setNmSubFamilia((String) linha[16]);
+            extracao.setMatricula((String) linha[17]);
+            extracao.setGradeEmpresa((String) linha[18]);
+            extracao.setCodigoCargo((String) linha[19]);
+            extracao.setMercado((String) linha[20]);
             extracoes.add(extracao);
         }
         for(int i=0; i<extracoes.size();i++) {

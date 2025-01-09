@@ -21,19 +21,94 @@ import org.applicationn.pesquisa.vo.CurvaVO;
 import org.applicationn.pesquisa.vo.MediasVO;
 import org.applicationn.simtrilhas.service.BaseService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Date;
+import java.util.Iterator;
+
+
 @Named
 @TransactionManagement(TransactionManagementType.BEAN)
 public class TbCurvaService extends BaseService<TbPesquisaCurva> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) throws NoSuchAlgorithmException {
-       
+	public static void main(String[] args) {
+        String inputFilePath = "C:/tmp/logins.xlsx";
+        String outputFilePath = "C:/tmp/output.xlsx";
 
-		 String plainText = "936e7899d6d4aab6d56a0d2601f1d3e5068755fd61eba55de0477377c8710565ccedb36e02735acaecfb89514cc9b352ec2ec41f5443305fe355b7fcff83eb4f" 
-					+ "7upjj6c8h5djhvflvpro0jhq1sk05ebf86c64gcevckh415unk";
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
-        byte[] hash = messageDigest.digest( plainText.getBytes() );
+        try {
+            FileInputStream file = new FileInputStream(inputFilePath);
+            Workbook workbook = new XSSFWorkbook(file);
+            Sheet sheet = workbook.getSheetAt(0); // Pegue a primeira aba
+            Iterator<Row> rowIterator = sheet.iterator();
+
+            Workbook outputWorkbook = new XSSFWorkbook();
+            Sheet outputSheet = outputWorkbook.createSheet("Output");
+
+            int rowIndex = 0;
+            Row headerRow = outputSheet.createRow(rowIndex++);
+
+            // Cria o cabeçalho para o arquivo de saída
+            String[] headers = {"Empresa banco de dados", "E-mail", "Usuário", "Senha Original", "Salt", "Password Hash", 
+                                "CreatedAt", "Version", "Status", "Tema", "Banco de Dados", "Flag Pessoa", 
+                                "Flag Grade", "Ativo", "Sistema", "Priv Acesso"};
+            for (int i = 0; i < headers.length; i++) {
+                headerRow.createCell(i).setCellValue(headers[i]);
+            }
+
+            // Pular a primeira linha (cabeçalho do arquivo original)
+            rowIterator.next();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                String empresaBancoDados = row.getCell(0).getStringCellValue();
+                String email = row.getCell(1).getStringCellValue();
+                String usuario = row.getCell(2).getStringCellValue();
+                String senhaOriginal = row.getCell(3).getStringCellValue();
+
+                // Gerar salt e hash para a senha
+                String salt = SecurityWrapper.generateSalt();
+                String hashedPassword = SecurityWrapper.hashPassword(senhaOriginal, salt);
+
+                // Criar nova linha para a saída
+                Row outputRow = outputSheet.createRow(rowIndex++);
+
+                // Preencher os valores na planilha de saída
+                outputRow.createCell(0).setCellValue(empresaBancoDados);
+                outputRow.createCell(1).setCellValue(email);
+                outputRow.createCell(2).setCellValue(usuario);
+                outputRow.createCell(3).setCellValue(senhaOriginal); // Senha original
+                outputRow.createCell(4).setCellValue(salt);
+                outputRow.createCell(5).setCellValue(hashedPassword);
+                outputRow.createCell(6).setCellValue(new Date().toString()); // CreatedAt
+                outputRow.createCell(7).setCellValue(1); // Version
+                outputRow.createCell(8).setCellValue("Active"); // Status
+                outputRow.createCell(9).setCellValue("APTA"); // Tema
+                outputRow.createCell(10).setCellValue("APTA"); // Banco de Dados
+                outputRow.createCell(11).setCellValue("NAO"); // Flag Pessoa
+                outputRow.createCell(12).setCellValue("NAO"); // Flag Grade
+                outputRow.createCell(13).setCellValue("NAO"); // Ativo
+                outputRow.createCell(14).setCellValue("Pesquisa"); // Sistema
+                outputRow.createCell(15).setCellValue("Premium"); // Priv Acesso
+            }
+
+            // Gravar o arquivo de saída
+            FileOutputStream outputStream = new FileOutputStream(outputFilePath);
+            outputWorkbook.write(outputStream);
+            outputWorkbook.close();
+            file.close();
+            System.out.println("Arquivo de saída gerado com sucesso: " + outputFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 	public TbCurvaService(){

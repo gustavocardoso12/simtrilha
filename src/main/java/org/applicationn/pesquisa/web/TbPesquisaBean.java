@@ -28,6 +28,7 @@ import org.applicationn.pesquisa.domain.TbDetalhesAcesso;
 import org.applicationn.pesquisa.domain.TbPesquisa;
 import org.applicationn.pesquisa.service.TbDetalheAcessoService;
 import org.applicationn.pesquisa.service.TbPesquisaService;
+import org.applicationn.pesquisa.service.TbUsuarioPesquisaService;
 import org.applicationn.pesquisa.vo.EmpresasDetalheVO;
 import org.applicationn.pesquisa.vo.FiltroVO;
 import org.applicationn.pesquisa.vo.GradeVO;
@@ -48,7 +49,8 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LegendPlacement;
-
+import java.util.HashMap;
+import java.util.Map;
 @Named("tbPesquisaBean")
 @ViewScoped
 public class TbPesquisaBean implements Serializable {
@@ -58,13 +60,17 @@ public class TbPesquisaBean implements Serializable {
 	 private List<String> selectedFilters = new ArrayList<>();
 	private static final long serialVersionUID = 1L;
 
-	private final String URLpesquisa = "https://www.figma.com/proto/cD4OIlgiMRPPK77bGJzWSz/Apresenta%C3%A7%C3%A3o---Apta-XR-2023?page-id=41%3A60&type=design&node-id=3233-6671&viewport=7014%2C-21526%2C0.68&t=tZPQku4VytbW1f52-1&scaling=scale-down-width&starting-point-node-id=3233%3A6671";
-
+	private final String URLpesquisa = "https://www.figma.com/proto/cD4OIlgiMRPPK77bGJzWSz/Apta-XR-2024?page-id=7164%3A855&node-id=7767-3899&node-type=frame&viewport=359%2C235%2C0.02&t=3xE3Ppfo7916s0Mk-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=7767%3A3899&disable-default-keyboard-nav=1&hide-ui=1";
+	private List<String> mercadosDisponiveis;
 	@Inject
 	private TbPesquisaService tbPesquisaService;
-
+	private Map<String, MediasVO> valoresFixosSuaEmpresa = new HashMap<>();
 	@Inject
 	private TbDetalheAcessoService tbDetalheAcessoService;
+	
+	@Inject
+	private TbUsuarioPesquisaService tbUsuarioPesquisaService;
+	
 	
 	private List<TbPesquisa> tbPesquisaList;
 
@@ -218,9 +224,8 @@ public class TbPesquisaBean implements Serializable {
 					mercadoEscolhido,gradeMinimoPadrao,gradeMaximoPadrao,user,
 					tbPesquisaService,entityManager,filtroVO,existeEmpresaPres);
 			
-				return;
 			}
-		if(listaDeMedias==null) {
+		/*if(listaDeMedias==null) {
 
 		}else {
 			if(listaDeMedias.size()==0) {
@@ -233,7 +238,7 @@ public class TbPesquisaBean implements Serializable {
 								tbPesquisaService,entityManager);
 			}
 
-		}
+		}*/
 		
 		String username = SecurityWrapper.getUsername();
 		UserEntity user = userService.findUserByUsername(username);
@@ -245,10 +250,10 @@ public class TbPesquisaBean implements Serializable {
 		
 		vo.setMesAno(dataFormatada);
 		if(exportOption==1) {
-			vo.setTipoDeAtividade("ACESSO EXCEL CARGO");
+			vo.setTipoDeAtividade("ACESSO EXCEL FAMILIA");
 		}
 		if(exportOption==2) {
-			vo.setTipoDeAtividade("ACESSO EXCEL SUBFAMILIA");
+			vo.setTipoDeAtividade("ACESSO EXCEL CARGO");
 		}
 		if (exportOption==3) {
 			vo.setTipoDeAtividade("ACESSO EXCEL EMPRESA");
@@ -948,6 +953,27 @@ public class TbPesquisaBean implements Serializable {
 	}
 	
 	
+
+	// Método para verificar se os valores já estão armazenados
+	public void atualizarListaDeMedias() {
+		
+	    if (listaDeMedias != null && !listaDeMedias.isEmpty()) {
+	        for (MediasVO media : listaDeMedias) {
+	            // Supondo que o campo "suaEmpresa" seja único para cada entrada de MediasVO
+	        	String chaveUnica = media.getDescRenum() + "_" + media.getNomeCargo(); // Altere conforme a lógica que define "sua_empresa"
+	            
+	            // Verifique se já existe um valor fixo para "sua_empresa"
+	            if (!valoresFixosSuaEmpresa.containsKey(chaveUnica)) {
+	                // Se não existe, armazene o valor atual
+	                valoresFixosSuaEmpresa.put(chaveUnica, media);
+	            } else {
+	                // Se já existe, mantenha o valor fixo
+	                media.setSua_empresa(valoresFixosSuaEmpresa.get(chaveUnica).getSua_empresa());
+	            }
+	        }
+	    }
+	}
+	
 	
 	public List<Integer> getDistinctGrade(boolean UsaSlider, boolean primeiraExecucao) {
 		String mensagem="";
@@ -1136,10 +1162,22 @@ public class TbPesquisaBean implements Serializable {
 		}else {
 			this.distinctGrade =null;
 		}
+		
+		if (listaDeMedias != null) {
+		    atualizarListaDeMedias();
+		}
+		
+		
 		return distinctGrade;
 	}
 
 
+	public List<String> getMercadosDisponiveis() {
+	    if (mercadosDisponiveis == null || mercadosDisponiveis.isEmpty()) {
+	        mercadosDisponiveis = tbUsuarioPesquisaService.findMercadosDisponiveis(user.getId());
+	    }
+	    return mercadosDisponiveis;
+	}
 
 	
 
@@ -1602,6 +1640,10 @@ public class TbPesquisaBean implements Serializable {
 
 	public void setSelectedFilters(List<String> selectedFilters) {
 		this.selectedFilters = selectedFilters;
+	}
+
+	public void setMercadosDisponiveis(List<String> mercadosDisponiveis) {
+		this.mercadosDisponiveis = mercadosDisponiveis;
 	}
 
 

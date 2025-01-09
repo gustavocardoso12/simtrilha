@@ -1971,7 +1971,7 @@ public class Exportar {
 			List<MediasNovaEmpresaVO> lista = new ArrayList<MediasNovaEmpresaVO>();
 			//List<MediasNovaEmpresaVO> lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa());
 			if(ExportOption==4) {
-				lista = tbPesquisaService.findExtracaoEmpresaMercado(user.getIdEmpresa().getDescEmpresa());
+			//	lista = tbPesquisaService.findExtracaoEmpresaMercado(user.getIdEmpresa().getDescEmpresa());
 			}else {
 			//	lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), Familia, Subfamilia);
 			}

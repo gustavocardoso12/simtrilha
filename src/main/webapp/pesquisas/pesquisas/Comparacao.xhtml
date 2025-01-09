@@ -328,8 +328,8 @@ function myExtender(){
 									<f:selectItem itemValue="Mercado AptaXR"
 										itemLabel="Mercado AptaXR" />
 
-									<f:selectItem itemValue="#{tbPesquisaBean.user.mercado}"
-										itemLabel="#{tbPesquisaBean.user.mercado}" />
+									 <f:selectItems value="#{tbPesquisaBean.mercadosDisponiveis}" var="mercado"
+                   itemValue="#{mercado}" itemLabel="#{mercado}" />
 
 									<p:ajax event="change" global="true" partialSubmit="true"
 										listener="#{tbPesquisaBean.getDistinctGrade(true,false)}"
@@ -487,7 +487,7 @@ function myExtender(){
     text-align: center;
     font-size: 14px;
     margin-top: 2px;"
-						ajax="false" value="Pesquisa Qualitativa"
+						ajax="false" value="Relatório Qualitativo"
 						href="#{tbPesquisaBean.URLpesquisa}" target="_blank">
 					</p:button>
 					
@@ -555,8 +555,7 @@ function myExtender(){
 						
 						
 						<p:commandButton id="btnexport7" value="Exportar Cargo"
-					rendered="#{userBean.user.privilegio_acesso eq 'Premium' and not empty tbPesquisaBean.subFamiliaEscolhida
-					and  tbPesquisaBean.empresaInsuficiente eq '2'}"
+					rendered="#{userBean.user.privilegio_acesso eq 'Premium' and not empty tbPesquisaBean.subFamiliaEscolhida}"
 						style="background:#FF5250;width:150px;height: 35px;text-align: center;font-size: 14px;margin-top: 3px;"
 						onclick="PF('exportDialogSubF').show();" />	
 						
@@ -1302,10 +1301,10 @@ function myExtender(){
                 <f:selectItem itemLabel="Incentivo Longo Prazo" itemValue="incentivoLongoPrazo" />
                 
                  <f:selectItem itemLabel="Percentil 10 (P10)" itemValue="p10" />
-                 <f:selectItem itemLabel="Percentil 25 (P10)" itemValue="p25" />
-                 <f:selectItem itemLabel="Percentil 50 (P10)" itemValue="p50" />
-                 <f:selectItem itemLabel="Percentil 75 (P10)" itemValue="p75" />
-                  <f:selectItem itemLabel="Percentil 90 (P10)" itemValue="p90" />
+                 <f:selectItem itemLabel="Percentil 25 (P25)" itemValue="p25" />
+                 <f:selectItem itemLabel="Percentil 50 (P50)" itemValue="p50" />
+                 <f:selectItem itemLabel="Percentil 75 (P75)" itemValue="p75" />
+                  <f:selectItem itemLabel="Percentil 90 (P90)" itemValue="p90" />
                     
                 
             </p:selectManyCheckbox>
@@ -1340,10 +1339,10 @@ function myExtender(){
                 <f:selectItem itemLabel="Incentivo Longo Prazo" itemValue="incentivoLongoPrazo" />
                 
                  <f:selectItem itemLabel="Percentil 10 (P10)" itemValue="p10" />
-                 <f:selectItem itemLabel="Percentil 25 (P10)" itemValue="p25" />
-                 <f:selectItem itemLabel="Percentil 50 (P10)" itemValue="p50" />
-                 <f:selectItem itemLabel="Percentil 75 (P10)" itemValue="p75" />
-                  <f:selectItem itemLabel="Percentil 90 (P10)" itemValue="p90" />
+                 <f:selectItem itemLabel="Percentil 25 (P25)" itemValue="p25" />
+                 <f:selectItem itemLabel="Percentil 50 (P50)" itemValue="p50" />
+                 <f:selectItem itemLabel="Percentil 75 (P75)" itemValue="p75" />
+                  <f:selectItem itemLabel="Percentil 90 (P90)" itemValue="p90" />
                     
                 
                 
@@ -1377,10 +1376,10 @@ function myExtender(){
                 <f:selectItem itemLabel="Incentivo Longo Prazo" itemValue="incentivoLongoPrazo" />
                 
                  <f:selectItem itemLabel="Percentil 10 (P10)" itemValue="p10" />
-                 <f:selectItem itemLabel="Percentil 25 (P10)" itemValue="p25" />
-                 <f:selectItem itemLabel="Percentil 50 (P10)" itemValue="p50" />
-                 <f:selectItem itemLabel="Percentil 75 (P10)" itemValue="p75" />
-                  <f:selectItem itemLabel="Percentil 90 (P10)" itemValue="p90" />
+                 <f:selectItem itemLabel="Percentil 25 (P25)" itemValue="p25" />
+                 <f:selectItem itemLabel="Percentil 50 (P50)" itemValue="p50" />
+                 <f:selectItem itemLabel="Percentil 75 (P75)" itemValue="p75" />
+                  <f:selectItem itemLabel="Percentil 90 (P90)" itemValue="p90" />
                      
                 
                 

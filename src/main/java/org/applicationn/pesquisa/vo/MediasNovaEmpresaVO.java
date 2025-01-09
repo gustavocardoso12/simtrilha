@@ -1,6 +1,9 @@
 package org.applicationn.pesquisa.vo;
 
+import java.math.BigInteger;
+
 public class MediasNovaEmpresaVO {
+	private BigInteger id;
 	 private String nomeCargoXr;
 	    private String nomeCargo;
 	    private String descRenum;
@@ -140,5 +143,11 @@ public class MediasNovaEmpresaVO {
 		}
 		public void setMercado(String mercado) {
 			this.mercado = mercado;
+		}
+		public BigInteger getId() {
+			return id;
+		}
+		public void setId(BigInteger id) {
+			this.id = id;
 		}
 }

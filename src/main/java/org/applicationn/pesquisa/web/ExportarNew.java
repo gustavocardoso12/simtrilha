@@ -27,10 +27,13 @@ import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
@@ -115,6 +118,18 @@ public class ExportarNew {
 	}
 
 	private static Cell createCells(Sheet sheet, int numeroDaCelula, String valorDaCelula, Row row) {
+		Cell cell = row.createCell(numeroDaCelula);
+		cell.setCellValue(valorDaCelula);
+		return cell;
+	}
+	
+	private static Cell createCells(Sheet sheet, int numeroDaCelula, Long valorDaCelula, Row row) {
+		Cell cell = row.createCell(numeroDaCelula);
+		cell.setCellValue(valorDaCelula);
+		return cell;
+	}
+
+	private static Cell createCells(Sheet sheet, int numeroDaCelula, int valorDaCelula, Row row) {
 		Cell cell = row.createCell(numeroDaCelula);
 		cell.setCellValue(valorDaCelula);
 		return cell;
@@ -923,14 +938,15 @@ public class ExportarNew {
 
 
 	public static String formatarMonetario (double valor) {
-		NumberFormat formato = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-		String valorFormatado = formato.format(valor);
-		if(valorFormatado==null) {
-			valorFormatado="";
-		}else if (valorFormatado.equals("R$ 0,00")) {
-			valorFormatado =  "";
+		// Converter o valor para inteiro, descartando as casas decimais
+		int valorInteiro = (int) valor;
+
+		if(valor==0) {
+			return "";
 		}
-		return valorFormatado;
+
+		// Retornar o valor inteiro como string sem formatação adicional
+		return String.valueOf(valorInteiro);
 	}
 
 	public static String doubleToString(double number) {
@@ -1002,7 +1018,17 @@ public class ExportarNew {
 		XSSFCellStyle  style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER,
 				HorizontalAlignment.CENTER, 
 				fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
+		// Criação de fontes e cores
+		Font fontA10Black = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
+		Font fontA10BlackBold = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
+		XSSFColor colorGray = rgbToXSSFColor(242, 242, 242);
+		XSSFColor colorWhite = rgbToXSSFColor(255, 255, 255);
 
+		// Criação dos estilos
+		XSSFCellStyle styleGrayLeft = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.LEFT, fontA10Black, colorGray, FillPatternType.SOLID_FOREGROUND, 0);
+		XSSFCellStyle styleGrayCenter = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10BlackBold, colorGray, FillPatternType.SOLID_FOREGROUND, 0);
+		XSSFCellStyle styleWhiteCenter = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10Black, colorWhite, FillPatternType.SOLID_FOREGROUND, 0);
+		DataFormat format = workbook.createDataFormat();
 		for(int k=0; k<dados.size();k++) {
 
 			String descRenum = dados.get(k).getDescRenum();
@@ -1036,7 +1062,7 @@ public class ExportarNew {
 				double v2 = dados.get(posicaoSBM).getSuaEmpresa();
 
 				double suaEmpresa = (v2 != 0) ? v : 0;
-				
+
 				double p10 = dados.get(k).getP10();
 				double p10v2 = dados.get(posicaoSBM).getP10();
 
@@ -1056,7 +1082,7 @@ public class ExportarNew {
 				double p75v2 = dados.get(posicaoSBM).getP75();
 
 				double p75Final = (p75v2 != 0) ? p75 : 0;
-				
+
 				double p90 = dados.get(k).getP75();
 				double p90v2 = dados.get(posicaoSBM).getP75();
 
@@ -1079,7 +1105,7 @@ public class ExportarNew {
 				double v2ICP = dados.get(posicaoSBM).getSuaEmpresa();
 
 				double suaEmpresaICP = (v2ICP != 0) ? vICP  : 0;
-				
+
 				double p10ICP = dados.get(k).getP10();
 				double p10v2ICP = dados.get(posicaoSBM).getP10();
 
@@ -1099,7 +1125,7 @@ public class ExportarNew {
 				double p75v2ICP = dados.get(posicaoSBM).getP75();
 
 				double p75FinalICP = (p75v2ICP != 0) ? p75ICP  : 0;
-				
+
 
 				double p90ICP = dados.get(k).getP90();
 				double p90v2ICP = dados.get(posicaoSBM).getP90();
@@ -1183,32 +1209,37 @@ public class ExportarNew {
 				};
 				break;
 			}
-			// Criação de fontes e cores
-			Font fontA10Black = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
-			Font fontA10BlackBold = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
-			XSSFColor colorGray = rgbToXSSFColor(242, 242, 242);
-			XSSFColor colorWhite = rgbToXSSFColor(255, 255, 255);
-
-			// Criação dos estilos
-			XSSFCellStyle styleGrayLeft = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.LEFT, fontA10Black, colorGray, FillPatternType.SOLID_FOREGROUND, 0);
-			XSSFCellStyle styleGrayCenter = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10BlackBold, colorGray, FillPatternType.SOLID_FOREGROUND, 0);
-			XSSFCellStyle styleWhiteCenter = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10Black, colorWhite, FillPatternType.SOLID_FOREGROUND, 0);
 
 			for (int i = 0; i < header.length; i++) {
-				if (header.length == 15) {
+				if (header.length == 17) {
 					if (i <= 8) {
 						style = styleGrayLeft;
 					} else {
 						style = styleWhiteCenter;
+						style.setDataFormat(format.getFormat("#,##0"));
 					}
 				} else {
 					if (i == 0) {
 						style = styleGrayCenter;
+						style.setDataFormat(format.getFormat("#,##0"));
 					} else {
 						style = styleWhiteCenter;
+						style.setDataFormat(format.getFormat("#,##0"));
 					}
 				}
-				Cell cell = createCells(sheet, i + tamanhoAnterior, header[i], row10);
+				Cell cell=null;
+				if(header[i]==null) {
+					cell = createCells(sheet, i + tamanhoAnterior, header[i], row10);
+				}else {
+
+					if (header[i].matches("\\d+")) { 
+						cell = createCells(sheet, i + tamanhoAnterior, Long.valueOf(header[i]), row10);
+					}else {
+						//System.out.println("i"+ i);
+						//System.out.println("tamanho anterior" + tamanhoAnterior);
+						cell = createCells(sheet, i + tamanhoAnterior, header[i], row10);
+					}
+				}
 				cell.setCellStyle(style);
 				// sheet.autoSizeColumn(cell.getColumnIndex());
 			}
@@ -1269,7 +1300,16 @@ public class ExportarNew {
 		XSSFCellStyle  style = createXSSFStyle(sheet, workbook, VerticalAlignment.CENTER,
 				HorizontalAlignment.CENTER, 
 				fontA10, color, FillPatternType.SOLID_FOREGROUND,0);
-
+		// Criação de fontes e cores
+		Font fontA10Black = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
+		Font fontA10BlackBold = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
+		XSSFColor colorGray = rgbToXSSFColor(242, 242, 242);
+		XSSFColor colorWhite = rgbToXSSFColor(255, 255, 255);
+		DataFormat format = workbook.createDataFormat();
+		// Criação dos estilos
+		XSSFCellStyle styleGrayLeft = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.LEFT, fontA10Black, colorGray, FillPatternType.SOLID_FOREGROUND, 0);
+		XSSFCellStyle styleGrayCenter = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10BlackBold, colorGray, FillPatternType.SOLID_FOREGROUND, 0);
+		XSSFCellStyle styleWhiteCenter = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10Black, colorWhite, FillPatternType.SOLID_FOREGROUND, 0);
 		for(int k=0; k<dados.size();k++) {
 
 			String descRenum = dados.get(k).getDescRenum();
@@ -1441,32 +1481,32 @@ public class ExportarNew {
 			}
 
 
-			// Criação de fontes e cores
-			Font fontA10Black = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
-			Font fontA10BlackBold = createFont(sheet, "Helvetica", (short) 12, false, IndexedColors.BLACK.getIndex());
-			XSSFColor colorGray = rgbToXSSFColor(242, 242, 242);
-			XSSFColor colorWhite = rgbToXSSFColor(255, 255, 255);
-
-			// Criação dos estilos
-			XSSFCellStyle styleGrayLeft = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.LEFT, fontA10Black, colorGray, FillPatternType.SOLID_FOREGROUND, 0);
-			XSSFCellStyle styleGrayCenter = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10BlackBold, colorGray, FillPatternType.SOLID_FOREGROUND, 0);
-			XSSFCellStyle styleWhiteCenter = createXSSFStyleBordasEscuras(sheet, workbook, VerticalAlignment.CENTER, HorizontalAlignment.CENTER, fontA10Black, colorWhite, FillPatternType.SOLID_FOREGROUND, 0);
 
 			for (int i = 0; i < header.length; i++) {
-				if (header.length == 16) {
-					if (i <= 8) {
+				if (header.length == 13) {
+					if (i <= 5) {
 						style = styleGrayLeft;
 					} else {
 						style = styleWhiteCenter;
+						style.setDataFormat(format.getFormat("#,##0"));
 					}
 				} else {
 					if (i == 0) {
 						style = styleGrayCenter;
+						style.setDataFormat(format.getFormat("#,##0"));
 					} else {
 						style = styleWhiteCenter;
+						style.setDataFormat(format.getFormat("#,##0"));
 					}
 				}
-				Cell cell = createCells(sheet, i + tamanhoAnterior, header[i], row10);
+				Cell cell=null;
+				if (header[i].matches("\\d+")) { 
+					cell = createCells(sheet, i + tamanhoAnterior, Integer.valueOf(header[i]), row10);
+				}else {
+					cell = createCells(sheet, i + tamanhoAnterior, header[i], row10);
+				}
+			//	System.out.println("i"+ i);
+			//	System.out.println("tamanho anterior" + tamanhoAnterior);
 				cell.setCellStyle(style);
 				// sheet.autoSizeColumn(cell.getColumnIndex());
 			}
@@ -1716,7 +1756,7 @@ public class ExportarNew {
 			addImage(sheet, imagePath);
 
 			// Adiciona o cabeçalho
-			if(ExportOption==4) {
+			if(ExportOption==4 || ExportOption==2) {
 				addHeaderNewMerc(sheet, nomeEmpresa, "", workbook, ExportOption, "");
 			}else {
 				addHeaderNew(sheet, nomeEmpresa, "", workbook, ExportOption, "");
@@ -1726,30 +1766,35 @@ public class ExportarNew {
 			List<MediasNovaEmpresaVO> lista = new ArrayList<MediasNovaEmpresaVO>();
 			//List<MediasNovaEmpresaVO> lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa());
 			if(ExportOption==4) {
-				lista = tbPesquisaService.findExtracaoEmpresaMercado(user.getIdEmpresa().getDescEmpresa());
+				lista = tbPesquisaService.findExtracaoEmpresaMercado(user.getIdEmpresa().getDescEmpresa(),null,mercadoEscolhido);
 				if (ExisteEmpresaPres == 0) {
-					 lista.removeIf(vo -> "PRESIDÊNCIA (CEO)".equals(vo.getNomeCargoXr()) 
-		                     || "PRESIDENTE DE SUBSIDIÁRIA".equals(vo.getNomeCargoXr())
-		                     || "PRESIDENTE / CEO".equals(vo.getNomeCargoXr()));
+					lista.removeIf(vo -> "PRESIDÊNCIA (CEO)".equals(vo.getNomeCargoXr()) 
+							|| "PRESIDENTE DE SUBSIDIÁRIA".equals(vo.getNomeCargoXr())
+							|| "PRESIDENTE / CEO".equals(vo.getNomeCargoXr()));
 				}
 			}else {
 
 				if(ExportOption==1) {
-					//lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), Familia, null);
 				}
 
 				if(ExportOption==2) {
-					lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), Familia, Subfamilia, cargoEscolhido);
+					lista = tbPesquisaService.findExtracaoEmpresaMercado(user.getIdEmpresa().getDescEmpresa(),cargoEscolhido,mercadoEscolhido);
+					if (ExisteEmpresaPres == 0) {
+						lista.removeIf(vo -> "PRESIDÊNCIA (CEO)".equals(vo.getNomeCargoXr()) 
+								|| "PRESIDENTE DE SUBSIDIÁRIA".equals(vo.getNomeCargoXr())
+								|| "PRESIDENTE / CEO".equals(vo.getNomeCargoXr()));
+					}
 				}
 
 				if(ExportOption==3) {
-					lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), null, null,null);
+					lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), null, null,null,
+							mercadoEscolhido);
 				}
 			}
 
 			// Ordena a lista original por NomeCargo, NomeCargoXr, Matricula e Grade
 
-			if(ExportOption==4){
+			if(ExportOption==4 || ExportOption==2){
 
 			}else {
 				lista.sort(Comparator.comparing(MediasNovaEmpresaVO::getNomeCargoXr)
@@ -1763,7 +1808,7 @@ public class ExportarNew {
 			// Agrupa os itens por NomeCargo e NomeCargoXR preservando a ordem
 			for (MediasNovaEmpresaVO item : lista) {
 				String compositeKey = item.getNomeCargo() + "|" + item.getNomeCargoXr() + 
-						"|" + item.getMatricula() + "|" + item.getGrade();
+						"|" + item.getMatricula() + "|" + item.getId()+ "|" + item.getGrade();
 				groupedByNomeCargoAndXR.putIfAbsent(compositeKey, new ArrayList<>());
 				groupedByNomeCargoAndXR.get(compositeKey).add(item);
 			}
@@ -1786,7 +1831,7 @@ public class ExportarNew {
 				List<MediasNovaEmpresaVO> sublist = entry.getValue();
 
 				row10 = createRows(sheet, rowIndex, (short) 400);
-				if(ExportOption==4) {
+				if(ExportOption==4 || ExportOption==2 ) {
 					addConteudoNewMerc(sublist, sheet, workbook, row10, descRenumMap);
 				}else {
 					addConteudoNew(sublist, sheet, workbook, row10, descRenumMap);
@@ -1796,7 +1841,7 @@ public class ExportarNew {
 
 			for (int i = 0; i <= 72; i++) { 
 				//mercado
-				if(ExportOption==4) {
+				if(ExportOption==4 || ExportOption==2) {
 					if (i >= 5) { // Verifica se a coluna é a partir da J (índice 9)
 						sheet.setColumnWidth(i, 7000);
 					} else {
@@ -1820,19 +1865,21 @@ public class ExportarNew {
 						sheet.setColumnWidth(i, 7000);
 					} else {
 						if (i == 0) {
-							sheet.setColumnWidth(i, 6000);
+							sheet.setColumnWidth(i, 6000);//mercado
 						} else if (i == 2) {
-							sheet.setColumnWidth(i, 24000);
+							sheet.setColumnWidth(i, 24000);//subfamilia
 						} else if (i == 3) {
-							sheet.setColumnWidth(i, 26000);
+							sheet.setColumnWidth(i, 26000);//cargo aptaxr
 						} else if (i == 4) {
-							sheet.setColumnWidth(i, 6000);
+							sheet.setColumnWidth(i, 6000);//codigo cargo
 						} else if (i == 5) {
-							sheet.setColumnWidth(i, 5000);
+							sheet.setColumnWidth(i, 5000);//grade aptaxr
 						} else if (i == 6) {
-							sheet.setColumnWidth(i, 3000);
+							sheet.setColumnWidth(i, 5000);//matricula
+						} else if (i == 7) {
+							sheet.setColumnWidth(i, 9000);//cargo empresa
 						} else if (i == 8) {
-							sheet.setColumnWidth(i, 4000);
+							sheet.setColumnWidth(i, 6000); //grade empresa
 						} else {
 							sheet.setColumnWidth(i, 11000);
 						}
@@ -1842,9 +1889,9 @@ public class ExportarNew {
 
 
 
-			if((ExportOption==3 || ExportOption==2 || ExportOption==1 )) {
+			if((ExportOption==3 || ExportOption==1 )) {
 
-				
+
 				int[] colunasP10 = {11, 19, 27, 35, 43, 51, 59, 67};
 				int[] colunasP25 = {12, 20, 28, 36, 44, 52, 60, 68};
 				int[] colunasP50 = {13, 21, 29, 37, 45, 53, 61, 69};
@@ -1852,131 +1899,131 @@ public class ExportarNew {
 				int[] colunasP90 = {15, 23, 31, 39, 47, 55, 63, 71};
 
 				if (!filtro.isP10()) {
-				    for (int col : colunasP10) {
-				        sheet.setColumnHidden(col, true);
-				    }
+					for (int col : colunasP10) {
+						sheet.setColumnHidden(col, true);
+					}
 				}
 
 				if (!filtro.isP25()) {
-				    for (int col : colunasP25) {
-				        sheet.setColumnHidden(col, true);
-				    }
+					for (int col : colunasP25) {
+						sheet.setColumnHidden(col, true);
+					}
 				}
 
 				if (!filtro.isP50()) {
-				    for (int col : colunasP50) {
-				        sheet.setColumnHidden(col, true);
-				    }
+					for (int col : colunasP50) {
+						sheet.setColumnHidden(col, true);
+					}
 				}
 
 				if (!filtro.isP75()) {
-				    for (int col : colunasP75) {
-				        sheet.setColumnHidden(col, true);
-				    }
+					for (int col : colunasP75) {
+						sheet.setColumnHidden(col, true);
+					}
 				}
 
 				if (!filtro.isP90()) {
-				    for (int col : colunasP90) {
-				        sheet.setColumnHidden(col, true);
-				    }
+					for (int col : colunasP90) {
+						sheet.setColumnHidden(col, true);
+					}
 				}
 
-				
-				
-				
+
+
+
 				if (!filtro.isSalarioBase()) {
-				    sheet.setColumnHidden(9, true);
-				    sheet.setColumnHidden(10, true);
-				    sheet.setColumnHidden(11, true);
-				    sheet.setColumnHidden(12, true);
-				    sheet.setColumnHidden(13, true);
-				    sheet.setColumnHidden(14, true);
-				    sheet.setColumnHidden(15, true);
-				    sheet.setColumnHidden(16, true);
+					sheet.setColumnHidden(9, true);
+					sheet.setColumnHidden(10, true);
+					sheet.setColumnHidden(11, true);
+					sheet.setColumnHidden(12, true);
+					sheet.setColumnHidden(13, true);
+					sheet.setColumnHidden(14, true);
+					sheet.setColumnHidden(15, true);
+					sheet.setColumnHidden(16, true);
 				}
 
 				if (!filtro.isTotalEmDinheiro()) {
-				    sheet.setColumnHidden(17, true);
-				    sheet.setColumnHidden(18, true);
-				    sheet.setColumnHidden(19, true);
-				    sheet.setColumnHidden(20, true);
-				    sheet.setColumnHidden(21, true);
-				    sheet.setColumnHidden(22, true);
-				    sheet.setColumnHidden(23, true);
-				    sheet.setColumnHidden(24, true);
+					sheet.setColumnHidden(17, true);
+					sheet.setColumnHidden(18, true);
+					sheet.setColumnHidden(19, true);
+					sheet.setColumnHidden(20, true);
+					sheet.setColumnHidden(21, true);
+					sheet.setColumnHidden(22, true);
+					sheet.setColumnHidden(23, true);
+					sheet.setColumnHidden(24, true);
 				}
 
 				if (!filtro.isTotalemDinheiroAlvo()) {
-				    sheet.setColumnHidden(25, true);
-				    sheet.setColumnHidden(26, true);
-				    sheet.setColumnHidden(27, true);
-				    sheet.setColumnHidden(28, true);
-				    sheet.setColumnHidden(29, true);
-				    sheet.setColumnHidden(30, true);
-				    sheet.setColumnHidden(31, true);
-				    sheet.setColumnHidden(32, true);
+					sheet.setColumnHidden(25, true);
+					sheet.setColumnHidden(26, true);
+					sheet.setColumnHidden(27, true);
+					sheet.setColumnHidden(28, true);
+					sheet.setColumnHidden(29, true);
+					sheet.setColumnHidden(30, true);
+					sheet.setColumnHidden(31, true);
+					sheet.setColumnHidden(32, true);
 				}
 
 				if (!filtro.isRenumeracaoDireta()) {
-				    sheet.setColumnHidden(33, true);
-				    sheet.setColumnHidden(34, true);
-				    sheet.setColumnHidden(35, true);
-				    sheet.setColumnHidden(36, true);
-				    sheet.setColumnHidden(37, true);
-				    sheet.setColumnHidden(38, true);
-				    sheet.setColumnHidden(39, true);
-				    sheet.setColumnHidden(40, true);
+					sheet.setColumnHidden(33, true);
+					sheet.setColumnHidden(34, true);
+					sheet.setColumnHidden(35, true);
+					sheet.setColumnHidden(36, true);
+					sheet.setColumnHidden(37, true);
+					sheet.setColumnHidden(38, true);
+					sheet.setColumnHidden(39, true);
+					sheet.setColumnHidden(40, true);
 				}
 
 				if (!filtro.isRenumeracaoDiretaAlvo()) {
-				    sheet.setColumnHidden(41, true);
-				    sheet.setColumnHidden(42, true);
-				    sheet.setColumnHidden(43, true);
-				    sheet.setColumnHidden(44, true);
-				    sheet.setColumnHidden(45, true);
-				    sheet.setColumnHidden(46, true);
-				    sheet.setColumnHidden(47, true);
-				    sheet.setColumnHidden(48, true);
+					sheet.setColumnHidden(41, true);
+					sheet.setColumnHidden(42, true);
+					sheet.setColumnHidden(43, true);
+					sheet.setColumnHidden(44, true);
+					sheet.setColumnHidden(45, true);
+					sheet.setColumnHidden(46, true);
+					sheet.setColumnHidden(47, true);
+					sheet.setColumnHidden(48, true);
 				}
 
 				if (!filtro.isIncentivoCurtoPrazo()) {
-				    sheet.setColumnHidden(49, true);
-				    sheet.setColumnHidden(50, true);
-				    sheet.setColumnHidden(51, true);
-				    sheet.setColumnHidden(52, true);
-				    sheet.setColumnHidden(53, true);
-				    sheet.setColumnHidden(54, true);
-				    sheet.setColumnHidden(55, true);
-				    sheet.setColumnHidden(56, true);
+					sheet.setColumnHidden(49, true);
+					sheet.setColumnHidden(50, true);
+					sheet.setColumnHidden(51, true);
+					sheet.setColumnHidden(52, true);
+					sheet.setColumnHidden(53, true);
+					sheet.setColumnHidden(54, true);
+					sheet.setColumnHidden(55, true);
+					sheet.setColumnHidden(56, true);
 				}
 
 				if (!filtro.isIncentivoCurtoPrazoAlvo()) {
-				    sheet.setColumnHidden(57, true);
-				    sheet.setColumnHidden(58, true);
-				    sheet.setColumnHidden(59, true);
-				    sheet.setColumnHidden(60, true);
-				    sheet.setColumnHidden(61, true);
-				    sheet.setColumnHidden(62, true);
-				    sheet.setColumnHidden(63, true);
-				    sheet.setColumnHidden(64, true);
+					sheet.setColumnHidden(57, true);
+					sheet.setColumnHidden(58, true);
+					sheet.setColumnHidden(59, true);
+					sheet.setColumnHidden(60, true);
+					sheet.setColumnHidden(61, true);
+					sheet.setColumnHidden(62, true);
+					sheet.setColumnHidden(63, true);
+					sheet.setColumnHidden(64, true);
 				}
 
 				if (!filtro.isIncentivoLongoPrazo()) {
-				    sheet.setColumnHidden(65, true);
-				    sheet.setColumnHidden(66, true);
-				    sheet.setColumnHidden(67, true);
-				    sheet.setColumnHidden(68, true);
-				    sheet.setColumnHidden(69, true);
-				    sheet.setColumnHidden(70, true);
-				    sheet.setColumnHidden(71, true);
-				    sheet.setColumnHidden(72, true);
+					sheet.setColumnHidden(65, true);
+					sheet.setColumnHidden(66, true);
+					sheet.setColumnHidden(67, true);
+					sheet.setColumnHidden(68, true);
+					sheet.setColumnHidden(69, true);
+					sheet.setColumnHidden(70, true);
+					sheet.setColumnHidden(71, true);
+					sheet.setColumnHidden(72, true);
 				}
 
 
 			}
 
 
-			if((ExportOption==4)) {
+			if((ExportOption==4 || ExportOption==2)) {
 
 				if(!filtro.isP10()) {
 					sheet.setColumnHidden(7, true);
@@ -1988,7 +2035,7 @@ public class ExportarNew {
 					sheet.setColumnHidden(49, true);
 					sheet.setColumnHidden(56, true);
 				}
-				
+
 				if(!filtro.isP25()) {
 					sheet.setColumnHidden(8, true);
 					sheet.setColumnHidden(15, true);
@@ -1999,7 +2046,7 @@ public class ExportarNew {
 					sheet.setColumnHidden(50, true);
 					sheet.setColumnHidden(57, true);
 				}
-				
+
 				if(!filtro.isP50()) {
 					sheet.setColumnHidden(9, true);
 					sheet.setColumnHidden(16, true);
@@ -2010,7 +2057,7 @@ public class ExportarNew {
 					sheet.setColumnHidden(51, true);
 					sheet.setColumnHidden(58, true);
 				}
-				
+
 				if(!filtro.isP75()) {
 					sheet.setColumnHidden(10, true);
 					sheet.setColumnHidden(17, true);
@@ -2116,7 +2163,10 @@ public class ExportarNew {
 
 			}
 
+
+
 			sheet.setAutoFilter(CellRangeAddress.valueOf("A10:BU10"));
+
 
 			// Escreve a planilha na resposta HTTP
 			try (OutputStream out = response.getOutputStream()) {

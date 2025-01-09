@@ -22,6 +22,17 @@ public class TbDetalheAcessoService  extends BaseService<TbDetalhesAcesso> imple
 		   super(TbDetalhesAcesso.class);
 	}
 	
+	
+	@Transactional
+	public String findAcessoSimultaneo(){
+		String results = (String) getEntityManagerMatriz().createNativeQuery("SELECT TX_PARAMETRO FROM TB_PARAMETRO_SISTEMA"
+				+ " WHERE DS_PARAMETRO = 'LoginSimultaneo'").getSingleResult();
+		
+		return results;
+		
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<String> findDistinctMeses(){
@@ -56,14 +67,16 @@ public class TbDetalheAcessoService  extends BaseService<TbDetalhesAcesso> imple
 		 List<Object[]> results = getEntityManagerMatriz().createNativeQuery("SELECT\r\n"
 		 		+ "    u.username,\r\n"
 		 		+ "    u.Sistema,\r\n"
-		 		+ "    MAX(FORMAT(u.modifiedAt , 'dd/MM/yyyy')) AS data_ultimo_acesso,\r\n"
+		 		+ "    MAX(FORMAT(ISNULL(u.modifiedAt, u.createdAt), 'dd/MM/yyyy')) AS data_ultimo_acesso,\r\n"
 		 		+ "    u.version AS qtd_acessos_legado,\r\n"
 		 		+ "    COUNT(CASE WHEN tda.tipoDeAtividade = 'ACESSO EXCEL CARGO' THEN 1 END) QTD_EXCEL_CARGO,\r\n"
-		 		+ "    COUNT(CASE WHEN tda.tipoDeAtividade = 'ACESSO EXCEL SUBFAMILIA' THEN 1 END) QTD_EXCEL_SUBFAMILIA\r\n"
+		 		+ "    COUNT(CASE WHEN tda.tipoDeAtividade = 'ACESSO EXCEL EMPRESA' THEN 1 END) QTD_EXCEL_EMPRESA,\r\n"
+		 		+ "    COUNT(CASE WHEN tda.tipoDeAtividade = 'ACESSO EXCEL MERCADO' THEN 1 END) QTD_EXCEL_MERCADO\r\n"
 		 		+ "FROM\r\n"
 		 		+ "    TB_DETALHE_ACESSOS tda\r\n"
 		 		+ "RIGHT JOIN\r\n"
 		 		+ "    USERS u ON u.id = tda.id_user\r\n"
+		 		+ " where u.id <> 74217 "
 		 		+ "GROUP BY\r\n"
 		 		+ "    u.username,\r\n"
 		 		+ "    u.Sistema,\r\n"
@@ -75,13 +88,13 @@ public class TbDetalheAcessoService  extends BaseService<TbDetalhesAcesso> imple
 		    for (Object[] result : results) {
 		        TbDetalhesAcessoVO detalhesAcessoVO = new TbDetalhesAcessoVO();
 
-		        // Realize o mapeamento manual dos campos da consulta para os campos do objeto VO
 		        detalhesAcessoVO.setUsername((String) result[0]);
 		        detalhesAcessoVO.setSistema((String) result[1]);
-		        detalhesAcessoVO.setDataUltimoAcesso((String) result[2]); // Se necessário, faça conversão de tipo
-		        detalhesAcessoVO.setQtdAcessosLegado((Integer) result[3]); // Faça a conversão de tipo, se necessário
-		        detalhesAcessoVO.setQuantidadeAcessosCargo((int) result[4]); // Faça a conversão de tipo, se necessário
-		        detalhesAcessoVO.setQuantidadeAcessosSubfamilia((int) result[5]); // Faça a conversão de tipo, se necessário
+		        detalhesAcessoVO.setDataUltimoAcesso((String) result[2]); 
+		        detalhesAcessoVO.setQtdAcessosLegado((Integer) result[3]); 
+		        detalhesAcessoVO.setQuantidadeAcessosCargo((int) result[4]); 
+		        detalhesAcessoVO.setQuantidadeAcessosEmpresa((int) result[5]); 
+		        detalhesAcessoVO.setQuantidadeAcessosMercado((int) result[6]); 
 
 		        listaTbDetalhesAcessoVO.add(detalhesAcessoVO);
 		    }

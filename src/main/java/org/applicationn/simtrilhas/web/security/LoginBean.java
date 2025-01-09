@@ -16,6 +16,7 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 
 import org.applicationn.pesquisa.domain.TbDetalhesAcesso;
+import org.applicationn.pesquisa.service.TbDetalheAcessoService;
 import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.service.BaseService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
@@ -36,6 +37,9 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 
 	@Inject
 	private UserService userService;
+
+	@Inject
+	private TbDetalheAcessoService tbDetalheAcessoService;
 
 	public  List<String> getUsuarios() {
 		return usuarios;
@@ -66,10 +70,22 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 			return null;
 		}else {
 			if(user.getAtivo().equals("SIM")) {
-				FacesMessage message = MessageFactory.getMessage(
-						"login_sessaoativa");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-				return null;	
+
+				if(tbDetalheAcessoService.findAcessoSimultaneo().equals("true")) {
+					if (!SecurityWrapper.login(username, password, remember)) {
+						FacesMessage message = MessageFactory.getMessage(
+								"authentication_exception");
+						FacesContext.getCurrentInstance().addMessage(null, message);
+						return null;
+					}
+				}else {
+					FacesMessage message = MessageFactory.getMessage(
+							"login_sessaoativa");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return null;	
+				}
+
+
 			}else {
 
 				if (!SecurityWrapper.login(username, password, remember)) {
@@ -123,10 +139,10 @@ public class LoginBean extends BaseService<UserEntity> implements Serializable {
 			TbDetalhesAcesso vo = new TbDetalhesAcesso();
 			vo.setDataAcesso(new Date());
 			vo.setId_user(user.getId());
-			
+
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM");
-	        String dataFormatada = formato.format(new Date());
-			
+			String dataFormatada = formato.format(new Date());
+
 			vo.setMesAno(dataFormatada);
 			if(user.getSistema().equals("Simulador")) {
 				vo.setTipoDeAtividade("ACESSO SIMULADOR");

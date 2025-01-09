@@ -7,7 +7,8 @@ public class TbDetalhesAcessoVO {
     private String dataUltimoAcesso;
     private int qtdAcessosLegado;
     private int quantidadeAcessosCargo;
-    private int quantidadeAcessosSubfamilia;
+    private int quantidadeAcessosEmpresa;
+    private int quantidadeAcessosMercado;
     private String mesAcesso;
 	public String getUsername() {
 		return username;
@@ -46,12 +47,19 @@ public class TbDetalhesAcessoVO {
 	public void setQuantidadeAcessosCargo(int quantidadeAcessosCargo) {
 		this.quantidadeAcessosCargo = quantidadeAcessosCargo;
 	}
-	public int getQuantidadeAcessosSubfamilia() {
-		return quantidadeAcessosSubfamilia;
+	public int getQuantidadeAcessosEmpresa() {
+		return quantidadeAcessosEmpresa;
 	}
-	public void setQuantidadeAcessosSubfamilia(int quantidadeAcessosSubfamilia) {
-		this.quantidadeAcessosSubfamilia = quantidadeAcessosSubfamilia;
+	public void setQuantidadeAcessosEmpresa(int quantidadeAcessosEmpresa) {
+		this.quantidadeAcessosEmpresa = quantidadeAcessosEmpresa;
 	}
+	public int getQuantidadeAcessosMercado() {
+		return quantidadeAcessosMercado;
+	}
+	public void setQuantidadeAcessosMercado(int quantidadeAcessosMercado) {
+		this.quantidadeAcessosMercado = quantidadeAcessosMercado;
+	}
+
 	
 	
 }
