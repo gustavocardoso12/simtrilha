@@ -238,6 +238,9 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 		
 	}
 	
+    
+    
+    
 	
 	@SuppressWarnings("unchecked")
     @Transactional
@@ -319,7 +322,7 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             queryBuilder.append("AND tp.nome_cargo = :nomeCargo\n");
         }
         if (mercado != null && !mercado.isEmpty()) {
-            queryBuilder.append("AND tm.dsMercado = :mercado\n");
+            queryBuilder.append("AND (tm.dsMercado = :mercado or tp.nome_empresa =:nomeEmpresa)\n");
         }
         
 
@@ -329,6 +332,189 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             .append("    tp.nome_empresa, \n")
             .append("    nome_cargo, \n")
             .append("    desc_renum");
+
+        Query query = getEntityManagerMatriz().createNativeQuery(queryBuilder.toString())
+                .setParameter("nomeEmpresa", nomeEmpresa);
+
+        if (nomeFamilia != null && !nomeFamilia.isEmpty()) {
+            query.setParameter("nomeFamilia", nomeFamilia);
+        }
+        if (nomeSubfamilia != null && !nomeSubfamilia.isEmpty()) {
+            query.setParameter("nomeSubfamilia", nomeSubfamilia);
+        }
+        if (nomeCargo != null && !nomeCargo.isEmpty()) {
+        	 query.setParameter("nomeCargo", nomeCargo);
+        }
+        if (mercado != null && !mercado.isEmpty()) {
+        	 query.setParameter("mercado", mercado);
+        }
+        List<Object> resultList = query.getResultList();
+
+        for (Object record : resultList) {
+            Object[] linha = (Object[]) record;
+            MediasNovaEmpresaVO extracao = new MediasNovaEmpresaVO();
+            extracao.setId((BigInteger) linha[0]);
+            extracao.setNomeCargoXr((String) linha[1]);
+            extracao.setNomeCargo((String) linha[2]);
+            extracao.setDescRenum((String) linha[3]);
+
+            if (linha[4] == null) {
+                extracao.setSuaEmpresa(0);
+            } else {
+                extracao.setSuaEmpresa((int) linha[4]);
+            }
+
+            extracao.setP10((int) linha[5]);
+            extracao.setP25((int) linha[6]);
+            extracao.setP50((int) linha[7]);
+            extracao.setP75((int) linha[8]);
+            extracao.setP90((int) linha[9]);
+            extracao.setMedia((int) linha[10]);
+            extracao.setQtdEmpresas((int) linha[11]);
+            extracao.setNumParticipantes((int) linha[12]);
+            extracao.setNomeEmpresa((String) linha[13]);
+            extracao.setGrade((int) linha[14]);
+            extracao.setNmFamilia((String) linha[15]);
+            extracao.setNmSubFamilia((String) linha[16]);
+            extracao.setMatricula((String) linha[17]);
+            extracao.setGradeEmpresa((String) linha[18]);
+            extracao.setCodigoCargo((String) linha[19]);
+            extracao.setMercado((String) linha[20]);
+            extracoes.add(extracao);
+        }
+        for(int i=0; i<extracoes.size();i++) {
+
+			if(extracoes.get(i).getDescRenum().equals("SBA - Salário Base Anual")) {
+				if(extracoes.get(i).getNumParticipantes()<3) {
+
+				}
+			}
+
+			if(extracoes.get(i).getQtdEmpresas()<3) {
+				extracoes.get(i).setP10(0);
+				extracoes.get(i).setP25(0);
+				extracoes.get(i).setP50(0);
+				extracoes.get(i).setP75(0);
+				extracoes.get(i).setP90(0);
+				extracoes.get(i).setMedia(0);
+				extracoes.get(i).setQtdEmpresas(extracoes.get(i).getQtdEmpresas());
+
+			}
+			//Informações do cargo em 3 empresas: o sistema calcula somente a média
+			else if (extracoes.get(i).getQtdEmpresas()>=3 && 
+					extracoes.get(i).getQtdEmpresas()<4) {
+				extracoes.get(i).setP10(0);
+				extracoes.get(i).setP25(0);
+				extracoes.get(i).setP50(0);
+				extracoes.get(i).setP75(0);
+				extracoes.get(i).setP90(0);
+
+			}
+			//Informações do cargo entre 4 empresa e 5 empresas: o sistema calcula a média e o P50
+			else if (extracoes.get(i).getQtdEmpresas()>=4 && 
+					extracoes.get(i).getQtdEmpresas()<6) {
+				extracoes.get(i).setP10(0);
+				extracoes.get(i).setP25(0);
+				extracoes.get(i).setP75(0);
+				extracoes.get(i).setP90(0);
+
+			}
+			//Informações do cargo entre 6 empresas e 7 empresas: o sistema calcula a média, o P50 e P25 e P75.
+			else if (
+					extracoes.get(i).getQtdEmpresas()>=6
+					&& 
+					extracoes.get(i).getQtdEmpresas()<10) {
+				extracoes.get(i).setP10(0);
+				extracoes.get(i).setP90(0);	
+			}
+			//Informações do cargo em 8 ou mais empresas: o sistema calcula a média, o P50 e P25 e P75, P90 e P10
+			//else if (mediasFinal.get(i).getQtd_empresas()>=10) {
+			//}
+
+		}
+
+        return extracoes;
+    }
+	
+	@SuppressWarnings("unchecked")
+    @Transactional
+    public List<MediasNovaEmpresaVO> findExtracaoEmpresaPorNomeMercadoSelecionado(String nomeEmpresa, String nomeFamilia, String nomeSubfamilia,
+    		String nomeCargo, String mercado) {
+        List<MediasNovaEmpresaVO> extracoes = new ArrayList<>();
+        
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("  WITH EmpresaSelecionada2 AS (\n"
+        		+ "    SELECT DISTINCT \n"
+        		+ "        desc_renum,\n"
+        		+ "        p90,\n"
+        		+ "        p75,\n"
+        		+ "        p50,\n"
+        		+ "        p25,\n"
+        		+ "        p10,\n"
+        		+ "        media,\n"
+        		+ "        qtd_empresas,\n"
+        		+ "        num_participantes,\n"
+        		+ "        grade, \n"
+        		+ "        nome_cargo_xr,\n"
+        		+ "        codigo_cargo,\n"
+        		+ "        mercado,\n"
+        		+ "       :nomeEmpresa AS nome_empresa\n"
+        		+ "    FROM SimTrilhas.dbo.TB_EXTRACAO_EMPRESA\n"
+        		+ "    WHERE mercado = :mercado\n"
+        		+ ")\n"
+        		+ "SELECT \n"
+        		+ "    tpd.id,\n"
+        		+ "    tee.nome_cargo_xr,\n"
+        		+ "    tpd.nome_cargo_empresa AS nome_cargo,\n"
+        		+ "    CASE tee.desc_renum\n"
+        		+ "        WHEN '1 - SBM - Salário Base Mensal' THEN 'SBM - Salário Base Mensal'\n"
+        		+ "        WHEN '2 - SBM - Salário Base Anual' THEN 'SBA - Salário Base Anual'\n"
+        		+ "        WHEN '3 ICPA - Incentivo de Curto Prazo Alvo (Bônus + PLR)' THEN 'ICPA - Incentivo de Curto Prazo Alvo (Bônus + PLR)'\n"
+        		+ "        WHEN '4 TDA - Total em Dinheiro Alvo' THEN 'TDA - Total em Dinheiro Alvo'\n"
+        		+ "        WHEN '5 - ICP - Incentivo de Curto Prazo Pago (Bônus + PLR)' THEN 'ICP - Incentivo de Curto Prazo Pago (Bônus + PLR)'\n"
+        		+ "        WHEN '6 - TD - Total em Dinheiro' THEN 'TD - Total em Dinheiro'\n"
+        		+ "        WHEN '7 - ILP - Incentivos de Longo Prazo' THEN 'ILP - Incentivos de Longo Prazo'\n"
+        		+ "        WHEN '8 - RDA - Remuneração Direta Alvo' THEN 'RDA - Remuneração Direta Alvo'\n"
+        		+ "        WHEN '9 - RD - Remuneração Direta' THEN 'RD - Remuneração Direta'\n"
+        		+ "        ELSE tee.desc_renum\n"
+        		+ "    END AS desc_renum_new,\n"
+        		+ "    CASE tee.desc_renum\n"
+        		+ "        WHEN '1 - SBM - Salário Base Mensal' THEN CAST(tpd.valor_sb / 13.33 AS INT)\n"
+        		+ "        WHEN '2 - SBM - Salário Base Anual' THEN CAST(tpd.valor_sb AS INT)\n"
+        		+ "        WHEN '3 ICPA - Incentivo de Curto Prazo Alvo (Bônus + PLR)' THEN CAST(tpd.valor_cp_aliv AS INT)\n"
+        		+ "        WHEN '4 TDA - Total em Dinheiro Alvo' THEN CAST(tpd.valor_tda AS INT)\n"
+        		+ "        WHEN '5 - ICP - Incentivo de Curto Prazo Pago (Bônus + PLR)' THEN CAST(tpd.valor_cp_pg AS INT)\n"
+        		+ "        WHEN '6 - TD - Total em Dinheiro' THEN CAST(tpd.valor_td AS INT)\n"
+        		+ "        WHEN '7 - ILP - Incentivos de Longo Prazo' THEN CAST(tpd.valor_ilp AS INT)\n"
+        		+ "        WHEN '8 - RDA - Remuneração Direta Alvo' THEN CAST(tpd.valor_rda AS INT)\n"
+        		+ "        WHEN '9 - RD - Remuneração Direta' THEN CAST(tpd.valor_rd AS INT)\n"
+        		+ "    END AS sua_empresa,\n"
+        		+ "    tee.p10,\n"
+        		+ "    tee.p25,\n"
+        		+ "    tee.p50,\n"
+        		+ "    tee.p75,\n"
+        		+ "    tee.p90,\n"
+        		+ "    tee.media,\n"
+        		+ "    tee.qtd_empresas,\n"
+        		+ "    tee.num_participantes,\n"
+        		+ "    tpd.nome_empresa,\n"
+        		+ "    tee.grade,\n"
+        		+ "    tp.nm_familia,\n"
+        		+ "    tp.nm_subfamilia,\n"
+        		+ "    tpd.matricula,\n"
+        		+ "    tpd.grade AS grade_empresa,\n"
+        		+ "    tpd.codigo_cargo,\n"
+        		+ "    tee.mercado AS mercado\n"
+        		+ "FROM EmpresaSelecionada2 tee\n"
+        		+ "INNER JOIN tb_pesquisa tp \n"
+        		+ "    ON tp.codigo_cargo = tee.codigo_cargo\n"
+        		+ "    AND tp.grade = tee.grade\n"
+        		+ "    AND tp.nome_empresa = tee.nome_empresa\n"
+        		+ "INNER JOIN TB_PESQUISA_DETALHE tpd\n"
+        		+ "    ON tee.codigo_cargo = tpd.codigo_cargo\n"
+        		+ "    AND tp.grade = tpd.grade_xr\n"
+        		+ "    AND tp.nome_cargo = tpd.nome_cargo_XR\n"
+        		+ "    AND tpd.nome_empresa = tp.nome_empresa ");
 
         Query query = getEntityManagerMatriz().createNativeQuery(queryBuilder.toString())
                 .setParameter("nomeEmpresa", nomeEmpresa);

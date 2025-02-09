@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.applicationn.pesquisa.domain.TbEmpresa;
 import org.applicationn.pesquisa.domain.TbMercado;
+import org.applicationn.pesquisa.vo.EmpresaVisiveisVO;
 import org.applicationn.simtrilhas.service.BaseService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
 @Named
@@ -69,6 +70,48 @@ public class TbEmpresaService extends BaseService<TbEmpresa> implements Serializ
 		return lista;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<EmpresaVisiveisVO> empresasNaoVisiveis() {
+	    List<Object[]> queryResults = getEntityManagerMatriz()
+	        .createNativeQuery("select tev.visivel, te.id idEmpresa " +
+	            "from SimTrilhas.dbo.TB_EMPRESA_VISIBILIDADE tev " +
+	            "left join SimTrilhas.dbo.TB_EMPRESA te " +
+	            "on te.dsEmpresa = tev.nome_empresa " +
+	            "where tev.visivel = 0")
+	        .getResultList();
+
+	    List<EmpresaVisiveisVO> empresasNaoVisiveis = new ArrayList<>();
+
+	    for (Object[] result : queryResults) {
+	        EmpresaVisiveisVO empresaVisivel = new EmpresaVisiveisVO();
+	        empresaVisivel.setVisivel(((Number) result[0]).longValue());
+	        empresaVisivel.setIdEmpresa(((Number) result[1]).longValue());
+	        empresasNaoVisiveis.add(empresaVisivel);
+	    }
+
+	    return empresasNaoVisiveis;
+	}
+
+	@Transactional
+	public EmpresaVisiveisVO empresasVisiveisPorUsuario(String idUser) {
+	    Object[] result = (Object[]) getEntityManagerMatriz()
+	        .createNativeQuery("select tev.visivel, te.id idEmpresa " +
+	            "from SimTrilhas.dbo.users u " +
+	            "inner join SimTrilhas.dbo.TB_EMPRESA te " +
+	            "on u.id_empresa = te.id " +
+	            "inner join SimTrilhas.dbo.TB_EMPRESA_VISIBILIDADE tev " +
+	            "on te.dsEmpresa = tev.nome_empresa " +
+	            "where u.username = :username")
+	        .setParameter("username", idUser)
+	        .getSingleResult();
+
+	    EmpresaVisiveisVO empresaVisivel = new EmpresaVisiveisVO();
+	    empresaVisivel.setVisivel(((Number) result[0]).longValue());
+	    empresaVisivel.setIdEmpresa(((Number) result[1]).longValue());
+
+	    return empresaVisivel;
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Transactional

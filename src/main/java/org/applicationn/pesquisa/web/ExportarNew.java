@@ -1787,8 +1787,14 @@ public class ExportarNew {
 				}
 
 				if(ExportOption==3) {
-					lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), null, null,null,
-							mercadoEscolhido);
+					if(mercadoEscolhido.equals("Mercado Apta XR")) {
+						lista = tbPesquisaService.findExtracaoEmpresaPorNome(user.getIdEmpresa().getDescEmpresa(), null, null,null,
+								mercadoEscolhido);
+					}
+					else {
+						lista = tbPesquisaService.findExtracaoEmpresaPorNomeMercadoSelecionado(user.getIdEmpresa().getDescEmpresa(), null, null,null,
+								mercadoEscolhido);
+					}
 				}
 			}
 
