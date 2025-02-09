@@ -618,48 +618,6 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 
         return extracoes;
     }
-	
-	@Transactional
-	public List<MediasDetalheVO> findMediasDetalhe(String nmCargo, String nomeEmpresa,
-			Integer gradeMinimo, Integer gradeMaximo) {
-		List<MediasDetalheVO> mediasFinal = new ArrayList<MediasDetalheVO>();
-
-		System.out.println(getEntityManagerMatriz());
-		@SuppressWarnings("unchecked")
-		List<Object> lista =  getEntityManagerMatriz().createNativeQuery("select round(avg(media_sb ),0) media_sb,nome_cargo_empresa,nome_empresa,codigo_cargo from (\n"
-				+ "				select tpd.nome_cargo_empresa, avg(valor_sb) media_sb,TPD.nome_empresa,tp.codigo_cargo  from tb_pesquisa tp \n"
-				+ "				inner join TB_PESQUISA_MERCADO tpm \n"
-				+ "				on (tp.codigo_empresa = tpm.cd_empresa) \n"
-				+ "				inner join tb_mercado tm \n"
-				+ "				on (tpm.cd_mercado = tm.id) \n"
-				+ "				INNER JOIN TB_PESQUISA_DETALHE tpd \n"
-				+ "				ON (TPD.CODIGO_EMPRESA = TP.CODIGO_EMPRESA AND TPD.CODIGO_CARGO = TP.CODIGO_CARGO)\n"
-				+ "				 where  1=1 "
-				+ "				                        and nome_cargo = :nmCargo\n"
-				+ "				                        and tp.grade >=:gradeMinimo and tp.grade<=:gradeMaximo\n"
-				+ "									   and tp.nome_empresa =:nomeEmpresa\n"
-				+ "				and media_sb is not null \n"
-				+ "				group by nome_cargo_empresa,TPD.nome_empresa,tp.codigo_cargo) d\n"
-				+ "				group by nome_cargo_empresa,nome_empresa,codigo_cargo")
-				.setParameter("nmCargo",nmCargo).
-				setParameter("nomeEmpresa",nomeEmpresa).
-				setParameter("gradeMinimo",gradeMinimo).
-				setParameter("gradeMaximo",gradeMaximo).
-
-				getResultList();
-		
-
-		for(Object record: lista) {
-			Object[] linha = (Object[]) record; 
-			MediasDetalheVO medias = new MediasDetalheVO();
-			medias.setMediaSb((BigDecimal) linha[0]);
-			medias.setNomeCargoEmpresa((String) linha[1]);
-			medias.setNomeEmpresa((String) linha[2]);
-			medias.setCodigoCargo((String) linha[3]);
-			mediasFinal.add(medias);
-		}
-		return mediasFinal;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional
