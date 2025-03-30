@@ -27,8 +27,11 @@ import org.apache.poi.util.StringUtil;
 import org.applicationn.pesquisa.domain.TbDetalhesAcesso;
 import org.applicationn.pesquisa.domain.TbPesquisa;
 import org.applicationn.pesquisa.service.TbDetalheAcessoService;
+import org.applicationn.pesquisa.service.TbEmpresaService;
 import org.applicationn.pesquisa.service.TbPesquisaService;
+import org.applicationn.pesquisa.service.TbPesquisaServiceNew;
 import org.applicationn.pesquisa.service.TbUsuarioPesquisaService;
+import org.applicationn.pesquisa.vo.EmpresaVisiveisVO;
 import org.applicationn.pesquisa.vo.EmpresasDetalheVO;
 import org.applicationn.pesquisa.vo.FiltroVO;
 import org.applicationn.pesquisa.vo.GradeVO;
@@ -64,12 +67,19 @@ public class TbPesquisaBean implements Serializable {
 	private List<String> mercadosDisponiveis;
 	@Inject
 	private TbPesquisaService tbPesquisaService;
+	
+	@Inject
+	private TbPesquisaServiceNew tbPesquisaServicenew;
+	
 	private Map<String, MediasVO> valoresFixosSuaEmpresa = new HashMap<>();
 	@Inject
 	private TbDetalheAcessoService tbDetalheAcessoService;
 	
 	@Inject
 	private TbUsuarioPesquisaService tbUsuarioPesquisaService;
+	
+	@Inject
+	private TbEmpresaService tbEmpresaService;
 	
 	
 	private List<TbPesquisa> tbPesquisaList;
@@ -115,6 +125,9 @@ public class TbPesquisaBean implements Serializable {
 	private String empresaInsuficiente = "0";
 	
 	private String paddingBottom = "14px";
+	
+	private EmpresaVisiveisVO empresaVisibilidade;
+	
 
 	public String getPaddingBottom() {
 		return paddingBottom;
@@ -192,13 +205,6 @@ public class TbPesquisaBean implements Serializable {
 		
 		if(exportOption==3 || exportOption==4 || exportOption == 2 || exportOption== 1 ) {
 			
-			/*List<EmpresasDetalheVO> listDetalhes =tbPesquisaService.
-					findDistinctTbPesquisaNMEmpresa(user.getIdEmpresa().getDescEmpresa());
-			List<MediasVO> lista = new ArrayList<MediasVO>();
-			Exportar.exportarPlanilhav3(lista, user.getIdEmpresa().getDescEmpresa(), cargoEscolhido,
-					familiaEscolhida, subFamiliaEscolhida, exportOption,
-					distinctCargos, user, tbPesquisaService,listDetalhes,
-					mercadoEscolhido,gradeMinimoPadrao,gradeMaximoPadrao,entityManager);*/
 			filtroVO.setSalarioBase(selectedFilters.contains("salarioBase"));
 	        filtroVO.setTotalEmDinheiro(selectedFilters.contains("totalEmDinheiro"));
 	        filtroVO.setTotalemDinheiroAlvo(selectedFilters.contains("totalemDinheiroAlvo"));
@@ -340,6 +346,9 @@ public class TbPesquisaBean implements Serializable {
 		    selectedFilters.add("p50");
 		    selectedFilters.add("p75");
 			user = userService.getCurrentUser();
+			
+			
+			
 		}catch (Exception e) {
 		}
 
@@ -402,12 +411,13 @@ public class TbPesquisaBean implements Serializable {
 		if(p25>=mediana) {
 			MaximoGraficoSB = p25 *1.2;
 		}else if(mediana>=p25) {
-			MaximoGraficoSB = mediana *1.2;
+			MaximoGraficoSB = p75;
 		}
 
 		if(sua_empresa>=MaximoGraficoSB) {
 			MaximoGraficoSB = sua_empresa *1.2;
 		}
+		
 
 		if(p25>0 && mediana>0 && p75>0 &&  MaximoGraficoSB>0) {
 			RenderizaSB = true;
@@ -819,7 +829,7 @@ public class TbPesquisaBean implements Serializable {
 		barModel.setDatatipFormat(getDatatipFormatX());
 		Axis yAxis = barModel.getAxis(AxisType.Y);
 		yAxis.setMin(0);
-		yAxis.setMax(MaximoGraficoSB*1.30);
+		yAxis.setMax(MaximoGraficoSB*1.40);
 		yAxis.setLabel(" ");
 	}
 
@@ -1050,7 +1060,7 @@ public class TbPesquisaBean implements Serializable {
 
 
 
-							listaDeMedias = tbPesquisaService.findMediaSuaEmpresa(familiaEscolhida,
+							listaDeMedias = tbPesquisaServicenew.findMediaSuaEmpresa(familiaEscolhida,
 									subFamiliaEscolhida,
 									cargoEscolhido, mercadoEscolhido, gradeMinimo, gradeMaximo,user.getIdEmpresa().getDescEmpresa().toUpperCase(),MaiorGradeSuaEmpresa,entityManager);
 
@@ -1644,6 +1654,14 @@ public class TbPesquisaBean implements Serializable {
 
 	public void setMercadosDisponiveis(List<String> mercadosDisponiveis) {
 		this.mercadosDisponiveis = mercadosDisponiveis;
+	}
+
+	public TbPesquisaServiceNew getTbPesquisaServicenew() {
+		return tbPesquisaServicenew;
+	}
+
+	public void setTbPesquisaServicenew(TbPesquisaServiceNew tbPesquisaServicenew) {
+		this.tbPesquisaServicenew = tbPesquisaServicenew;
 	}
 
 

@@ -48,6 +48,13 @@
                  
            <p:button  style="font-size:14px" value="#{userBean.user.theme}"
                            rendered="#{not empty request.remoteUser and userBean.user.sistema eq 'Simulador'}" /> 
+              
+              
+                
+          <p:button outcome="/pesquisas/pesquisas/importacao_empresas" style="font-size:14px" 
+        value="Importação - Mercado Selecionado" icon="fa fa-user"
+                            rendered="#{not empty request.remoteUser  and p:ifAnyGranted('Administrator') and userBean.user.sistema eq 'Pesquisa'}" />             
+              
                   
         <p:button  style="font-size:14px" value="#{userBean.user.idEmpresa.descEmpresa}"
         outcome="/trilhas/user/profile" 

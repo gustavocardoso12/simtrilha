@@ -20,13 +20,13 @@ public class BaseService<T extends BaseEntity> {
 	@PersistenceContext(unitName = "Cocamar")
 	private EntityManager entityManagerCocamar;
 
-	@PersistenceContext(unitName = "BRB")
+	@PersistenceContext(unitName = "Moura")
 	private EntityManager entityManagerBRB;
 
-	@PersistenceContext(unitName = "CIEE")
+	@PersistenceContext(unitName = "Moura")
 	private EntityManager entityManagerCIEE;
 	
-	@PersistenceContext(unitName = "HP")
+	@PersistenceContext(unitName = "Moura")
 	private EntityManager entityManagerHP;
 
 

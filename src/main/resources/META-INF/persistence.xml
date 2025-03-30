@@ -45,7 +45,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
 
 
-	<persistence-unit name="BRB" transaction-type="JTA">
+	<!-- <persistence-unit name="BRB" transaction-type="JTA">
 		<jta-data-source>java:/SimTrilhasProdDS_BRB</jta-data-source>
 
 
@@ -95,7 +95,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 				value="true" />
 				
 		</properties>
-	</persistence-unit>
+	</persistence-unit> -->
 
 
 </persistence>

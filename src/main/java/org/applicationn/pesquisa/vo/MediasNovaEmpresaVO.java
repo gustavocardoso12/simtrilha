@@ -1,6 +1,7 @@
 package org.applicationn.pesquisa.vo;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 public class MediasNovaEmpresaVO {
 	private BigInteger id;
@@ -24,6 +25,8 @@ public class MediasNovaEmpresaVO {
 	    private String gradeEmpresa;
 	    private String codigoCargo;
 	    private String mercado;
+	    private String desc_renum_ordenacao;
+	    private String nome_empresa_ordenacao;
 		public String getNomeCargoXr() {
 			return nomeCargoXr;
 		}
@@ -149,5 +152,44 @@ public class MediasNovaEmpresaVO {
 		}
 		public void setId(BigInteger id) {
 			this.id = id;
+		}
+		public String getDesc_renum_ordenacao() {
+			return desc_renum_ordenacao;
+		}
+		public void setDesc_renum_ordenacao(String desc_renum_ordenacao) {
+			this.desc_renum_ordenacao = desc_renum_ordenacao;
+		}
+		public String getNome_empresa_ordenacao() {
+			return nome_empresa_ordenacao;
+		}
+		public void setNome_empresa_ordenacao(String nome_empresa_ordenacao) {
+			this.nome_empresa_ordenacao = nome_empresa_ordenacao;
+		}
+		@Override
+		public int hashCode() {
+			return Objects.hash(codigoCargo, descRenum, desc_renum_ordenacao, grade, gradeEmpresa, id, matricula, media,
+					mercado, nmFamilia, nmSubFamilia, nomeCargo, nomeCargoXr, nomeEmpresa, nome_empresa_ordenacao,
+					numParticipantes, p10, p25, p50, p75, p90, qtdEmpresas, suaEmpresa);
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			MediasNovaEmpresaVO other = (MediasNovaEmpresaVO) obj;
+			return Objects.equals(codigoCargo, other.codigoCargo) && Objects.equals(descRenum, other.descRenum)
+					&& Objects.equals(desc_renum_ordenacao, other.desc_renum_ordenacao) && grade == other.grade
+					&& Objects.equals(gradeEmpresa, other.gradeEmpresa) && Objects.equals(id, other.id)
+					&& Objects.equals(matricula, other.matricula) && media == other.media
+					&& Objects.equals(mercado, other.mercado) && Objects.equals(nmFamilia, other.nmFamilia)
+					&& Objects.equals(nmSubFamilia, other.nmSubFamilia) && Objects.equals(nomeCargo, other.nomeCargo)
+					&& Objects.equals(nomeCargoXr, other.nomeCargoXr) && Objects.equals(nomeEmpresa, other.nomeEmpresa)
+					&& Objects.equals(nome_empresa_ordenacao, other.nome_empresa_ordenacao)
+					&& numParticipantes == other.numParticipantes && p10 == other.p10 && p25 == other.p25
+					&& p50 == other.p50 && p75 == other.p75 && p90 == other.p90 && qtdEmpresas == other.qtdEmpresas
+					&& suaEmpresa == other.suaEmpresa;
 		}
 }

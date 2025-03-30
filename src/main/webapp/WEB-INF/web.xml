@@ -27,7 +27,7 @@
     </context-param>
 
     <session-config>
-        <session-timeout>15</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     
     <context-param>
@@ -50,6 +50,8 @@
         <param-name>primefaces.TRANSFORM_METADATA</param-name>
         <param-value>true</param-value>
     </context-param>
+    
+    
     
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
@@ -86,6 +88,12 @@
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+         <multipart-config>
+            <max-file-size>52428800</max-file-size>
+
+            <max-request-size>534773760</max-request-size>
+
+            </multipart-config>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>

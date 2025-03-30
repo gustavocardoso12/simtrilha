@@ -48,7 +48,23 @@
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.3</version>
         </dependency>
-
+        
+        <!-- Dentro da seção <dependencies> do seu pom.xml -->
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.13</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpmime</artifactId>
+    <version>4.5.13</version>
+</dependency>
+<dependency>
+    <groupId>org.glassfish.jersey.media</groupId>
+    <artifactId>jersey-media-multipart</artifactId>
+    <version>2.35</version> <!-- ou a versão que você preferir -->
+</dependency>
         <!-- Dependência principal do Apache POI -->
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -128,12 +144,48 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.0</version>
         </dependency>
+<dependency>
+    <groupId>org.apache.tika</groupId>
+    <artifactId>tika-core</artifactId>
+    <version>2.7.0</version>
+</dependency>
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.15.2</version>
+</dependency>
 
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
         </dependency>
+        
+        
+<dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-multipart-provider</artifactId>
+    <version>3.1.4.Final</version> <!-- ou a versão compatível com seu projeto -->
+</dependency>
+<dependency>
+    <groupId>org.glassfish.jersey.core</groupId>
+    <artifactId>jersey-client</artifactId>
+    <version>2.41</version> <!-- ou a versão compatível com seu projeto -->
+</dependency>
+
+
+<dependency>
+    <groupId>org.glassfish.jersey.connectors</groupId>
+    <artifactId>jersey-apache-connector</artifactId>
+    <version>2.41</version>
+</dependency>
+
+<dependency>
+  <groupId>org.apache.httpcomponents</groupId>
+  <artifactId>httpasyncclient</artifactId>
+  <version>4.1.4</version>
+</dependency>
 
         <dependency>
             <groupId>org.apache.shiro</groupId>

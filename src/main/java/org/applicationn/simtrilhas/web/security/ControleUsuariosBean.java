@@ -27,7 +27,10 @@ import org.applicationn.simtrilhas.domain.security.UserRole;
 import org.applicationn.simtrilhas.domain.security.UserStatus;
 import org.applicationn.simtrilhas.service.security.UserService;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
-
+import org.applicationn.pesquisa.domain.TbMercado;
+import org.applicationn.pesquisa.domain.TbUsuarioMercado;
+import org.applicationn.pesquisa.service.TbMercadoService;
+import org.applicationn.pesquisa.service.TbUsuarioPesquisaService;
 @Named("ControleUsuariosBean")
 @ViewScoped
 public class ControleUsuariosBean implements Serializable {
@@ -75,6 +78,13 @@ public class ControleUsuariosBean implements Serializable {
 	private String mercado;
 	private TbEmpresa tbEmpresa;
 	
+	@Inject
+	protected TbMercadoService tbMercadoService;
+
+	@Inject
+	protected TbUsuarioPesquisaService tbUsuarioMercadoService;
+
+	private TbMercado mercadoSelecionado;
 	
 	private List<TbDetalhesAcessoVO> accessDataList;
 
@@ -97,12 +107,12 @@ public class ControleUsuariosBean implements Serializable {
 
 	@PostConstruct
 	public void Init() {
-		privilegiosList.add("Basic");
-		privilegiosList.add("Premium");
-		empresaList = tbEmpresaService.findAllTbEmpresa();
-		mercadoList = tbEmpresaService.empresasDisponiveis();
-		nomeUsuario=null;
-		emailUsuario=null;
+	    privilegiosList.add("Basic");
+	    privilegiosList.add("Premium");
+	    empresaList = tbEmpresaService.findAllTbEmpresa();
+	    mercadoList = tbEmpresaService.empresasDisponiveis();
+	    nomeUsuario=null;
+	    emailUsuario=null;
 	}
 	
 	
@@ -178,106 +188,128 @@ public class ControleUsuariosBean implements Serializable {
 	}
 
 	public String persistEdicao(UserEntity tbUSEREdicao) {
+	    if(nomeUsuario==null) {
+	    	getUsuarioEdicao();
+	    }
+		
 		if(tbUSEREdicao.getPrivilegio_acesso()==null) {
-			
-		}else if(tbUSEREdicao.getPrivilegio_acesso().equals("Basic")) {
-			tbUSEREdicao.setIdEmpresa(tbEmpresaService.findTbEmpresaModelo());
-			nivelAcesso = "COLABORADOR";
-		}else if (tbUSEREdicao.getPrivilegio_acesso().equals("Premium")) {
-			if(tbUSEREdicao.getIdEmpresa()==null) {
-				FacesMessage facesMessage = MessageFactory.getMessage(
-						"erro_empresa_vazia");
-				facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-				return "";
-			}
-		}
-		
-		
-		if(nivelAcesso.toUpperCase().equals("COLABORADOR")) {
-			tbUSEREdicao.setRoles(Arrays.asList(new UserRole[]{UserRole.Colaborador}));
-		}
+	        
+	    }else if(tbUSEREdicao.getPrivilegio_acesso().equals("Basic")) {
+	        tbUSEREdicao.setIdEmpresa(tbEmpresaService.findTbEmpresaModelo());
+	        nivelAcesso = "COLABORADOR";
+	    }else if (tbUSEREdicao.getPrivilegio_acesso().equals("Premium")) {
+	        if(tbUSEREdicao.getIdEmpresa()==null) {
+	            FacesMessage facesMessage = MessageFactory.getMessage(
+	                    "erro_empresa_vazia");
+	            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+	            FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	            return "";
+	        }
+	    }
+	    
+	    if(nivelAcesso.toUpperCase().equals("COLABORADOR")) {
+	        tbUSEREdicao.setRoles(Arrays.asList(new UserRole[]{UserRole.Colaborador}));
+	    }
 
-		if(nivelAcesso.toUpperCase().equals("ADMINISTRATOR")) {
-			tbUSEREdicao.setRoles(Arrays.asList(new UserRole[]{UserRole.Administrator}));
-		}
+	    if(nivelAcesso.toUpperCase().equals("ADMINISTRATOR")) {
+	        tbUSEREdicao.setRoles(Arrays.asList(new UserRole[]{UserRole.Administrator}));
+	    }
 
-		if(tbUSEREdicao.getSistema()==null) {
+	    if(tbUSEREdicao.getSistema()==null) {
 
-		}else if (tbUSEREdicao.getSistema().equals("Pesquisa")){
-			tbUSEREdicao.setBanco_dados("APTA");
-			tbUSEREdicao.setTheme("APTA");
-			tbUSEREdicao.setFlag_grade("NAO");
-			tbUSEREdicao.setFlag_pessoa("NAO");
-		}
-		String message="";
-		try {
+	    }else if (tbUSEREdicao.getSistema().equals("Pesquisa")){
+	        tbUSEREdicao.setBanco_dados("APTA");
+	        tbUSEREdicao.setTheme("APTA");
+	        tbUSEREdicao.setFlag_grade("NAO");
+	        tbUSEREdicao.setFlag_pessoa("NAO");
+	    }
+	    String message="";
+	    try {
+	        if (tbUSEREdicao.getId() != null) {
+	            if(tbUSEREdicao.getUsername().equals(nomeUsuario)) {
+	                
+	            }else {
+	                if (userService.findUserByUsername(tbUSEREdicao.getUsername()) != null) {
+	                    FacesMessage facesMessage = MessageFactory.getMessage(
+	                            "user_username_exists");
+	                    facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+	                    FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
+	                    if(!tbUSEREdicao.getSistema().equals("Pesquisa")){
+	                        return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/EditarUsuario.xhtml?id="+idUsuario+"?faces-redirect=true";
+	                    }else {
+	                        return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/EditarUsuario.xhtml?id="+idUsuario+"?faces-redirect=true";
+	                    }
+	                }
+	            }
 
-			if (tbUSEREdicao.getId() != null) {
+	            if(tbUSEREdicao.getEmail().equals(emailUsuario)) {
+	                
+	            }else {
+	                if (userService.findUserByEmail(tbUSEREdicao.getEmail()) != null) {
+	                    FacesMessage facesMessage = MessageFactory.getMessage(
+	                            "user_email_exists");
+	                    facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+	                    FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	                    if(!tbUSEREdicao.getSistema().equals("Pesquisa")){
+	                        return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+	                    }else {
+	                        return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
+	                    }
+	                }
+	            }
 
-				if(tbUSEREdicao.getUsername().equals(nomeUsuario)) {
+	            // Atualiza o usuário primeiro
+	            tbUSEREdicao = userService.updateMatriz(tbUSEREdicao);
+	            
+	            // Remove mercados existentes
+	            tbUsuarioMercadoService.deleteByUsuario(tbUSEREdicao);
+	                
+	            // Adiciona o novo mercado
+	            
+	            String mercado = tbUSEREdicao.getMercado();
+	            TbMercado mercadoObj = tbMercadoService.findByDescricao(mercado);
+	             if (mercadoObj != null) {
+	            	 
+	            	 	TbUsuarioMercado user = new TbUsuarioMercado();
+	            	 	user.setEmpresa(tbUSEREdicao);
+	            	 	user.setMercado(mercadoObj);
+	            	 
+	                    tbUsuarioMercadoService.save(user);
+	             }
+	            
+	            message = "message_successfully_updated";
+	            this.usuarioEdicao = userService.findMatriz((long) idUsuario);
+	        } else {
+	            // Primeiro salva o usuário
+	            tbUSEREdicao = userService.save(tbUSEREdicao);
+	            
+	            // Depois salva a relação usuário-mercado
+	            if (mercado != null && !mercado.isEmpty()) {
+	                TbMercado mercadoObj = tbMercadoService.findByDescricao(mercado);
+	                if (mercadoObj != null) {
+	                	TbUsuarioMercado user = new TbUsuarioMercado();
+	            	 	user.setEmpresa(tbUSEREdicao);
+	            	 	user.setMercado(mercadoObj);
+	                    tbUsuarioMercadoService.save(user);
+	                }
+	            }
+	            
+	            message = "message_successfully_created";
+	        }
+	    } catch (OptimisticLockException e) {
+	        message = "message_optimistic_locking_exception";
+	        FacesContext.getCurrentInstance().validationFailed();
+	    } catch (PersistenceException e) {
+	        message = "message_save_exception";
+	        FacesContext.getCurrentInstance().validationFailed();
+	    }
 
-				}else {
+	    tbUSUARIOSList = null;
+	    FacesMessage facesMessage = MessageFactory.getMessage(message);
+	    FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
-					if (userService.findUserByUsername(tbUSEREdicao.getUsername()) != null) {
-						FacesMessage facesMessage = MessageFactory.getMessage(
-								"user_username_exists");
-						facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-						FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-
-						if(!tbUSEREdicao.getSistema().equals("Pesquisa")){
-							return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/EditarUsuario.xhtml?id="+idUsuario+"?faces-redirect=true";
-						}else {
-							return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/EditarUsuario.xhtml?id="+idUsuario+"?faces-redirect=true";
-						}
-
-
-
-					}
-				}
-
-
-				if(tbUSEREdicao.getEmail().equals(emailUsuario)) {
-
-				}else {
-					if (userService.findUserByEmail(tbUSEREdicao.getEmail()) != null) {
-						FacesMessage facesMessage = MessageFactory.getMessage(
-								"user_email_exists");
-						facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-						FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-						if(!tbUSEREdicao.getSistema().equals("Pesquisa")){
-							return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
-						}else {
-							return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
-						}
-					}
-				}
-
-				tbUSEREdicao = userService.updateMatriz(tbUSEREdicao);
-				message = "message_successfully_updated";
-				this.usuarioEdicao = userService.findMatriz((long) idUsuario);
-
-			} else {
-				tbUSEREdicao = userService.save(tbUSEREdicao);
-				message = "message_successfully_created";
-			}
-
-		} catch (OptimisticLockException e) {
-			message = "message_optimistic_locking_exception";
-			// Set validationFailed to keep the dialog open
-			FacesContext.getCurrentInstance().validationFailed();
-		} catch (PersistenceException e) {
-			message = "message_save_exception";
-			// Set validationFailed to keep the dialog open
-			FacesContext.getCurrentInstance().validationFailed();
-		}
-
-		tbUSUARIOSList = null;
-		FacesMessage facesMessage = MessageFactory.getMessage(message);
-		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-
-		return null;
+	    return null;
 	}
 
 	
@@ -399,27 +431,27 @@ public class ControleUsuariosBean implements Serializable {
 
 
 	public UserEntity getUsuarioEdicao() {
-		if(this.usuarioEdicao==null) {
-			if(id!=0) {
-				idUsuario = id;
+	    if(this.usuarioEdicao==null) {
+	        if(id!=0) {
+	            idUsuario = id;
+	        }
+	        this.usuarioEdicao = userService.findMatriz((long) idUsuario);
 
-			}
-			this.usuarioEdicao = userService.findMatriz((long) idUsuario);
-
-			if(nomeUsuario==null) {
-				nomeUsuario = usuarioEdicao.getUsername();
-			}
-			if(emailUsuario==null) {
-				emailUsuario= usuarioEdicao.getEmail();
-			}
-			this.nivelAcesso = this.usuarioEdicao.getRoles().get(0).name();
-			if(usuarioEdicao.getIdEmpresa()!=null){
-				mercadoList = tbEmpresaService.empresasDisponiveis(usuarioEdicao.getIdEmpresa().getDescEmpresa());	
-			}
-
-			System.out.println("ID do usuario" + idUsuario);
-		}
-		return usuarioEdicao;
+	        if(nomeUsuario==null) {
+	            nomeUsuario = usuarioEdicao.getUsername();
+	        }
+	        if(emailUsuario==null) {
+	            emailUsuario= usuarioEdicao.getEmail();
+	        }
+	        this.nivelAcesso = this.usuarioEdicao.getRoles().get(0).name();
+	        if(usuarioEdicao.getIdEmpresa()!=null){
+	            mercadoList = tbEmpresaService.empresasDisponiveis();    
+	        }
+	        
+	        // Carrega o mercado do usuário a partir da tabela TB_USUARIO_MERCADO
+	        mercado = tbUsuarioMercadoService.getMercadoByUsuario(usuarioEdicao);
+	    }
+	    return usuarioEdicao;
 	}
 
 	public void setUsuarioEdicao(UserEntity usuarioEdicao) {
@@ -443,124 +475,122 @@ public class ControleUsuariosBean implements Serializable {
 
 
 	public String Tryit() throws IOException {
+	    try {
+	        UserEntity user = new UserEntity();
+	        UserEntity userAtual = userService.getCurrentUser();
+	        sistema = userAtual.getSistema();
 
-		try {
-			UserEntity user = new UserEntity();
-			UserEntity userAtual = userService.getCurrentUser();
-			sistema = userAtual.getSistema();
+	        if(sistema==null) {
 
-			if(sistema==null) {
+	        }else {
+	            if (sistema.equals("Pesquisa")){
+	                bancoDados ="APTA";
+	                tema ="APTA";
+	                flagGrade = "NAO";
+	                flagPessoa = "NAO";
+	            }
+	        }
 
-			}else {
+	        if(tbEmpresa==null) {
 
-				if (sistema.equals("Pesquisa")){
-					bancoDados ="APTA";
-					tema ="APTA";
-					flagGrade = "NAO";
-					flagPessoa = "NAO";
-				}
-			}
+	        }else {
+	            user.setIdEmpresa(tbEmpresa);
+	        }
 
+	        if(privilegio_acesso==null) {
+	            
+	        }else if(privilegio_acesso.equals("Basic")) {
+	            user.setIdEmpresa(tbEmpresaService.findTbEmpresaModelo());
+	            nivelAcesso = "COLABORADOR";
+	        }else if (privilegio_acesso.equals("Premium")) {
+	            if(tbEmpresa==null) {
+	                FacesMessage facesMessage = MessageFactory.getMessage(
+	                        "erro_empresa_vazia");
+	                facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+	                FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	                return "";
+	            }
+	        }
+	        
+	        user.setBanco_dados(bancoDados);
+	        user.setEmail(email);
+	        user.setFlag_grade(flagGrade);
+	        user.setFlag_pessoa(flagPessoa);
+	        user.setUsername(username);
+	        user.setTheme(tema);
+	        user.setPassword(senha);
+	        user.setSistema(sistema);
+	        user.setPrivilegio_acesso(privilegio_acesso);
 
-			if(tbEmpresa==null) {
+	        if (userService.findUserByUsername(user.getUsername()) != null) {
+	            FacesMessage facesMessage = MessageFactory.getMessage(
+	                    "user_username_exists");
+	            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+	            FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
-			}else {
-				user.setIdEmpresa(tbEmpresa);
-			}
+	            if(!user.getSistema().equals("Pesquisa")){
+	                return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+	            }else {
+	                return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
+	            }
+	        }
 
-			if(privilegio_acesso==null) {
-				
-			}else if(privilegio_acesso.equals("Basic")) {
-				user.setIdEmpresa(tbEmpresaService.findTbEmpresaModelo());
-				nivelAcesso = "COLABORADOR";
-			}else if (privilegio_acesso.equals("Premium")) {
-				if(tbEmpresa==null) {
-					FacesMessage facesMessage = MessageFactory.getMessage(
-							"erro_empresa_vazia");
-					facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-					FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-					return "";
-				}
-			}
-			
-			
-			user.setBanco_dados(bancoDados);
-			user.setEmail(email);
-			user.setFlag_grade(flagGrade);
-			user.setFlag_pessoa(flagPessoa);
-			user.setUsername(username);
-			user.setTheme(tema);
-			user.setPassword(senha);
-			user.setSistema(sistema);
-			user.setMercado(mercado);
-			user.setPrivilegio_acesso(privilegio_acesso);
+	        if (userService.findUserByEmail(user.getEmail()) != null) {
+	            FacesMessage facesMessage = MessageFactory.getMessage(
+	                    "user_email_exists");
+	            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+	            FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	            if(!user.getSistema().equals("Pesquisa")){
+	                return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+	            }else {
+	                return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
+	            }
+	        }
 
+	        if(nivelAcesso.toUpperCase().equals("COLABORADOR")) {
+	            user.setRoles(Arrays.asList(new UserRole[]{UserRole.Colaborador}));
+	        }
 
-			if (userService.findUserByUsername(user.getUsername()) != null) {
-				FacesMessage facesMessage = MessageFactory.getMessage(
-						"user_username_exists");
-				facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	        if(nivelAcesso.toUpperCase().equals("ADMINISTRATOR")) {
+	            user.setRoles(Arrays.asList(new UserRole[]{UserRole.Administrator}));
+	        }
 
-				if(!user.getSistema().equals("Pesquisa")){
-					return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
-				}else {
-					return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
-				}
+	        user.setStatus(UserStatus.Active);
+	        user.setAtivo("NAO");
 
+	        // Salva o usuário primeiro
+	        user = userService.save(user);
+	        
+	        // Depois salva a relação com mercado
+	        if (mercado != null && !mercado.isEmpty()) {
+	            TbMercado mercadoObj = tbMercadoService.findByDescricao(mercado);
+	            if (mercadoObj != null) {
+	            	TbUsuarioMercado userMerc = new TbUsuarioMercado();
+	            	userMerc.setEmpresa(user);
+	            	userMerc.setMercado(mercadoObj);
+	                tbUsuarioMercadoService.save(userMerc);
+	            }
+	        }
 
-			}
+	        FacesMessage facesMessage = MessageFactory.getMessage("message_successfully_created",
+	                "UserEntity");
+	        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	        reset();
 
-			if (userService.findUserByEmail(user.getEmail()) != null) {
-				FacesMessage facesMessage = MessageFactory.getMessage(
-						"user_email_exists");
-				facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-				if(!user.getSistema().equals("Pesquisa")){
-					return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
-				}else {
-					return "${facesContext.externalContext.request.contextPath}/pesquisas/pesquisas/usuarios/AdicionarUsuario.xhtml?faces-redirect=true";
-				}
-			}
-
-			if(nivelAcesso.toUpperCase().equals("COLABORADOR")) {
-				user.setRoles(Arrays.asList(new UserRole[]{UserRole.Colaborador}));
-			}
-
-			if(nivelAcesso.toUpperCase().equals("ADMINISTRATOR")) {
-				user.setRoles(Arrays.asList(new UserRole[]{UserRole.Administrator}));
-			}
-
-
-			user.setStatus(UserStatus.Active);
-			user.setAtivo("NAO");
-
-			userService.save(user);
-
-			FacesMessage facesMessage = MessageFactory.getMessage("message_successfully_created",
-					"UserEntity");
-			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-			reset();
-
-			return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
-
-
-		}catch(Exception e) {
-			FacesMessage message;
-			if(e.getCause() instanceof MessagingException) {
-				message = MessageFactory.getMessage(
-						"sending_email_failed");
-
-			} else {
-				message = MessageFactory.getMessage(
-						"registration_exception");
-			}
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
-		}
-
-
+	        return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+	    } catch(Exception e) {
+	        FacesMessage message;
+	        if(e.getCause() instanceof MessagingException) {
+	            message = MessageFactory.getMessage(
+	                    "sending_email_failed");
+	        } else {
+	            message = MessageFactory.getMessage(
+	                    "registration_exception");
+	        }
+	        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+	        return "${facesContext.externalContext.request.contextPath}/trilhas/usuario/AdicionarUsuario.xhtml?faces-redirect=true";
+	    }
 	}
 
 
@@ -877,6 +907,14 @@ public class ControleUsuariosBean implements Serializable {
 
 	public void setTbDetalheAcessoService(TbDetalheAcessoService tbDetalheAcessoService) {
 		this.tbDetalheAcessoService = tbDetalheAcessoService;
+	}
+
+	public TbMercado getMercadoSelecionado() {
+		return mercadoSelecionado;
+	}
+
+	public void setMercadoSelecionado(TbMercado mercadoSelecionado) {
+		this.mercadoSelecionado = mercadoSelecionado;
 	}
 
 }

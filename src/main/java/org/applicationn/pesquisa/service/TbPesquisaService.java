@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.ejb.TransactionManagement;
@@ -13,6 +16,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -25,14 +29,17 @@ import javax.transaction.TransactionScoped;
 import javax.transaction.Transactional;
 
 import org.applicationn.pesquisa.domain.TbPesquisa;
+import org.applicationn.pesquisa.vo.EmpresaVisiveisVO;
 import org.applicationn.pesquisa.vo.EmpresasDetalheVO;
 import org.applicationn.pesquisa.vo.GradeVO;
 import org.applicationn.pesquisa.vo.MediasDetalheVO;
 import org.applicationn.pesquisa.vo.MediasNovaEmpresaVO;
 import org.applicationn.pesquisa.vo.MediasVO;
 import org.applicationn.pesquisa.vo.RelatorioUsuariosVO;
+import org.applicationn.simtrilhas.domain.security.UserEntity;
 import org.applicationn.simtrilhas.service.BaseService;
 import org.applicationn.simtrilhas.service.security.SecurityWrapper;
+import org.applicationn.simtrilhas.service.security.UserService;
 import org.applicationn.simtrilhas.web.util.MessageFactory;
 @Named
 @TransactionManagement(TransactionManagementType.BEAN)
@@ -240,8 +247,10 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
 	
     
     
-    
-	
+	@Inject
+	protected UserService userService;
+	@Inject
+	private TbEmpresaService tbEmpresaService;
 	@SuppressWarnings("unchecked")
     @Transactional
     public List<MediasNovaEmpresaVO> findExtracaoEmpresaPorNome(String nomeEmpresa, String nomeFamilia, String nomeSubfamilia,
@@ -291,7 +300,7 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             .append("    tpd.matricula,\n")
             .append("    tpd.grade AS grade_empresa,\n")
             .append("    tpd.codigo_cargo, \n")
-            .append("    tm.dsMercado AS mercado\n")
+            .append("    tm.dsMercado AS mercado, desc_renum desc_renum_remuneracao, tp.nome_empresa nome_empresa_ordenacao \n")
             .append("FROM \n")
             .append("    TB_EXTRACAO_EMPRESA tee\n")
             .append("INNER JOIN \n")
@@ -300,7 +309,10 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             .append("    AND tp.grade = tee.grade\n")
             .append("    AND tp.nome_empresa = tee.nome_empresa\n")
             .append("     INNER JOIN TB_PESQUISA_MERCADO tpm ON (tp.codigo_empresa = tpm.cd_empresa) "
-            		+ "   INNER JOIN tb_mercado tm ON (tpm.cd_mercado = tm.id)  ")
+            		+ "   INNER JOIN tb_mercado tm ON (tpm.cd_mercado = tm.id) "
+            		+ "    INNER JOIN TB_EMPRESA_VISIBILIDADE ev \n"
+            		+ "    ON ev.nome_empresa = tp.nome_empresa \n"
+            		+ "    AND ev.visivel = 1 ")
             .append("INNER JOIN \n")
             .append("    TB_PESQUISA_DETALHE tpd \n")
             .append("    ON tee.codigo_cargo = tpd.codigo_cargo \n")
@@ -322,16 +334,18 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             queryBuilder.append("AND tp.nome_cargo = :nomeCargo\n");
         }
         if (mercado != null && !mercado.isEmpty()) {
-            queryBuilder.append("AND (tm.dsMercado = :mercado or tp.nome_empresa =:nomeEmpresa)\n");
+            queryBuilder.append("AND (tm.dsMercado = :mercado and  tp.nome_empresa =:nomeEmpresa)\n");
         }
         
 
         queryBuilder.append("ORDER BY TPD.ID,\n")
-            .append("    grade, \n")
-            .append("    matricula, \n")
-            .append("    tp.nome_empresa, \n")
-            .append("    nome_cargo, \n")
-            .append("    desc_renum");
+        .append("    grade, \n")
+        .append("    matricula, \n")
+        .append("    tp.nome_empresa, \n")
+        .append("    nome_cargo, \n")
+        .append("    desc_renum, mercado");
+        
+      
 
         Query query = getEntityManagerMatriz().createNativeQuery(queryBuilder.toString())
                 .setParameter("nomeEmpresa", nomeEmpresa);
@@ -348,8 +362,10 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
         if (mercado != null && !mercado.isEmpty()) {
         	 query.setParameter("mercado", mercado);
         }
+        query.setHint("org.hibernate.fetchSize", 100000);
         List<Object> resultList = query.getResultList();
 
+        
         for (Object record : resultList) {
             Object[] linha = (Object[]) record;
             MediasNovaEmpresaVO extracao = new MediasNovaEmpresaVO();
@@ -380,8 +396,14 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
             extracao.setGradeEmpresa((String) linha[18]);
             extracao.setCodigoCargo((String) linha[19]);
             extracao.setMercado((String) linha[20]);
+            extracao.setDesc_renum_ordenacao((String) linha[21]);
+            extracao.setNome_empresa_ordenacao((String) linha[22]);
             extracoes.add(extracao);
         }
+        
+        
+       
+        
         for(int i=0; i<extracoes.size();i++) {
 
 			if(extracoes.get(i).getDescRenum().equals("SBA - Salário Base Anual")) {
@@ -441,7 +463,10 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
     public List<MediasNovaEmpresaVO> findExtracaoEmpresaPorNomeMercadoSelecionado(String nomeEmpresa, String nomeFamilia, String nomeSubfamilia,
     		String nomeCargo, String mercado) {
         List<MediasNovaEmpresaVO> extracoes = new ArrayList<>();
-        
+        String username = SecurityWrapper.getUsername();
+        UserEntity user = userService.findUserByUsername(username);
+        EmpresaVisiveisVO empresaVis = tbEmpresaService.empresasVisiveisPorUsuario(user.getUsername());
+        long visivel = empresaVis.getVisivel();
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("  WITH EmpresaSelecionada2 AS (\n"
         		+ "    SELECT DISTINCT \n"
@@ -513,7 +538,7 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
         		+ "INNER JOIN TB_PESQUISA_DETALHE tpd\n"
         		+ "    ON tee.codigo_cargo = tpd.codigo_cargo\n"
         		+ "    AND tp.grade = tpd.grade_xr\n"
-        		+ "    AND tp.nome_cargo = tpd.nome_cargo_XR\n"
+        		+ "    AND tp.codigo_cargo = tpd.codigo_cargo\n"
         		+ "    AND tpd.nome_empresa = tp.nome_empresa ");
 
         Query query = getEntityManagerMatriz().createNativeQuery(queryBuilder.toString())
@@ -531,6 +556,7 @@ public class TbPesquisaService extends BaseService<TbPesquisa> implements Serial
         if (mercado != null && !mercado.isEmpty()) {
         	 query.setParameter("mercado", mercado);
         }
+        query.setHint("org.hibernate.fetchSize", 100000);
         List<Object> resultList = query.getResultList();
 
         for (Object record : resultList) {

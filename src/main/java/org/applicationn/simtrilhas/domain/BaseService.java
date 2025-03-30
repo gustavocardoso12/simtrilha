@@ -22,7 +22,7 @@ public class BaseService<T extends BaseEntity> {
 	@PersistenceContext(unitName = "Cocamar")
 	protected EntityManager entityManagerCocamar;
 
-	@PersistenceContext(unitName = "BRB")
+	@PersistenceContext(unitName = "Moura")
 	protected EntityManager entityManagerBRB;
 
 

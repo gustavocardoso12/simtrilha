@@ -96,18 +96,28 @@ public class TbEmpresaService extends BaseService<TbEmpresa> implements Serializ
 	@Transactional
 	public EmpresaVisiveisVO empresasVisiveisPorUsuario(String idUser) {
 	    Object[] result = (Object[]) getEntityManagerMatriz()
-	        .createNativeQuery("select tev.visivel, te.id idEmpresa " +
-	            "from SimTrilhas.dbo.users u " +
-	            "inner join SimTrilhas.dbo.TB_EMPRESA te " +
-	            "on u.id_empresa = te.id " +
-	            "inner join SimTrilhas.dbo.TB_EMPRESA_VISIBILIDADE tev " +
-	            "on te.dsEmpresa = tev.nome_empresa " +
-	            "where u.username = :username")
+	        .createNativeQuery("SELECT tev.visivel, te.id AS idEmpresa " +
+	            "FROM SimTrilhas.dbo.users u " +
+	            "INNER JOIN SimTrilhas.dbo.TB_EMPRESA te ON u.id_empresa = te.id " +
+	            "INNER JOIN SimTrilhas.dbo.TB_EMPRESA_VISIBILIDADE tev ON te.dsEmpresa = tev.nome_empresa " +
+	            "WHERE u.username = :username")
 	        .setParameter("username", idUser)
 	        .getSingleResult();
 
 	    EmpresaVisiveisVO empresaVisivel = new EmpresaVisiveisVO();
-	    empresaVisivel.setVisivel(((Number) result[0]).longValue());
+
+	    // Verifica se o primeiro elemento é Boolean (para colunas booleanas como BIT)
+	    if (result[0] instanceof Boolean) {
+	        boolean visivelBool = (Boolean) result[0];
+	        empresaVisivel.setVisivel(visivelBool ? 1L : 0L); // Converte Boolean para long (1 ou 0)
+	    } else if (result[0] instanceof Number) {
+	        // Se for numérico (ex: TINYINT), use o cast original
+	        empresaVisivel.setVisivel(((Number) result[0]).longValue());
+	    } else {
+	        throw new IllegalArgumentException("Tipo inesperado para a coluna 'visivel': " + result[0].getClass().getName());
+	    }
+
+	    // Para o idEmpresa, que é numérico
 	    empresaVisivel.setIdEmpresa(((Number) result[1]).longValue());
 
 	    return empresaVisivel;
